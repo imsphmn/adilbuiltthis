@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a1816">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Adil Aesthetic Program</title>
+<meta name="apple-mobile-web-app-title" content="Adil Gym">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Adil Gym">
+<meta name="description" content="Adil's personal four day aesthetic workout tracker.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<rect width="100" height="100" fill="#1a1816"/>
+<rect x="20" y="62" width="12" height="18" rx="2" fill="#e8a13a" opacity=".9"/>
+<rect x="38" y="48" width="12" height="32" rx="2" fill="#e8a13a"/>
+<rect x="56" y="30" width="12" height="50" rx="2" fill="#e8a13a" opacity=".7"/>
+<rect x="74" y="42" width="12" height="38" rx="2" fill="#e8a13a" opacity=".5"/>
+</svg>
+</template>
+<style>
+/* ============================================================
+   Adil Aesthetic App — Complete CSS
+   ============================================================ */
+:root {
+  --bg:         oklch(0.148 0.004 60);
+  --bg-soft:    oklch(0.178 0.005 60);
+  --card:       oklch(0.205 0.006 60);
+  --card-hi:    oklch(0.238 0.008 60);
+  --line:       oklch(0.30 0.008 60);
+  --line-soft:  oklch(0.255 0.006 60);
+  --text:       oklch(0.955 0.004 80);
+  --muted:      oklch(0.70 0.008 75);
+  --faint:      oklch(0.55 0.008 70);
+  --accent:     oklch(0.81 0.125 74);
+  --accent-dk:  oklch(0.70 0.12 70);
+  --accent-bg:  oklch(0.81 0.125 74 / 0.10);
+  --accent-ln:  oklch(0.81 0.125 74 / 0.32);
+  --steel:      oklch(0.74 0.055 235);
+  --steel-bg:   oklch(0.74 0.055 235 / 0.10);
+  --danger:     oklch(0.72 0.15 32);
+  --danger-bg:  oklch(0.72 0.15 32 / 0.11);
+  --danger-ln:  oklch(0.72 0.15 32 / 0.34);
+  --ok:         oklch(0.78 0.13 150);
+  --ok-bg:      oklch(0.78 0.13 150 / 0.10);
+  --warn:       oklch(0.80 0.13 90);
+  --warn-bg:    oklch(0.80 0.13 90 / 0.10);
+  --radius:     16px;
+  --radius-sm:  11px;
+  --nav-h:      60px;
+  --mono: ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --sans: -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,Helvetica,Arial,sans-serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:var(--sans); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));
+  min-height:100vh;
+}
+input,button,textarea,select { font-family:inherit; font-size:inherit; }
+ul,ol { list-style:none; }
+a { color:inherit; text-decoration:none; }
+p { margin:0; }
+
+/* ============================================================
+   SCREENS
+   ============================================================ */
+#app { min-height:100vh; }
+.screen { display:none; min-height:100vh; padding:16px 16px 24px; max-width:600px; margin:0 auto; }
+.screen.active { display:block; }
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+#bottom-nav {
+  position:fixed; bottom:0; left:0; right:0; z-index:40;
+  display:flex; align-items:stretch;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  background:oklch(0.148 0.004 60 / 0.92);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  border-top:1px solid var(--line-soft);
+}
+#bottom-nav.hidden { display:none; }
+.nav-tab {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; background:none; border:none; color:var(--faint);
+  font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  cursor:pointer; padding:8px 4px; min-height:44px; transition:.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-tab svg { width:22px; height:22px; }
+.nav-tab--on { color:var(--accent); }
+.nav-tab--on svg path { stroke:var(--accent); }
+
+/* ============================================================
+   SHARED BUTTONS
+   ============================================================ */
+.btn-primary {
+  display:block; width:100%; padding:14px; border-radius:var(--radius);
+  background:var(--accent); color:oklch(0.148 0.004 60);
+  font-weight:750; font-size:16px; border:none; cursor:pointer;
+  min-height:50px; transition:.12s; -webkit-tap-highlight-color:transparent;
+}
+.btn-primary:active { opacity:.85; }
+.btn-primary:disabled { opacity:.4; cursor:default; }
+.btn-primary.btn-xl { font-size:18px; padding:17px; min-height:56px; }
+.btn-primary.btn-lg { font-size:16px; padding:14px; }
+.btn-ghost {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:9px 15px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); color:var(--muted);
+  font-size:13.5px; font-weight:600; cursor:pointer; min-height:38px;
+  transition:.12s; -webkit-tap-highlight-color:transparent;
+}
+.btn-ghost:active { background:var(--card-hi); }
+.btn-ghost.btn-sm { padding:7px 13px; font-size:13px; min-height:34px; }
+.btn-ghost.btn-xs { padding:5px 10px; font-size:12px; min-height:30px; }
+.btn-ghost.btn-danger { border-color:var(--danger-ln); color:var(--danger); }
+.btn-nav {
+  background:none; border:none; color:var(--accent); font-size:15px;
+  font-weight:600; padding:8px 12px; cursor:pointer; min-height:44px;
+}
+.btn-nav:disabled { color:var(--faint); cursor:default; }
+.btn-finish {
+  background:var(--accent-bg); border:1px solid var(--accent-ln);
+  color:var(--accent); font-weight:700; font-size:14px;
+  padding:9px 16px; border-radius:999px; cursor:pointer; min-height:40px;
+  transition:.12s;
+}
+.btn-finish:active { background:var(--accent-bg); }
+.btn-complete {
+  display:block; width:100%; padding:15px; border-radius:var(--radius-sm);
+  background:var(--accent); color:oklch(0.12 0.004 60);
+  font-weight:750; font-size:17px; border:none; cursor:pointer;
+  min-height:52px; margin-top:12px; transition:.12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-complete:active { opacity:.85; }
+.hidden { display:none !important; }
+
+/* ============================================================
+   TODAY SCREEN
+   ============================================================ */
+.today-wrap { padding-top:12px; }
+.resume-banner {
+  background:var(--accent-bg); border:1.5px solid var(--accent-ln);
+  border-radius:var(--radius); padding:18px; margin-bottom:16px;
+}
+.rb-title { font-size:13px; font-family:var(--mono); letter-spacing:.12em;
+  text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px; }
+.rb-sub { font-size:15px; color:var(--muted); margin-bottom:14px; }
+.rb-actions { display:flex; flex-direction:column; gap:8px; }
+.today-day-card {
+  background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius); padding:22px; margin-bottom:14px;
+}
+.tdc-kicker { font-family:var(--mono); font-size:11px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:12px; }
+.tdc-day { font-family:var(--mono); font-size:42px; font-weight:800;
+  color:var(--accent); line-height:1; margin-bottom:8px; }
+.tdc-title { font-size:22px; font-weight:750; letter-spacing:-.015em;
+  line-height:1.1; margin-bottom:10px; text-wrap:balance; }
+.tdc-muscles { font-size:14px; color:var(--muted); margin-bottom:14px; }
+.tdc-meta { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:20px; }
+.tdc-meta span { font-size:13.5px; color:var(--faint); font-family:var(--mono); }
+.today-picker {
+  border:1px solid var(--line-soft); border-radius:var(--radius); overflow:hidden;
+  background:var(--card);
+}
+.tp-sum {
+  list-style:none; cursor:pointer; padding:14px 16px; font-size:14.5px;
+  font-weight:600; color:var(--muted); user-select:none;
+}
+.tp-sum::-webkit-details-marker { display:none; }
+.tp-body { padding:0 8px 8px; }
+.day-pick-row {
+  display:flex; align-items:center; gap:12px; padding:11px 10px;
+  border-radius:10px; cursor:pointer; transition:.12s;
+  border:1px solid transparent;
+}
+.day-pick-row:hover { background:var(--bg-soft); }
+.day-pick-row.is-next { border-color:var(--accent-ln); background:var(--accent-bg); }
+.day-pick-row input[type="radio"] { width:18px; height:18px; accent-color:var(--accent); flex:none; }
+.dp-no { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--accent); flex:none; width:44px; }
+.dp-title { flex:1; font-size:14px; font-weight:550; }
+.dp-dur { font-size:12px; color:var(--faint); font-family:var(--mono); }
+
+/* ============================================================
+   WORKOUT OVERLAY
+   ============================================================ */
+#workout-overlay {
+  position:fixed; inset:0; z-index:100; overflow:hidden;
+  background:var(--bg); display:flex; flex-direction:column;
+}
+#workout-overlay.hidden { display:none; }
+.wo-header {
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px; padding-top:calc(10px + env(safe-area-inset-top,0px));
+  background:oklch(0.148 0.004 60 / 0.95);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--line-soft);
+  flex:none;
+}
+.wo-back { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; min-width:36px; min-height:36px; padding:4px; }
+.wo-hinfo { flex:1; min-width:0; }
+.wo-htitle { font-size:13px; font-weight:650; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wo-hprog { font-size:12px; color:var(--muted); font-family:var(--mono); }
+.wo-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 14px 80px; }
+
+/* prev bar */
+.prev-bar {
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  padding:8px 0 10px; border-bottom:1px solid var(--line-soft);
+}
+.prev-date { font-size:11.5px; color:var(--faint); font-family:var(--mono); flex:none; }
+.prev-item { font-size:12px; color:var(--muted); font-family:var(--mono); background:var(--bg-soft); padding:2px 7px; border-radius:6px; }
+.prev-bar--none { font-size:12.5px; color:var(--faint); font-style:italic; padding:8px 0 10px; border-bottom:1px solid var(--line-soft); }
+
+/* exercise card */
+.ex-card {
+  border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--card); margin:12px 0; overflow:hidden;
+  transition:border-color .2s;
+}
+.ex-card--done { border-color:var(--accent-ln); }
+.exc-head { padding:14px 14px 10px; border-bottom:1px solid var(--line-soft); }
+.exc-meta { margin-bottom:8px; }
+.exc-name { display:block; font-size:18px; font-weight:750; letter-spacing:-.01em; line-height:1.2; margin-bottom:3px; }
+.exc-target { font-size:13px; color:var(--accent); font-weight:600; }
+.exc-badges { display:flex; flex-wrap:wrap; gap:6px; }
+.xb { font-size:12px; font-family:var(--mono); font-weight:600; color:var(--faint);
+  background:var(--bg-soft); border:1px solid var(--line-soft); border-radius:6px; padding:3px 8px; }
+
+/* set rows */
+.set-rows { padding:0 14px; }
+.set-row { margin:10px 0; padding:12px; background:var(--bg-soft); border-radius:var(--radius-sm); border:1px solid var(--line-soft); }
+.set-row--done { background:var(--ok-bg); border-color:oklch(0.78 0.13 150 / 0.3); }
+.set-row--skipped { background:var(--bg); border-color:var(--line-soft); opacity:.6; }
+.set-row--active {}
+.sr-label { font-size:13.5px; font-weight:700; font-family:var(--mono); color:var(--text); }
+.sr-check { color:var(--ok); margin-left:4px; }
+.sr-skip-badge { font-size:11px; background:var(--bg-soft); border:1px solid var(--line); border-radius:999px; padding:2px 7px; color:var(--faint); margin-left:8px; }
+.sr-label-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.sr-prev { font-size:12.5px; color:var(--muted); font-family:var(--mono); margin-bottom:10px; }
+.sr-prev--none { color:var(--faint); font-style:italic; }
+.sr-done-label { font-size:13.5px; font-weight:700; font-family:var(--mono); margin-bottom:4px; }
+.sr-done-vals { font-size:16px; font-weight:650; color:var(--text); margin-bottom:8px; }
+.sr-rir { font-size:13px; color:var(--muted); }
+.sr-done-actions { display:flex; gap:8px; }
+.sr-skip-btn { color:var(--faint); }
+
+/* set inputs */
+.sr-inputs { display:flex; flex-direction:column; gap:12px; }
+.sri-group { display:flex; flex-direction:column; gap:6px; }
+.sri-label { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); font-weight:700; font-family:var(--mono); }
+.sri-unit { font-size:10px; color:var(--faint); }
+.sri-ctrl { display:flex; align-items:center; gap:0; border:1.5px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+.sri-adj {
+  flex:none; width:54px; min-height:50px; background:var(--bg-soft);
+  border:none; border-right:1px solid var(--line); color:var(--text);
+  font-size:22px; font-weight:300; cursor:pointer; display:grid; place-items:center;
+  transition:.1s; -webkit-tap-highlight-color:transparent;
+}
+.sri-adj:last-child { border-right:none; border-left:1px solid var(--line); }
+.sri-adj:active { background:var(--card-hi); }
+.sri-inp {
+  flex:1; min-height:50px; background:transparent; border:none;
+  text-align:center; font-size:22px; font-weight:700; color:var(--text);
+  outline:none; padding:0;
+}
+.sri-inp:focus { background:oklch(0.81 0.125 74 / 0.07); }
+
+/* RIR row */
+.rir-row { display:flex; gap:0; border:1.5px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+.rir-btn {
+  flex:1; min-height:50px; background:var(--bg-soft); border:none;
+  border-right:1px solid var(--line); color:var(--muted);
+  font-size:16px; font-weight:700; cursor:pointer;
+  transition:.1s; -webkit-tap-highlight-color:transparent;
+}
+.rir-btn:last-child { border-right:none; }
+.rir-btn--on { background:var(--accent-bg); color:var(--accent); }
+.rir-btn:active { background:var(--card-hi); }
+
+/* set add row */
+.set-add-row { display:flex; gap:8px; padding:8px 14px 10px; }
+
+/* exercise note */
+.ex-note-input {
+  display:block; width:100%; background:transparent; border:none;
+  border-top:1px solid var(--line-soft); padding:10px 14px; resize:none;
+  color:var(--muted); font-size:14px; outline:none;
+  min-height:40px;
+}
+.ex-note-input::placeholder { color:var(--faint); }
+
+/* collapsibles in workout */
+.ex-coll-row { border-top:1px solid var(--line-soft); padding:0 14px 2px; }
+.ex-coll { border-bottom:1px solid var(--line-soft); }
+.ex-coll:last-child { border-bottom:none; }
+.ec-sum { list-style:none; padding:11px 0; font-size:13.5px; font-weight:650; color:var(--muted); cursor:pointer; }
+.ec-sum::-webkit-details-marker { display:none; }
+.ec-body { padding:0 0 12px; }
+.coll-list { display:grid; gap:7px; }
+.coll-list li { font-size:14px; color:var(--text); position:relative; padding-left:16px; }
+.coll-list li::before { content:'·'; position:absolute; left:2px; color:var(--accent); font-weight:700; }
+.coll-mist li::before { content:'⚠'; font-size:10px; top:2px; color:var(--danger); }
+.coll-tnf, .coll-cbum { font-size:14px; line-height:1.5; color:var(--muted); margin-bottom:8px; }
+.coll-tnf b, .coll-cbum b { color:var(--accent); margin-right:5px; }
+.coll-cbum b { color:var(--steel); }
+.coll-hard { margin-top:8px; padding:10px 12px; background:var(--danger-bg); border-left:3px solid var(--danger); border-radius:0 8px 8px 0; font-size:13.5px; font-weight:600; }
+
+/* finish section */
+.wo-finish-section { padding:24px 0 40px; text-align:center; }
+.wo-stats { font-size:13px; color:var(--faint); font-family:var(--mono); margin-bottom:14px; }
+
+/* ============================================================
+   TIMER PILL
+   ============================================================ */
+#timer-pill {
+  position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; z-index:200;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  padding:10px 16px; min-height:50px;
+  background:oklch(0.18 0.006 60 / 0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);
+}
+#timer-pill.hidden { display:none !important; }
+.tp-label { font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--faint); }
+.tp-time { font-size:28px; font-weight:800; color:var(--text); letter-spacing:-.02em; min-width:70px; text-align:center; }
+.tp-urgent { color:var(--accent); }
+.tp-adj { background:var(--bg-soft); border:1px solid var(--line); border-radius:8px; color:var(--muted); font-size:13px; font-weight:700; padding:6px 10px; min-height:36px; cursor:pointer; }
+.tp-skip { background:none; border:none; color:var(--faint); font-size:13px; font-weight:650; cursor:pointer; padding:6px 8px; min-height:36px; }
+
+/* ============================================================
+   MODAL OVERLAY
+   ============================================================ */
+#modal-overlay {
+  position:fixed; inset:0; z-index:150; display:flex; align-items:flex-end;
+  background:oklch(0 0 0 / 0.6); backdrop-filter:blur(4px);
+  padding:0 0 env(safe-area-inset-bottom,0px);
+}
+#modal-overlay.hidden { display:none !important; }
+#modal-overlay > div {
+  width:100%; max-height:90vh; overflow-y:auto;
+  background:var(--bg-soft); border-radius:24px 24px 0 0;
+  padding:20px 18px 32px;
+}
+
+/* summary */
+.sum-wrap {}
+.sum-header { margin-bottom:18px; }
+.sum-tag { font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+.sum-title { font-size:22px; font-weight:750; letter-spacing:-.015em; }
+.sum-stats { display:flex; gap:0; margin-bottom:16px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+.sum-stat { flex:1; padding:12px; text-align:center; border-right:1px solid var(--line); }
+.sum-stat:last-child { border-right:none; }
+.ss-val { font-size:20px; font-weight:750; font-family:var(--mono); color:var(--accent); }
+.ss-lbl { font-size:11px; color:var(--faint); text-transform:uppercase; letter-spacing:.06em; margin-top:2px; }
+.sum-prs { margin-bottom:14px; }
+.sum-pr-item { font-size:14px; color:var(--accent); padding:6px 0; border-bottom:1px solid var(--line-soft); }
+.sum-section { margin-top:16px; }
+.sum-sec-title { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-bottom:10px; font-weight:700; }
+.sum-vol-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line-soft); font-size:15px; }
+.sum-vol-m { color:var(--muted); }
+.sum-vol-v { font-weight:650; font-family:var(--mono); }
+.sum-none { color:var(--faint); font-size:14px; }
+.sum-done-btn { margin-top:22px; }
+
+/* ============================================================
+   VOLUME SCREEN
+   ============================================================ */
+.vol-wrap {}
+.vol-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; padding:4px 0; }
+.vol-wlabel { font-size:14.5px; font-weight:700; }
+.vol-sessions { font-size:12.5px; color:var(--faint); font-family:var(--mono); margin-bottom:16px; }
+.vol-rows { display:grid; gap:10px; }
+.vol-row { background:var(--card); border:1px solid var(--line); border-radius:var(--radius-sm); padding:13px 14px; cursor:pointer; transition:.12s; }
+.vol-row:active { background:var(--card-hi); }
+.vr-top { display:flex; align-items:baseline; gap:8px; margin-bottom:7px; }
+.vr-name { flex:1; font-size:16px; font-weight:650; }
+.vr-done { font-family:var(--mono); font-size:18px; font-weight:800; color:var(--accent); }
+.vr-status { font-size:11.5px; font-weight:700; border-radius:999px; padding:2px 9px; flex:none; }
+.vs-none  { background:var(--bg-soft); color:var(--faint); }
+.vs-low   { background:var(--danger-bg); color:var(--danger); }
+.vs-ok    { background:var(--ok-bg); color:var(--ok); }
+.vs-hit   { background:var(--accent-bg); color:var(--accent); }
+.vs-over  { background:var(--warn-bg); color:var(--warn); }
+.vr-bar { height:5px; border-radius:999px; background:var(--line); overflow:hidden; margin-bottom:5px; }
+.vr-fill { height:100%; background:var(--accent); border-radius:999px; max-width:100%; transition:width .3s; }
+.vr-meta { display:flex; justify-content:space-between; font-size:12px; color:var(--faint); font-family:var(--mono); }
+.vr-prev { font-size:12px; }
+.vd-up  { color:var(--ok); }
+.vd-dn  { color:var(--danger); }
+.vd-flat { color:var(--faint); }
+.vol-empty { padding:40px 0; text-align:center; color:var(--faint); font-size:15px; }
+
+/* muscle detail */
+.md-wrap { max-height:88vh; }
+.md-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.md-title { font-size:22px; font-weight:750; }
+.md-close { background:none; border:none; font-size:22px; color:var(--muted); cursor:pointer; padding:4px 8px; min-height:36px; }
+.md-stats { display:flex; gap:0; margin-bottom:18px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+.md-stat { flex:1; padding:12px; text-align:center; border-right:1px solid var(--line); }
+.md-stat:last-child { border-right:none; }
+.mds-val { font-size:20px; font-weight:750; color:var(--accent); font-family:var(--mono); }
+.mds-lbl { font-size:11px; color:var(--faint); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+.md-chart { margin-bottom:18px; }
+.chart-bars { display:flex; align-items:flex-end; gap:4px; height:80px; padding-bottom:24px; position:relative; }
+.chart-col { display:flex; flex-direction:column; align-items:center; flex:1; gap:3px; position:relative; }
+.chart-bar { width:100%; background:var(--accent-bg); border:1px solid var(--accent-ln); border-radius:4px 4px 0 0; min-height:2px; }
+.chart-lbl { position:absolute; bottom:-22px; font-size:9px; color:var(--faint); text-align:center; white-space:nowrap; font-family:var(--mono); }
+.chart-val { position:absolute; bottom:4px; font-size:9px; color:var(--accent); font-family:var(--mono); }
+.md-section { margin-top:8px; }
+.md-sec-title { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; font-weight:700; }
+.md-ex-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line-soft); font-size:15px; }
+.md-ex-name { color:var(--muted); }
+.md-ex-v { font-family:var(--mono); font-weight:650; }
+.md-none { color:var(--faint); font-size:14px; padding:8px 0; }
+
+/* ============================================================
+   HISTORY SCREEN
+   ============================================================ */
+.hist-wrap { display:grid; gap:8px; }
+.hist-empty { padding:60px 16px; text-align:center; }
+.he-icon { font-size:32px; color:var(--faint); margin-bottom:12px; }
+.he-text { font-size:16px; color:var(--muted); }
+.hist-item { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+.hi-summary { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.hi-left { flex:1; min-width:0; }
+.hi-date { font-size:12px; color:var(--faint); font-family:var(--mono); margin-bottom:3px; }
+.hi-title { font-size:15px; font-weight:650; }
+.hi-right { display:flex; align-items:center; gap:10px; flex:none; }
+.hi-meta { font-size:12.5px; color:var(--muted); font-family:var(--mono); }
+.hi-pr { font-size:11px; background:var(--accent-bg); color:var(--accent); border-radius:999px; padding:2px 7px; font-weight:700; }
+.hi-chev { color:var(--faint); font-size:18px; }
+.hi-detail { padding:14px 16px; border-top:1px solid var(--line-soft); }
+.hi-actions { margin-top:12px; }
+.sess-detail {}
+.sd-prs { margin-bottom:10px; }
+.sd-pr { font-size:13px; color:var(--accent); padding:4px 0; }
+.sd-ex { margin-bottom:12px; }
+.sd-ex-name { font-size:14px; font-weight:700; margin-bottom:6px; color:var(--text); }
+.sd-set { display:flex; gap:10px; padding:4px 0; font-size:13.5px; border-bottom:1px solid var(--line-soft); }
+.sd-sl { font-family:var(--mono); font-size:12px; color:var(--faint); flex:none; width:52px; }
+.sd-sv { color:var(--muted); }
+
+/* ============================================================
+   PROGRAM SCREEN
+   ============================================================ */
+.prog-wrap { padding-bottom:40px; }
+.prog-hero { padding:24px 0 18px; border-bottom:1px solid var(--line-soft); margin-bottom:16px; }
+.prog-kicker { font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+.prog-title { font-size:clamp(24px,6vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.05;
+  background:linear-gradient(160deg, var(--text) 40%, var(--accent) 160%);
+  -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:10px; }
+.prog-sub { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.prog-goal { font-size:16px; color:var(--muted); line-height:1.5; }
+.prog-section { border:1px solid var(--line-soft); border-radius:var(--radius-sm); background:var(--card); margin-bottom:10px; overflow:hidden; }
+.ps-sum { list-style:none; cursor:pointer; padding:14px 15px; font-weight:700; font-size:15px; }
+.ps-sum::-webkit-details-marker { display:none; }
+.ps-body { padding:0 15px 14px; }
+.prog-rules { display:grid; gap:9px; }
+.prog-rules li { font-size:14.5px; color:var(--muted); padding-left:16px; position:relative; }
+.prog-rules li::before { content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:2px; background:var(--accent); }
+.prog-day { border:1px solid var(--line); border-radius:var(--radius); background:var(--card); margin-bottom:12px; overflow:hidden; }
+.pd-sum { list-style:none; cursor:pointer; padding:16px; display:flex; align-items:center; gap:12px; }
+.pd-sum::-webkit-details-marker { display:none; }
+.pd-num { font-family:var(--mono); font-size:11px; font-weight:800; color:var(--accent); background:var(--accent-bg); border:1px solid var(--accent-ln); border-radius:6px; padding:4px 9px; flex:none; }
+.pd-title { flex:1; font-size:15.5px; font-weight:700; }
+.pd-chev { flex:none; width:9px; height:9px; border-right:2px solid var(--faint); border-bottom:2px solid var(--faint); transform:rotate(45deg); transition:.2s; }
+.prog-day[open] .pd-chev { transform:rotate(-135deg); }
+.pd-body { padding:0 14px 16px; border-top:1px solid var(--line-soft); }
+.pd-goal { font-size:14px; color:var(--muted); margin:12px 0; }
+/* exercise card in program */
+.prog-ex { border:1px solid var(--line-soft); border-radius:var(--radius-sm); margin:10px 0; padding:14px; background:var(--bg-soft); }
+.pe-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.pe-no { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-bg); border:1px solid var(--accent-ln); border-radius:7px; padding:4px 8px; flex:none; }
+.pe-name { font-size:17px; font-weight:700; }
+.pe-badges { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; }
+.pe-badge { display:flex; flex-direction:column; gap:2px; background:var(--card); border:1px solid var(--line-soft); border-radius:9px; padding:6px 10px; }
+.pb-l { font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:.12em; color:var(--faint); font-weight:700; }
+.pb-v { font-size:13.5px; font-weight:650; }
+.pe-badge--target { background:var(--accent-bg); border-color:var(--accent-ln); flex:1; }
+.pe-badge--target .pb-l { color:var(--accent); }
+.pe-badge--target .pb-v { color:var(--accent); }
+.pe-callout { border-radius:10px; padding:11px 13px; border:1px solid var(--line-soft); margin-bottom:8px; }
+.pe-callout b { display:block; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; margin-bottom:5px; }
+.pe-callout ul { display:grid; gap:6px; }
+.pe-callout li { font-size:14px; color:var(--text); padding-left:14px; position:relative; }
+.pe-callout li::before { content:'·'; position:absolute; left:2px; color:var(--muted); }
+.pe-drop { background:var(--accent-bg); border-color:var(--accent-ln); }
+.pe-drop b { color:var(--accent); }
+.pe-info { background:var(--steel-bg); border-color:oklch(0.74 0.055 235 / 0.3); }
+.pe-info b { color:var(--steel); }
+.pe-opt { background:var(--bg-soft); }
+.pe-opt b { color:var(--muted); }
+.pe-coll { border:1px solid var(--line-soft); border-radius:9px; overflow:hidden; margin-top:6px; }
+.pec-sum { list-style:none; cursor:pointer; padding:11px 13px; font-size:14px; font-weight:650; color:var(--muted); display:flex; align-items:center; gap:8px; }
+.pec-sum::-webkit-details-marker { display:none; }
+.pcc { font-size:10px; background:var(--card); border:1px solid var(--line-soft); border-radius:999px; padding:2px 7px; color:var(--faint); font-family:var(--mono); }
+.pec-body { padding:10px 13px 13px; }
+.pe-list { display:grid; gap:8px; }
+.pe-list li { font-size:14px; color:var(--text); padding-left:16px; position:relative; line-height:1.4; }
+.pe-list li::before { content:''; position:absolute; left:2px; top:8px; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+.pe-mist li::before { background:var(--danger); }
+.pe-tnf, .pe-cbum { font-size:14px; line-height:1.5; color:var(--muted); margin-bottom:10px; padding:10px 12px; border-radius:8px; }
+.pe-tnf { background:var(--accent-bg); } .pe-tnf b { color:var(--accent); margin-right:5px; }
+.pe-cbum { background:var(--steel-bg); } .pe-cbum b { color:var(--steel); margin-right:5px; }
+.pe-hard { margin-top:10px; padding:11px 14px; background:var(--danger-bg); border-left:3px solid var(--danger); border-radius:0 10px 10px 0; font-size:14px; font-weight:600; display:flex; gap:10px; }
+.pe-hard-l { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:800; flex:none; padding-top:2px; }
+.prog-cl { margin-top:18px; border:1px solid var(--accent-ln); border-radius:var(--radius); background:var(--accent-bg); padding:14px; }
+.pcl-title { font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+.prog-cl ul { display:grid; gap:7px; }
+.prog-cl li { font-size:14px; color:var(--muted); padding-left:16px; position:relative; }
+.prog-cl li::before { content:''; position:absolute; left:2px; top:9px; width:6px; height:6px; border-radius:2px; background:var(--accent-ln); }
+
+@media(max-width:400px) {
+  .sri-adj { width:46px; }
+  .sri-inp { font-size:20px; }
+}
+
+/* ============================================================
+   SETTINGS / DATA SECTION
+   ============================================================ */
+.settings-section {
+  margin-top:24px; border-top:1px solid var(--line-soft); padding-top:18px;
+  display:grid; gap:8px;
+}
+.settings-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--faint); margin-bottom:4px; }
+.settings-row { display:flex; gap:8px; flex-wrap:wrap; }
+
+
+.screen-title { font-size:22px; font-weight:800; letter-spacing:-.015em; padding:14px 0 16px; color:var(--text); }
+.hist-screen-wrap {}
+.data-mgmt { border:1px solid var(--line-soft); border-radius:var(--radius-sm); overflow:hidden; margin-top:20px; background:var(--card); }
+.dm-sum { list-style:none; cursor:pointer; padding:13px 15px; font-size:14px; font-weight:650; color:var(--muted); }
+.dm-sum::-webkit-details-marker { display:none; }
+.dm-body { padding:12px 14px 14px; border-top:1px solid var(--line-soft); }
+.dm-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.dm-row:last-child { margin-bottom:0; }
+.dm-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--faint); margin-bottom:10px; }
+
+
+/* ── v3 compact workout UI ── */
+/* Collapsed exercise cards */
+.exc-compact { display:flex; align-items:center; gap:12px; padding:13px 14px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.exc-compact--done { }
+.exc-compact--future { }
+.ex-card--future { opacity:.72; }
+.ex-card--current { border-color:var(--accent-ln); }
+.exc-compact-check { flex:none; width:26px; height:26px; border-radius:7px; background:var(--ok-bg); color:var(--ok); display:grid; place-items:center; font-size:14px; font-weight:800; }
+.exc-compact-num { flex:none; font-family:var(--mono); font-size:12px; font-weight:800; color:var(--faint); width:26px; text-align:center; }
+.exc-compact-info { flex:1; min-width:0; }
+.exc-compact-name { display:block; font-size:15px; font-weight:650; }
+.exc-compact-sub { display:block; font-size:12px; color:var(--muted); font-family:var(--mono); margin-top:1px; }
+.exc-expand-hint { flex:none; font-size:12px; color:var(--faint); }
+
+/* Compact active set row */
+.set-row { margin:8px 0; border-radius:var(--radius-sm); border:1px solid var(--line-soft); overflow:hidden; }
+.set-row--active { background:var(--bg-soft); padding:10px 12px; }
+.sr-top { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:8px; }
+.sr-label { font-family:var(--mono); font-size:12.5px; font-weight:800; color:var(--text); flex:none; }
+.sr-prev-line { font-size:12px; color:var(--muted); font-family:var(--mono); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sr-target-line { font-size:12px; color:var(--accent); font-family:var(--mono); font-weight:700; flex:none; }
+.sr-skip-lnk { background:none; border:none; color:var(--faint); font-size:12px; cursor:pointer; padding:2px 4px; flex:none; min-height:28px; }
+.sr-del { background:none; border:none; color:var(--danger); font-size:17px; cursor:pointer; padding:0 4px; flex:none; line-height:1; min-height:28px; }
+
+/* Compact input row */
+.sr-compact-row { display:flex; align-items:center; gap:6px; }
+.sri-ctrl { display:flex; align-items:center; border:1.5px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+.sri-w { flex:1.25; position:relative; }
+.sri-r { flex:1; }
+.sri-adj { flex:none; width:38px; min-height:50px; background:var(--bg-soft); border:none; border-right:1px solid var(--line); color:var(--text); font-size:20px; font-weight:300; cursor:pointer; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; transition:.1s; }
+.sri-adj:last-of-type { border-right:none; border-left:1px solid var(--line); }
+.sri-adj:active { background:var(--card-hi); }
+.sri-inp { flex:1; min-height:50px; min-width:0; background:transparent; border:none; text-align:center; font-size:18px; font-weight:700; color:var(--text); outline:none; padding:0 2px; }
+.sri-kg { position:absolute; right:42px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--faint); font-family:var(--mono); pointer-events:none; }
+.sr-tick { flex:none; width:56px; min-height:56px; background:var(--accent); border:none; border-radius:var(--radius-sm); color:oklch(0.12 0.004 60); font-size:26px; font-weight:800; cursor:pointer; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; transition:.1s; }
+.sr-tick:active { opacity:.82; }
+
+/* Compact completed & skipped rows */
+.set-row--done { background:var(--ok-bg); border-color:oklch(0.78 0.13 150/0.28); display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; }
+.set-row--done .sr-done-label { font-family:var(--mono); font-size:12.5px; color:var(--muted); flex:none; min-width:52px; }
+.set-row--done .sr-done-vals { flex:1; font-size:15px; font-weight:650; }
+.set-row--done .sr-check { flex:none; color:var(--ok); font-size:16px; }
+.set-row--skipped { display:flex; align-items:center; gap:10px; padding:9px 12px; opacity:.6; }
+.set-row--skipped .sr-done-label { font-family:var(--mono); font-size:12px; color:var(--faint); flex:none; min-width:52px; }
+.sr-skip-badge { font-size:11.5px; color:var(--faint); flex:1; }
+
+@media(max-width:360px){
+  .sri-adj { width:34px; }
+  .sr-tick { width:50px; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="scr-today" class="screen active"></div>
+  <div id="scr-program" class="screen"></div>
+  <div id="scr-volume" class="screen"></div>
+  <div id="scr-history" class="screen"></div>
+</div>
+<div id="workout-overlay" class="hidden"></div>
+<div id="modal-overlay" class="hidden"></div>
+<div id="timer-pill" class="hidden"></div>
+<nav id="bottom-nav">
+  <button class="nav-tab nav-tab--on" data-screen="today">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Today
+  </button>
+  <button class="nav-tab" data-screen="program">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    Program
+  </button>
+  <button class="nav-tab" data-screen="volume">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+    Volume
+  </button>
+  <button class="nav-tab" data-screen="history">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    History
+  </button>
+</nav>
+<input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
+<script>
+'use strict';
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function round1(n){ return Math.round(n*10)/10; }
+
+
+'use strict';
+// ============================================================
+// MUSCLES — weekly volume targets (editable via settings)
+// ============================================================
+var MUSCLES = {
+  'upper-chest':  { label:'Upper chest',          min:8,  max:14 },
+  'mid-chest':    { label:'Mid chest',             min:2,  max:6  },
+  'lats':         { label:'Lats',                  min:12, max:18 },
+  'mid-back':     { label:'Mid back',              min:10, max:16 },
+  'rear-delts':   { label:'Rear delts',            min:10, max:16 },
+  'side-delts':   { label:'Side delts',            min:12, max:18 },
+  'front-delts':  { label:'Front delts',           min:0,  max:4  },
+  'lower-traps':  { label:'Lower traps',           min:2,  max:6  },
+  'triceps':      { label:'Triceps',               min:8,  max:14 },
+  'biceps':       { label:'Biceps',                min:8,  max:14 },
+  'brachialis':   { label:'Brachialis & forearms', min:2,  max:6  },
+  'abs':          { label:'Abs',                   min:2,  max:8  },
+  'glutes':       { label:'Glutes',                min:2,  max:6  },
+  'serratus':     { label:'Serratus',              min:2,  max:6  },
+};
+
+// ============================================================
+// EXERCISES
+// ============================================================
+var EX = {
+  'd1e1':{ id:'d1e1', day:1, order:1, name:'Low Incline Dumbbell Press',
+    sMin:3,sMax:3,sDef:3, rMin:6,rMax:10, rirMin:1,rirMax:1, rest:120,
+    target:'Upper chest', uni:false, drop:false,
+    muscles:{'upper-chest':1,'triceps':0.5,'front-delts':0.25},
+    cues:['Bench 15 to 30 degrees.','Shoulder blades back and slightly down.','Ribs locked down.','Elbows tucked 30 to 45 degrees.','Lower dumbbells toward upper chest.','Press up and slightly in.','Do not smash dumbbells together.','Stop before shoulders roll forward.','Lower until upper chest is loaded, not until the shoulder joint takes over.'],
+    tnf:'Progress only counts if the same range, same elbow path, same rib position and same shoulder position are kept. More weight with worse form does not count.',
+    cbum:'Open your chest first, then press through it. Make it look like you are showing upper chest while pressing.',
+    mistakes:['Bench too steep.','Front delts taking over.','Ribs flaring.','Going too deep.','Shoulders rolling forward.','Elbows flaring too wide.'],
+    hard:'Stop with 1 clean rep left. Do not grind ugly reps.' },
+
+  'd1e2':{ id:'d1e2', day:1, order:2, name:'Cable Lateral Raise',
+    sMin:4,sMax:4,sDef:4, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:75,
+    target:'Side delts', uni:false, drop:true,
+    muscles:{'side-delts':1},
+    dropMuscles:{'side-delts':0.5},
+    special:{ label:'Drop Set — Final Set', lines:['Last set is a drop set.','On set 4, reach 0 to 1 RIR.','Drop the weight by about 30 percent.','Do 8 to 15 more clean reps.','Stop when traps take over.'] },
+    cues:['Cable slightly behind your body.','Slight lean away.','Shoulder stays down.','Lead with elbow.','Wrist slightly below elbow.','Raise slightly forward of true side.','Pause at the top.','Lower slowly.','Do not chase stretch at the bottom.','The goal is side delt tension, not extreme range.'],
+    tnf:'Side delt only. Do not let this become traps, front delt or momentum.',
+    cbum:'Show the cap. Every rep should feel like you are making the shoulder wider.',
+    mistakes:['Shrugging.','Swinging.','Raising too high.','Going too heavy.','Neck tightening.'],
+    hard:'If traps pump more than side delts, reduce the weight.' },
+
+  'd1e3':{ id:'d1e3', day:1, order:3, name:'Single Arm Cable Lat Pulldown',
+    sMin:2,sMax:2,sDef:2, rMin:8,rMax:12, rirMin:0,rirMax:1, rest:60,
+    target:'Lats', uni:true, drop:false,
+    muscles:{'lats':1,'biceps':0.25},
+    cues:['Start with arm high and lat loaded.','Ribs down.','Pull shoulder blade down first.','Drive elbow toward front pocket.','Do not twist your torso.','Do not pull backward like a row.','Finish with elbow low, not hand low.','Keep hand relaxed.','Only use the top range if shoulders stay controlled.'],
+    tnf:'This is for precision and bias, not ego loading. The unilateral setup should make the lat easier to feel.',
+    cbum:'Pull into a lat spread. Shoulder down, elbow into pocket, lat opens.',
+    mistakes:['Biceps taking over.','Twisting torso.','Pulling backward.','Shrugging at the top.','Going too heavy.','Losing control on one side.'],
+    hard:'Match your weaker side. Do not let the stronger side cheat extra reps or extra weight.' },
+
+  'd1e4':{ id:'d1e4', day:1, order:4, name:'Low To High Cable Fly',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:75,
+    target:'Upper chest', uni:false, drop:false,
+    muscles:{'upper-chest':1,'front-delts':0.25},
+    cues:['Cables low.','Soft bend in elbows.','Ribs down.','Chest open.','Hands travel upward and inward.','Finish around upper chest to eye line.','Squeeze upper chest.','Stop before shoulders roll forward.','Controlled stretch only.','Do not force shoulder position.'],
+    tnf:'This is upper chest bias, not a front raise. The upper arm path matters more than the handle path.',
+    cbum:'Do not just move the handles. Make the upper chest shorten and squeeze.',
+    mistakes:['Turning it into a front raise.','Shoulders rolling forward.','Too much stretch.','Bending elbows too much.','Using momentum.'],
+    hard:'If front delts dominate, lower the weight and shorten the stretch slightly.' },
+
+  'd1e5':{ id:'d1e5', day:1, order:5, name:'Chest Supported Row',
+    sMin:2,sMax:2,sDef:2, rMin:8,rMax:12, rirMin:0,rirMax:1, rest:90,
+    target:'Mid back', uni:false, drop:false,
+    muscles:{'mid-back':1,'rear-delts':0.5,'biceps':0.25},
+    cues:['Chest glued to pad.','Neck long.','Elbows 45 to 70 degrees out.','Pull toward lower chest or upper stomach.','Squeeze shoulder blades back, not up.','Lower until shoulder blades open again.','Do not pull elbows low toward hips.'],
+    tnf:'Chest support removes cheating. Use it. No body swing, no fake reps.',
+    cbum:'Make the back thick, not shrugged. Hold the squeeze like you are showing your back.',
+    mistakes:['Shrugging.','Pulling with biceps.','Pulling too low and turning it into lats.','Chest lifting off pad.','Using momentum.'],
+    hard:'At the top, hold 1 clean second with no shrug.' },
+
+  'd1e6':{ id:'d1e6', day:1, order:6, name:'Reverse Pec Deck',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:60,
+    target:'Rear delts', uni:false, drop:false,
+    muscles:{'rear-delts':1,'mid-back':0.25},
+    cues:['Chest glued to pad.','Reach forward at the start.','Hands relaxed.','Lead with elbows.','Pull slightly out and back.','Shoulders stay down.','Think rear delt cap, not upper back squeeze.','Do not over squeeze shoulder blades.'],
+    tnf:'Rows are not enough for your rear delts. This direct work stays because rear delts are one of your weak points.',
+    cbum:'Round the back of the shoulder. Do not just pull handles.',
+    mistakes:['Traps taking over.','Mid back dominating.','Bending elbows too much.','Going too heavy.','Cutting the range short.'],
+    hard:'If traps pump more than rear delts, reduce the weight.' },
+
+  'd1e7':{ id:'d1e7', day:1, order:7, name:'Weighted Floor Crunch',
+    sMin:1,sMax:2,sDef:2, rMin:10,rMax:20, rirMin:1,rirMax:1, rest:60,
+    target:'Abs', uni:false, drop:false,
+    muscles:{'abs':1},
+    setup:{ label:'Setup', lines:['Lie on floor.','Knees bent.','Feet flat.','Hold a small plate or dumbbell on upper chest.','Start light.','Lower back gently pressed into floor.'] },
+    cues:['Exhale before crunching.','Curl ribs toward pelvis.','Lift shoulder blades off floor.','Squeeze abs hard at top.','Lower slowly.','Do not sit all the way up.','Do not pull your neck.'],
+    tnf:'Make this a rib to pelvis movement. If hips or neck do the work, it does not count.',
+    cbum:'Think tighter waist, not just abs.',
+    mistakes:['Turning it into a sit up.','Pulling neck forward.','Using momentum.','Going too heavy.','Lower back arching.'],
+    hard:'If you feel hip flexors or neck more than abs, remove the weight and slow it down.' },
+
+  // DAY 2
+  'd2e1':{ id:'d2e1', day:2, order:1, name:'Pull Ups or Neutral Grip Lat Pulldown',
+    sMin:2,sMax:3,sDef:3, rMin:6,rMax:12, rirMin:0,rirMax:1, rest:90,
+    target:'Lats', uni:false, drop:false,
+    muscles:{'lats':1,'biceps':0.5,'mid-back':0.25},
+    cues:['Chest tall, ribs down.','Shoulder blades down first.','Hands are hooks.','Pull elbows down to your sides.','Pull to upper chest if using pulldown.','No big lean back.','Keep shoulders away from ears.','Think armpits to hips.'],
+    tnf:'Same grip, same seat height, same torso angle and same range every week. Progress only counts if technique stays the same.',
+    cbum:'Make every rep look like a lat pose under load. Shoulder down, lats wide, elbows driving down.',
+    mistakes:['Biceps taking over.','Leaning back too much.','Turning it into a row.','Shrugging at the top.','Letting the weight stack slam.','Pulling with hands instead of elbows.'],
+    hard:'If biceps fail before lats, lower the weight and start every rep with shoulder blades down first.' },
+
+  'd2e2':{ id:'d2e2', day:2, order:2, name:'Straight Arm Cable Pulldown',
+    sMin:3,sMax:3,sDef:3, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:75,
+    target:'Lats', uni:false, drop:false,
+    muscles:{'lats':1,'triceps':0.25},
+    cues:['Slight hip hinge only.','Ribs down.','Arms almost straight.','Elbow angle stays fixed.','Shoulders stay down.','Pull handles toward thighs.','Think armpits closing toward hips.','Do not chase an extreme stretch at the top.','Only go as high as you can keep shoulders controlled.'],
+    tnf:'This is here because it trains a different lat function from pulldowns. Do not turn it into a triceps pushdown.',
+    cbum:'Drive your upper arms down like you are carving out your lat sweep.',
+    mistakes:['Bending elbows too much.','Feeling triceps more than lats.','Crunching torso down.','Leaning back.','Going too heavy.','Shrugging at the top.'],
+    hard:'If triceps are the limiter, lower the weight and freeze the elbow angle.' },
+
+  'd2e3':{ id:'d2e3', day:2, order:3, name:'Single Arm Cable Lat Pulldown',
+    sMin:2,sMax:2,sDef:2, rMin:8,rMax:12, rirMin:0,rirMax:1, rest:60,
+    target:'Lats', uni:true, drop:false,
+    muscles:{'lats':1,'biceps':0.25},
+    cues:['Start with arm high and lat loaded.','Ribs down.','Pull shoulder blade down first.','Drive elbow toward front pocket.','Do not twist your torso.','Do not pull backward like a row.','Finish with elbow low, not hand low.','Keep hand relaxed.'],
+    tnf:'This is for precision and bias, not ego loading. The unilateral setup should make the lat easier to feel.',
+    cbum:'Pull into a lat spread. Shoulder down, elbow into pocket, lat opens.',
+    mistakes:['Biceps taking over.','Twisting torso.','Pulling backward.','Shrugging at the top.','Going too heavy.','Losing control on one side.'],
+    hard:'Match your weaker side. Do not let the stronger side cheat extra reps or extra weight.' },
+
+  'd2e4':{ id:'d2e4', day:2, order:4, name:'Chest Supported High Row',
+    sMin:3,sMax:3,sDef:3, rMin:8,rMax:12, rirMin:0,rirMax:1, rest:90,
+    target:'Mid back', uni:false, drop:false,
+    muscles:{'mid-back':1,'rear-delts':0.5,'biceps':0.25},
+    cues:['Chest glued to pad.','Neck long.','Elbows 45 to 70 degrees out.','Pull toward lower chest.','Squeeze shoulder blades back, not up.','Shoulders stay away from ears.','Lower until shoulder blades open again.','Do not pull elbows low toward hips.'],
+    tnf:'The chest support is there to remove cheating. No body movement, no lower back movement, no fake reps.',
+    cbum:'Make the back thick, not shrugged. Hold the squeeze like you are showing your back.',
+    mistakes:['Upper traps taking over.','Pulling too low and turning it into a lat row.','Chest lifting off pad.','Pulling with arms.','Using momentum.','Skipping the squeeze.'],
+    hard:'At the top of every rep, hold 1 clean second with no shrug.' },
+
+  'd2e5':{ id:'d2e5', day:2, order:5, name:'Reverse Pec Deck',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:60,
+    target:'Rear delts', uni:false, drop:false,
+    muscles:{'rear-delts':1,'mid-back':0.25},
+    cues:['Chest glued to pad.','Reach forward at the start.','Hands relaxed.','Lead with elbows.','Pull slightly out and back.','Shoulders stay down.','Think rear delt cap, not upper back squeeze.','Do not over squeeze shoulder blades.'],
+    tnf:'Rows are not enough for your rear delts. This direct rear delt work stays because rear delts are a weak point.',
+    cbum:'Round the back of the shoulder. Do not just move the handles.',
+    mistakes:['Traps taking over.','Mid back dominating.','Bending elbows too much.','Going too heavy.','Cutting the range short.','Swinging the weight.'],
+    hard:'If traps pump more than rear delts, reduce the weight immediately.' },
+
+  'd2e6':{ id:'d2e6', day:2, order:6, name:'Serratus Cable Punch',
+    sMin:1,sMax:1,sDef:1, rMin:12,rMax:20, rirMin:1,rirMax:1, rest:45,
+    target:'Serratus', uni:true, drop:false,
+    muscles:{'serratus':1},
+    cues:['Cable at chest height.','Stand stable.','Arm almost straight.','Ribs down.','Reach shoulder blade forward around rib cage.','Do not twist torso.','Pause at full reach.','Return slowly.'],
+    tnf:'This is a control exercise. Do not chase load. Same clean movement every rep.',
+    cbum:'Make the shoulder blade move cleanly so your upper body sits better and looks wider.',
+    mistakes:['Twisting body.','Bending elbow too much.','Shrugging.','Ribs flaring.','Going too heavy.','Turning it into a chest press.'],
+    hard:'If torso rotation creates the movement, the rep does not count.' },
+
+  // DAY 3
+  'd3e1':{ id:'d3e1', day:3, order:1, name:'Machine Lateral Raise',
+    sMin:4,sMax:4,sDef:4, rMin:10,rMax:15, rirMin:0,rirMax:1, rest:75,
+    target:'Side delts', uni:false, drop:false,
+    muscles:{'side-delts':1},
+    cues:['Pads just above elbows.','Shoulders down.','Drive elbows outward.','Neck relaxed.','Pause top.','Lower slowly.','Same range every rep.'],
+    tnf:'Side delt work should not become traps.',
+    cbum:'Show the cap.',
+    mistakes:['Too heavy.','Shrugging.','Hands leading.','Losing bottom control.','Neck tight.'],
+    hard:'If traps pump more than side delts, reduce weight.' },
+
+  'd3e2':{ id:'d3e2', day:3, order:2, name:'Cable Y Raise',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:20, rirMin:1,rirMax:1, rest:60,
+    target:'Lower traps', uni:false, drop:false,
+    muscles:{'lower-traps':1,'side-delts':0.25},
+    cues:['Cables low.','Thumbs up.','Arms into a Y shape.','Ribs down.','Shoulder blades rotate upward.','Slow reps.','No shrug.'],
+    tnf:'This is not ego loading. It improves shoulder blade control and posture.',
+    cbum:'Move like you are setting your shoulders into a cleaner physique pose.',
+    mistakes:['Turning it into a front raise.','Shrugging.','Lower back arch.','Moving too fast.','Going too heavy.'],
+    hard:'If neck or upper traps dominate, go lighter.' },
+
+  'd3e3':{ id:'d3e3', day:3, order:3, name:'Overhead Cable Triceps Extension',
+    sMin:3,sMax:3,sDef:3, rMin:8,rMax:15, rirMin:0,rirMax:1, rest:90,
+    target:'Triceps long head', uni:false, drop:false,
+    muscles:{'triceps':1},
+    optional:{ label:'Optional Final Set', text:'After full range reps, add 3 to 6 controlled bottom range partials only if elbows feel good and form stays strict.' },
+    cues:['Step forward.','Elbows fixed.','Upper arms still.','Ribs down.','Let hands travel behind head.','Get a deep controlled stretch in the back of the upper arm.','Extend through elbow only.','Smooth lockout.','No bouncing.'],
+    tnf:'This is essential because pressing does not fully train the long head.',
+    cbum:'Own the deep stretch. Do not rush the bottom.',
+    mistakes:['Elbows moving.','Ribs flaring.','Lower back arching.','Turning it into a press.','No deep stretch.'],
+    hard:'If elbows move everywhere or ribs flare, reduce weight.' },
+
+  'd3e4':{ id:'d3e4', day:3, order:4, name:'Underhand Cable Triceps Extension',
+    sMin:2,sMax:2,sDef:2, rMin:10,rMax:15, rirMin:0,rirMax:1, rest:75,
+    target:'Triceps', uni:false, drop:false,
+    muscles:{'triceps':1},
+    cues:['Elbows pinned.','Shoulders down.','Wrists straight.','Extend smoothly.','Full lockout.','Squeeze bottom.','Return slow.'],
+    tnf:'Direct elbow extension without extra pressing fatigue.',
+    cbum:'Clean hard lockout, no body swing.',
+    mistakes:['Elbows drifting.','Shoulders rolling forward.','Wrist bending.','Using body momentum.'],
+    hard:'Only the forearm moves.' },
+
+  'd3e5':{ id:'d3e5', day:3, order:5, name:'Incline Dumbbell Curl',
+    sMin:3,sMax:3,sDef:3, rMin:8,rMax:12, rirMin:0,rirMax:1, rest:75,
+    target:'Biceps', uni:false, drop:false,
+    muscles:{'biceps':1},
+    optional:{ label:'Optional Final Set', text:'After full range reps, add 3 to 6 bottom half partials only if strict.' },
+    cues:['Bench 30 to 60 degrees.','Sit back fully.','Chest tall.','Elbows slightly behind body.','Shoulders stay back.','Let elbows fully extend.','Curl without moving upper arm forward.','Supinate hard.','Lower slowly into full bottom stretch.','No swinging.'],
+    tnf:'Use lengthened loading here, but do not turn it into ego swinging.',
+    cbum:'Full biceps stretch, clean curl, hard squeeze.',
+    mistakes:['Letting elbows drift forward.','Swinging dumbbells.','Cutting the stretch short.','Turning it into a front delt movement.'],
+    hard:'If shoulders roll forward or elbows move forward, the set is over.' },
+
+  'd3e6':{ id:'d3e6', day:3, order:6, name:'Dumbbell Hammer Curl',
+    sMin:2,sMax:3,sDef:3, rMin:10,rMax:15, rirMin:0,rirMax:1, rest:75,
+    target:'Brachialis & forearms', uni:false, drop:false,
+    muscles:{'brachialis':1,'biceps':0.5},
+    cues:['Neutral grip.','Elbows fixed.','Wrists straight.','Curl slightly across body if it feels better.','No torso swing.','Lower slowly.'],
+    tnf:'This is for arm thickness, not stretch mediated hypertrophy.',
+    cbum:'Strict and controlled. Build complete arms, not just biceps peak.',
+    mistakes:['Swinging dumbbells.','Elbows drifting forward.','Wrists bending.','Going too heavy.'],
+    hard:'If torso movement starts the rep, reduce weight.' },
+
+  'd3e7':{ id:'d3e7', day:3, order:7, name:'Dead Bug With Full Exhale',
+    sMin:1,sMax:1,sDef:1, rMin:6,rMax:10, rirMin:0,rirMax:0, rest:45,
+    target:'Abs', uni:true, drop:false,
+    muscles:{'abs':1},
+    cues:['Lower back gently down.','Exhale until ribs drop.','Move opposite arm and leg.','Reach slowly.','Stop before lower back arches.','Abs active.','Controlled return.'],
+    tnf:'Technical failure only. Once ribs flare, set is over.',
+    cbum:'Think tighter waist, not just abs.',
+    mistakes:['Ribs flaring.','Lower back arching.','Moving too fast.','Holding breath.','Neck tension.'],
+    hard:'Ribs flare means the rep does not count.' },
+
+  // DAY 4
+  'd4e1':{ id:'d4e1', day:4, order:1, name:'Cable Lateral Raise',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:25, rirMin:0,rirMax:1, rest:75,
+    target:'Side delts', uni:false, drop:false,
+    muscles:{'side-delts':1},
+    cues:['Slight lean.','Cable behind.','Elbow leads.','Shoulder down.','Stop before traps.','Controlled lower.'],
+    tnf:'Extra side delt frequency without turning the session into a shoulder day.',
+    cbum:'Every rep should widen the frame.',
+    mistakes:['Swinging late reps.','Shrugging.','Going too heavy.','Neck tightness.'],
+    hard:'If traps take over, stop or reduce weight.' },
+
+  'd4e2':{ id:'d4e2', day:4, order:2, name:'Machine Pullover or Straight Arm Cable Pulldown',
+    sMin:3,sMax:3,sDef:3, rMin:10,rMax:20, rirMin:0,rirMax:1, rest:90,
+    target:'Lats', uni:false, drop:false,
+    muscles:{'lats':1,'triceps':0.25},
+    cues:['Ribs down.','Shoulders down.','Upper arm travels toward hips.','Elbows fixed.','Do not crunch torso.','Do not turn into triceps.','Lat tension is the goal, not extreme stretch.'],
+    tnf:'This gives a different lat stimulus from pulldowns.',
+    cbum:'Drive upper arms down to carve lat sweep.',
+    mistakes:['Triceps limiter.','Ribs flaring.','Crunching torso.','Shrugging.','Too heavy.'],
+    hard:'If triceps dominate, reduce load and freeze elbow angle.' },
+
+  'd4e3':{ id:'d4e3', day:4, order:3, name:'Low Incline Cable Press',
+    sMin:3,sMax:3,sDef:3, rMin:8,rMax:12, rirMin:1,rirMax:1, rest:120,
+    target:'Upper chest', uni:false, drop:false,
+    muscles:{'upper-chest':1,'triceps':0.5,'front-delts':0.25},
+    cues:['Bench 15 to 30 degrees.','Shoulder blades back and down.','Ribs locked down.','Elbows tucked.','Press up and inward.','Stop before shoulder roll.','Deep controlled range, but do not force depth.'],
+    tnf:'Upper chest must be the limiter, not front delts or joints.',
+    cbum:'Open chest, then press through the upper chest.',
+    mistakes:['Front delts taking over.','Shoulders rolling forward.','Ribs flaring.','Going too heavy.','Pressing too flat.'],
+    hard:'Stop at 1 RIR. No ugly grinding.' },
+
+  'd4e4':{ id:'d4e4', day:4, order:4, name:'Pec Deck or Mid Height Cable Fly',
+    sMin:2,sMax:2,sDef:2, rMin:10,rMax:15, rirMin:0,rirMax:1, rest:75,
+    target:'Mid chest', uni:false, drop:false,
+    muscles:{'mid-chest':1},
+    cues:['Soft elbows.','Upper arms move toward each other.','Shoulders stay back.','Ribs down.','Controlled stretch only.','Stop before shoulders roll forward.','Feel mid chest, not front delts.'],
+    tnf:'This keeps mid chest covered without over prioritising lower chest.',
+    cbum:'Make the chest squeeze, do not just bring handles together.',
+    mistakes:['Front shoulders taking over.','Too much stretch.','Arms bending too much.','Momentum.','Shoulders rolling forward.'],
+    hard:'If shoulders roll forward, shorten the range.' },
+
+  'd4e5':{ id:'d4e5', day:4, order:5, name:'Chest Supported Row',
+    sMin:2,sMax:2,sDef:2, rMin:10,rMax:15, rirMin:0,rirMax:1, rest:90,
+    target:'Mid back', uni:false, drop:false,
+    muscles:{'mid-back':1,'rear-delts':0.5,'biceps':0.25},
+    cues:['Chest glued down.','Elbows slightly flared.','Pull to lower chest.','Neck long.','No shrug.','Lower until shoulder blades open.'],
+    tnf:'This keeps rear structure and posture improving while managing fatigue.',
+    cbum:'Thick back without traps taking over.',
+    mistakes:['Pulling too low into lats.','Shrugging.','Chest lifting.','Using arms too much.'],
+    hard:'Hold the top for 1 clean second without shrug.' },
+
+  'd4e6':{ id:'d4e6', day:4, order:6, name:'Reverse Pec Deck',
+    sMin:2,sMax:2,sDef:2, rMin:12,rMax:20, rirMin:0,rirMax:1, rest:60,
+    target:'Rear delts', uni:false, drop:false,
+    muscles:{'rear-delts':1,'mid-back':0.25},
+    cues:['Reach forward.','Hands relaxed.','Elbows lead.','Shoulders down.','Rear delt cap, not traps.','No aggressive stretch chasing.'],
+    tnf:'Rear delts need direct work for your physique goal.',
+    cbum:'Round the back of the shoulder.',
+    mistakes:['Traps taking over.','Going too heavy.','Mid back dominating.','Swinging.'],
+    hard:'If traps pump more than rear delts, reduce weight.' },
+
+  'd4e7':{ id:'d4e7', day:4, order:7, name:'Hip Thrust',
+    sMin:2,sMax:2,sDef:2, rMin:8,rMax:12, rirMin:1,rirMax:1, rest:90,
+    target:'Glutes', uni:false, drop:false,
+    muscles:{'glutes':1},
+    why:{ label:'Why it is here', text:'This is not a leg day. It is here to improve glute activation potential, pelvis position and side profile without stealing recovery.' },
+    cues:['Chin tucked slightly.','Ribs down.','Posterior pelvic tilt at top.','Full glute squeeze.','Shins near vertical at top.','Do not arch lower back.'],
+    tnf:'This supports pelvis control. It is not here for stretch mediated hypertrophy.',
+    cbum:'Glutes locked, waist tight, no lower back takeover.',
+    mistakes:['Lumbar extension instead of glutes.','Ribs flaring.','Feet too far forward.','No top squeeze.','Too heavy.'],
+    hard:'If lower back feels it more than glutes, reduce load.' },
+
+  'd4e8':{ id:'d4e8', day:4, order:8, name:'Serratus Cable Punch',
+    sMin:1,sMax:1,sDef:1, rMin:12,rMax:20, rirMin:1,rirMax:1, rest:45,
+    target:'Serratus', uni:true, drop:false,
+    muscles:{'serratus':1},
+    cues:['Cable chest height.','Arm almost straight.','Ribs down.','Reach shoulder blade around rib cage.','No torso twist.','Pause at full reach.','Return slowly.'],
+    tnf:'Control exercise, not load chasing.',
+    cbum:'Cleaner shoulder blade movement makes the physique look wider and better held.',
+    mistakes:['Twisting.','Shrugging.','Bending elbow.','Ribs flaring.','Too heavy.'],
+    hard:'Torso rotation means the rep does not count.' },
+};
+
+// ============================================================
+// DAYS
+// ============================================================
+var DAYS = {
+  1:{ n:1, title:'Shoulder Width and Upper Chest Foundation', nav:'Shoulders & Chest',
+    goal:'Upper chest shelf, side delt width, lat touch, mid back posture, rear delt support and waist control.',
+    exercises:['d1e1','d1e2','d1e3','d1e4','d1e5','d1e6','d1e7'], duration:60,
+    primaryMuscles:['Upper chest','Side delts','Lats','Mid back','Rear delts'],
+    checklist:['Upper chest failed before front delts.','Side delts failed before traps.','Single arm pulldown hit lats, not biceps.','Cable fly hit upper chest.','Row hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Crunch moved ribs toward pelvis.','Ribs stayed down.','Load and reps were logged.'] },
+  2:{ n:2, title:'Lat Width, Mid Back and Rear Structure', nav:'Lat Width & Back',
+    goal:'V taper, lat width, lower lat sweep, mid back density, rear delt roundness and scapular control.',
+    exercises:['d2e1','d2e2','d2e3','d2e4','d2e5','d2e6'], duration:55,
+    primaryMuscles:['Lats','Mid back','Rear delts','Serratus'],
+    checklist:['Pulldowns hit lats before biceps.','Straight arm pulldowns hit lats, not triceps.','Single arm pulldowns felt like elbow to front pocket.','Rows hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Serratus punch moved shoulder blade, not torso.','Ribs stayed down.','Load and reps were logged.'] },
+  3:{ n:3, title:'Direct Arms, Shoulder Cap and Scapular Control', nav:'Arms & Delts',
+    goal:'Direct biceps and triceps work, side delt cap, arm thickness and shoulder blade control.',
+    exercises:['d3e1','d3e2','d3e3','d3e4','d3e5','d3e6','d3e7'], duration:65,
+    primaryMuscles:['Side delts','Lower traps','Triceps','Biceps','Brachialis'],
+    checklist:['Side delts failed before traps.','Cable Y raise did not become a shrug.','Overhead triceps extension hit long head.','Triceps extensions did not become presses.','Incline dumbbell curls stayed strict.','Hammer curls stayed controlled.','Dead bugs kept ribs down.','Load and reps were logged.'] },
+  4:{ n:4, title:'Lat Sweep, Upper Chest, Waist and Pelvis Control', nav:'Sweep & Waist',
+    goal:'Lat sweep, upper chest, rear structure, posture support, glute activation and pelvis control.',
+    exercises:['d4e1','d4e2','d4e3','d4e4','d4e5','d4e6','d4e7','d4e8'], duration:70,
+    primaryMuscles:['Side delts','Lats','Upper chest','Mid chest','Rear delts','Glutes'],
+    checklist:['Side delts hit before traps.','Pullover hit lats, not triceps.','Upper chest press hit chest, not front delts.','Mid chest fly felt controlled.','Rows hit mid back.','Rear delts worked without traps.','Hip thrust hit glutes, not lower back.','Serratus punch moved shoulder blade, not torso.','Load and reps were logged.'] },
+};
+
+var GLOBAL_RULES = [
+  'Every set only counts if the target muscle is the limiter.',
+  'No direct arms except Day 3.',
+  'Do not chase stretch on every muscle.',
+  'Use long length loading mainly where it makes sense, triceps long head and biceps.',
+  'For chest, use deep controlled range but do not force depth.',
+  'For delts and lats, prioritise tension, stability and progression, not extreme stretch.',
+  'Stop a set if traps take over, ribs flare, shoulders roll forward, biceps dominate lat work, or form changes.',
+  'Progress by adding reps first, then load.',
+  'Only add load when all sets reach the top of the rep range with clean form.',
+  'Warm up is minimal. Do 1 light feeler set only when needed.',
+];
+
+var PROGRESSION_RULES = [
+  'Add reps first, then load.',
+  'Keep setup, tempo, range, target muscle feel and form identical.',
+  'Add weight only when all sets reach the top of the rep range with target RIR.',
+  'A set does not count if the wrong muscle is the limiter.',
+  'Do not switch exercises for 8 weeks unless there is pain or bad machine fit.',
+  'If stalled for 2 exposures, keep the exercise and load the same for one more exposure and try adding one clean rep.',
+  'If still stalled, reduce load by 5 to 10 percent and rebuild.',
+  'True failure is allowed on lateral raises, reverse pec deck, cable fly, straight arm pulldown, triceps extensions and curls.',
+  'Stay 1 RIR on dumbbell pressing, cable pressing, heavy pulldowns, rows, hip thrusts and ab work.',
+];
+
+
+'use strict';
+// ============================================================
+// STORAGE — schema v2
+// ============================================================
+var DB_KEY = 'adil_v2';
+var TIMER_KEY = 'adil_timer';
+
+function dbLoad() {
+  try {
+    var raw = localStorage.getItem(DB_KEY);
+    if (!raw) return dbDefault();
+    var d = JSON.parse(raw);
+    if (!d.schemaVersion || d.schemaVersion < 2) return dbMigrateV1(d);
+    return d;
+  } catch(e) { return dbDefault(); }
+}
+
+function dbDefault() {
+  return {
+    schemaVersion: 2,
+    settings: { muscleMappings: null, volumeTargets: null },
+    lastCompletedDay: null,
+    activeSession: null,
+    completedSessions: [],
+    legacyData: null,
+  };
+}
+
+function dbSave(db) {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
+}
+
+// ---- v1 migration ----
+function dbMigrateV1(old) {
+  var db = dbDefault();
+  // Preserve old checkbox state and log tables as legacy
+  if (old && (old.checks || old.logs)) {
+    db.legacyData = { source: 'v1', checks: old.checks||{}, logs: old.logs||{}, importedAt: Date.now() };
+  } else if (old) {
+    // might be raw old adil_aesthetic_v1 checkbox format
+    db.legacyData = { source: 'v1_checks', data: old, importedAt: Date.now() };
+  }
+  // Try to read old separate keys
+  try {
+    var oldChecks = localStorage.getItem('adil_aesthetic_v1');
+    if (oldChecks) db.legacyData = db.legacyData || {};
+    // preserve them under legacyData; don't delete old keys in case user wants them
+  } catch(e) {}
+  db.schemaVersion = 2;
+  return db;
+}
+
+// ---- session helpers ----
+function newSessionId() { return 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+function newSetId()     { return 'set_'  + Date.now() + '_' + Math.random().toString(36).slice(2,5); }
+
+function createSession(dayN) {
+  return {
+    id: newSessionId(),
+    dayN: dayN,
+    startTime: Date.now(),
+    endTime: null,
+    durationMs: null,
+    sets: [],
+    notes: '',
+    finished: false,
+  };
+}
+
+function createSet(exId, setNum, setType, side) {
+  return {
+    id: newSetId(),
+    exId: exId,
+    setNum: setNum,
+    setType: setType || 'working', // 'working'|'warmup'|'drop'|'skip'
+    side: side || null,            // null|'L'|'R'
+    weight: 0,
+    reps: 0,
+    rir: null,
+    completed: false,
+    skipped: false,
+    timestamp: null,
+  };
+}
+
+// ---- exercise history ----
+// Returns array of completed sets for an exercise, most recent first
+function getExHistory(db, exId) {
+  var sets = [];
+  var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime - a.startTime; });
+  for (var i = 0; i < sessions.length; i++) {
+    var sess = sessions[i];
+    for (var j = 0; j < sess.sets.length; j++) {
+      var s = sess.sets[j];
+      if (s.exId === exId && s.completed && !s.skipped && s.setType !== 'warmup') {
+        sets.push({ set: s, sessionId: sess.id, sessionTime: sess.startTime, dayN: sess.dayN });
+      }
+    }
+  }
+  return sets;
+}
+
+// Returns the most recent complete working session for an exercise (non-warmup, completed sets only)
+function getLastExSession(db, exId) {
+  var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime - a.startTime; });
+  for (var i = 0; i < sessions.length; i++) {
+    var sess = sessions[i];
+    var found = sess.sets.filter(function(s) {
+      return s.exId === exId && s.completed && !s.skipped && s.setType !== 'warmup';
+    });
+    if (found.length > 0) return { session: sess, sets: found };
+  }
+  return null;
+}
+
+// ---- volume calculation ----
+// Returns { muscleId: totalSets } for a given array of sessions within a date range
+function calcVolume(sessions, muscleMappings) {
+  var vol = {};
+  sessions.forEach(function(sess) {
+    sess.sets.forEach(function(s) {
+      if (!s.completed || s.skipped || s.setType === 'warmup') return;
+      var ex = EX[s.exId];
+      if (!ex) return;
+      var mmap = (muscleMappings && muscleMappings[s.exId]) ? muscleMappings[s.exId] : ex.muscles;
+      var contribution = s.setType === 'drop' ? (ex.dropMuscles || {}) : mmap;
+      // For unilateral: only count L side (or null side) once per pair to avoid doubling
+      // We handle this by counting 0.5 per side for bilateral volume, but spec says L+R = 1 set
+      var multiplier = 1;
+      if (ex.uni && s.side !== null) { multiplier = 0.5; } // L + R = 1 set
+      Object.keys(contribution).forEach(function(m) {
+        vol[m] = (vol[m] || 0) + contribution[m] * multiplier;
+      });
+    });
+  });
+  return vol;
+}
+
+// Week helpers (Mon-Sun)
+function weekStart(date) {
+  var d = new Date(date || Date.now());
+  var day = d.getDay();
+  var diff = (day === 0) ? -6 : 1 - day; // Monday = 0 offset
+  var mon = new Date(d);
+  mon.setHours(0,0,0,0);
+  mon.setDate(d.getDate() + diff);
+  return mon.getTime();
+}
+function weekEnd(weekStartTs) { return weekStartTs + 7*24*60*60*1000 - 1; }
+
+function sessionsInWeek(db, weekStartTs) {
+  var ws = weekStartTs, we = weekEnd(weekStartTs);
+  return db.completedSessions.filter(function(s) { return s.startTime >= ws && s.startTime <= we; });
+}
+
+// ---- PRs ----
+// Returns array of PR descriptions for a completed session
+function detectPRs(db, session) {
+  var prs = [];
+  var exIds = [];
+  session.sets.forEach(function(s) { if (exIds.indexOf(s.exId) === -1) exIds.push(s.exId); });
+  exIds.forEach(function(exId) {
+    var historySets = getExHistory(db, exId);
+    // Remove sets from current session
+    var prevSets = historySets.filter(function(h) { return h.sessionId !== session.id; });
+    var curSets = session.sets.filter(function(s) { return s.exId === exId && s.completed && !s.skipped && s.setType !== 'warmup'; });
+    if (curSets.length === 0 || prevSets.length === 0) return;
+    curSets.forEach(function(cur) {
+      // Best weight
+      var prevBestWeight = Math.max.apply(null, prevSets.map(function(h) { return h.set.weight; }));
+      if (cur.weight > prevBestWeight && cur.weight > 0) {
+        prs.push({ exId: exId, type:'weight', msg: EX[exId].name + ' — new weight record: ' + cur.weight + ' kg' });
+        return;
+      }
+      // Most reps at same weight
+      var sameWeight = prevSets.filter(function(h) { return h.set.weight === cur.weight; });
+      if (sameWeight.length > 0) {
+        var prevBestReps = Math.max.apply(null, sameWeight.map(function(h) { return h.set.reps; }));
+        if (cur.reps > prevBestReps) {
+          prs.push({ exId: exId, type:'reps', msg: EX[exId].name + ' — ' + (cur.reps - prevBestReps) + ' more reps at ' + cur.weight + ' kg' });
+        }
+      }
+    });
+  });
+  // Deduplicate by exId
+  var seen = {};
+  return prs.filter(function(pr) {
+    if (seen[pr.exId + pr.type]) return false;
+    seen[pr.exId + pr.type] = true;
+    return true;
+  });
+}
+
+// ---- next day in rotation ----
+function nextDay(db) {
+  if (db._nextDayOverride) return db._nextDayOverride;
+  var last = db.lastCompletedDay;
+  if (!last) return 1;
+  return (last % 4) + 1;
+}
+
+// ---- export / import ----
+function exportBackup(db) {
+  var out = { version: 2, exported: new Date().toISOString().slice(0,10), data: db };
+  var blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'adil-v2-' + out.exported + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function importBackup(jsonText, currentDb) {
+  var parsed = JSON.parse(jsonText);
+  if (parsed.version === 2 && parsed.data) {
+    // v2 backup
+    var d = parsed.data;
+    d.schemaVersion = 2;
+    return d;
+  } else if (parsed.version === 1 || parsed.checks !== undefined || parsed.logs !== undefined) {
+    // v1 backup: preserve as legacy
+    currentDb.legacyData = { source: 'v1_import', checks: parsed.checks||{}, logs: parsed.logs||{}, importedAt: Date.now() };
+    return currentDb;
+  }
+  throw new Error('Unrecognised backup format.');
+}
+
+// ---- format helpers ----
+function fmtTime(ms) {
+  var s = Math.floor(ms / 1000);
+  var m = Math.floor(s / 60);
+  s = s % 60;
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+function fmtDate(ts) {
+  if (!ts) return '';
+  return new Date(ts).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+function fmtShortDate(ts) {
+  if (!ts) return '';
+  return new Date(ts).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+}
+
+
+'use strict';
+// ============================================================
+// REST TIMER
+// ============================================================
+var Timer = (function() {
+  var _running = false;
+  var _start = 0;
+  var _duration = 90; // seconds
+  var _remaining = 90;
+  var _interval = null;
+  var _pill = null;
+  var _onDone = null;
+
+  function _save() {
+    try {
+      localStorage.setItem(TIMER_KEY, JSON.stringify({
+        running: _running, start: _start, duration: _duration, remaining: _remaining
+      }));
+    } catch(e) {}
+  }
+
+  function _beep() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.4, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.6);
+    } catch(e) {}
+    try { navigator.vibrate([200, 80, 200]); } catch(e) {}
+  }
+
+  function _render() {
+    if (!_pill) _pill = document.getElementById('timer-pill');
+    if (!_pill) return;
+    var r = Math.max(0, _remaining);
+    var m = Math.floor(r / 60);
+    var s = Math.floor(r % 60);
+    var display = m + ':' + (s < 10 ? '0' : '') + s;
+    _pill.classList.toggle('hidden', !_running && _remaining >= _duration);
+    _pill.innerHTML =
+      '<span class="tp-label">REST</span>' +
+      '<button class="tp-adj" data-adj="-15" onclick="Timer.adjust(-15)">−15</button>' +
+      '<span class="tp-time' + (r <= 10 ? ' tp-urgent' : '') + '">' + display + '</span>' +
+      '<button class="tp-adj" data-adj="+15" onclick="Timer.adjust(15)">+15</button>' +
+      '<button class="tp-skip" onclick="Timer.skip()">Skip</button>';
+    if (!_running) _pill.classList.remove('hidden');
+  }
+
+  function _tick() {
+    if (!_running) return;
+    var elapsed = (Date.now() - _start) / 1000;
+    _remaining = Math.max(0, _duration - elapsed);
+    _render();
+    _save();
+    if (_remaining <= 0) {
+      _running = false;
+      clearInterval(_interval);
+      _interval = null;
+      _beep();
+      _save();
+      _render();
+      setTimeout(function() {
+        if (_pill) _pill.classList.add('hidden');
+      }, 4000);
+      if (_onDone) _onDone();
+    }
+  }
+
+  // Handle page visibility (screen lock, tab switch)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && _running) {
+      var elapsed = (Date.now() - _start) / 1000;
+      _remaining = Math.max(0, _duration - elapsed);
+      if (_remaining <= 0) { _tick(); }
+      else { _render(); }
+    }
+  });
+
+  return {
+    start: function(seconds, onDone) {
+      if (_interval) clearInterval(_interval);
+      _duration = seconds || 90;
+      _remaining = _duration;
+      _start = Date.now();
+      _running = true;
+      _onDone = onDone || null;
+      _interval = setInterval(_tick, 500);
+      _render(); _save();
+    },
+    restore: function() {
+      try {
+        var raw = localStorage.getItem(TIMER_KEY);
+        if (!raw) return;
+        var t = JSON.parse(raw);
+        if (!t.running) return;
+        var elapsed = (Date.now() - t.start) / 1000;
+        _duration = t.duration;
+        _remaining = Math.max(0, t.duration - elapsed);
+        _start = t.start;
+        if (_remaining > 0) {
+          _running = true;
+          if (_interval) clearInterval(_interval);
+          _interval = setInterval(_tick, 500);
+        }
+        _render();
+      } catch(e) {}
+    },
+    adjust: function(delta) {
+      _remaining = Math.max(0, _remaining + delta);
+      _start = Date.now() - (_duration - _remaining) * 1000;
+      _render(); _save();
+    },
+    skip: function() {
+      _running = false;
+      _remaining = 0;
+      clearInterval(_interval); _interval = null;
+      _save();
+      if (_pill) setTimeout(function() { _pill.classList.add('hidden'); }, 400);
+      _render();
+    },
+    isRunning: function() { return _running; },
+  };
+})();
+
+
+'use strict';
+// ============================================================
+// TODAY SCREEN
+// ============================================================
+function renderToday(db) {
+  var active = db.activeSession && !db.activeSession.finished;
+  var nDay = nextDay(db);
+  var day = DAYS[nDay];
+  var exCount = day.exercises.length;
+  var lastDone = null;
+  // find last session of this day
+  var pastSame = db.completedSessions.filter(function(s){ return s.dayN === nDay; }).sort(function(a,b){ return b.startTime-a.startTime; });
+  if (pastSame.length) lastDone = pastSame[0].startTime;
+
+  var resumeBanner = active ? (
+    '<div class="resume-banner">' +
+    '<div class="rb-title">Workout in progress</div>' +
+    '<div class="rb-sub">Day ' + db.activeSession.dayN + ' · ' + DAYS[db.activeSession.dayN].title + '</div>' +
+    '<div class="rb-actions">' +
+    '<button class="btn-primary btn-lg" onclick="App.resumeWorkout()">Resume Workout</button>' +
+    '<button class="btn-ghost btn-sm" onclick="App.discardSession()">Discard session</button>' +
+    '</div></div>'
+  ) : '';
+
+  var dayPickerRows = [1,2,3,4].map(function(n) {
+    var d = DAYS[n];
+    var isNext = n === nDay;
+    return '<label class="day-pick-row' + (isNext ? ' is-next' : '') + '">' +
+      '<input type="radio" name="daypick" value="' + n + '"' + (isNext ? ' checked' : '') + ' onchange="App.setNextDay(' + n + ')">' +
+      '<span class="dp-no">Day ' + n + '</span>' +
+      '<span class="dp-title">' + d.title + '</span>' +
+      '<span class="dp-dur">' + d.duration + ' min</span>' +
+      '</label>';
+  }).join('');
+
+  return '<div class="today-wrap">' +
+    (active ? '' : '') +
+    resumeBanner +
+    '<div class="today-day-card">' +
+      '<div class="tdc-kicker">Next Workout</div>' +
+      '<div class="tdc-day">Day ' + String(nDay).padStart(2,'0') + '</div>' +
+      '<div class="tdc-title">' + day.title + '</div>' +
+      '<div class="tdc-muscles">' + day.primaryMuscles.join(' · ') + '</div>' +
+      '<div class="tdc-meta">' +
+        '<span>' + exCount + ' exercises</span>' +
+        '<span>~' + day.duration + ' min</span>' +
+        (lastDone ? '<span>Last: ' + fmtShortDate(lastDone) + '</span>' : '<span>Never done</span>') +
+      '</div>' +
+      '<button class="btn-primary btn-xl" onclick="App.startWorkout(' + nDay + ')" ' + (active ? 'disabled title="Finish current session first"' : '') + '>Start Workout</button>' +
+    '</div>' +
+    '<details class="today-picker">' +
+      '<summary class="tp-sum">Choose a different day</summary>' +
+      '<div class="tp-body">' + dayPickerRows + '</div>' +
+    '</details>' +
+  '</div>';
+}
+
+// ============================================================
+// WORKOUT INIT
+// ============================================================
+function initWorkoutSets(dayN, db) {
+  var day = DAYS[dayN];
+  var sets = [];
+  day.exercises.forEach(function(exId) {
+    var ex = EX[exId];
+    var lastSess = getLastExSession(db, exId);
+    var prevSets = lastSess ? lastSess.sets : [];
+
+    function prevFor(num, side) {
+      for (var i = 0; i < prevSets.length; i++) {
+        var ps = prevSets[i];
+        if (ps.setNum === num && ps.side === (side||null) && ps.setType === 'working') return ps;
+      }
+      return null;
+    }
+
+    if (ex.uni) {
+      for (var i = 1; i <= ex.sDef; i++) {
+        ['L','R'].forEach(function(side) {
+          var prev = prevFor(i, side);
+          var s = createSet(exId, i, 'working', side);
+          s.weight = prev ? prev.weight : 0;
+          s.reps   = prev ? prev.reps   : ex.rMin;
+          s.rir    = null;
+          s.suggestedWeight = prev ? prev.weight : null;
+          s.suggestedReps   = prev ? prev.reps   : null;
+          sets.push(s);
+        });
+      }
+    } else {
+      for (var i = 1; i <= ex.sDef; i++) {
+        var prev = prevFor(i, null);
+        var s = createSet(exId, i, 'working', null);
+        s.weight = prev ? prev.weight : 0;
+        s.reps   = prev ? prev.reps   : ex.rMin;
+        s.rir    = null;
+        s.suggestedWeight = prev ? prev.weight : null;
+        s.suggestedReps   = prev ? prev.reps   : null;
+        sets.push(s);
+      }
+      if (ex.drop) {
+        var prevDrop = prevSets.find(function(s) { return s.setType === 'drop'; });
+        var ds = createSet(exId, ex.sDef, 'drop', null);
+        ds.weight = prevDrop ? prevDrop.weight : 0;
+        ds.reps   = prevDrop ? prevDrop.reps   : ex.rMin;
+        ds.rir    = null;
+        ds.suggestedWeight = prevDrop ? prevDrop.weight : null;
+        ds.suggestedReps   = prevDrop ? prevDrop.reps   : null;
+        sets.push(ds);
+      }
+    }
+  });
+  return sets;
+}
+
+// ============================================================
+// WORKOUT RENDERER
+// ============================================================
+function renderWorkout(db) {
+  var sess = db.activeSession;
+  if (!sess) return '';
+  var day = DAYS[sess.dayN];
+
+  // Count completed working sets
+  var totalWorking = sess.sets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; }).length;
+  var doneWorking  = sess.sets.filter(function(s){ return (s.setType==='working'||s.setType==='drop') && s.completed; }).length;
+  var exDone = 0;
+  day.exercises.forEach(function(exId) {
+    var exSets = sess.sets.filter(function(s){ return s.exId===exId && (s.setType==='working'||s.setType==='drop') && !s.skipped; });
+    var allDone = exSets.length>0 && exSets.every(function(s){ return s.completed||s.skipped; });
+    if (allDone) exDone++;
+  });
+
+  if (!sess.currentExId) {
+    var _fx=null;
+    for(var _fi=0;_fi<day.exercises.length;_fi++){
+      var _fws=sess.sets.filter(function(s){return s.exId===day.exercises[_fi]&&(s.setType==='working'||s.setType==='drop');});
+      if(!_fws.every(function(s){return s.completed||s.skipped;})){_fx=day.exercises[_fi];break;}
+    }
+    sess.currentExId=_fx||day.exercises[0]; dbSave(db);
+  }
+  var ov = document.getElementById('workout-overlay');
+  ov.innerHTML =
+    '<div class="wo-header">' +
+      '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
+      '<div class="wo-hinfo">' +
+        '<div class="wo-htitle">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
+        '<div class="wo-hprog">' + exDone + ' / ' + day.exercises.length + ' exercises</div>' +
+      '</div>' +
+      '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
+    '</div>' +
+    '<div class="wo-body" id="wo-body">' +
+      day.exercises.map(function(exId) {
+        var _ws=sess.sets.filter(function(s){return s.exId===exId&&(s.setType==='working'||s.setType==='drop');});
+        var _dn=_ws.length>0&&_ws.every(function(s){return s.completed||s.skipped;});
+        var _st=_dn?'done':(exId===sess.currentExId?'current':'future');
+        return renderExCard(exId, sess, db, _st);
+      }).join('') +
+      '<div class="wo-finish-section">' +
+        '<div class="wo-stats">' + doneWorking + ' sets · ' + sess.sets.filter(function(s){return s.completed;}).reduce(function(a,s){return a+s.reps;},0) + ' total reps</div>' +
+        '<button class="btn-primary btn-xl" onclick="App.finishWorkout()">Finish Workout</button>' +
+      '</div>' +
+    '</div>';
+  ov.classList.remove('hidden');
+
+  // Auto-scroll to first incomplete exercise
+  setTimeout(function() {
+    var first = ov.querySelector('.ex-card:not(.ex-card--done)');
+    scrollExIntoView(first, false);
+  }, 200);
+}
+
+function renderExCard(exId, sess, db, exState) {
+  var ex = EX[exId];
+  var day = DAYS[sess.dayN];
+  var exOrder = day.exercises.indexOf(exId) + 1;
+  var exSets = sess.sets.filter(function(s){ return s.exId === exId; });
+  var workingSets = exSets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; });
+  var allDone = workingSets.length>0 && workingSets.every(function(s){ return s.completed||s.skipped; });
+  if (!exState) exState = allDone ? 'done' : 'current';
+
+  if (exState === 'done') {
+    var dSets = workingSets.filter(function(s){ return s.completed; });
+    var bW = dSets.length ? Math.max.apply(null, dSets.map(function(s){ return s.weight; })) : 0;
+    var bR = dSets.length ? dSets.filter(function(s){ return s.weight===bW; }).reduce(function(m,s){ return Math.max(m,s.reps); },0) : 0;
+    var summ = dSets.length ? bW+' kg × '+bR : workingSets.length+' sets skipped';
+    return '<div class="ex-card ex-card--done" id="exc-'+exId+'">' +
+      '<div class="exc-compact exc-compact--done" onclick="App.expandExCard(\'' + exId + '\')">' +
+        '<span class="exc-compact-check">✓</span>' +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' +
+        '<span class="exc-compact-sub">'+dSets.length+' sets · '+esc(summ)+'</span></div>' +
+        '<span class="exc-expand-hint">edit ›</span>' +
+      '</div></div>';
+  }
+
+  if (exState === 'future') {
+    return '<div class="ex-card ex-card--future" id="exc-'+exId+'">' +
+      '<div class="exc-compact exc-compact--future" onclick="App.expandExCard(\'' + exId + '\')">' +
+        '<span class="exc-compact-num">'+String(exOrder).padStart(2,'0')+'</span>' +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' +
+        '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+' reps</span></div>' +
+        '<span class="exc-expand-hint">›</span>' +
+      '</div></div>';
+  }
+
+  var lastSess = getLastExSession(db, exId);
+  var setRows = exSets.map(function(s) {
+    var prevSet = lastSess ? (lastSess.sets.find(function(ps){
+      return ps.setNum===s.setNum && ps.side===s.side && ps.setType===s.setType;
+    })||null) : null;
+    return renderSetRow(s, prevSet, ex);
+  }).join('');
+  var collapsibles =
+    '<div class="ex-coll-row">' +
+    mkColl('cue-'+exId,'Cues','<ul class="coll-list">'+ex.cues.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>') +
+    mkColl('note-'+exId,'Notes','<div class="coll-tnf"><b>TNF</b> '+esc(ex.tnf)+'</div><div class="coll-cbum"><b>CBum</b> '+esc(ex.cbum)+'</div>') +
+    mkColl('err-'+exId,'Mistakes','<ul class="coll-list coll-mist">'+ex.mistakes.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul><div class="coll-hard">'+esc(ex.hard)+'</div>') +
+    '</div>';
+  var noteVal = (sess.exNotes && sess.exNotes[exId]) || '';
+  return '<div class="ex-card ex-card--current" id="exc-'+exId+'">' +
+    '<div class="exc-head">' +
+      '<div class="exc-meta">' +
+        '<span class="exc-name">'+esc(ex.name)+'</span>' +
+        '<span class="exc-target">'+esc(ex.target)+'</span>' +
+      '</div>' +
+      '<div class="exc-badges">' +
+        '<span class="xb">'+ex.sDef+(ex.sMin!==ex.sMax?'–'+ex.sMax:'')+' sets</span>' +
+        '<span class="xb">'+ex.rMin+'–'+ex.rMax+' reps</span>' +
+        '<span class="xb">'+fmtRestLabel(ex.rest)+'</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="set-rows" id="sets-'+exId+'">'+setRows+'</div>' +
+    '<div class="set-add-row">' +
+      '<button class="btn-ghost btn-sm" onclick="App.addWorkingSet(\'' + exId + '\')">+ Set</button>' +
+      '<button class="btn-ghost btn-sm" onclick="App.addWarmupSet(\'' + exId + '\')">+ Warmup</button>' +
+    '</div>' +
+    '<textarea class="ex-note-input" placeholder="Exercise note..." rows="1" oninput="App.saveExNote(\'' + exId + '\',this.value)">'+esc(noteVal)+'</textarea>' +
+    collapsibles + '</div>';
+}
+
+
+function renderSetRow(s, prevSet, ex) {
+  var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'Set '+s.setNum+(s.side?' '+s.side:'');
+  var delBtn = s.isAdded ? '<button class="sr-del" onclick="App.deleteSet(\'' + s.id + '\')" title="Remove">×</button>' : '';
+  if (s.completed) {
+    return '<div class="set-row set-row--done" id="sr-'+s.id+'" onclick="App.editSet(\'' + s.id + '\')">' +
+      '<span class="sr-done-label">'+esc(label)+'</span>' +
+      '<span class="sr-done-vals">'+s.weight+' kg × '+s.reps+'</span>' +
+      '<span class="sr-check">✓</span>'+delBtn+'</div>';
+  }
+  if (s.skipped) {
+    return '<div class="set-row set-row--skipped" id="sr-'+s.id+'">' +
+      '<span class="sr-done-label">'+esc(label)+'</span>' +
+      '<span class="sr-skip-badge">Skipped</span>' +
+      '<button class="btn-ghost btn-xs" onclick="App.undoSkip(\'' + s.id + '\')">Undo</button>'+delBtn+'</div>';
+  }
+  var w = s.weight || s.suggestedWeight || 0;
+  var r = s.reps   || s.suggestedReps  || ex.rMin;
+  var prevLine = prevSet ? ('Prev: '+prevSet.weight+' kg × '+prevSet.reps) : 'First time';
+  var targetLine = prevSet ? (prevSet.reps >= ex.rMax ? 'Increase weight' : (prevSet.weight+' kg × '+(prevSet.reps+1))) : '';
+  return '<div class="set-row set-row--active" id="sr-'+s.id+'">' +
+    '<div class="sr-top">' +
+      '<span class="sr-label">'+esc(label)+'</span>' +
+      '<span class="sr-prev-line">'+esc(prevLine)+'</span>' +
+      (targetLine ? '<span class="sr-target-line">→ '+esc(targetLine)+'</span>' : '') +
+      '<button class="sr-skip-lnk" onclick="App.skipSet(\'' + s.id + '\')">Skip</button>'+delBtn+
+    '</div>' +
+    '<div class="sr-compact-row">' +
+      '<div class="sri-ctrl sri-w">' +
+        '<button class="sri-adj" onclick="App.adjWeight(\'' + s.id + '\',-2.5)">−</button>' +
+        '<input class="sri-inp" type="number" inputmode="decimal" step="0.5" min="0" value="'+w+'" ' +
+          'onchange="App.setWeight(\'' + s.id + '\',parseFloat(this.value)||0)" ' +
+          'oninput="App.setWeight(\'' + s.id + '\',parseFloat(this.value)||0)">' +
+        '<button class="sri-adj" onclick="App.adjWeight(\'' + s.id + '\',2.5)">+</button>' +
+        '<span class="sri-kg">kg</span>' +
+      '</div>' +
+      '<div class="sri-ctrl sri-r">' +
+        '<button class="sri-adj" onclick="App.adjReps(\'' + s.id + '\',-1)">−</button>' +
+        '<input class="sri-inp" type="number" inputmode="numeric" step="1" min="0" value="'+r+'" ' +
+          'onchange="App.setReps(\'' + s.id + '\',parseInt(this.value)||0)" ' +
+          'oninput="App.setReps(\'' + s.id + '\',parseInt(this.value)||0)">' +
+        '<button class="sri-adj" onclick="App.adjReps(\'' + s.id + '\',1)">+</button>' +
+      '</div>' +
+      '<button class="sr-tick" onclick="App.completeSet(\'' + s.id + '\')" aria-label="Complete">✓</button>' +
+    '</div></div>';
+}
+
+
+function mkColl(id, label, body) {
+  return '<details class="ex-coll"><summary class="ec-sum">' + label + '</summary><div class="ec-body">' + body + '</div></details>';
+}
+
+function fmtRestLabel(sec) {
+  if (sec >= 60) return Math.floor(sec/60) + (sec%60 ? ':'+('0'+(sec%60)).slice(-2) : '') + ' min';
+  return sec + 's';
+}
+
+function scrollExIntoView(el, center) {
+  var body = document.getElementById('wo-body');
+  if (!body || !el) return;
+  var elTop = el.offsetTop;
+  var target = center
+    ? Math.max(0, elTop - (body.offsetHeight - el.offsetHeight) / 2)
+    : Math.max(0, elTop - 70);
+  body.scrollTo({ top: target, behavior: 'smooth' });
+}
+
+// ============================================================
+// WORKOUT SUMMARY
+// ============================================================
+function renderSummary(session, db) {
+  var day = DAYS[session.dayN];
+  var dur = session.durationMs ? fmtTime(session.durationMs) : '—';
+  var workingSets = session.sets.filter(function(s){ return s.completed && s.setType!=='warmup'; });
+  var totalReps = workingSets.reduce(function(a,s){ return a+s.reps; }, 0);
+  var prs = session.prs || [];
+
+  // Volume by muscle
+  var vol = calcVolume([session], null);
+  var volRows = Object.keys(vol).sort().filter(function(m){ return vol[m]>0; }).map(function(m) {
+    var mdef = MUSCLES[m];
+    return '<div class="sum-vol-row"><span class="sum-vol-m">' + (mdef?mdef.label:m) + '</span><span class="sum-vol-v">' + round1(vol[m]) + ' sets</span></div>';
+  }).join('');
+
+  var prRows = prs.length ? '<div class="sum-prs">' + prs.map(function(pr){ return '<div class="sum-pr-item">✦ ' + esc(pr.msg) + '</div>'; }).join('') + '</div>' : '';
+
+  return '<div class="sum-wrap">' +
+    '<div class="sum-header">' +
+      '<div class="sum-tag">Workout Complete</div>' +
+      '<div class="sum-title">Day ' + session.dayN + ' · ' + day.title + '</div>' +
+    '</div>' +
+    '<div class="sum-stats">' +
+      '<div class="sum-stat"><div class="ss-val">' + dur + '</div><div class="ss-lbl">Duration</div></div>' +
+      '<div class="sum-stat"><div class="ss-val">' + workingSets.length + '</div><div class="ss-lbl">Working sets</div></div>' +
+      '<div class="sum-stat"><div class="ss-val">' + totalReps + '</div><div class="ss-lbl">Total reps</div></div>' +
+    '</div>' +
+    prRows +
+    '<div class="sum-section"><div class="sum-sec-title">Volume</div>' + (volRows||'<div class="sum-none">No sets logged</div>') + '</div>' +
+    '<button class="btn-primary btn-xl sum-done-btn" onclick="App.closeSummary()">Done</button>' +
+    '</div>';
+}
+
+
+'use strict';
+// ============================================================
+// VOLUME SCREEN
+// ============================================================
+function renderVolume(db) {
+  var ws = weekStart();
+  var weekOffset = (db._volumeWeekOffset || 0);
+  var viewWs = ws + weekOffset * 7*24*60*60*1000;
+  var prevWs  = viewWs - 7*24*60*60*1000;
+
+  var thisSess = sessionsInWeek(db, viewWs);
+  var prevSess = sessionsInWeek(db, prevWs);
+  var thisVol  = calcVolume(thisSess, null);
+  var prevVol  = calcVolume(prevSess, null);
+
+  // planned volume per muscle (from all exercises across 4 days, using sDef)
+  var plannedMin = {}, plannedMax = {};
+  Object.keys(EX).forEach(function(exId) {
+    var ex = EX[exId];
+    Object.keys(ex.muscles).forEach(function(m) {
+      var contrib = ex.muscles[m];
+      var minSets = ex.sMin * contrib;
+      var maxSets = ex.sMax * contrib;
+      plannedMin[m] = (plannedMin[m]||0) + minSets;
+      plannedMax[m] = (plannedMax[m]||0) + maxSets;
+    });
+  });
+
+  var isThisWeek = weekOffset === 0;
+  var isLastWeek = weekOffset === -1;
+  var weekLabel = isThisWeek ? 'This week' : isLastWeek ? 'Last week' : fmtShortDate(viewWs) + ' – ' + fmtShortDate(weekEnd(viewWs));
+
+  var muscleRows = Object.keys(MUSCLES).map(function(mId) {
+    var mdef = MUSCLES[mId];
+    var done  = round1(thisVol[mId] || 0);
+    var prev  = round1(prevVol[mId] || 0);
+    var tMin  = mdef.min, tMax = mdef.max;
+    var pMin  = round1(plannedMin[mId] || 0);
+    var pMax  = round1(plannedMax[mId] || 0);
+    var pct   = tMax > 0 ? Math.min(100, done / tMax * 100) : 0;
+    var status, statusCls;
+    if      (done === 0)       { status='—';            statusCls='vs-none';  }
+    else if (done < tMin)      { status='Below target'; statusCls='vs-low';   }
+    else if (done <= tMax)     { status='On track';     statusCls='vs-ok';    }
+    else if (done <= tMax*1.2) { status='Target reached'; statusCls='vs-hit'; }
+    else                       { status='Above target'; statusCls='vs-over';  }
+
+    var diff = done - prev;
+    var diffTxt = diff > 0 ? '+' + round1(diff) : round1(diff);
+    var diffCls = diff > 0 ? 'vd-up' : diff < 0 ? 'vd-dn' : 'vd-flat';
+
+    return '<div class="vol-row" onclick="App.showMuscleDetail(\'' + mId + '\')">' +
+      '<div class="vr-top">' +
+        '<span class="vr-name">' + mdef.label + '</span>' +
+        '<span class="vr-done">' + done + '</span>' +
+        '<span class="vr-status ' + statusCls + '">' + status + '</span>' +
+      '</div>' +
+      '<div class="vr-bar"><div class="vr-fill" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+      '<div class="vr-meta">' +
+        '<span class="vr-target">Target ' + tMin + '–' + tMax + ' · Planned ~' + pMin + (pMin!==pMax?'–'+pMax:'') + '</span>' +
+        '<span class="vr-prev ' + diffCls + '">vs last: ' + diffTxt + '</span>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+
+  return '<div class="vol-wrap"><div class="screen-title">Volume</div>' +
+    '<div class="vol-header">' +
+      '<button class="btn-nav" onclick="App.volNavWeek(-1)">‹ Prev</button>' +
+      '<span class="vol-wlabel">' + weekLabel + '</span>' +
+      '<button class="btn-nav" onclick="App.volNavWeek(1)"' + (isThisWeek ? ' disabled' : '') + '>Next ›</button>' +
+    '</div>' +
+    '<div class="vol-sessions">' + thisSess.length + ' session' + (thisSess.length!==1?'s':'') + ' this week</div>' +
+    '<div class="vol-rows">' + (muscleRows || '<div class="vol-empty">No data yet. Complete workouts to see volume.</div>') + '</div>' +
+    '</div>';
+}
+
+// ---- Muscle detail modal ----
+function renderMuscleDetail(mId, db) {
+  var mdef = MUSCLES[mId];
+  var ws = weekStart() + (db._volumeWeekOffset||0)*7*24*60*60*1000;
+  // last 8 weeks
+  var weeks = [];
+  for (var i = 7; i >= 0; i--) {
+    var wStart = ws - i*7*24*60*60*1000;
+    var wSess  = sessionsInWeek(db, wStart);
+    var wVol   = calcVolume(wSess, null);
+    weeks.push({ wStart: wStart, vol: round1(wVol[mId]||0) });
+  }
+
+  // Contributing exercises (this week)
+  var thisSess = sessionsInWeek(db, ws);
+  var exContribs = {};
+  thisSess.forEach(function(sess) {
+    sess.sets.forEach(function(s) {
+      if (!s.completed || s.skipped || s.setType==='warmup') return;
+      var ex = EX[s.exId];
+      if (!ex || !ex.muscles[mId]) return;
+      var mult = (ex.uni && s.side) ? 0.5 : 1;
+      exContribs[s.exId] = (exContribs[s.exId]||0) + ex.muscles[mId]*mult;
+    });
+  });
+
+  var maxVol = Math.max.apply(null, weeks.map(function(w){ return w.vol; }).concat([1]));
+  var chartBars = weeks.map(function(w) {
+    var h = maxVol > 0 ? Math.round(w.vol / maxVol * 60) : 0;
+    var lbl = new Date(w.wStart).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    return '<div class="chart-col"><div class="chart-bar" style="height:' + h + 'px"></div><div class="chart-lbl">' + lbl.replace(' ','<br>') + '</div><div class="chart-val">' + w.vol + '</div></div>';
+  }).join('');
+
+  var exRows = Object.keys(exContribs).map(function(exId) {
+    return '<div class="md-ex-row"><span class="md-ex-name">' + esc(EX[exId].name) + '</span><span class="md-ex-v">' + round1(exContribs[exId]) + ' sets</span></div>';
+  }).join('') || '<div class="md-none">No exercises logged this week.</div>';
+
+  var fourWkAvg = round1(weeks.slice(4).reduce(function(a,w){ return a+w.vol; },0)/4);
+
+  return '<div class="md-wrap">' +
+    '<div class="md-header">' +
+      '<h2 class="md-title">' + mdef.label + '</h2>' +
+      '<button class="md-close" onclick="App.closeMuscleDetail()">✕</button>' +
+    '</div>' +
+    '<div class="md-stats">' +
+      '<div class="md-stat"><div class="mds-val">' + round1(calcVolume(thisSess,null)[mId]||0) + '</div><div class="mds-lbl">This week</div></div>' +
+      '<div class="md-stat"><div class="mds-val">' + fourWkAvg + '</div><div class="mds-lbl">4wk avg</div></div>' +
+      '<div class="md-stat"><div class="mds-val">' + mdef.min + '–' + mdef.max + '</div><div class="mds-lbl">Target</div></div>' +
+    '</div>' +
+    '<div class="md-chart"><div class="chart-bars">' + chartBars + '</div></div>' +
+    '<div class="md-section"><div class="md-sec-title">Exercises this week</div>' + exRows + '</div>' +
+    '</div>';
+}
+
+// ============================================================
+// HISTORY SCREEN
+// ============================================================
+function renderHistory(db) {
+  if (!db.completedSessions.length) {
+    return '<div class="hist-empty"><div class="he-icon">—</div><div class="he-text">No completed workouts yet.</div></div>';
+  }
+
+  var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
+  var rows = sessions.map(function(sess) {
+    var day = DAYS[sess.dayN];
+    var dur = sess.durationMs ? fmtTime(sess.durationMs) : '—';
+    var workingSets = sess.sets.filter(function(s){ return s.completed && s.setType!=='warmup'; }).length;
+    var prs = (sess.prs||[]).length;
+
+    return '<div class="hist-item" id="hi-'+sess.id+'">' +
+      '<div class="hi-summary" onclick="App.toggleHistItem(\'' + sess.id + '\')">' +
+        '<div class="hi-left">' +
+          '<div class="hi-date">' + fmtDate(sess.startTime) + '</div>' +
+          '<div class="hi-title">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
+        '</div>' +
+        '<div class="hi-right">' +
+          '<span class="hi-meta">' + dur + '</span>' +
+          '<span class="hi-meta">' + workingSets + ' sets</span>' +
+          (prs ? '<span class="hi-pr">' + prs + ' PR</span>' : '') +
+          '<span class="hi-chev">›</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hi-detail hidden" id="hd-'+sess.id+'">' +
+        renderSessionDetail(sess) +
+        '<div class="hi-actions">' +
+          '<button class="btn-ghost btn-sm btn-danger" onclick="App.deleteSession(\'' + sess.id + '\')">Delete session</button>' +
+        '</div>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+
+  return '<div class="hist-wrap">' + rows + '</div>';
+}
+
+function renderSessionDetail(sess) {
+  var day = DAYS[sess.dayN];
+  var byEx = {};
+  sess.sets.forEach(function(s) { (byEx[s.exId]=byEx[s.exId]||[]).push(s); });
+
+  var exBlocks = day.exercises.map(function(exId) {
+    var sets = byEx[exId] || [];
+    if (!sets.length) return '';
+    var ex = EX[exId];
+    var setLines = sets.map(function(s) {
+      var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'S' + s.setNum + (s.side?' '+s.side:'');
+      var status = s.skipped ? 'skipped' : s.completed ? s.weight+' kg × '+s.reps : '—';
+      return '<div class="sd-set"><span class="sd-sl">' + label + '</span><span class="sd-sv">' + status + '</span></div>';
+    }).join('');
+    return '<div class="sd-ex"><div class="sd-ex-name">' + esc(ex.name) + '</div>' + setLines + '</div>';
+  }).join('');
+
+  var prs = (sess.prs||[]).map(function(pr){ return '<div class="sd-pr">✦ ' + esc(pr.msg) + '</div>'; }).join('');
+
+  return '<div class="sess-detail">' + (prs?'<div class="sd-prs">'+prs+'</div>':'') + exBlocks + '</div>';
+}
+
+// ============================================================
+// PROGRAM SCREEN
+// ============================================================
+function renderProgram() {
+  var dayBlocks = [1,2,3,4].map(function(n) {
+    var day = DAYS[n];
+    var exCards = day.exercises.map(function(exId, idx) {
+      return renderProgExCard(exId, idx);
+    }).join('');
+    return '<details class="prog-day" id="pd-' + n + '">' +
+      '<summary class="pd-sum">' +
+        '<span class="pd-num">Day ' + String(n).padStart(2,'0') + '</span>' +
+        '<span class="pd-title">' + esc(day.title) + '</span>' +
+        '<span class="pd-chev"></span>' +
+      '</summary>' +
+      '<div class="pd-body">' +
+        '<p class="pd-goal"><b>Goal:</b> ' + esc(day.goal) + '</p>' +
+        exCards +
+        '<div class="prog-cl"><div class="pcl-title">Day ' + n + ' Checklist</div><ul>' +
+          day.checklist.map(function(c){ return '<li>' + esc(c) + '</li>'; }).join('') +
+        '</ul></div>' +
+      '</div>' +
+    '</details>';
+  }).join('');
+
+  var rulesHtml = '<ul class="prog-rules">' + GLOBAL_RULES.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>';
+  var progHtml  = '<ul class="prog-rules">' + PROGRESSION_RULES.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>';
+
+  return '<div class="prog-wrap">' +
+    '<div class="prog-hero">' +
+      '<div class="prog-kicker">Natural Aesthetics Specialisation</div>' +
+      '<h1 class="prog-title">Adil 4 Day Aesthetic Specialisation Program</h1>' +
+      '<p class="prog-sub">Top 0.1 Percent Natural Aesthetics Focus</p>' +
+      '<p class="prog-goal">Build the visual structure needed for elite natural aesthetics.</p>' +
+    '</div>' +
+    '<details class="prog-section"><summary class="ps-sum">Global Rules</summary><div class="ps-body">' + rulesHtml + '</div></details>' +
+    dayBlocks +
+    '<details class="prog-section"><summary class="ps-sum">Progression System</summary><div class="ps-body">' + progHtml + '</div></details>' +
+    '</div>';
+}
+
+function renderProgExCard(exId, idx) {
+  var ex = EX[exId];
+  var rirDisplay = ex.rirMin===ex.rirMax ? String(ex.rirMin) : ex.rirMin + ' to ' + ex.rirMax;
+  var setsDisplay = ex.sMin===ex.sMax ? String(ex.sDef) : ex.sMin + ' to ' + ex.sMax;
+
+  var specialBox = ex.special
+    ? '<div class="pe-callout pe-drop"><b>' + esc(ex.special.label) + '</b><ul>' + ex.special.lines.map(function(l){ return '<li>'+esc(l)+'</li>'; }).join('') + '</ul></div>'
+    : '';
+  var setupBox = ex.setup
+    ? '<div class="pe-callout pe-info"><b>' + esc(ex.setup.label) + '</b><ul>' + ex.setup.lines.map(function(l){ return '<li>'+esc(l)+'</li>'; }).join('') + '</ul></div>'
+    : '';
+  var whyBox = ex.why
+    ? '<div class="pe-callout pe-info"><b>' + esc(ex.why.label) + '</b> ' + esc(ex.why.text) + '</div>'
+    : '';
+  var optBox = ex.optional
+    ? '<div class="pe-callout pe-opt"><b>' + esc(ex.optional.label) + '</b> ' + esc(ex.optional.text) + '</div>'
+    : '';
+
+  return '<div class="prog-ex">' +
+    '<div class="pe-head">' +
+      '<span class="pe-no">' + String(idx+1).padStart(2,'0') + '</span>' +
+      '<span class="pe-name">' + esc(ex.name) + '</span>' +
+    '</div>' +
+    '<div class="pe-badges">' +
+      '<div class="pe-badge"><span class="pb-l">Sets</span><span class="pb-v">' + setsDisplay + '</span></div>' +
+      '<div class="pe-badge"><span class="pb-l">Reps</span><span class="pb-v">' + ex.rMin + ' to ' + ex.rMax + '</span></div>' +
+      '<div class="pe-badge"><span class="pb-l">RIR</span><span class="pb-v">' + rirDisplay + '</span></div>' +
+      '<div class="pe-badge"><span class="pb-l">Rest</span><span class="pb-v">' + fmtRestLabel(ex.rest) + '</span></div>' +
+      '<div class="pe-badge pe-badge--target"><span class="pb-l">Target</span><span class="pb-v">' + esc(ex.target) + '</span></div>' +
+    '</div>' +
+    specialBox + setupBox + whyBox + optBox +
+    mkProgColl('pcue-'+exId, 'Form cues', ex.cues.length,
+      '<ul class="pe-list">' + ex.cues.map(function(c){ return '<li>'+esc(c)+'</li>'; }).join('') + '</ul>') +
+    mkProgColl('pnote-'+exId, 'Coach notes', null,
+      '<div class="pe-tnf"><b>TNF Tip</b> ' + esc(ex.tnf) + '</div>' +
+      '<div class="pe-cbum"><b>CBum Style Tip</b> ' + esc(ex.cbum) + '</div>') +
+    mkProgColl('perr-'+exId, 'Likely mistakes', ex.mistakes.length,
+      '<ul class="pe-list pe-mist">' + ex.mistakes.map(function(m){ return '<li>'+esc(m)+'</li>'; }).join('') + '</ul>') +
+    '<div class="pe-hard"><span class="pe-hard-l">Hard Rule</span> ' + esc(ex.hard) + '</div>' +
+    '</div>';
+}
+
+function mkProgColl(id, label, count, body) {
+  var countBadge = count ? '<span class="pcc">' + count + '</span>' : '';
+  return '<details class="pe-coll"><summary class="pec-sum">' + label + countBadge + '</summary><div class="pec-body">' + body + '</div></details>';
+}
+
+
+
+// PATCHED renderHistory
+function renderHistory(db) {
+  var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
+  var rows = sessions.map(function(sess) {
+    var day = DAYS[sess.dayN];
+    var dur = sess.durationMs ? fmtTime(sess.durationMs) : '—';
+    var workingSets = sess.sets.filter(function(s){ return s.completed && s.setType!=='warmup'; }).length;
+    var prs = (sess.prs||[]).length;
+    return '<div class="hist-item" id="hi-'+sess.id+'">' +
+      '<div class="hi-summary" onclick="App.toggleHistItem(\'' + sess.id + '\')">' +
+        '<div class="hi-left">' +
+          '<div class="hi-date">' + fmtDate(sess.startTime) + '</div>' +
+          '<div class="hi-title">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
+        '</div>' +
+        '<div class="hi-right">' +
+          '<span class="hi-meta">' + dur + '</span>' +
+          '<span class="hi-meta">' + workingSets + ' sets</span>' +
+          (prs ? '<span class="hi-pr">' + prs + ' PR</span>' : '') +
+          '<span class="hi-chev">›</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hi-detail hidden" id="hd-'+sess.id+'">' +
+        renderSessionDetail(sess) +
+        '<div class="hi-actions">' +
+          '<button class="btn-ghost btn-sm btn-danger" onclick="App.deleteSession(\'' + sess.id + '\')">Delete session</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  var mainContent = sessions.length === 0 ? '<div class="hist-empty"><div class="he-icon">—</div><div class="he-text">No completed workouts yet.</div></div>' : '<div class="hist-wrap">' + rows + '</div>';
+  var dataHtml = '<details class="data-mgmt"><summary class="dm-sum">Data &amp; Settings</summary>' +
+    '<div class="dm-body">' +
+      '<div class="dm-row">' +
+        '<button class="btn-ghost btn-sm" onclick="App.doExport()">Export backup</button>' +
+        '<label class="btn-ghost btn-sm" for="importFile" style="cursor:pointer">Import backup</label>' +
+      '</div>' +
+      '<div class="dm-row">' +
+        '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearActiveSession()">Clear active session</button>' +
+        '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearWorkoutData()">Clear all history</button>' +
+      '</div>' +
+    '</div></details>';
+  return '<div class="screen-title">History</div>' + mainContent + dataHtml;
+}
+
+
+
+// ============================================================
+// APP — navigation and all action handlers
+// ============================================================
+var db;
+var App = (function() {
+
+  /* ── screen nav ── */
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    var el = document.getElementById('scr-' + name);
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(function(b) { b.classList.toggle('nav-tab--on', b.dataset.screen === name); });
+    // Render on demand
+    if (name === 'today')   { el.innerHTML = renderToday(db); }
+    if (name === 'volume')  { el.innerHTML = renderVolume(db); }
+    if (name === 'history') { el.innerHTML = renderHistory(db); }
+    // Program is pre-rendered; only refresh on first visit
+    if (name === 'program' && !el.dataset.rendered) {
+      el.innerHTML = renderProgram();
+      el.dataset.rendered = '1';
+    }
+    window._currentScreen = name;
+  }
+
+  /* ── today ── */
+  function setNextDay(n) {
+    // Just visual — actual rotation is based on lastCompletedDay
+    // This lets user override for one session by calling startWorkout(n) directly
+    db._nextDayOverride = parseInt(n, 10);
+    dbSave(db);
+    showScreen('today');
+  }
+
+  function startWorkout(dayN) {
+    if (db.activeSession && !db.activeSession.finished) {
+      if (!confirm('A workout is already in progress. Discard it and start a new one?')) return;
+    }
+    var sess = createSession(dayN);
+    sess.sets = initWorkoutSets(dayN, db);
+    sess.exNotes = {};
+    db.activeSession = sess;
+    dbSave(db);
+    openWorkoutOverlay();
+  }
+
+  function resumeWorkout() {
+    if (!db.activeSession) return;
+    openWorkoutOverlay();
+  }
+
+  function discardSession() {
+    if (!confirm('Discard the current workout session? This cannot be undone.')) return;
+    db.activeSession = null;
+    dbSave(db);
+    showScreen('today');
+  }
+
+  function openWorkoutOverlay() {
+    renderWorkout(db);
+    document.getElementById('workout-overlay').classList.remove('hidden');
+    document.getElementById('bottom-nav').classList.add('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWorkout() {
+    if (db.activeSession && !db.activeSession.finished) {
+      var completedAny = db.activeSession.sets.some(function(s){ return s.completed; });
+      if (completedAny) {
+        if (!confirm('Leave workout? Your logged sets are saved. You can resume later.')) return;
+      }
+    }
+    document.getElementById('workout-overlay').classList.add('hidden');
+    document.getElementById('bottom-nav').classList.remove('hidden');
+    document.body.style.overflow = '';
+    showScreen('today');
+  }
+
+  /* ── set mutations (live workout) ── */
+  function getSet(setId) {
+    if (!db.activeSession) return null;
+    return db.activeSession.sets.find(function(s){ return s.id === setId; }) || null;
+  }
+
+  function setWeight(setId, val) {
+    var s = getSet(setId); if (!s) return;
+    s.weight = Math.max(0, val); dbSave(db);
+    // update displayed input without re-render
+    var inp = document.querySelector('#sr-' + setId + ' .sri-inp');
+    if (inp && document.activeElement !== inp) inp.value = s.weight;
+  }
+  function adjWeight(setId, delta) {
+    var s = getSet(setId); if (!s) return;
+    s.weight = Math.max(0, Math.round((s.weight + delta) * 10) / 10);
+    dbSave(db);
+    var inp = document.querySelector('#sr-' + setId + ' .sri-inp[type="number"]');
+    if (inp) {
+      var row = document.getElementById('sr-' + setId);
+      if (row) { var allInps = row.querySelectorAll('.sri-inp'); if (allInps[0]) allInps[0].value = s.weight; }
+    }
+    // simpler: just update all inputs in the row
+    var row = document.getElementById('sr-' + setId);
+    if (row) { var wi = row.querySelectorAll('.sri-inp')[0]; if (wi) wi.value = s.weight; }
+  }
+  function setReps(setId, val) {
+    var s = getSet(setId); if (!s) return;
+    s.reps = Math.max(0, parseInt(val,10)||0); dbSave(db);
+  }
+  function adjReps(setId, delta) {
+    var s = getSet(setId); if (!s) return;
+    s.reps = Math.max(0, s.reps + delta); dbSave(db);
+    var row = document.getElementById('sr-' + setId);
+    if (row) { var ri = row.querySelectorAll('.sri-inp')[1]; if (ri) ri.value = s.reps; }
+  }
+  function setRir(setId, val) {
+    var s = getSet(setId); if (!s) return;
+    s.rir = parseInt(val,10)||0; dbSave(db);
+    rerenderSetRow(setId);
+  }
+  function saveExNote(exId, val) {
+    if (!db.activeSession) return;
+    if (!db.activeSession.exNotes) db.activeSession.exNotes = {};
+    db.activeSession.exNotes[exId] = val;
+    dbSave(db);
+  }
+
+  function completeSet(setId) {
+    var s = getSet(setId); if (!s) return;
+    if (s.reps <= 0) { alert('Enter reps before logging.'); return; }
+    s.completed = true; s.rir = null; s.timestamp = Date.now();
+    dbSave(db);
+    try { navigator.vibrate(80); } catch(e){}
+    rerenderSetRow(setId);
+    var ex = EX[s.exId];
+    if (ex && s.setType !== 'warmup') Timer.start(ex.rest);
+    var exId = s.exId, sess = db.activeSession, day = DAYS[sess.dayN];
+    setTimeout(function() {
+      var prescSets = sess.sets.filter(function(ss){
+        return ss.exId===exId&&(ss.setType==='working'||ss.setType==='drop')&&!ss.isAdded;
+      });
+      var allPrescDone = prescSets.length>0&&prescSets.every(function(ss){return ss.completed||ss.skipped;});
+      if (allPrescDone) {
+        var thisCard = document.getElementById('exc-'+exId);
+        if (thisCard) thisCard.outerHTML = renderExCard(exId, sess, db, 'done');
+        var exIdx = day.exercises.indexOf(exId), nextExId = null;
+        for (var _i=exIdx+1;_i<day.exercises.length;_i++) {
+          var _nws=sess.sets.filter(function(ss){return ss.exId===day.exercises[_i]&&(ss.setType==='working'||ss.setType==='drop');});
+          if(_nws.length===0||!_nws.every(function(ss){return ss.completed||ss.skipped;})){nextExId=day.exercises[_i];break;}
+        }
+        if (nextExId) {
+          sess.currentExId = nextExId; dbSave(db);
+          var nc = document.getElementById('exc-'+nextExId);
+          if (nc) nc.outerHTML = renderExCard(nextExId, sess, db, 'current');
+          setTimeout(function(){ var el=document.getElementById('exc-'+nextExId); if(el) scrollExIntoView(el, false); },100);
+        }
+        var exDone=0;
+        day.exercises.forEach(function(eid){
+          var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
+          if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
+        });
+        var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+day.exercises.length+' exercises';
+      } else {
+        var na=document.querySelector('#exc-'+exId+' .set-row--active');
+        if(na) scrollExIntoView(na, true);
+        updateExCardDoneState(exId);
+      }
+    }, 150);
+  }
+
+  function undoSet(setId) {
+    var s = getSet(setId); if (!s) return;
+    s.completed = false; s.timestamp = null;
+    dbSave(db);
+    rerenderSetRow(setId);
+    updateExCardDoneState(s.exId);
+  }
+  function editSet(setId) { undoSet(setId); }
+
+  function skipSet(setId) {
+    var s = getSet(setId); if (!s) return;
+    s.skipped = true; s.completed = false;
+    dbSave(db);
+    rerenderSetRow(setId);
+    updateExCardDoneState(s.exId);
+  }
+  function undoSkip(setId) {
+    var s = getSet(setId); if (!s) return;
+    s.skipped = false;
+    dbSave(db);
+    rerenderSetRow(setId);
+    updateExCardDoneState(s.exId);
+  }
+
+  function addWorkingSet(exId) {
+    if (!db.activeSession) return;
+    var ex = EX[exId];
+    var exWS = db.activeSession.sets.filter(function(s){ return s.exId===exId&&s.setType==='working'; });
+    var nextNum = exWS.length ? Math.max.apply(null,exWS.map(function(s){return s.setNum||1;}))+1 : (ex.sDef+1);
+    function mkAdded(side) {
+      var ref = exWS.filter(function(s){return s.side===(side||null);});
+      ref = ref[ref.length-1] || exWS[exWS.length-1];
+      var ns = createSet(exId, nextNum, 'working', side||null);
+      ns.weight = ref ? ref.weight : 0; ns.reps = ref ? ref.reps : ex.rMin;
+      ns.rir = null; ns.suggestedWeight = ns.weight; ns.suggestedReps = ns.reps; ns.isAdded = true;
+      return ns;
+    }
+    var toAdd = ex.uni ? [mkAdded('L'), mkAdded('R')] : [mkAdded(null)];
+    var dropIdx = db.activeSession.sets.findIndex(function(s){return s.exId===exId&&s.setType==='drop';});
+    toAdd.forEach(function(ns){ if(dropIdx>=0) db.activeSession.sets.splice(dropIdx++,0,ns); else db.activeSession.sets.push(ns); });
+    dbSave(db); rerenderExSets(exId);
+  }
+
+  function addWarmupSet(exId) {
+    if (!db.activeSession) return;
+    var ex = EX[exId];
+    var ws = createSet(exId, 0, 'warmup', null);
+    ws.weight = 0; ws.reps = ex.rMin; ws.rir = null; ws.isAdded = true;
+    var firstIdx = db.activeSession.sets.findIndex(function(s){ return s.exId===exId; });
+    if (firstIdx >= 0) db.activeSession.sets.splice(firstIdx, 0, ws);
+    else db.activeSession.sets.push(ws);
+    dbSave(db); rerenderExSets(exId);
+  }
+
+  /* ── re-render helpers ── */
+  function rerenderSetRow(setId) {
+    var s = getSet(setId);
+    if (!s) return;
+    var ex = EX[s.exId];
+    var lastSess = getLastExSession(db, s.exId);
+    var prevSet = lastSess ? (lastSess.sets.find(function(ps){
+      return ps.setNum===s.setNum && ps.side===s.side && ps.setType===s.setType;
+    })||null) : null;
+    var rowEl = document.getElementById('sr-' + setId);
+    if (rowEl) rowEl.outerHTML = renderSetRow(s, prevSet, ex);
+  }
+
+  function rerenderExSets(exId) {
+    var container = document.getElementById('sets-' + exId);
+    if (!container || !db.activeSession) return;
+    var ex = EX[exId];
+    var exSets = db.activeSession.sets.filter(function(s){ return s.exId===exId; });
+    var lastSess = getLastExSession(db, exId);
+    container.innerHTML = exSets.map(function(s) {
+      var prevSet = lastSess ? (lastSess.sets.find(function(ps){
+        return ps.setNum===s.setNum && ps.side===s.side && ps.setType===s.setType;
+      })||null) : null;
+      return renderSetRow(s, prevSet, ex);
+    }).join('');
+  }
+
+  function updateExCardDoneState(exId) {
+    if (!db.activeSession) return;
+    var sess = db.activeSession, day = DAYS[sess.dayN];
+    var workingSets = sess.sets.filter(function(s){ return s.exId===exId&&(s.setType==='working'||s.setType==='drop'); });
+    var allDone = workingSets.length>0&&workingSets.every(function(s){ return s.completed||s.skipped; });
+    var card = document.getElementById('exc-'+exId);
+    if (card && allDone) card.outerHTML = renderExCard(exId, sess, db, 'done');
+    var exDone=0;
+    day.exercises.forEach(function(eid){
+      var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
+      if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
+    });
+    var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+day.exercises.length+' exercises';
+  }
+
+  /* ── finish workout ── */
+  function finishWorkout() {
+    if (!db.activeSession) return;
+    var sess = db.activeSession;
+    var incompleteSets = sess.sets.filter(function(s){
+      return s.setType==='working' && !s.completed && !s.skipped;
+    }).length;
+    if (incompleteSets > 0) {
+      if (!confirm(incompleteSets + ' planned set(s) are not yet logged. Finish anyway?')) return;
+    }
+    sess.endTime = Date.now();
+    sess.durationMs = sess.endTime - sess.startTime;
+    sess.finished = true;
+    // Detect PRs
+    db.completedSessions.push(sess);  // add first so detectPRs can compare
+    sess.prs = detectPRs(db, sess);
+    db.lastCompletedDay = sess.dayN;
+    delete db._nextDayOverride;
+    db.activeSession = null;
+    dbSave(db);
+    // Show summary
+    showSummary(sess);
+  }
+
+  function showSummary(sess) {
+    var modal = document.getElementById('modal-overlay');
+    modal.innerHTML = renderSummary(sess, db);
+    modal.classList.remove('hidden');
+  }
+
+  function closeSummary() {
+    var modal = document.getElementById('modal-overlay');
+    modal.classList.add('hidden');
+    document.getElementById('workout-overlay').classList.add('hidden');
+    document.getElementById('bottom-nav').classList.remove('hidden');
+    document.body.style.overflow = '';
+    showScreen('today');
+  }
+
+  /* ── volume ── */
+  function volNavWeek(dir) {
+    if (!db._volumeWeekOffset) db._volumeWeekOffset = 0;
+    db._volumeWeekOffset = Math.min(0, db._volumeWeekOffset + dir);
+    dbSave(db);
+    showScreen('volume');
+  }
+
+  function showMuscleDetail(mId) {
+    var modal = document.getElementById('modal-overlay');
+    modal.innerHTML = renderMuscleDetail(mId, db);
+    modal.classList.remove('hidden');
+  }
+  function closeMuscleDetail() {
+    document.getElementById('modal-overlay').classList.add('hidden');
+  }
+
+  /* ── history ── */
+  function toggleHistItem(sessId) {
+    var det = document.getElementById('hd-' + sessId);
+    var chev = document.querySelector('#hi-' + sessId + ' .hi-chev');
+    if (!det) return;
+    det.classList.toggle('hidden');
+    if (chev) chev.textContent = det.classList.contains('hidden') ? '›' : '‹';
+  }
+  function deleteSession(sessId) {
+    if (!confirm('Delete this workout session? This cannot be undone.')) return;
+    db.completedSessions = db.completedSessions.filter(function(s){ return s.id !== sessId; });
+    dbSave(db);
+    showScreen('history');
+  }
+
+  /* ── export / import ── */
+  function doExport() { exportBackup(db); }
+  function doImport() { document.getElementById('importFile').click(); }
+  function handleImport(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        db = importBackup(e.target.result, db);
+        dbSave(db);
+        alert('Backup restored.');
+        location.reload();
+      } catch(err) { alert('Import failed: ' + err.message); }
+    };
+    reader.readAsText(file);
+  }
+
+  /* ── clear data ── */
+  function clearWorkoutData() {
+    if (!confirm('Clear ALL workout history? This cannot be undone.')) return;
+    db.completedSessions = [];
+    db.activeSession = null;
+    db.lastCompletedDay = null;
+    dbSave(db);
+    showScreen('today');
+  }
+  function clearActiveSession() {
+    if (!confirm('Clear the current active session only?')) return;
+    db.activeSession = null;
+    dbSave(db);
+    showScreen('today');
+  }
+
+  function expandExCard(exId) {
+    if (!db.activeSession) return;
+    var sess = db.activeSession, oldId = sess.currentExId;
+    if (oldId && oldId !== exId) {
+      var oc = document.getElementById('exc-'+oldId);
+      if (oc) {
+        var ows=sess.sets.filter(function(s){return s.exId===oldId&&(s.setType==='working'||s.setType==='drop');});
+        oc.outerHTML = renderExCard(oldId, sess, db, ows.length>0&&ows.every(function(s){return s.completed||s.skipped;}) ? 'done' : 'future');
+      }
+    }
+    sess.currentExId = exId; dbSave(db);
+    var card = document.getElementById('exc-'+exId);
+    if (card) card.outerHTML = renderExCard(exId, sess, db, 'current');
+    setTimeout(function(){ var nc=document.getElementById('exc-'+exId); if(nc) scrollExIntoView(nc, false); },100);
+  }
+
+  function deleteSet(setId) {
+    if (!db.activeSession) return;
+    var s = getSet(setId); if (!s||!s.isAdded) return;
+    if (!confirm('Remove this set?')) return;
+    var exId = s.exId;
+    db.activeSession.sets = db.activeSession.sets.filter(function(ss){ return ss.id!==setId; });
+    dbSave(db); rerenderExSets(exId);
+  }
+
+  return {
+    showScreen: showScreen,
+    setNextDay: setNextDay,
+    startWorkout: startWorkout,
+    resumeWorkout: resumeWorkout,
+    discardSession: discardSession,
+    closeWorkout: closeWorkout,
+    finishWorkout: finishWorkout,
+    closeSummary: closeSummary,
+    completeSet: completeSet,
+    undoSet: undoSet,
+    editSet: editSet,
+    skipSet: skipSet,
+    undoSkip: undoSkip,
+    adjWeight: adjWeight,
+    setWeight: setWeight,
+    adjReps: adjReps,
+    setReps: setReps,
+    setRir: setRir,
+    addWorkingSet: addWorkingSet,
+    addWarmupSet: addWarmupSet,
+    saveExNote: saveExNote,
+    expandExCard: expandExCard,
+    deleteSet: deleteSet,
+    volNavWeek: volNavWeek,
+    showMuscleDetail: showMuscleDetail,
+    closeMuscleDetail: closeMuscleDetail,
+    toggleHistItem: toggleHistItem,
+    deleteSession: deleteSession,
+    doExport: doExport,
+    doImport: doImport,
+    handleImport: handleImport,
+    clearWorkoutData: clearWorkoutData,
+    clearActiveSession: clearActiveSession,
+  };
+})();
+
+// ============================================================
+// INIT
+// ============================================================
+function initApp() {
+  db = dbLoad();
+
+  // Close modal overlay on backdrop click
+  var modal = document.getElementById('modal-overlay');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  }
+
+  // Bottom nav
+  document.querySelectorAll('.nav-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      App.showScreen(btn.dataset.screen);
+    });
+  });
+
+  // Import file input
+  var imp = document.getElementById('importFile');
+  if (imp) imp.addEventListener('change', function(e) { App.handleImport(e.target.files[0]); });
+
+  // Restore timer if running
+  Timer.restore();
+
+  // Show today by default
+  App.showScreen('today');
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+
+</script>
+
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
