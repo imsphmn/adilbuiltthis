@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adil-gym-shell-v1';
+const CACHE_NAME = 'adil-gym-shell-v2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,6 +7,37 @@ const APP_SHELL = [
   './icon-192.png',
   './icon-512.png'
 ];
+
+function shouldTransformIndex(request, response) {
+  if (!response || response.status !== 200 || response.type !== 'basic') return false;
+  if (request.mode === 'navigate') return true;
+  var url = new URL(request.url);
+  return url.pathname.endsWith('/index.html') || url.pathname.endsWith('/');
+}
+
+function openCoachSections(html) {
+  return html
+    .replace(/<details class=\"ex-coll\">/g, '<details class=\"ex-coll\" open>')
+    .replace(/<details class=\"pe-coll\">/g, '<details class=\"pe-coll\" open>');
+}
+
+function transformIndexResponse(request, response) {
+  return response.text().then(function (html) {
+    var transformed = openCoachSections(html);
+    var headers = new Headers(response.headers);
+    headers.set('content-type', 'text/html; charset=utf-8');
+    var transformedResponse = new Response(transformed, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: headers
+    });
+    var cacheCopy = transformedResponse.clone();
+    caches.open(CACHE_NAME).then(function (cache) {
+      cache.put(request, cacheCopy);
+    });
+    return transformedResponse;
+  });
+}
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -37,6 +68,9 @@ self.addEventListener('fetch', function (event) {
 
   event.respondWith(
     fetch(event.request).then(function (response) {
+      if (shouldTransformIndex(event.request, response)) {
+        return transformIndexResponse(event.request, response);
+      }
       if (response && response.status === 200 && response.type === 'basic') {
         var copy = response.clone();
         caches.open(CACHE_NAME).then(function (cache) {
