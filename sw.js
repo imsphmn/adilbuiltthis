@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adil-gym-shell-v4';
+const CACHE_NAME = 'adil-gym-shell-v5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -19,6 +19,39 @@ function openCoachSections(html) {
   return html
     .replace(/<details class=\"ex-coll\">/g, '<details class=\"ex-coll\" open>')
     .replace(/<details class=\"pe-coll\">/g, '<details class=\"pe-coll\" open>');
+}
+
+function applyBlueTheme(html) {
+  var replacements = [
+    [/content=\"#1a1816\"/g, 'content="#090d1a"'],
+    [/<title>Adil Gym<\/title>/g, '<title>Adil · Aesthetic Program</title>'],
+    [/--bg:\s*[^;]+;/g, '--bg:         oklch(0.100 0.015 255);'],
+    [/--bg-soft:\s*[^;]+;/g, '--bg-soft:    oklch(0.135 0.016 255);'],
+    [/--card:\s*[^;]+;/g, '--card:       oklch(0.158 0.018 255);'],
+    [/--card-hi:\s*[^;]+;/g, '--card-hi:    oklch(0.192 0.022 255);'],
+    [/--line:\s*[^;]+;/g, '--line:       oklch(0.280 0.025 255);'],
+    [/--line-soft:\s*[^;]+;/g, '--line-soft:  oklch(0.220 0.020 255);'],
+    [/--text:\s*[^;]+;/g, '--text:       oklch(0.960 0.004 220);'],
+    [/--muted:\s*[^;]+;/g, '--muted:      oklch(0.680 0.014 230);'],
+    [/--faint:\s*[^;]+;/g, '--faint:      oklch(0.500 0.012 225);'],
+    [/--accent:\s*[^;]+;/g, '--accent:     oklch(0.720 0.180 240);'],
+    [/--accent-dk:\s*[^;]+;/g, '--accent-dk:  oklch(0.620 0.165 240);'],
+    [/--accent-bg:\s*[^;]+;/g, '--accent-bg:  oklch(0.720 0.180 240 / 0.12);'],
+    [/--accent-ln:\s*[^;]+;/g, '--accent-ln:  oklch(0.720 0.180 240 / 0.30);'],
+    [/--steel:\s*[^;]+;/g, '--steel:      oklch(0.740 0.055 235);'],
+    [/--steel-bg:\s*[^;]+;/g, '--steel-bg:   oklch(0.740 0.055 235 / 0.10);'],
+    [/--danger:\s*[^;]+;/g, '--danger:     oklch(0.720 0.148 30);'],
+    [/--danger-bg:\s*[^;]+;/g, '--danger-bg:  oklch(0.720 0.148 30 / 0.10);'],
+    [/--danger-ln:\s*[^;]+;/g, '--danger-ln:  oklch(0.720 0.148 30 / 0.30);'],
+    [/--ok:\s*[^;]+;/g, '--ok:         oklch(0.778 0.132 148);'],
+    [/--ok-bg:\s*[^;]+;/g, '--ok-bg:      oklch(0.778 0.132 148 / 0.10);'],
+    [/--warn:\s*[^;]+;/g, '--warn:       oklch(0.798 0.128 90);'],
+    [/--warn-bg:\s*[^;]+;/g, '--warn-bg:    oklch(0.798 0.128 90 / 0.10);']
+  ];
+  replacements.forEach(function (pair) {
+    html = html.replace(pair[0], pair[1]);
+  });
+  return html.replace('</style>', '\n#bottom-nav { background: oklch(0.112 0.016 255 / 0.94); }\n.wo-header { background: oklch(0.100 0.015 255 / 0.96); }\n</style>');
 }
 
 function addStallDetection(html) {
@@ -133,7 +166,7 @@ function addUpdateHandling(html) {
 
 function transformIndexResponse(request, response) {
   return response.text().then(function (html) {
-    var transformed = addUpdateHandling(addStallDetection(openCoachSections(html)));
+    var transformed = addUpdateHandling(addStallDetection(openCoachSections(applyBlueTheme(html))));
     var headers = new Headers(response.headers);
     headers.set('content-type', 'text/html; charset=utf-8');
     var transformedResponse = new Response(transformed, {
