@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adil-gym-shell-v3';
+const CACHE_NAME = 'adil-gym-shell-v4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -81,9 +81,59 @@ function addStallDetection(html) {
   return html;
 }
 
+function addUpdateHandling(html) {
+  if (html.indexOf('id="update-banner"') !== -1) return html;
+
+  var updateCss = '\n.update-banner { position:fixed; left:12px; right:12px; bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 10px); z-index:260; max-width:560px; margin:0 auto; display:flex; align-items:center; gap:10px; padding:11px 12px; border:1px solid var(--accent-ln); border-radius:var(--radius-sm); background:oklch(0.18 0.006 60 / 0.96); color:var(--text); box-shadow:0 12px 32px oklch(0 0 0 / 0.34); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }\n' +
+    '.update-banner span { flex:1; font-size:13px; line-height:1.3; color:var(--muted); }\n' +
+    '.update-banner button { flex:none; min-height:34px; border:none; border-radius:9px; padding:0 12px; background:var(--accent); color:oklch(0.12 0.004 60); font-size:13px; font-weight:750; cursor:pointer; }\n' +
+    '.update-banner button:last-child { background:transparent; border:1px solid var(--line); color:var(--muted); padding:0 10px; }\n';
+  html = html.replace('</style>', updateCss + '</style>');
+
+  var updateScript = '<script>\n' +
+    '(function(){\n' +
+    "  if (!('serviceWorker' in navigator)) return;\n" +
+    '  var controllerChanged = false;\n' +
+    '  function showUpdateBanner(message) {\n' +
+    "    if (document.getElementById('update-banner')) return;\n" +
+    "    var el = document.createElement('div');\n" +
+    "    el.id = 'update-banner';\n" +
+    "    el.className = 'update-banner';\n" +
+    "    el.innerHTML = '<span>' + message + '</span><button type=\\\"button\\\" data-action=\\\"reload\\\">Reload</button><button type=\\\"button\\\" data-action=\\\"dismiss\\\">Later</button>';\n" +
+    "    el.querySelector('[data-action=\\\"reload\\\"]').onclick = function(){ location.reload(); };\n" +
+    "    el.querySelector('[data-action=\\\"dismiss\\\"]').onclick = function(){ el.remove(); };\n" +
+    '    document.body.appendChild(el);\n' +
+    '  }\n' +
+    '  function watchWorker(worker) {\n' +
+    '    if (!worker) return;\n' +
+    "    worker.addEventListener('statechange', function(){\n" +
+    "      if (worker.state === 'installed' && navigator.serviceWorker.controller) {\n" +
+    "        showUpdateBanner('Update ready. Reload to use the latest version.');\n" +
+    '      }\n' +
+    '    });\n' +
+    '  }\n' +
+    "  navigator.serviceWorker.addEventListener('controllerchange', function(){\n" +
+    '    if (controllerChanged) return;\n' +
+    '    controllerChanged = true;\n' +
+    "    showUpdateBanner('Update installed. Reload to finish.');\n" +
+    '  });\n' +
+    "  window.addEventListener('load', function(){\n" +
+    '    navigator.serviceWorker.ready.then(function(reg){\n' +
+    '      watchWorker(reg.installing);\n' +
+    '      watchWorker(reg.waiting);\n' +
+    "      reg.addEventListener('updatefound', function(){ watchWorker(reg.installing); });\n" +
+    '      reg.update().catch(function(){});\n' +
+    '      setInterval(function(){ reg.update().catch(function(){}); }, 60 * 60 * 1000);\n' +
+    '    }).catch(function(){});\n' +
+    '  });\n' +
+    '})();\n' +
+    '</script>\n';
+  return html.replace('</body>', updateScript + '</body>');
+}
+
 function transformIndexResponse(request, response) {
   return response.text().then(function (html) {
-    var transformed = addStallDetection(openCoachSections(html));
+    var transformed = addUpdateHandling(addStallDetection(openCoachSections(html)));
     var headers = new Headers(response.headers);
     headers.set('content-type', 'text/html; charset=utf-8');
     var transformedResponse = new Response(transformed, {
