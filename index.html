@@ -295,6 +295,8 @@ p { margin:0; }
 
 /* set add row */
 .set-add-row { display:flex; gap:8px; padding:8px 14px 10px; }
+.workout-add-ex { display:flex; justify-content:center; padding:18px 0 4px; }
+.btn-add-ex { width:100%; max-width:260px; }
 
 /* exercise note */
 .ex-note-input {
@@ -358,6 +360,20 @@ p { margin:0; }
   background:var(--bg-soft); border-radius:24px 24px 0 0;
   padding:20px 18px 32px;
 }
+.addex-wrap { display:grid; gap:16px; }
+.addex-header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.addex-title { font-size:20px; font-weight:750; letter-spacing:-.015em; }
+.addex-close { background:none; border:none; color:var(--muted); font-size:20px; min-width:40px; min-height:40px; cursor:pointer; }
+.addex-section { display:grid; gap:10px; padding:14px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--card); }
+.addex-label { display:block; font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
+.addex-input, .addex-select {
+  width:100%; min-height:44px; border:1px solid var(--line); border-radius:var(--radius-sm);
+  background:var(--bg); color:var(--text); padding:9px 11px; outline:none;
+}
+.addex-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.addex-check { display:flex; align-items:center; gap:9px; color:var(--muted); font-size:14px; }
+.addex-check input { width:18px; height:18px; accent-color:var(--accent); }
+.addex-muted { font-size:13px; color:var(--faint); line-height:1.4; }
 
 /* summary */
 .sum-wrap {}
@@ -1072,6 +1088,8 @@ function createSession(dayN) {
     endTime: null,
     durationMs: null,
     sets: [],
+    exerciseOrder: DAYS[dayN] ? DAYS[dayN].exercises.slice() : [],
+    customExercises: {},
     notes: '',
     finished: false,
   };
@@ -1090,6 +1108,129 @@ function createSet(exId, setNum, setType, side) {
     completed: false,
     skipped: false,
     timestamp: null,
+  };
+}
+
+function newCustomExerciseId() {
+  return 'custom_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+}
+
+function getExerciseDef(exId, session) {
+  if (EX[exId]) return EX[exId];
+  if (session && session.customExercises && session.customExercises[exId]) return session.customExercises[exId];
+  return null;
+}
+
+function getSessionExerciseIds(session) {
+  if (!session) return [];
+  var day = DAYS[session.dayN];
+  var ids = session.exerciseOrder ? session.exerciseOrder.slice() : (day ? day.exercises.slice() : []);
+  session.sets.forEach(function(s) {
+    if (ids.indexOf(s.exId) === -1) ids.push(s.exId);
+  });
+  return ids;
+}
+
+function normaliseSessionExerciseOrder(session) {
+  if (!session) return;
+  if (!session.exerciseOrder) session.exerciseOrder = getSessionExerciseIds(session);
+}
+
+function exerciseOptionsForSession(session) {
+  var used = {};
+  getSessionExerciseIds(session).forEach(function(exId) { used[exId] = true; });
+  return Object.keys(EX).filter(function(exId) {
+    return !used[exId];
+  }).sort(function(a,b) {
+    var ea = EX[a], eb = EX[b];
+    if (ea.day !== eb.day) return ea.day - eb.day;
+    if (ea.order !== eb.order) return ea.order - eb.order;
+    return ea.name.localeCompare(eb.name);
+  });
+}
+
+function createExerciseSetsForSession(exId, ex, db) {
+  var sets = [];
+  var lastSess = getLastExSession(db, exId);
+  var prevSets = lastSess ? lastSess.sets : [];
+  function prevFor(num, side) {
+    for (var i = 0; i < prevSets.length; i++) {
+      var ps = prevSets[i];
+      if (ps.setNum === num && ps.side === (side||null) && ps.setType === 'working') return ps;
+    }
+    return null;
+  }
+  if (ex.uni) {
+    for (var i = 1; i <= ex.sDef; i++) {
+      ['L','R'].forEach(function(side) {
+        var prev = prevFor(i, side);
+        var s = createSet(exId, i, 'working', side);
+        s.weight = prev ? prev.weight : 0;
+        s.reps = prev ? prev.reps : ex.rMin;
+        s.rir = null;
+        s.suggestedWeight = prev ? prev.weight : null;
+        s.suggestedReps = prev ? prev.reps : null;
+        sets.push(s);
+      });
+    }
+  } else {
+    for (var j = 1; j <= ex.sDef; j++) {
+      var prevSet = prevFor(j, null);
+      var ns = createSet(exId, j, 'working', null);
+      ns.weight = prevSet ? prevSet.weight : 0;
+      ns.reps = prevSet ? prevSet.reps : ex.rMin;
+      ns.rir = null;
+      ns.suggestedWeight = prevSet ? prevSet.weight : null;
+      ns.suggestedReps = prevSet ? prevSet.reps : null;
+      sets.push(ns);
+    }
+    if (ex.drop) {
+      var prevDrop = prevSets.find(function(s) { return s.setType === 'drop'; });
+      var ds = createSet(exId, ex.sDef, 'drop', null);
+      ds.weight = prevDrop ? prevDrop.weight : 0;
+      ds.reps = prevDrop ? prevDrop.reps : ex.rMin;
+      ds.rir = null;
+      ds.suggestedWeight = prevDrop ? prevDrop.weight : null;
+      ds.suggestedReps = prevDrop ? prevDrop.reps : null;
+      sets.push(ds);
+    }
+  }
+  return sets;
+}
+
+function makeCustomExerciseDef(form) {
+  var name = (form.name || '').trim();
+  if (!name) throw new Error('Add an exercise name.');
+  var target = (form.target || '').trim() || 'Custom';
+  var muscleId = form.muscleId || 'mid-back';
+  var sets = Math.max(1, Math.min(10, parseInt(form.sets,10) || 3));
+  var rMin = Math.max(1, Math.min(100, parseInt(form.rMin,10) || 8));
+  var rMax = Math.max(rMin, Math.min(100, parseInt(form.rMax,10) || rMin));
+  var rest = Math.max(15, Math.min(600, parseInt(form.rest,10) || 90));
+  var muscles = {};
+  muscles[muscleId] = 1;
+  return {
+    id: form.id,
+    day: 0,
+    order: 0,
+    name: name,
+    sMin: sets,
+    sMax: sets,
+    sDef: sets,
+    rMin: rMin,
+    rMax: rMax,
+    rirMin: 0,
+    rirMax: 1,
+    rest: rest,
+    target: target,
+    uni: !!form.uni,
+    drop: false,
+    muscles: muscles,
+    cues: ['Use the same setup every time.', 'Control the rep and keep the target muscle as the limiter.'],
+    tnf: 'Custom exercise added during this workout.',
+    cbum: 'Keep the rep clean and repeatable.',
+    mistakes: ['Changing setup between sets.', 'Letting another muscle take over.', 'Adding load before the movement is stable.'],
+    hard: 'Only count reps that match the intended target and range.'
   };
 }
 
@@ -1130,7 +1271,7 @@ function calcVolume(sessions, muscleMappings) {
   sessions.forEach(function(sess) {
     sess.sets.forEach(function(s) {
       if (!s.completed || s.skipped || s.setType === 'warmup') return;
-      var ex = EX[s.exId];
+      var ex = getExerciseDef(s.exId, sess);
       if (!ex) return;
       var mmap = (muscleMappings && muscleMappings[s.exId]) ? muscleMappings[s.exId] : ex.muscles;
       var contribution = s.setType === 'drop' ? (ex.dropMuscles || {}) : mmap;
@@ -1170,6 +1311,8 @@ function detectPRs(db, session) {
   var exIds = [];
   session.sets.forEach(function(s) { if (exIds.indexOf(s.exId) === -1) exIds.push(s.exId); });
   exIds.forEach(function(exId) {
+    var ex = getExerciseDef(exId, session);
+    if (!ex) return;
     var historySets = getExHistory(db, exId);
     // Remove sets from current session
     var prevSets = historySets.filter(function(h) { return h.sessionId !== session.id; });
@@ -1179,7 +1322,7 @@ function detectPRs(db, session) {
       // Best weight
       var prevBestWeight = Math.max.apply(null, prevSets.map(function(h) { return h.set.weight; }));
       if (cur.weight > prevBestWeight && cur.weight > 0) {
-        prs.push({ exId: exId, type:'weight', msg: EX[exId].name + ' — new weight record: ' + cur.weight + ' kg' });
+        prs.push({ exId: exId, type:'weight', msg: ex.name + ' — new weight record: ' + cur.weight + ' kg' });
         return;
       }
       // Most reps at same weight
@@ -1187,7 +1330,7 @@ function detectPRs(db, session) {
       if (sameWeight.length > 0) {
         var prevBestReps = Math.max.apply(null, sameWeight.map(function(h) { return h.set.reps; }));
         if (cur.reps > prevBestReps) {
-          prs.push({ exId: exId, type:'reps', msg: EX[exId].name + ' — ' + (cur.reps - prevBestReps) + ' more reps at ' + cur.weight + ' kg' });
+          prs.push({ exId: exId, type:'reps', msg: ex.name + ' — ' + (cur.reps - prevBestReps) + ' more reps at ' + cur.weight + ' kg' });
         }
       }
     });
@@ -1445,52 +1588,7 @@ function initWorkoutSets(dayN, db) {
   var sets = [];
   day.exercises.forEach(function(exId) {
     var ex = EX[exId];
-    var lastSess = getLastExSession(db, exId);
-    var prevSets = lastSess ? lastSess.sets : [];
-
-    function prevFor(num, side) {
-      for (var i = 0; i < prevSets.length; i++) {
-        var ps = prevSets[i];
-        if (ps.setNum === num && ps.side === (side||null) && ps.setType === 'working') return ps;
-      }
-      return null;
-    }
-
-    if (ex.uni) {
-      for (var i = 1; i <= ex.sDef; i++) {
-        ['L','R'].forEach(function(side) {
-          var prev = prevFor(i, side);
-          var s = createSet(exId, i, 'working', side);
-          s.weight = prev ? prev.weight : 0;
-          s.reps   = prev ? prev.reps   : ex.rMin;
-          s.rir    = null;
-          s.suggestedWeight = prev ? prev.weight : null;
-          s.suggestedReps   = prev ? prev.reps   : null;
-          sets.push(s);
-        });
-      }
-    } else {
-      for (var i = 1; i <= ex.sDef; i++) {
-        var prev = prevFor(i, null);
-        var s = createSet(exId, i, 'working', null);
-        s.weight = prev ? prev.weight : 0;
-        s.reps   = prev ? prev.reps   : ex.rMin;
-        s.rir    = null;
-        s.suggestedWeight = prev ? prev.weight : null;
-        s.suggestedReps   = prev ? prev.reps   : null;
-        sets.push(s);
-      }
-      if (ex.drop) {
-        var prevDrop = prevSets.find(function(s) { return s.setType === 'drop'; });
-        var ds = createSet(exId, ex.sDef, 'drop', null);
-        ds.weight = prevDrop ? prevDrop.weight : 0;
-        ds.reps   = prevDrop ? prevDrop.reps   : ex.rMin;
-        ds.rir    = null;
-        ds.suggestedWeight = prevDrop ? prevDrop.weight : null;
-        ds.suggestedReps   = prevDrop ? prevDrop.reps   : null;
-        sets.push(ds);
-      }
-    }
+    sets = sets.concat(createExerciseSetsForSession(exId, ex, db));
   });
   return sets;
 }
@@ -1501,13 +1599,15 @@ function initWorkoutSets(dayN, db) {
 function renderWorkout(db) {
   var sess = db.activeSession;
   if (!sess) return '';
+  normaliseSessionExerciseOrder(sess);
   var day = DAYS[sess.dayN];
+  var exerciseIds = getSessionExerciseIds(sess);
 
   // Count completed working sets
   var totalWorking = sess.sets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; }).length;
   var doneWorking  = sess.sets.filter(function(s){ return (s.setType==='working'||s.setType==='drop') && s.completed; }).length;
   var exDone = 0;
-  day.exercises.forEach(function(exId) {
+  exerciseIds.forEach(function(exId) {
     var exSets = sess.sets.filter(function(s){ return s.exId===exId && (s.setType==='working'||s.setType==='drop') && !s.skipped; });
     var allDone = exSets.length>0 && exSets.every(function(s){ return s.completed||s.skipped; });
     if (allDone) exDone++;
@@ -1515,11 +1615,11 @@ function renderWorkout(db) {
 
   if (!sess.currentExId) {
     var _fx=null;
-    for(var _fi=0;_fi<day.exercises.length;_fi++){
-      var _fws=sess.sets.filter(function(s){return s.exId===day.exercises[_fi]&&(s.setType==='working'||s.setType==='drop');});
-      if(!_fws.every(function(s){return s.completed||s.skipped;})){_fx=day.exercises[_fi];break;}
+    for(var _fi=0;_fi<exerciseIds.length;_fi++){
+      var _fws=sess.sets.filter(function(s){return s.exId===exerciseIds[_fi]&&(s.setType==='working'||s.setType==='drop');});
+      if(!_fws.every(function(s){return s.completed||s.skipped;})){_fx=exerciseIds[_fi];break;}
     }
-    sess.currentExId=_fx||day.exercises[0]; dbSave(db);
+    sess.currentExId=_fx||exerciseIds[0]; dbSave(db);
   }
   var ov = document.getElementById('workout-overlay');
   ov.innerHTML =
@@ -1527,18 +1627,19 @@ function renderWorkout(db) {
       '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
       '<div class="wo-hinfo">' +
         '<div class="wo-htitle">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
-        '<div class="wo-hprog">' + exDone + ' / ' + day.exercises.length + ' exercises</div>' +
+        '<div class="wo-hprog">' + exDone + ' / ' + exerciseIds.length + ' exercises</div>' +
       '</div>' +
       '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
     '</div>' +
     '<div class="wo-body" id="wo-body">' +
-      day.exercises.map(function(exId) {
+      exerciseIds.map(function(exId) {
         var _ws=sess.sets.filter(function(s){return s.exId===exId&&(s.setType==='working'||s.setType==='drop');});
         var _dn=_ws.length>0&&_ws.every(function(s){return s.completed||s.skipped;});
         var _st=_dn?'done':(exId===sess.currentExId?'current':'future');
         return renderExCard(exId, sess, db, _st);
       }).join('') +
       '<div class="wo-finish-section">' +
+        '<div class="workout-add-ex"><button class="btn-ghost btn-add-ex" onclick="App.openAddExercise()">+ Add exercise</button></div>' +
         '<div class="wo-stats">' + doneWorking + ' sets · ' + sess.sets.filter(function(s){return s.completed;}).reduce(function(a,s){return a+s.reps;},0) + ' total reps</div>' +
         '<button class="btn-primary btn-xl" onclick="App.finishWorkout()">Finish Workout</button>' +
       '</div>' +
@@ -1553,9 +1654,10 @@ function renderWorkout(db) {
 }
 
 function renderExCard(exId, sess, db, exState) {
-  var ex = EX[exId];
-  var day = DAYS[sess.dayN];
-  var exOrder = day.exercises.indexOf(exId) + 1;
+  var ex = getExerciseDef(exId, sess);
+  if (!ex) return '';
+  var exerciseIds = getSessionExerciseIds(sess);
+  var exOrder = exerciseIds.indexOf(exId) + 1;
   var exSets = sess.sets.filter(function(s){ return s.exId === exId; });
   var workingSets = exSets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; });
   var allDone = workingSets.length>0 && workingSets.every(function(s){ return s.completed||s.skipped; });
@@ -1665,6 +1767,57 @@ function renderSetRow(s, prevSet, ex) {
       '</div>' +
       '<button class="sr-tick" onclick="App.completeSet(\'' + s.id + '\')" aria-label="Complete">✓</button>' +
     '</div></div>';
+}
+
+function renderAddExerciseModal(sess) {
+  var options = exerciseOptionsForSession(sess);
+  var optionHtml = options.map(function(exId) {
+    var ex = EX[exId];
+    return '<option value="' + exId + '">Day ' + ex.day + ' · ' + esc(ex.name) + '</option>';
+  }).join('');
+  var muscleOptions = Object.keys(MUSCLES).map(function(mId) {
+    return '<option value="' + mId + '">' + esc(MUSCLES[mId].label) + '</option>';
+  }).join('');
+  return '<div class="addex-wrap">' +
+    '<div class="addex-header">' +
+      '<div class="addex-title">Add Exercise</div>' +
+      '<button class="addex-close" onclick="App.closeAddExercise()">✕</button>' +
+    '</div>' +
+    '<div class="addex-section">' +
+      '<div>' +
+        '<label class="addex-label" for="addExistingExercise">From your program</label>' +
+        '<select class="addex-select" id="addExistingExercise">' +
+          (optionHtml || '<option value="">All program exercises are already in this workout</option>') +
+        '</select>' +
+      '</div>' +
+      '<button class="btn-primary btn-lg" onclick="App.addExistingExercise()" ' + (optionHtml ? '' : 'disabled') + '>Add selected exercise</button>' +
+    '</div>' +
+    '<div class="addex-section">' +
+      '<div>' +
+        '<label class="addex-label" for="customExName">New exercise</label>' +
+        '<input class="addex-input" id="customExName" placeholder="Exercise name">' +
+      '</div>' +
+      '<div>' +
+        '<label class="addex-label" for="customExTarget">Target</label>' +
+        '<input class="addex-input" id="customExTarget" placeholder="Target muscle or cue">' +
+      '</div>' +
+      '<div>' +
+        '<label class="addex-label" for="customExMuscle">Volume bucket</label>' +
+        '<select class="addex-select" id="customExMuscle">' + muscleOptions + '</select>' +
+      '</div>' +
+      '<div class="addex-grid">' +
+        '<div><label class="addex-label" for="customExSets">Sets</label><input class="addex-input" id="customExSets" type="number" inputmode="numeric" min="1" max="10" value="3"></div>' +
+        '<div><label class="addex-label" for="customExRest">Rest sec</label><input class="addex-input" id="customExRest" type="number" inputmode="numeric" min="15" max="600" step="15" value="90"></div>' +
+      '</div>' +
+      '<div class="addex-grid">' +
+        '<div><label class="addex-label" for="customExRMin">Min reps</label><input class="addex-input" id="customExRMin" type="number" inputmode="numeric" min="1" max="100" value="8"></div>' +
+        '<div><label class="addex-label" for="customExRMax">Max reps</label><input class="addex-input" id="customExRMax" type="number" inputmode="numeric" min="1" max="100" value="12"></div>' +
+      '</div>' +
+      '<label class="addex-check"><input id="customExUni" type="checkbox">Left and right side sets</label>' +
+      '<button class="btn-primary btn-lg" onclick="App.addCustomExercise()">Create and add</button>' +
+      '<div class="addex-muted">Custom exercises are saved with this workout and will show in history and volume after you finish.</div>' +
+    '</div>' +
+  '</div>';
 }
 
 
@@ -1818,7 +1971,7 @@ function renderMuscleDetail(mId, db) {
   thisSess.forEach(function(sess) {
     sess.sets.forEach(function(s) {
       if (!s.completed || s.skipped || s.setType==='warmup') return;
-      var ex = EX[s.exId];
+      var ex = getExerciseDef(s.exId, sess);
       if (!ex || !ex.muscles[mId]) return;
       var mult = (ex.uni && s.side) ? 0.5 : 1;
       exContribs[s.exId] = (exContribs[s.exId]||0) + ex.muscles[mId]*mult;
@@ -1833,7 +1986,13 @@ function renderMuscleDetail(mId, db) {
   }).join('');
 
   var exRows = Object.keys(exContribs).map(function(exId) {
-    return '<div class="md-ex-row"><span class="md-ex-name">' + esc(EX[exId].name) + '</span><span class="md-ex-v">' + round1(exContribs[exId]) + ' sets</span></div>';
+    var exName = null;
+    thisSess.some(function(sess) {
+      var ex = getExerciseDef(exId, sess);
+      if (ex) { exName = ex.name; return true; }
+      return false;
+    });
+    return '<div class="md-ex-row"><span class="md-ex-name">' + esc(exName || exId) + '</span><span class="md-ex-v">' + round1(exContribs[exId]) + ' sets</span></div>';
   }).join('') || '<div class="md-none">No exercises logged this week.</div>';
 
   var fourWkAvg = round1(weeks.slice(4).reduce(function(a,w){ return a+w.vol; },0)/4);
@@ -1897,11 +2056,16 @@ function renderSessionDetail(sess) {
   var day = DAYS[sess.dayN];
   var byEx = {};
   sess.sets.forEach(function(s) { (byEx[s.exId]=byEx[s.exId]||[]).push(s); });
+  var detailOrder = getSessionExerciseIds(sess);
+  Object.keys(byEx).forEach(function(exId) {
+    if (detailOrder.indexOf(exId) === -1) detailOrder.push(exId);
+  });
 
-  var exBlocks = day.exercises.map(function(exId) {
+  var exBlocks = detailOrder.map(function(exId) {
     var sets = byEx[exId] || [];
     if (!sets.length) return '';
-    var ex = EX[exId];
+    var ex = getExerciseDef(exId, sess);
+    if (!ex) return '';
     var setLines = sets.map(function(s) {
       var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'S' + s.setNum + (s.side?' '+s.side:'');
       var status = s.skipped ? 'skipped' : s.completed ? s.weight+' kg × '+s.reps : '—';
@@ -2183,9 +2347,9 @@ var App = (function() {
     dbSave(db);
     try { navigator.vibrate(80); } catch(e){}
     rerenderSetRow(setId);
-    var ex = EX[s.exId];
+    var ex = getExerciseDef(s.exId, db.activeSession);
     if (ex && s.setType !== 'warmup') Timer.start(ex.rest);
-    var exId = s.exId, sess = db.activeSession, day = DAYS[sess.dayN];
+    var exId = s.exId, sess = db.activeSession, exerciseIds = getSessionExerciseIds(sess);
     setTimeout(function() {
       var prescSets = sess.sets.filter(function(ss){
         return ss.exId===exId&&(ss.setType==='working'||ss.setType==='drop')&&!ss.isAdded;
@@ -2194,10 +2358,10 @@ var App = (function() {
       if (allPrescDone) {
         var thisCard = document.getElementById('exc-'+exId);
         if (thisCard) thisCard.outerHTML = renderExCard(exId, sess, db, 'done');
-        var exIdx = day.exercises.indexOf(exId), nextExId = null;
-        for (var _i=exIdx+1;_i<day.exercises.length;_i++) {
-          var _nws=sess.sets.filter(function(ss){return ss.exId===day.exercises[_i]&&(ss.setType==='working'||ss.setType==='drop');});
-          if(_nws.length===0||!_nws.every(function(ss){return ss.completed||ss.skipped;})){nextExId=day.exercises[_i];break;}
+        var exIdx = exerciseIds.indexOf(exId), nextExId = null;
+        for (var _i=exIdx+1;_i<exerciseIds.length;_i++) {
+          var _nws=sess.sets.filter(function(ss){return ss.exId===exerciseIds[_i]&&(ss.setType==='working'||ss.setType==='drop');});
+          if(_nws.length===0||!_nws.every(function(ss){return ss.completed||ss.skipped;})){nextExId=exerciseIds[_i];break;}
         }
         if (nextExId) {
           sess.currentExId = nextExId; dbSave(db);
@@ -2206,11 +2370,11 @@ var App = (function() {
           setTimeout(function(){ var el=document.getElementById('exc-'+nextExId); if(el) scrollExIntoView(el, false); },100);
         }
         var exDone=0;
-        day.exercises.forEach(function(eid){
+        exerciseIds.forEach(function(eid){
           var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
           if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
         });
-        var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+day.exercises.length+' exercises';
+        var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
       } else {
         var na=document.querySelector('#exc-'+exId+' .set-row--active');
         if(na) scrollExIntoView(na, true);
@@ -2245,7 +2409,8 @@ var App = (function() {
 
   function addWorkingSet(exId) {
     if (!db.activeSession) return;
-    var ex = EX[exId];
+    var ex = getExerciseDef(exId, db.activeSession);
+    if (!ex) return;
     var exWS = db.activeSession.sets.filter(function(s){ return s.exId===exId&&s.setType==='working'; });
     var nextNum = exWS.length ? Math.max.apply(null,exWS.map(function(s){return s.setNum||1;}))+1 : (ex.sDef+1);
     function mkAdded(side) {
@@ -2264,7 +2429,8 @@ var App = (function() {
 
   function addWarmupSet(exId) {
     if (!db.activeSession) return;
-    var ex = EX[exId];
+    var ex = getExerciseDef(exId, db.activeSession);
+    if (!ex) return;
     var ws = createSet(exId, 0, 'warmup', null);
     ws.weight = 0; ws.reps = ex.rMin; ws.rir = null; ws.isAdded = true;
     var firstIdx = db.activeSession.sets.findIndex(function(s){ return s.exId===exId; });
@@ -2273,11 +2439,76 @@ var App = (function() {
     dbSave(db); rerenderExSets(exId);
   }
 
+  function openAddExercise() {
+    if (!db.activeSession) return;
+    normaliseSessionExerciseOrder(db.activeSession);
+    var modal = document.getElementById('modal-overlay');
+    modal.innerHTML = '<div>' + renderAddExerciseModal(db.activeSession) + '</div>';
+    modal.classList.remove('hidden');
+  }
+
+  function closeAddExercise() {
+    document.getElementById('modal-overlay').classList.add('hidden');
+  }
+
+  function addExerciseToActiveSession(exId, ex) {
+    if (!db.activeSession || !ex) return;
+    var sess = db.activeSession;
+    normaliseSessionExerciseOrder(sess);
+    if (sess.exerciseOrder.indexOf(exId) !== -1) {
+      alert('That exercise is already in this workout.');
+      return;
+    }
+    sess.exerciseOrder.push(exId);
+    sess.sets = sess.sets.concat(createExerciseSetsForSession(exId, ex, db));
+    sess.currentExId = exId;
+    dbSave(db);
+    closeAddExercise();
+    renderWorkout(db);
+    setTimeout(function() {
+      var card = document.getElementById('exc-' + exId);
+      if (card) scrollExIntoView(card, false);
+    }, 100);
+  }
+
+  function addExistingExercise() {
+    if (!db.activeSession) return;
+    var sel = document.getElementById('addExistingExercise');
+    var exId = sel ? sel.value : '';
+    var ex = EX[exId];
+    if (!ex) return;
+    addExerciseToActiveSession(exId, ex);
+  }
+
+  function addCustomExercise() {
+    if (!db.activeSession) return;
+    var customId = newCustomExerciseId();
+    try {
+      var ex = makeCustomExerciseDef({
+        id: customId,
+        name: document.getElementById('customExName').value,
+        target: document.getElementById('customExTarget').value,
+        muscleId: document.getElementById('customExMuscle').value,
+        sets: document.getElementById('customExSets').value,
+        rest: document.getElementById('customExRest').value,
+        rMin: document.getElementById('customExRMin').value,
+        rMax: document.getElementById('customExRMax').value,
+        uni: document.getElementById('customExUni').checked
+      });
+      if (!db.activeSession.customExercises) db.activeSession.customExercises = {};
+      db.activeSession.customExercises[customId] = ex;
+      addExerciseToActiveSession(customId, ex);
+    } catch(err) {
+      alert(err.message || 'Could not add exercise.');
+    }
+  }
+
   /* ── re-render helpers ── */
   function rerenderSetRow(setId) {
     var s = getSet(setId);
     if (!s) return;
-    var ex = EX[s.exId];
+    var ex = getExerciseDef(s.exId, db.activeSession);
+    if (!ex) return;
     var lastSess = getLastExSession(db, s.exId);
     var prevSet = lastSess ? (lastSess.sets.find(function(ps){
       return ps.setNum===s.setNum && ps.side===s.side && ps.setType===s.setType;
@@ -2289,7 +2520,8 @@ var App = (function() {
   function rerenderExSets(exId) {
     var container = document.getElementById('sets-' + exId);
     if (!container || !db.activeSession) return;
-    var ex = EX[exId];
+    var ex = getExerciseDef(exId, db.activeSession);
+    if (!ex) return;
     var exSets = db.activeSession.sets.filter(function(s){ return s.exId===exId; });
     var lastSess = getLastExSession(db, exId);
     container.innerHTML = exSets.map(function(s) {
@@ -2302,17 +2534,17 @@ var App = (function() {
 
   function updateExCardDoneState(exId) {
     if (!db.activeSession) return;
-    var sess = db.activeSession, day = DAYS[sess.dayN];
+    var sess = db.activeSession, exerciseIds = getSessionExerciseIds(sess);
     var workingSets = sess.sets.filter(function(s){ return s.exId===exId&&(s.setType==='working'||s.setType==='drop'); });
     var allDone = workingSets.length>0&&workingSets.every(function(s){ return s.completed||s.skipped; });
     var card = document.getElementById('exc-'+exId);
     if (card && allDone) card.outerHTML = renderExCard(exId, sess, db, 'done');
     var exDone=0;
-    day.exercises.forEach(function(eid){
+    exerciseIds.forEach(function(eid){
       var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
       if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
     });
-    var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+day.exercises.length+' exercises';
+    var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
   }
 
   /* ── finish workout ── */
@@ -2465,6 +2697,10 @@ var App = (function() {
     setRir: setRir,
     addWorkingSet: addWorkingSet,
     addWarmupSet: addWarmupSet,
+    openAddExercise: openAddExercise,
+    closeAddExercise: closeAddExercise,
+    addExistingExercise: addExistingExercise,
+    addCustomExercise: addCustomExercise,
     saveExNote: saveExNote,
     expandExCard: expandExCard,
     deleteSet: deleteSet,
