@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1a1816">
+<meta name="theme-color" content="#090d1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Adil Aesthetic Program</title>
@@ -17,11 +17,11 @@
 
 <template id="__bundler_thumbnail">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-<rect width="100" height="100" fill="#1a1816"/>
-<rect x="20" y="62" width="12" height="18" rx="2" fill="#e8a13a" opacity=".9"/>
-<rect x="38" y="48" width="12" height="32" rx="2" fill="#e8a13a"/>
-<rect x="56" y="30" width="12" height="50" rx="2" fill="#e8a13a" opacity=".7"/>
-<rect x="74" y="42" width="12" height="38" rx="2" fill="#e8a13a" opacity=".5"/>
+<rect width="100" height="100" fill="#090d1a"/>
+<rect x="20" y="62" width="12" height="18" rx="2" fill="#3f9ee8" opacity=".9"/>
+<rect x="38" y="48" width="12" height="32" rx="2" fill="#3f9ee8"/>
+<rect x="56" y="30" width="12" height="50" rx="2" fill="#3f9ee8" opacity=".7"/>
+<rect x="74" y="42" width="12" height="38" rx="2" fill="#3f9ee8" opacity=".5"/>
 </svg>
 </template>
 <style>
@@ -29,28 +29,28 @@
    Adil Aesthetic App — Complete CSS
    ============================================================ */
 :root {
-  --bg:         oklch(0.148 0.004 60);
-  --bg-soft:    oklch(0.178 0.005 60);
-  --card:       oklch(0.205 0.006 60);
-  --card-hi:    oklch(0.238 0.008 60);
-  --line:       oklch(0.30 0.008 60);
-  --line-soft:  oklch(0.255 0.006 60);
-  --text:       oklch(0.955 0.004 80);
-  --muted:      oklch(0.70 0.008 75);
-  --faint:      oklch(0.55 0.008 70);
-  --accent:     oklch(0.81 0.125 74);
-  --accent-dk:  oklch(0.70 0.12 70);
-  --accent-bg:  oklch(0.81 0.125 74 / 0.10);
-  --accent-ln:  oklch(0.81 0.125 74 / 0.32);
-  --steel:      oklch(0.74 0.055 235);
-  --steel-bg:   oklch(0.74 0.055 235 / 0.10);
-  --danger:     oklch(0.72 0.15 32);
-  --danger-bg:  oklch(0.72 0.15 32 / 0.11);
-  --danger-ln:  oklch(0.72 0.15 32 / 0.34);
-  --ok:         oklch(0.78 0.13 150);
-  --ok-bg:      oklch(0.78 0.13 150 / 0.10);
-  --warn:       oklch(0.80 0.13 90);
-  --warn-bg:    oklch(0.80 0.13 90 / 0.10);
+  --bg:         oklch(0.100 0.015 255);
+  --bg-soft:    oklch(0.135 0.016 255);
+  --card:       oklch(0.158 0.018 255);
+  --card-hi:    oklch(0.192 0.022 255);
+  --line:       oklch(0.280 0.025 255);
+  --line-soft:  oklch(0.220 0.020 255);
+  --text:       oklch(0.960 0.004 220);
+  --muted:      oklch(0.680 0.014 230);
+  --faint:      oklch(0.500 0.012 225);
+  --accent:     oklch(0.720 0.180 240);
+  --accent-dk:  oklch(0.620 0.165 240);
+  --accent-bg:  oklch(0.720 0.180 240 / 0.12);
+  --accent-ln:  oklch(0.720 0.180 240 / 0.30);
+  --steel:      oklch(0.740 0.055 235);
+  --steel-bg:   oklch(0.740 0.055 235 / 0.10);
+  --danger:     oklch(0.720 0.148 30);
+  --danger-bg:  oklch(0.720 0.148 30 / 0.10);
+  --danger-ln:  oklch(0.720 0.148 30 / 0.30);
+  --ok:         oklch(0.778 0.132 148);
+  --ok-bg:      oklch(0.778 0.132 148 / 0.10);
+  --warn:       oklch(0.798 0.128 90);
+  --warn-bg:    oklch(0.798 0.128 90 / 0.10);
   --radius:     16px;
   --radius-sm:  11px;
   --nav-h:      60px;
@@ -86,7 +86,7 @@ p { margin:0; }
   display:flex; align-items:stretch;
   height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));
   padding-bottom:env(safe-area-inset-bottom,0px);
-  background:oklch(0.148 0.004 60 / 0.92);
+  background:oklch(0.112 0.016 255 / 0.94);
   backdrop-filter:blur(14px) saturate(160%);
   -webkit-backdrop-filter:blur(14px) saturate(160%);
   border-top:1px solid var(--line-soft);
@@ -108,7 +108,7 @@ p { margin:0; }
    ============================================================ */
 .btn-primary {
   display:block; width:100%; padding:14px; border-radius:var(--radius);
-  background:var(--accent); color:oklch(0.148 0.004 60);
+  background:var(--accent); color:oklch(0.98 0.004 220);
   font-weight:750; font-size:16px; border:none; cursor:pointer;
   min-height:50px; transition:.12s; -webkit-tap-highlight-color:transparent;
 }
@@ -141,7 +141,7 @@ p { margin:0; }
 .btn-finish:active { background:var(--accent-bg); }
 .btn-complete {
   display:block; width:100%; padding:15px; border-radius:var(--radius-sm);
-  background:var(--accent); color:oklch(0.12 0.004 60);
+  background:var(--accent); color:oklch(0.98 0.004 220);
   font-weight:750; font-size:17px; border:none; cursor:pointer;
   min-height:52px; margin-top:12px; transition:.12s;
   -webkit-tap-highlight-color:transparent;
@@ -224,7 +224,7 @@ p { margin:0; }
   position:sticky; top:0; z-index:10;
   display:flex; align-items:center; gap:10px;
   padding:10px 14px; padding-top:calc(10px + env(safe-area-inset-top,0px));
-  background:oklch(0.148 0.004 60 / 0.95);
+  background:oklch(0.100 0.015 255 / 0.96);
   backdrop-filter:blur(12px); border-bottom:1px solid var(--line-soft);
   flex:none;
 }
@@ -338,6 +338,8 @@ p { margin:0; }
 .coll-tnf b, .coll-cbum b { color:var(--accent); margin-right:5px; }
 .coll-cbum b { color:var(--steel); }
 .coll-hard { margin-top:8px; padding:10px 12px; background:var(--danger-bg); border-left:3px solid var(--danger); border-radius:0 8px 8px 0; font-size:13.5px; font-weight:600; }
+.stall-box { margin-top:10px; padding:10px 12px; background:var(--warn-bg); border:1px solid oklch(0.80 0.13 90 / 0.28); border-radius:var(--radius-sm); color:var(--muted); font-size:13px; line-height:1.4; }
+.stall-box b { display:block; color:var(--warn); font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px; }
 
 /* finish section */
 .wo-finish-section { padding:24px 0 40px; text-align:center; }
@@ -350,7 +352,7 @@ p { margin:0; }
   position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; z-index:200;
   display:flex; align-items:center; justify-content:center; gap:12px;
   padding:10px 16px; min-height:50px;
-  background:oklch(0.18 0.006 60 / 0.96);
+  background:oklch(0.135 0.016 255 / 0.97);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
   font-family:var(--mono);
@@ -633,7 +635,7 @@ p { margin:0; }
 .sri-adj:active { background:var(--card-hi); }
 .sri-inp { flex:1; min-height:50px; min-width:0; background:transparent; border:none; text-align:center; font-size:18px; font-weight:700; color:var(--text); outline:none; padding:0 2px; }
 .sri-kg { position:absolute; right:42px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--faint); font-family:var(--mono); pointer-events:none; }
-.sr-tick { flex:none; width:56px; min-height:56px; background:var(--accent); border:none; border-radius:var(--radius-sm); color:oklch(0.12 0.004 60); font-size:26px; font-weight:800; cursor:pointer; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; transition:.1s; }
+.sr-tick { flex:none; width:56px; min-height:56px; background:var(--accent); border:none; border-radius:var(--radius-sm); color:oklch(0.98 0.004 220); font-size:26px; font-weight:800; cursor:pointer; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; transition:.1s; }
 .sr-tick:active { opacity:.82; }
 
 /* Compact completed & skipped rows */
@@ -1554,6 +1556,43 @@ function detectPRs(db, session) {
   });
 }
 
+// ---- stall detection ----
+function getExerciseExposureSummaries(dbRef, exId, limit) {
+  var out = [];
+  var historyId = getHistoryExerciseId(exId);
+  var sessions = dbRef.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
+  for (var i = 0; i < sessions.length && out.length < limit; i++) {
+    var sets = sessions[i].sets.filter(function(set) {
+      return getHistoryExerciseId(set.exId) === historyId && set.completed && !set.skipped && set.setType !== 'warmup';
+    });
+    if (!sets.length) continue;
+    var bestWeight = Math.max.apply(null, sets.map(function(set){ return set.weight || 0; }));
+    var bestReps = sets.filter(function(set){ return (set.weight || 0) === bestWeight; })
+      .reduce(function(max, set){ return Math.max(max, set.reps || 0); }, 0);
+    out.push({ sessionId:sessions[i].id, startTime:sessions[i].startTime, bestWeight:bestWeight, bestReps:bestReps });
+  }
+  return out;
+}
+
+function exposureImproved(current, previous) {
+  if (!current || !previous) return false;
+  if (current.bestWeight > previous.bestWeight) return true;
+  return current.bestWeight === previous.bestWeight && current.bestReps > previous.bestReps;
+}
+
+function getStallInfo(dbRef, exId) {
+  var exposures = getExerciseExposureSummaries(dbRef, exId, 3);
+  if (exposures.length < 3) return null;
+  if (exposureImproved(exposures[0], exposures[1]) || exposureImproved(exposures[1], exposures[2])) return null;
+  var load = exposures[0].bestWeight
+    ? exposures[0].bestWeight+' kg × '+exposures[0].bestReps
+    : exposures[0].bestReps+' reps';
+  return {
+    load:load,
+    message:'No progress for 2 exposures. Hold the load and add one clean rep; if it stalls again, reduce 5 to 10 percent and rebuild.'
+  };
+}
+
 // ---- next day in rotation ----
 // BEST WORKOUT TODAY RECOMMENDATION ENGINE
 var RECOMMENDATION_PRIORITY = {
@@ -2060,6 +2099,10 @@ function renderExCard(exId, sess, db, exState) {
   }
 
   var lastSess = getLastExSession(db, exId);
+  var stallInfo = getStallInfo(db, exId);
+  var stallBox = stallInfo
+    ? '<div class="stall-box"><b>Stall watch</b>'+esc(stallInfo.message)+'<br><span>Last best: '+esc(stallInfo.load)+'</span></div>'
+    : '';
   var setRows = exSets.map(function(s) {
     var prevSet = lastSess ? (lastSess.sets.find(function(ps){
       return ps.setNum===s.setNum && ps.side===s.side && ps.setType===s.setType;
@@ -2085,6 +2128,7 @@ function renderExCard(exId, sess, db, exState) {
         '<span class="xb">'+ex.rMin+'–'+ex.rMax+' reps</span>' +
         '<span class="xb">'+fmtRestLabel(ex.rest)+'</span>' +
       '</div>' +
+      stallBox +
     '</div>' +
     '<div class="set-rows" id="sets-'+exId+'">'+setRows+'</div>' +
     '<div class="set-add-row">' +
