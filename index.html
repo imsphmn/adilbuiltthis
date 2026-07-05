@@ -684,7 +684,8 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.2.0';
+const PROGRAM_NAME = 'Wedding Shape Block — July to End August 2026';
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function round1(n){ return Math.round(n*10)/10; }
 
@@ -692,20 +693,23 @@ function round1(n){ return Math.round(n*10)/10; }
 // MUSCLES — weekly volume targets (editable via settings)
 // ============================================================
 var MUSCLES = {
-  'upper-chest':  { label:'Upper chest',          min:8,  max:14 },
+  'upper-chest':  { label:'Upper chest',          min:10, max:14 },
   'mid-chest':    { label:'Mid chest',             min:2,  max:6  },
-  'lats':         { label:'Lats',                  min:12, max:18 },
-  'mid-back':     { label:'Mid back',              min:10, max:16 },
-  'rear-delts':   { label:'Rear delts',            min:10, max:16 },
-  'side-delts':   { label:'Side delts',            min:12, max:18 },
+  'lats':         { label:'Lats',                  min:10, max:14 },
+  'mid-back':     { label:'Mid back',              min:9,  max:14 },
+  'rear-delts':   { label:'Rear delts',            min:8,  max:12 },
+  'side-delts':   { label:'Side delts',            min:11, max:16 },
   'front-delts':  { label:'Front delts',           min:0,  max:4  },
   'lower-traps':  { label:'Lower traps',           min:2,  max:6  },
-  'triceps':      { label:'Triceps',               min:8,  max:14 },
-  'biceps':       { label:'Biceps',                min:8,  max:14 },
-  'brachialis':   { label:'Brachialis & forearms', min:2,  max:6  },
-  'abs':          { label:'Abs',                   min:2,  max:8  },
+  'triceps':      { label:'Triceps',               min:5,  max:10 },
+  'biceps':       { label:'Biceps',                min:5,  max:10 },
+  'brachialis':   { label:'Brachialis & forearms', min:3,  max:8  },
+  'abs':          { label:'Abs',                   min:4,  max:8  },
   'glutes':       { label:'Glutes',                min:2,  max:6  },
   'serratus':     { label:'Serratus',              min:2,  max:6  },
+  'hamstrings':   { label:'Hamstrings',            min:2,  max:6  },
+  'quads':        { label:'Quads',                 min:2,  max:6  },
+  'calves':       { label:'Calves',                min:2,  max:6  },
 };
 
 // ============================================================
@@ -1056,41 +1060,232 @@ EX.mid_height_cable_fly = cloneExercise('d4e4', 'mid_height_cable_fly', 'Mid Hei
   mistakes:['Changing cable height.','Front delts taking over.','Too much stretch.','Bending elbows during the rep.','Using momentum.']
 });
 
+function defineProgramExercise(id, baseId, name, spec) {
+  var exercise = cloneExercise(baseId, id, name, spec);
+  ['special','setup','why','optional','dropMuscles'].forEach(function(key) {
+    if (!Object.prototype.hasOwnProperty.call(spec, key)) delete exercise[key];
+  });
+  Object.assign(exercise, spec);
+  exercise.cues = (spec.cues || exercise.cues || []).slice();
+  exercise.mistakes = (spec.mistakes || exercise.mistakes || []).slice();
+  exercise.muscles = Object.assign({}, spec.muscles || exercise.muscles || {});
+  EX[id] = exercise;
+}
+
+defineProgramExercise('cable_lateral_raise','d1e2','Cable Lateral Raise',{
+  day:0,order:0,sMin:4,sMax:4,sDef:4,rMin:12,rMax:20,rirMin:0,rirMax:1,rest:75,uni:false,drop:true,
+  target:'Side delts',muscles:{'side-delts':1},dropMuscles:{'side-delts':0.5},tempo:'Controlled up, 1 second top squeeze, 2 to 3 second lower.',
+  loadGuidance:'Start around 10 to 15 kg. Only use more if 12 to 20 clean reps are possible.',
+  special:{label:'Final set drop set',lines:['Reach 0 to 1 RIR with clean reps.','Reduce load by about 30 percent.','Continue for 8 to 15 controlled reps.']},
+  cues:['Cable slightly behind body.','Slight lean away.','Shoulder down.','Lead with elbow.','Wrist slightly below elbow.','Raise slightly forward of true side.','Pause at the top.','Lower slowly.'],
+  tnf:'Side delt tension only. Use clean 12 to 20 rep work instead of ego loading.',cbum:'Show the cap and widen the frame.',
+  mistakes:['Shrugging.','Swinging.','Going too heavy for 5 to 8 reps.','Traps taking over.','Bending the arm more as the set gets hard.'],hard:'Reduce the load when traps take over.'
+});
+defineProgramExercise('low_incline_dumbbell_press','d1e1','Low Incline Dumbbell Press',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:6,rMax:10,rirMin:1,rirMax:1,rest:120,uni:false,drop:false,
+  target:'Upper chest',muscles:{'upper-chest':1,'triceps':0.5,'front-delts':0.25},tempo:'2 to 3 second eccentric, controlled press.',
+  loadGuidance:'Use around 26 kg until 8, 8, 6 or better is clean. Do not move to 28 kg unless every set stays within 6 to 10 reps.',
+  cues:['Bench around 30 degrees.','Shoulder blades back and slightly down.','Ribs down.','Elbows tucked 30 to 45 degrees.','Lower to upper chest.','Press up and slightly in.','Stop before shoulders roll forward.'],
+  mistakes:['Using a 45 degree bench.','Excessive rib flare.','Shoulders rolling forward.','Dumbbells crashing together.','Going too heavy below 6 reps.'],hard:'Keep one clean rep in reserve.'
+});
+defineProgramExercise('low_to_high_cable_fly','d1e4','Low-to-High Cable Fly',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:12,rMax:20,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Upper chest',muscles:{'upper-chest':1,'front-delts':0.1},
+  cues:['Cables low.','Soft elbows.','Ribs down.','Chest open.','Hands travel upward and inward.','Finish around upper chest to eye line.'],
+  mistakes:['Turning it into a press.','Shoulders rolling forward.','Front delts taking over.','Using a heavy load and short reps.'],hard:'Upper chest must remain the limiter.'
+});
+defineProgramExercise('chest_supported_row','d1e5','Chest-Supported Row',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,rirMin:0,rirMax:1,rest:90,uni:false,drop:false,
+  target:'Mid back',muscles:{'mid-back':1,'rear-delts':0.5,'lats':0.25,'biceps':0.25},loadGuidance:'Start around 35 kg and own 8 to 12 clean reps.',
+  cues:['Chest glued to pad.','Neck long.','Elbows 45 to 70 degrees out.','Pull to lower chest or upper stomach.','Squeeze shoulder blades back, not up.','Hold the top for 1 second.'],
+  mistakes:['Shrugging.','Pulling too low toward the hips.','Lifting chest off the pad.','Using half reps.'],hard:'Keep the chest fixed and pause without shrugging.'
+});
+defineProgramExercise('single_arm_cable_lat_pulldown','d1e3','Single-Arm Cable Lat Pulldown',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,rirMin:0,rirMax:1,rest:60,uni:true,drop:false,
+  target:'Lats',muscles:{'lats':1,'biceps':0.2},
+  cues:['Start with the arm high.','Keep ribs down.','Pull the shoulder blade down first.','Drive elbow toward front pocket.','Do not twist the torso.','Keep the hand relaxed.'],
+  mistakes:['Turning it into a row.','Biceps taking over.','Twisting the torso.','Shrugging.'],hard:'Match the weaker side with no torso rotation.'
+});
+defineProgramExercise('reverse_pec_deck','d1e6','Reverse Pec Deck',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:12,rMax:20,rirMin:0,rirMax:1,rest:60,uni:false,drop:false,
+  target:'Rear delts',muscles:{'rear-delts':1,'mid-back':0.25},loadGuidance:'Start around 30 to 35 kg unless 40 kg is clean for 12 to 20 reps.',
+  cues:['Chest glued to pad.','Reach forward.','Hands relaxed.','Lead with elbows.','Pull slightly out and back.','Keep shoulders down.','Control the negative.'],
+  mistakes:['Traps taking over.','Going too heavy.','Neck tension.','Turning it into a row.'],hard:'Reduce load if traps or neck dominate.'
+});
+defineProgramExercise('weighted_floor_crunch','d1e7','Weighted Floor Crunch',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:10,rMax:20,rirMin:1,rirMax:1,rest:60,uni:false,drop:false,
+  target:'Abs and rib control',muscles:{'abs':1},
+  cues:['Lower back gently pressed down.','Exhale before crunching.','Curl ribs toward pelvis.','Lift shoulder blades without sitting all the way up.'],
+  mistakes:['Pulling the neck.','Hip flexors taking over.','Turning it into a full sit-up.','Ribs flaring.'],hard:'Stop when rib-to-pelvis control is lost.'
+});
+defineProgramExercise('pullups','d2e1','Pull Ups',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:6,rMax:10,rirMin:0,rirMax:1,rest:120,uni:false,drop:false,
+  target:'Lats',muscles:{'lats':1,'mid-back':0.25,'biceps':0.5},loadGuidance:'Current target: 10, 9, 7 clean reps.',
+  cues:['Use a shoulder-width or slightly wider grip.','Keep ribs down.','Pull shoulder blades down first.','Drive elbows down to the sides.','Bring chest toward the bar.','Do not kick.'],
+  mistakes:['Reaching with the chin only.','Shrugging.','Using half reps.','Swinging.'],hard:'Use full controlled reps; the first set stays around 1 RIR.'
+});
+defineProgramExercise('neutral_grip_lat_pulldown','d2e1','Neutral Grip Lat Pulldown',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rirMin:0,rirMax:1,rest:120,uni:false,drop:false,
+  target:'Lats',muscles:{'lats':1,'mid-back':0.25,'biceps':0.5},
+  cues:['Use the same neutral grip and seat height.','Keep ribs down.','Pull shoulder blades down first.','Drive elbows to the sides.','Control the return.'],
+  mistakes:['Leaning back too far.','Turning it into a row.','Shrugging.','Biceps taking over.'],hard:'This movement has its own progression history.'
+});
+defineProgramExercise('chest_supported_high_row','d2e4','Chest-Supported High Row',{
+  day:0,order:0,sMin:4,sMax:4,sDef:4,rMin:8,rMax:12,rirMin:0,rirMax:1,rest:105,uni:false,drop:false,
+  target:'Mid back and rear structure',muscles:{'mid-back':1,'rear-delts':0.5,'lats':0.25,'biceps':0.25},
+  loadGuidance:'Start around 35 kg. Build toward 40 kg for 10, 9, 8 or better with clean form.',
+  cues:['Chest fixed to pad.','Pull elbows back and out.','Squeeze shoulder blades without shrugging.','Pause at peak.'],
+  mistakes:['Turning it into a lat pull.','Shrugging.','Using short reps.','Lifting chest off the pad.'],hard:'Pause at peak with the chest fixed.'
+});
+defineProgramExercise('straight_arm_cable_pulldown','d2e2','Straight-Arm Cable Pulldown',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:12,rMax:20,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Lats',muscles:{'lats':1},loadGuidance:'Use around 30 to 35 kg unless 12 to 20 clean reps are possible.',
+  cues:['Use a slight hip hinge.','Keep ribs down.','Keep arms nearly straight.','Fix the elbow angle.','Keep shoulders down.','Pull upper arms toward thighs.'],
+  mistakes:['Turning it into a triceps pushdown.','Bending elbows too much.','Going too heavy for low reps.','Arching the lower back.'],hard:'The lats, not triceps, must be the limiter.'
+});
+defineProgramExercise('leg_curl','d4e7','Seated or Lying Leg Curl',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,rirMin:1,rirMax:1,rest:90,uni:false,drop:false,
+  target:'Hamstrings',muscles:{'hamstrings':1},
+  cues:['Pin the hips down.','Curl smoothly.','Squeeze fully.','Use a slow eccentric.'],
+  mistakes:['Hips lifting.','Bouncing.','Using partial reps.'],tnf:'Use the same machine and setup each time.',cbum:'Control the curl and own the squeeze.',hard:'Keep one clean rep in reserve.'
+});
+defineProgramExercise('serratus_cable_punch','d2e6','Serratus Cable Punch',{
+  day:0,order:0,sMin:1,sMax:1,sDef:1,rMin:12,rMax:20,rirMin:1,rirMax:1,rest:45,uni:true,drop:false,
+  target:'Serratus and scapular control',muscles:{'serratus':1},loadGuidance:'Use 5 to 10 kg.',
+  cues:['Set cable at chest height.','Keep the arm nearly straight.','Keep ribs down.','Reach the shoulder blade around the rib cage.','Pause at full reach.','Return slowly.'],
+  mistakes:['Rotating the torso.','Going too heavy.','Bending the elbow too much.','Turning it into a press.'],hard:'The shoulder blade moves; the torso stays still.'
+});
+defineProgramExercise('cable_y_raise','d3e2','Cable Y Raise',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:12,rMax:20,rirMin:1,rirMax:1,rest:60,uni:false,drop:false,
+  target:'Lower traps and scapular control',muscles:{'lower-traps':1,'rear-delts':0.25},loadGuidance:'Use 5 to 7.5 kg rather than forcing 10 kg for low reps.',
+  cues:['Set cables low.','Keep thumbs up.','Move arms into a Y.','Keep ribs down.','Do not shrug.','Feel lower traps instead of neck.'],
+  mistakes:['Going too heavy.','Neck or upper traps taking over.','Rib flare.','Turning it into a front raise.'],hard:'Use control, not load.'
+});
+defineProgramExercise('overhead_cable_triceps_extension','d3e3','Overhead Cable Triceps Extension',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:8,rMax:15,rirMin:0,rirMax:1,rest:90,uni:false,drop:false,
+  target:'Triceps long head',muscles:{'triceps':1},loadGuidance:'Use around 25 kg until 8 to 15 reps are clean.',
+  cues:['Step forward.','Fix the elbows.','Keep upper arms still.','Keep ribs down.','Use a deep stretch behind the head.','Extend through elbows only.'],
+  mistakes:['Elbows flaring.','Lower back arching.','Going too heavy for 6 reps.'],hard:'Elbows and ribs stay fixed.'
+});
+defineProgramExercise('one_arm_dumbbell_preacher_curl','d3e5','One-Arm Dumbbell Preacher Curl on Incline Bench',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rirMin:0,rirMax:1,rest:60,uni:true,drop:false,
+  target:'Biceps',muscles:{'biceps':1,'brachialis':0.25},
+  cues:['Set bench to 45 to 60 degrees.','Glue the back of the upper arm to the pad.','Start with the weaker arm.','Keep wrist straight and palm up.','Lower until elbow is nearly straight.','Do not bounce.'],
+  mistakes:['Upper arm lifting.','Swinging.','Wrist bending.','Cutting the bottom short.'],tnf:'Each arm has separate clean sets; match the weaker side.',cbum:'Own the bottom and curl without shoulder movement.',hard:'The upper arm stays fixed.'
+});
+defineProgramExercise('underhand_cable_triceps_extension','d3e4','Underhand Cable Triceps Extension',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:10,rMax:15,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Triceps',muscles:{'triceps':1},loadGuidance:'Use around 25 to 30 kg with clean lockouts.',
+  cues:['Pin elbows.','Keep shoulders down.','Keep wrists straight.','Reach full lockout.'],
+  mistakes:['Shoulders rolling forward.','Elbows drifting.','Using too much weight for clean reps.'],hard:'Only the forearms move.'
+});
+defineProgramExercise('dumbbell_hammer_curl','d3e6','Dumbbell Hammer Curl',{
+  day:0,order:0,sMin:2,sMax:3,sDef:3,rMin:10,rMax:15,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Brachialis, biceps and forearms',muscles:{'brachialis':1,'biceps':0.5},loadGuidance:'Use 10 kg until 10 to 15 reps are clean.',
+  cues:['Use a neutral grip.','Keep wrists straight.','Fix elbows.','Do not swing.'],
+  mistakes:['Rocking the body.','Curling across too far.','Wrist collapse.'],hard:'No torso movement starts the rep.'
+});
+defineProgramExercise('dead_bug_full_exhale','d3e7','Dead Bug with Full Exhale',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:6,rMax:10,rirMin:0,rirMax:0,rest:45,uni:true,drop:false,
+  target:'Deep abs and rib control',muscles:{'abs':1},
+  cues:['Fully exhale.','Keep ribs down.','Keep lower back lightly against the floor.','Move slowly.','Stop before arching.'],
+  mistakes:['Holding breath.','Lower back arching.','Moving too fast.'],hard:'Technical failure occurs when ribs flare or the back arches.'
+});
+defineProgramExercise('low_incline_cable_press','d4e3','Low Incline Cable Press',{
+  day:0,order:0,sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rirMin:1,rirMax:1,rest:105,uni:false,drop:false,
+  target:'Upper chest',muscles:{'upper-chest':1,'triceps':0.5,'front-delts':0.25},
+  cues:['Use a low incline.','Keep ribs down.','Tuck elbows.','Press up and in.','Stop before shoulders roll forward.'],
+  mistakes:['Front delts taking over.','Rib flare.','Shoulders rolling forward.','Turning it into a flat press.'],hard:'Keep one clean rep in reserve.'
+});
+defineProgramExercise('pec_deck','d4e4','Pec Deck',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:10,rMax:15,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Chest',muscles:{'mid-chest':1,'upper-chest':0.25},
+  cues:['Keep chest up without rib flare.','Use soft elbows.','Control the stretch.','Squeeze pecs instead of shoulders.'],
+  mistakes:['Shoulders rolling forward.','Going too heavy.','Using a short stretch.','Turning it into a press.'],hard:'Keep shoulder position controlled.'
+});
+defineProgramExercise('mid_height_cable_fly','d4e4','Mid-Height Cable Fly',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:10,rMax:15,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Chest',muscles:{'mid-chest':1,'upper-chest':0.25},
+  cues:['Set cables at mid-chest height.','Use soft elbows.','Keep ribs down.','Control the stretch.','Squeeze the pecs.'],
+  mistakes:['Shoulders rolling forward.','Changing cable height.','Going too heavy.','Turning it into a press.'],hard:'This variation has separate load history from pec deck.'
+});
+defineProgramExercise('hip_thrust','d4e7','Hip Thrust',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,rirMin:1,rirMax:1,rest:90,uni:false,drop:false,
+  target:'Glutes and pelvis control',muscles:{'glutes':1,'hamstrings':0.25},
+  cues:['Keep ribs down.','Tuck chin slightly.','Use posterior pelvic tilt at the top.','Squeeze glutes.','Do not arch the lower back.'],
+  mistakes:['Lower back taking over.','Rib flare.','Missing full lockout.','Feet too far or too close.'],hard:'Keep one rep in reserve and finish with glutes.'
+});
+defineProgramExercise('leg_press','d4e7','Leg Press',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,rirMin:1,rirMax:1,rest:90,uni:false,drop:false,
+  target:'Quads and lower-body maintenance',muscles:{'quads':1,'glutes':0.5},
+  cues:['Use controlled depth.','Track knees over toes.','Do not bounce.','Keep pelvis stable.'],
+  mistakes:['Using half reps.','Knees caving.','Locking out violently.','Lower back rounding.'],tnf:'Minimum effective lower-body work; use repeatable range.',cbum:'Control the depth and keep tension.',hard:'Stop before pelvis or knees lose position.'
+});
+defineProgramExercise('calf_raise','d4e7','Calf Raise',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:8,rMax:15,rirMin:0,rirMax:1,rest:75,uni:false,drop:false,
+  target:'Calves',muscles:{'calves':1},
+  cues:['Use a full stretch.','Pause at the bottom.','Rise fully.','Pause at the top.','Lower slowly.'],
+  mistakes:['Bouncing.','Using tiny range.','Going too heavy.','Skipping the stretch.'],tnf:'Use the same setup and full range.',cbum:'Own both pauses.',hard:'No bouncing.'
+});
+
 var EX_LEGACY = {};
-['d1e2','d1e3','d1e6','d2e1','d2e2','d2e3','d2e5','d3e1','d4e1','d4e2','d4e4','d4e6'].forEach(function(id) {
+[
+  'd1e1','d1e2','d1e3','d1e4','d1e5','d1e6','d1e7',
+  'd2e1','d2e2','d2e3','d2e4','d2e5','d2e6',
+  'd3e1','d3e2','d3e3','d3e4','d3e5','d3e6','d3e7',
+  'd4e1','d4e2','d4e3','d4e4','d4e5','d4e6','d4e7','d4e8'
+].forEach(function(id) {
   EX[id].archived = true;
   EX[id].legacy = true;
   EX_LEGACY[id] = EX[id];
 });
 
 var CANONICAL_EXERCISE_ALIASES = {
+  d1e1:'low_incline_dumbbell_press',
   d1e2:'cable_lateral_raise',
   d4e1:'cable_lateral_raise',
   d1e3:'single_arm_cable_lat_pulldown',
   d2e3:'single_arm_cable_lat_pulldown',
+  d1e4:'low_to_high_cable_fly',
+  d1e5:'chest_supported_row',
+  d4e5:'chest_supported_row',
   d1e6:'reverse_pec_deck',
   d2e5:'reverse_pec_deck',
   d4e6:'reverse_pec_deck',
-  d2e2:'straight_arm_cable_pulldown'
+  d1e7:'weighted_floor_crunch',
+  d2e2:'straight_arm_cable_pulldown',
+  d2e4:'chest_supported_high_row',
+  d2e6:'serratus_cable_punch',
+  d4e8:'serratus_cable_punch',
+  d3e2:'cable_y_raise',
+  d3e3:'overhead_cable_triceps_extension',
+  d3e4:'underhand_cable_triceps_extension',
+  d3e6:'dumbbell_hammer_curl',
+  d3e7:'dead_bug_full_exhale',
+  d4e3:'low_incline_cable_press',
+  d4e7:'hip_thrust'
 };
 
-var DAY_EXERCISE_PRESCRIPTION_SOURCES = {
-  1:{ cable_lateral_raise:'d1e2', single_arm_cable_lat_pulldown:'d1e3', reverse_pec_deck:'d1e6' },
-  2:{ straight_arm_cable_pulldown:'d2e2', single_arm_cable_lat_pulldown:'d2e3', reverse_pec_deck:'d2e5' },
-  3:{ cable_lateral_raise:'d3e1' },
-  4:{ cable_lateral_raise:'d4e1', machine_pullover:'d4e2', pec_deck:'d4e4', reverse_pec_deck:'d4e6' }
+var DAY_EXERCISE_PRESCRIPTIONS = {
+  1:{},
+  2:{ reverse_pec_deck:{sMin:3,sMax:3,sDef:3} },
+  3:{ cable_lateral_raise:{sMin:4,sMax:4,sDef:4,rMin:12,rMax:20,rest:75,drop:false} },
+  4:{
+    cable_lateral_raise:{sMin:3,sMax:3,sDef:3,rMin:12,rMax:25,rest:60,drop:false},
+    chest_supported_row:{sMin:3,sMax:3,sDef:3,rMin:10,rMax:15},
+    reverse_pec_deck:{sMin:3,sMax:3,sDef:3}
+  }
 };
 
 function getExerciseForDay(exId, dayN, dbRef) {
   var canonical = getExerciseDef(exId, null, dbRef);
-  var sourceId = DAY_EXERCISE_PRESCRIPTION_SOURCES[dayN] && DAY_EXERCISE_PRESCRIPTION_SOURCES[dayN][exId];
-  if (!sourceId) return canonical;
-  var source = EX[sourceId];
-  var prescribed = Object.assign({}, canonical, {
-    sMin:source.sMin, sMax:source.sMax, sDef:source.sDef,
-    rMin:source.rMin, rMax:source.rMax, rirMin:source.rirMin, rirMax:source.rirMax,
-    rest:source.rest, drop:source.drop, dropMuscles:source.dropMuscles
-  });
+  var override = DAY_EXERCISE_PRESCRIPTIONS[dayN] && DAY_EXERCISE_PRESCRIPTIONS[dayN][exId];
+  if (!override) return canonical;
+  var prescribed = Object.assign({}, canonical, override);
+  if (override.drop === false) {
+    delete prescribed.dropMuscles;
+    delete prescribed.special;
+  }
   return prescribed;
 }
 
@@ -1100,9 +1295,9 @@ var SUBSTITUTIONS = {
     reason:'Use if the pull-up station is unavailable or bodyweight pull ups are below the target reps.',
     compareLoadDirectly:false
   }],
-  machine_pullover:[{
-    id:'straight_arm_cable_pulldown',
-    reason:'Use when a pullover machine is unavailable.',
+  straight_arm_cable_pulldown:[{
+    id:'machine_pullover',
+    reason:'Use only when the cable setup is unavailable.',
     compareLoadDirectly:false
   }],
   pec_deck:[{
@@ -1130,26 +1325,26 @@ function getSelectableExerciseIds(dbRef) {
 // DAYS
 // ============================================================
 var DAYS = {
-  1:{ n:1, title:'Shoulder Width and Upper Chest Foundation', nav:'Shoulders & Chest',
-    goal:'Upper chest shelf, side delt width, lat touch, mid back posture, rear delt support and waist control.',
-    exercises:['d1e1','cable_lateral_raise','single_arm_cable_lat_pulldown','d1e4','d1e5','reverse_pec_deck','d1e7'], duration:60,
+  1:{ n:1, title:'Frame Width + Upper Chest + Rear Structure', nav:'Frame & Upper Chest',
+    goal:'Prioritise side-delt width and upper chest while retaining lats, mid back, rear delts and waist control.',
+    exercises:['cable_lateral_raise','low_incline_dumbbell_press','low_to_high_cable_fly','chest_supported_row','single_arm_cable_lat_pulldown','reverse_pec_deck','weighted_floor_crunch'], duration:65,
     primaryMuscles:['Upper chest','Side delts','Lats','Mid back','Rear delts'],
-    checklist:['Upper chest failed before front delts.','Side delts failed before traps.','Single arm pulldown hit lats, not biceps.','Cable fly hit upper chest.','Row hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Crunch moved ribs toward pelvis.','Ribs stayed down.','Load and reps were logged.'] },
-  2:{ n:2, title:'Lat Width, Mid Back and Rear Structure', nav:'Lat Width & Back',
-    goal:'V taper, lat width, lower lat sweep, mid back density, rear delt roundness and scapular control.',
-    exercises:['pullups','straight_arm_cable_pulldown','single_arm_cable_lat_pulldown','d2e4','reverse_pec_deck','d2e6'], duration:55,
-    primaryMuscles:['Lats','Mid back','Rear delts','Serratus'],
-    checklist:['Pulldowns hit lats before biceps.','Straight arm pulldowns hit lats, not triceps.','Single arm pulldowns felt like elbow to front pocket.','Rows hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Serratus punch moved shoulder blade, not torso.','Ribs stayed down.','Load and reps were logged.'] },
-  3:{ n:3, title:'Direct Arms, Shoulder Cap and Scapular Control', nav:'Arms & Delts',
-    goal:'Direct biceps and triceps work, side delt cap, arm thickness and shoulder blade control.',
-    exercises:['cable_lateral_raise','d3e2','d3e3','d3e4','d3e5','d3e6','d3e7'], duration:65,
+    checklist:['Cable laterals stayed in the 12 to 20 rep range.','Upper chest failed before front delts.','Row stayed chest-supported.','Pulldown hit lats without torso twist.','Rear delts worked without traps.','Crunch moved ribs toward pelvis.'] },
+  2:{ n:2, title:'Lat Width + Mid Back + Rear Structure + Hamstrings', nav:'Back & Hamstrings',
+    goal:'Build V-taper, mid-back density and rear structure while maintaining hamstrings and scapular control.',
+    exercises:['pullups','chest_supported_high_row','straight_arm_cable_pulldown','single_arm_cable_lat_pulldown','reverse_pec_deck','leg_curl','serratus_cable_punch'], duration:70,
+    primaryMuscles:['Lats','Mid back','Rear delts','Hamstrings','Serratus'],
+    checklist:['Pull ups used clean full reps.','High row was second and stayed chest-supported.','Straight-arm pulldown hit lats, not triceps.','Single-arm pulldown used no torso twist.','Rear delts worked without traps.','Leg curls kept hips pinned.'] },
+  3:{ n:3, title:'Cable Delts + Arms + Lower Traps + Rib Control', nav:'Delts & Arms',
+    goal:'Prioritise cable side delts, alternate triceps and biceps, and reinforce lower traps and rib control.',
+    exercises:['cable_lateral_raise','cable_y_raise','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','underhand_cable_triceps_extension','dumbbell_hammer_curl','dead_bug_full_exhale'], duration:70,
     primaryMuscles:['Side delts','Lower traps','Triceps','Biceps','Brachialis'],
-    checklist:['Side delts failed before traps.','Cable Y raise did not become a shrug.','Overhead triceps extension hit long head.','Triceps extensions did not become presses.','Incline dumbbell curls stayed strict.','Hammer curls stayed controlled.','Dead bugs kept ribs down.','Load and reps were logged.'] },
-  4:{ n:4, title:'Lat Sweep, Upper Chest, Waist and Pelvis Control', nav:'Sweep & Waist',
-    goal:'Lat sweep, upper chest, rear structure, posture support, glute activation and pelvis control.',
-    exercises:['cable_lateral_raise','machine_pullover','d4e3','pec_deck','d4e5','reverse_pec_deck','d4e7','d4e8'], duration:70,
-    primaryMuscles:['Side delts','Lats','Upper chest','Mid chest','Rear delts','Glutes'],
-    checklist:['Side delts hit before traps.','Pullover hit lats, not triceps.','Upper chest press hit chest, not front delts.','Mid chest fly felt controlled.','Rows hit mid back.','Rear delts worked without traps.','Hip thrust hit glutes, not lower back.','Serratus punch moved shoulder blade, not torso.','Load and reps were logged.'] },
+    checklist:['Cable laterals stayed clean.','Y raises hit lower traps without neck tension.','Triceps and biceps alternated.','Preacher curls kept the upper arm fixed.','Hammer curls used no body swing.','Dead bugs kept ribs down.'] },
+  4:{ n:4, title:'Upper Chest + Lat Sweep + Side Delts + Lower Maintenance', nav:'Top-Up & Lower',
+    goal:'Top up upper chest, lat sweep, side delts and rear structure while maintaining quads, glutes and calves.',
+    exercises:['cable_lateral_raise','low_incline_cable_press','straight_arm_cable_pulldown','pec_deck','chest_supported_row','reverse_pec_deck','hip_thrust','leg_press','calf_raise','serratus_cable_punch'], duration:85,
+    primaryMuscles:['Side delts','Upper chest','Lats','Mid back','Rear delts','Legs'],
+    checklist:['Cable laterals widened the frame without traps.','Cable press stayed upper-chest biased.','Straight-arm pulldown hit lats.','Rows and rear delts stayed controlled.','Lower-body work used stable full ranges.','Serratus punch moved the shoulder blade, not torso.'] },
 };
 
 var GLOBAL_RULES = [
@@ -1198,7 +1393,7 @@ function dbLoad() {
 function dbDefault() {
   return {
     schemaVersion: 2,
-    settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {} },
+    settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {}, programVersion: PROGRAM_NAME },
     lastCompletedDay: null,
     activeSession: null,
     completedSessions: [],
@@ -1216,6 +1411,10 @@ function migrateDb(data) {
   d.settings = d.settings || {};
   if (!d.settings.dayExercises) d.settings.dayExercises = {};
   if (!d.settings.customExercises) d.settings.customExercises = {};
+  if (d.settings.programVersion !== PROGRAM_NAME) {
+    d.settings.dayExercises = {};
+    d.settings.programVersion = PROGRAM_NAME;
+  }
   if (d.settings.muscleMappings === undefined) d.settings.muscleMappings = null;
   if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
   if (!Array.isArray(d.completedSessions)) d.completedSessions = [];
@@ -1599,7 +1798,7 @@ var RECOMMENDATION_PRIORITY = {
   'side-delts':1.50, 'lats':1.50, 'upper-chest':1.40, 'rear-delts':1.25,
   'mid-back':1.20, 'abs':0.90, 'lower-traps':0.90, 'serratus':0.85,
   'triceps':0.75, 'biceps':0.65, 'brachialis':0.50, 'mid-chest':0.45,
-  'glutes':0.40, 'front-delts':0.10
+  'glutes':0.40, 'hamstrings':0.35, 'quads':0.30, 'calves':0.25, 'front-delts':0.10
 };
 
 function getRollingSessions(dbRef, days, now) {
@@ -2109,10 +2308,12 @@ function renderExCard(exId, sess, db, exState) {
     })||null) : null;
     return renderSetRow(s, prevSet, ex);
   }).join('');
+  var guidanceNotes = (ex.tempo ? '<div class="coll-tnf"><b>Tempo</b> '+esc(ex.tempo)+'</div>' : '') +
+    (ex.loadGuidance ? '<div class="coll-cbum"><b>Load</b> '+esc(ex.loadGuidance)+'</div>' : '');
   var collapsibles =
     '<div class="ex-coll-row">' +
     mkColl('cue-'+exId,'Cues','<ul class="coll-list">'+ex.cues.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>') +
-    mkColl('note-'+exId,'Notes','<div class="coll-tnf"><b>TNF</b> '+esc(ex.tnf)+'</div><div class="coll-cbum"><b>CBum</b> '+esc(ex.cbum)+'</div>') +
+    mkColl('note-'+exId,'Notes',guidanceNotes+'<div class="coll-tnf"><b>TNF</b> '+esc(ex.tnf)+'</div><div class="coll-cbum"><b>CBum</b> '+esc(ex.cbum)+'</div>') +
     mkColl('err-'+exId,'Mistakes','<ul class="coll-list coll-mist">'+ex.mistakes.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul><div class="coll-hard">'+esc(ex.hard)+'</div>') +
     '</div>';
   var noteVal = (sess.exNotes && sess.exNotes[exId]) || '';
@@ -2512,9 +2713,9 @@ function renderProgram() {
   return '<div class="prog-wrap">' +
     '<div class="prog-hero">' +
       '<div class="prog-kicker">Natural Aesthetics Specialisation</div>' +
-      '<h1 class="prog-title">Adil 4 Day Aesthetic Specialisation Program</h1>' +
-      '<p class="prog-sub">Top 0.1 Percent Natural Aesthetics Focus</p>' +
-      '<p class="prog-goal">Build the visual structure needed for elite natural aesthetics.</p>' +
+      '<h1 class="prog-title">'+esc(PROGRAM_NAME)+'</h1>' +
+      '<p class="prog-sub">Wedding shape training block</p>' +
+      '<p class="prog-goal">Build wider delts, upper chest, V-taper and rear structure while maintaining the lower body.</p>' +
     '</div>' +
     '<details class="prog-section"><summary class="ps-sum">Global Rules</summary><div class="ps-body">' + rulesHtml + '</div></details>' +
     dayBlocks +
@@ -2539,6 +2740,8 @@ function renderProgExCard(exId, idx, dayN) {
   var optBox = ex.optional
     ? '<div class="pe-callout pe-opt"><b>' + esc(ex.optional.label) + '</b> ' + esc(ex.optional.text) + '</div>'
     : '';
+  var tempoBox = ex.tempo ? '<div class="pe-callout pe-info"><b>Tempo</b> '+esc(ex.tempo)+'</div>' : '';
+  var loadBox = ex.loadGuidance ? '<div class="pe-callout pe-opt"><b>Load guidance</b> '+esc(ex.loadGuidance)+'</div>' : '';
 
   return '<div class="prog-ex">' +
     '<div class="pe-head">' +
@@ -2552,7 +2755,7 @@ function renderProgExCard(exId, idx, dayN) {
       '<div class="pe-badge"><span class="pb-l">Rest</span><span class="pb-v">' + fmtRestLabel(ex.rest) + '</span></div>' +
       '<div class="pe-badge pe-badge--target"><span class="pb-l">Target</span><span class="pb-v">' + esc(ex.target) + '</span></div>' +
     '</div>' +
-    specialBox + setupBox + whyBox + optBox +
+    specialBox + setupBox + whyBox + optBox + tempoBox + loadBox +
     mkProgColl('pcue-'+exId, 'Form cues', ex.cues.length,
       '<ul class="pe-list">' + ex.cues.map(function(c){ return '<li>'+esc(c)+'</li>'; }).join('') + '</ul>') +
     mkProgColl('pnote-'+exId, 'Coach notes', null,
@@ -2646,7 +2849,7 @@ function renderHistory(db) {
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearActiveSession()">Clear active session</button>' +
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearWorkoutData()">Clear all history</button>' +
       '</div>' +
-      '<div class="app-version">App version '+APP_VERSION+'</div>' +
+      '<div class="app-version">'+esc(PROGRAM_NAME)+' · App version '+APP_VERSION+'</div>' +
     '</div></details>';
   return '<div class="screen-title">History</div>' + mainContent + dataHtml;
 }
