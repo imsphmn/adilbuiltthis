@@ -165,6 +165,22 @@ p { margin:0; }
   background:var(--card); border:1px solid var(--line);
   border-radius:var(--radius); padding:22px; margin-bottom:14px;
 }
+.rec-topline { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+.rec-confidence { flex:none; padding:4px 8px; border:1px solid var(--accent-ln); border-radius:999px; background:var(--accent-bg); color:var(--accent); font-size:11px; font-weight:700; }
+.rec-manual { color:var(--warn); border-color:oklch(0.80 0.13 90 / .3); background:var(--warn-bg); }
+.rec-why-title { margin:18px 0 8px; color:var(--muted); font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+.rec-reasons { display:grid; gap:8px; margin-bottom:20px; }
+.rec-reason { position:relative; padding-left:14px; color:var(--muted); font-size:14px; line-height:1.4; }
+.rec-reason::before { content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--accent); }
+.rec-details { margin-bottom:14px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--card); overflow:hidden; }
+.rec-details summary { list-style:none; cursor:pointer; padding:13px 15px; color:var(--muted); font-size:14px; font-weight:700; }
+.rec-details summary::-webkit-details-marker { display:none; }
+.rec-detail-body { padding:0 15px 14px; }
+.rec-muscle-row { display:grid; grid-template-columns:1fr auto; gap:8px; padding:8px 0; border-top:1px solid var(--line-soft); }
+.rec-muscle-name { font-size:13px; font-weight:700; }
+.rec-muscle-meta { text-align:right; color:var(--muted); font-size:12px; }
+.rec-note { margin-top:10px; color:var(--faint); font-size:12px; line-height:1.4; }
+.rec-use { display:block; margin:10px auto 0; background:none; border:none; color:var(--accent); font-size:13px; font-weight:700; cursor:pointer; }
 .tdc-kicker { font-family:var(--mono); font-size:11px; letter-spacing:.22em;
   text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:12px; }
 .tdc-day { font-family:var(--mono); font-size:42px; font-weight:800;
@@ -374,6 +390,12 @@ p { margin:0; }
 .addex-check { display:flex; align-items:center; gap:9px; color:var(--muted); font-size:14px; }
 .addex-check input { width:18px; height:18px; accent-color:var(--accent); }
 .addex-muted { font-size:13px; color:var(--faint); line-height:1.4; }
+.sub-label { display:inline-flex; margin-top:7px; padding:3px 8px; border-radius:999px; background:var(--steel-bg); color:var(--steel); font-size:11px; font-weight:700; }
+.sub-action { padding:0 14px 10px; }
+.sub-option { display:grid; gap:6px; padding:13px; border:1px solid var(--line-soft); border-radius:var(--radius-sm); background:var(--card); }
+.sub-name { font-size:15px; font-weight:700; }
+.sub-reason, .sub-warning { font-size:13px; color:var(--muted); line-height:1.4; }
+.sub-warning { color:var(--warn); }
 
 /* summary */
 .sum-wrap {}
@@ -500,6 +522,13 @@ p { margin:0; }
 .prog-day[open] .pd-chev { transform:rotate(-135deg); }
 .pd-body { padding:0 14px 16px; border-top:1px solid var(--line-soft); }
 .pd-goal { font-size:14px; color:var(--muted); margin:12px 0; }
+.pd-edit-row { display:flex; justify-content:flex-end; margin:10px 0; }
+.dayedit-list { display:grid; gap:8px; }
+.dayedit-row { display:grid; grid-template-columns:28px minmax(0,1fr) 38px; align-items:center; gap:8px; }
+.dayedit-no { color:var(--faint); font-family:var(--mono); font-size:12px; text-align:center; }
+.dayedit-remove { min-width:38px; min-height:44px; border:1px solid var(--danger-ln); border-radius:var(--radius-sm); background:transparent; color:var(--danger); cursor:pointer; }
+.dayedit-add { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
+.app-version { color:var(--faint); font-family:var(--mono); font-size:11px; margin-top:10px; }
 /* exercise card in program */
 .prog-ex { border:1px solid var(--line-soft); border-radius:var(--radius-sm); margin:10px 0; padding:14px; background:var(--bg-soft); }
 .pe-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
@@ -653,11 +682,10 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
+const APP_VERSION = '2.1.0';
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function round1(n){ return Math.round(n*10)/10; }
 
-
-'use strict';
 // ============================================================
 // MUSCLES — weekly volume targets (editable via settings)
 // ============================================================
@@ -973,27 +1001,151 @@ var EX = {
 };
 
 // ============================================================
+// CANONICAL EXERCISES, LEGACY IDS AND APPROVED SUBSTITUTIONS
+// ============================================================
+function cloneExercise(baseId, id, name, overrides) {
+  var copy = Object.assign({}, EX[baseId], overrides || {});
+  copy.id = id;
+  copy.name = name;
+  copy.cues = (overrides && overrides.cues) || EX[baseId].cues.slice();
+  copy.mistakes = (overrides && overrides.mistakes) || EX[baseId].mistakes.slice();
+  copy.muscles = Object.assign({}, (overrides && overrides.muscles) || EX[baseId].muscles);
+  return copy;
+}
+
+EX.cable_lateral_raise = cloneExercise('d1e2', 'cable_lateral_raise', 'Cable Lateral Raise', { day:0, order:0 });
+EX.single_arm_cable_lat_pulldown = cloneExercise('d1e3', 'single_arm_cable_lat_pulldown', 'Single Arm Cable Lat Pulldown', { day:0, order:0 });
+EX.reverse_pec_deck = cloneExercise('d1e6', 'reverse_pec_deck', 'Reverse Pec Deck', { day:0, order:0 });
+EX.straight_arm_cable_pulldown = cloneExercise('d2e2', 'straight_arm_cable_pulldown', 'Straight Arm Cable Pulldown', { day:0, order:0 });
+
+EX.pullups = cloneExercise('d2e1', 'pullups', 'Pull Ups', {
+  day:0, order:0,
+  cues:['Chest tall and ribs down.','Start by pulling the shoulder blades down.','Hands are hooks.','Drive elbows down toward your sides.','Keep shoulders away from ears.','Use a consistent full range.','Stop before the rep turns into a kick or swing.'],
+  tnf:'Use the same grip and range each time. Add reps before adding external load.',
+  cbum:'Make every rep look like a lat pose under load.',
+  mistakes:['Kipping.','Shrugging at the top.','Cutting the range short.','Pulling mostly with biceps.','Losing rib position.']
+});
+EX.neutral_grip_lat_pulldown = cloneExercise('d2e1', 'neutral_grip_lat_pulldown', 'Neutral Grip Lat Pulldown', {
+  day:0, order:0,
+  cues:['Use the same neutral grip and seat height.','Chest tall and ribs down.','Pull shoulder blades down first.','Drive elbows toward your sides.','Pull to upper chest without leaning far back.','Control the return.','Do not let the stack slam.'],
+  tnf:'Keep grip, seat height, torso angle and range identical so load progression is comparable.',
+  cbum:'Shoulders down, lats wide and elbows driving down.',
+  mistakes:['Leaning back too far.','Turning it into a row.','Shrugging.','Biceps taking over.','Letting the stack slam.']
+});
+EX.machine_pullover = cloneExercise('d4e2', 'machine_pullover', 'Machine Pullover', {
+  day:0, order:0,
+  cues:['Set the seat so the machine axis matches your shoulder.','Ribs down.','Shoulders down.','Drive upper arms toward hips.','Keep elbows in the pad.','Do not crunch the torso.','Control the return.'],
+  tnf:'Use the machine consistently and progress it separately from cable pullovers.',
+  cbum:'Drive the upper arms down and keep the lats loaded.',
+  mistakes:['Crunching the torso.','Shrugging.','Losing contact with the pad.','Going too heavy.']
+});
+EX.pec_deck = cloneExercise('d4e4', 'pec_deck', 'Pec Deck', {
+  day:0, order:0,
+  cues:['Set the seat so upper arms are around mid chest height.','Keep shoulders back.','Ribs down.','Bring upper arms toward each other.','Squeeze the chest.','Use a controlled stretch.','Stop before shoulders roll forward.'],
+  tnf:'Use the same seat and handle position every time.',
+  cbum:'Make the chest shorten; do not just move the pads.',
+  mistakes:['Shoulders rolling forward.','Seat too high or low.','Too much stretch.','Using momentum.']
+});
+EX.mid_height_cable_fly = cloneExercise('d4e4', 'mid_height_cable_fly', 'Mid Height Cable Fly', {
+  day:0, order:0,
+  cues:['Set cables around mid chest height.','Use a stable staggered stance.','Keep a soft elbow bend.','Ribs down.','Bring upper arms inward.','Squeeze mid chest.','Control the stretch.','Do not let shoulders roll forward.'],
+  tnf:'Keep cable height, stance and range consistent so progression is meaningful.',
+  cbum:'Make the chest squeeze instead of chasing handle contact.',
+  mistakes:['Changing cable height.','Front delts taking over.','Too much stretch.','Bending elbows during the rep.','Using momentum.']
+});
+
+var EX_LEGACY = {};
+['d1e2','d1e3','d1e6','d2e1','d2e2','d2e3','d2e5','d3e1','d4e1','d4e2','d4e4','d4e6'].forEach(function(id) {
+  EX[id].archived = true;
+  EX[id].legacy = true;
+  EX_LEGACY[id] = EX[id];
+});
+
+var CANONICAL_EXERCISE_ALIASES = {
+  d1e2:'cable_lateral_raise',
+  d4e1:'cable_lateral_raise',
+  d1e3:'single_arm_cable_lat_pulldown',
+  d2e3:'single_arm_cable_lat_pulldown',
+  d1e6:'reverse_pec_deck',
+  d2e5:'reverse_pec_deck',
+  d4e6:'reverse_pec_deck',
+  d2e2:'straight_arm_cable_pulldown'
+};
+
+var DAY_EXERCISE_PRESCRIPTION_SOURCES = {
+  1:{ cable_lateral_raise:'d1e2', single_arm_cable_lat_pulldown:'d1e3', reverse_pec_deck:'d1e6' },
+  2:{ straight_arm_cable_pulldown:'d2e2', single_arm_cable_lat_pulldown:'d2e3', reverse_pec_deck:'d2e5' },
+  3:{ cable_lateral_raise:'d3e1' },
+  4:{ cable_lateral_raise:'d4e1', machine_pullover:'d4e2', pec_deck:'d4e4', reverse_pec_deck:'d4e6' }
+};
+
+function getExerciseForDay(exId, dayN, dbRef) {
+  var canonical = getExerciseDef(exId, null, dbRef);
+  var sourceId = DAY_EXERCISE_PRESCRIPTION_SOURCES[dayN] && DAY_EXERCISE_PRESCRIPTION_SOURCES[dayN][exId];
+  if (!sourceId) return canonical;
+  var source = EX[sourceId];
+  var prescribed = Object.assign({}, canonical, {
+    sMin:source.sMin, sMax:source.sMax, sDef:source.sDef,
+    rMin:source.rMin, rMax:source.rMax, rirMin:source.rirMin, rirMax:source.rirMax,
+    rest:source.rest, drop:source.drop, dropMuscles:source.dropMuscles
+  });
+  return prescribed;
+}
+
+var SUBSTITUTIONS = {
+  pullups:[{
+    id:'neutral_grip_lat_pulldown',
+    reason:'Use if the pull-up station is unavailable or bodyweight pull ups are below the target reps.',
+    compareLoadDirectly:false
+  }],
+  machine_pullover:[{
+    id:'straight_arm_cable_pulldown',
+    reason:'Use when a pullover machine is unavailable.',
+    compareLoadDirectly:false
+  }],
+  pec_deck:[{
+    id:'mid_height_cable_fly',
+    reason:'Use when a pec deck is unavailable.',
+    compareLoadDirectly:false
+  }]
+};
+
+function getHistoryExerciseId(exId) {
+  return CANONICAL_EXERCISE_ALIASES[exId] || exId;
+}
+
+function getSelectableExerciseIds(dbRef) {
+  var ids = Object.keys(EX).filter(function(id) { return !EX[id].archived; });
+  var custom = dbRef && dbRef.settings && dbRef.settings.customExercises;
+  if (custom) ids = ids.concat(Object.keys(custom));
+  return ids.sort(function(a,b) {
+    var ea = getExerciseDef(a, null, dbRef), eb = getExerciseDef(b, null, dbRef);
+    return (ea ? ea.name : a).localeCompare(eb ? eb.name : b);
+  });
+}
+
+// ============================================================
 // DAYS
 // ============================================================
 var DAYS = {
   1:{ n:1, title:'Shoulder Width and Upper Chest Foundation', nav:'Shoulders & Chest',
     goal:'Upper chest shelf, side delt width, lat touch, mid back posture, rear delt support and waist control.',
-    exercises:['d1e1','d1e2','d1e3','d1e4','d1e5','d1e6','d1e7'], duration:60,
+    exercises:['d1e1','cable_lateral_raise','single_arm_cable_lat_pulldown','d1e4','d1e5','reverse_pec_deck','d1e7'], duration:60,
     primaryMuscles:['Upper chest','Side delts','Lats','Mid back','Rear delts'],
     checklist:['Upper chest failed before front delts.','Side delts failed before traps.','Single arm pulldown hit lats, not biceps.','Cable fly hit upper chest.','Row hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Crunch moved ribs toward pelvis.','Ribs stayed down.','Load and reps were logged.'] },
   2:{ n:2, title:'Lat Width, Mid Back and Rear Structure', nav:'Lat Width & Back',
     goal:'V taper, lat width, lower lat sweep, mid back density, rear delt roundness and scapular control.',
-    exercises:['d2e1','d2e2','d2e3','d2e4','d2e5','d2e6'], duration:55,
+    exercises:['pullups','straight_arm_cable_pulldown','single_arm_cable_lat_pulldown','d2e4','reverse_pec_deck','d2e6'], duration:55,
     primaryMuscles:['Lats','Mid back','Rear delts','Serratus'],
     checklist:['Pulldowns hit lats before biceps.','Straight arm pulldowns hit lats, not triceps.','Single arm pulldowns felt like elbow to front pocket.','Rows hit mid back, not upper traps.','Reverse pec deck hit rear delts, not traps.','Serratus punch moved shoulder blade, not torso.','Ribs stayed down.','Load and reps were logged.'] },
   3:{ n:3, title:'Direct Arms, Shoulder Cap and Scapular Control', nav:'Arms & Delts',
     goal:'Direct biceps and triceps work, side delt cap, arm thickness and shoulder blade control.',
-    exercises:['d3e1','d3e2','d3e3','d3e4','d3e5','d3e6','d3e7'], duration:65,
+    exercises:['cable_lateral_raise','d3e2','d3e3','d3e4','d3e5','d3e6','d3e7'], duration:65,
     primaryMuscles:['Side delts','Lower traps','Triceps','Biceps','Brachialis'],
     checklist:['Side delts failed before traps.','Cable Y raise did not become a shrug.','Overhead triceps extension hit long head.','Triceps extensions did not become presses.','Incline dumbbell curls stayed strict.','Hammer curls stayed controlled.','Dead bugs kept ribs down.','Load and reps were logged.'] },
   4:{ n:4, title:'Lat Sweep, Upper Chest, Waist and Pelvis Control', nav:'Sweep & Waist',
     goal:'Lat sweep, upper chest, rear structure, posture support, glute activation and pelvis control.',
-    exercises:['d4e1','d4e2','d4e3','d4e4','d4e5','d4e6','d4e7','d4e8'], duration:70,
+    exercises:['cable_lateral_raise','machine_pullover','d4e3','pec_deck','d4e5','reverse_pec_deck','d4e7','d4e8'], duration:70,
     primaryMuscles:['Side delts','Lats','Upper chest','Mid chest','Rear delts','Glutes'],
     checklist:['Side delts hit before traps.','Pullover hit lats, not triceps.','Upper chest press hit chest, not front delts.','Mid chest fly felt controlled.','Rows hit mid back.','Rear delts worked without traps.','Hip thrust hit glutes, not lower back.','Serratus punch moved shoulder blade, not torso.','Load and reps were logged.'] },
 };
@@ -1023,8 +1175,6 @@ var PROGRESSION_RULES = [
   'Stay 1 RIR on dumbbell pressing, cable pressing, heavy pulldowns, rows, hip thrusts and ab work.',
 ];
 
-
-'use strict';
 // ============================================================
 // STORAGE — schema v2
 // ============================================================
@@ -1036,7 +1186,9 @@ function dbLoad() {
     var raw = localStorage.getItem(DB_KEY);
     if (!raw) return dbDefault();
     var d = JSON.parse(raw);
-    if (!d.schemaVersion || d.schemaVersion < 2) return dbMigrateV1(d);
+    if (!d.schemaVersion || d.schemaVersion < 2) d = dbMigrateV1(d);
+    d = migrateDb(d);
+    localStorage.setItem(DB_KEY, JSON.stringify(d));
     return d;
   } catch(e) { return dbDefault(); }
 }
@@ -1044,7 +1196,7 @@ function dbLoad() {
 function dbDefault() {
   return {
     schemaVersion: 2,
-    settings: { muscleMappings: null, volumeTargets: null },
+    settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {} },
     lastCompletedDay: null,
     activeSession: null,
     completedSessions: [],
@@ -1054,6 +1206,48 @@ function dbDefault() {
 
 function dbSave(db) {
   try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
+}
+
+function migrateDb(data) {
+  var d = data || dbDefault();
+  d.schemaVersion = 2;
+  d.settings = d.settings || {};
+  if (!d.settings.dayExercises) d.settings.dayExercises = {};
+  if (!d.settings.customExercises) d.settings.customExercises = {};
+  if (d.settings.muscleMappings === undefined) d.settings.muscleMappings = null;
+  if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
+  if (!Array.isArray(d.completedSessions)) d.completedSessions = [];
+
+  function migrateSession(session) {
+    if (!session) return;
+    if (!session.customExercises) session.customExercises = {};
+    if (!session.exercisePrescriptions) session.exercisePrescriptions = {};
+    if (!session.exNotes) session.exNotes = {};
+    if (!Array.isArray(session.sets)) session.sets = [];
+    if (!Array.isArray(session.exerciseOrder) || !session.exerciseOrder.length) {
+      session.exerciseOrder = [];
+      session.sets.forEach(function(set) {
+        if (session.exerciseOrder.indexOf(set.exId) === -1) session.exerciseOrder.push(set.exId);
+      });
+      if (!session.exerciseOrder.length && DAYS[session.dayN]) session.exerciseOrder = DAYS[session.dayN].exercises.slice();
+    }
+  }
+
+  d.completedSessions.forEach(migrateSession);
+  migrateSession(d.activeSession);
+  return d;
+}
+
+function getDayExerciseIds(dbRef, dayN) {
+  var saved = dbRef && dbRef.settings && dbRef.settings.dayExercises && dbRef.settings.dayExercises[dayN];
+  return Array.isArray(saved) && saved.length ? saved.slice() : DAYS[dayN].exercises.slice();
+}
+
+function saveDayExerciseIds(dbRef, dayN, exerciseIds) {
+  if (!dbRef.settings) dbRef.settings = {};
+  if (!dbRef.settings.dayExercises) dbRef.settings.dayExercises = {};
+  dbRef.settings.dayExercises[dayN] = exerciseIds.slice();
+  dbSave(dbRef);
 }
 
 // ---- v1 migration ----
@@ -1081,6 +1275,9 @@ function newSessionId() { return 'sess_' + Date.now() + '_' + Math.random().toSt
 function newSetId()     { return 'set_'  + Date.now() + '_' + Math.random().toString(36).slice(2,5); }
 
 function createSession(dayN) {
+  var order = DAYS[dayN] ? getDayExerciseIds(db, dayN) : [];
+  var prescriptions = {};
+  order.forEach(function(exId) { prescriptions[exId] = getExerciseForDay(exId, dayN, db); });
   return {
     id: newSessionId(),
     dayN: dayN,
@@ -1088,7 +1285,8 @@ function createSession(dayN) {
     endTime: null,
     durationMs: null,
     sets: [],
-    exerciseOrder: DAYS[dayN] ? DAYS[dayN].exercises.slice() : [],
+    exerciseOrder: order,
+    exercisePrescriptions: prescriptions,
     customExercises: {},
     notes: '',
     finished: false,
@@ -1115,16 +1313,26 @@ function newCustomExerciseId() {
   return 'custom_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
 }
 
-function getExerciseDef(exId, session) {
+function getExerciseDef(exId, session, dbRef) {
+  if (session && session.exercisePrescriptions && session.exercisePrescriptions[exId]) return session.exercisePrescriptions[exId];
   if (EX[exId]) return EX[exId];
   if (session && session.customExercises && session.customExercises[exId]) return session.customExercises[exId];
-  return null;
+  var data = dbRef || (typeof db !== 'undefined' ? db : null);
+  if (data && data.settings && data.settings.customExercises && data.settings.customExercises[exId]) {
+    return data.settings.customExercises[exId];
+  }
+  return {
+    id:exId, name:'Unknown Exercise', rawId:exId, unknown:true,
+    sMin:1, sMax:1, sDef:1, rMin:1, rMax:20, rirMin:0, rirMax:1, rest:90,
+    target:'Unknown', uni:false, drop:false, muscles:{}, cues:[], mistakes:[],
+    tnf:'This exercise came from older saved data.', cbum:'', hard:''
+  };
 }
 
 function getSessionExerciseIds(session) {
   if (!session) return [];
   var day = DAYS[session.dayN];
-  var ids = session.exerciseOrder ? session.exerciseOrder.slice() : (day ? day.exercises.slice() : []);
+  var ids = session.exerciseOrder ? session.exerciseOrder.slice() : (day ? getDayExerciseIds(db, session.dayN) : []);
   session.sets.forEach(function(s) {
     if (ids.indexOf(s.exId) === -1) ids.push(s.exId);
   });
@@ -1139,7 +1347,7 @@ function normaliseSessionExerciseOrder(session) {
 function exerciseOptionsForSession(session) {
   var used = {};
   getSessionExerciseIds(session).forEach(function(exId) { used[exId] = true; });
-  return Object.keys(EX).filter(function(exId) {
+  return getSelectableExerciseIds(db).filter(function(exId) {
     return !used[exId];
   }).sort(function(a,b) {
     var ea = EX[a], eb = EX[b];
@@ -1238,12 +1446,13 @@ function makeCustomExerciseDef(form) {
 // Returns array of completed sets for an exercise, most recent first
 function getExHistory(db, exId) {
   var sets = [];
+  var historyId = getHistoryExerciseId(exId);
   var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime - a.startTime; });
   for (var i = 0; i < sessions.length; i++) {
     var sess = sessions[i];
     for (var j = 0; j < sess.sets.length; j++) {
       var s = sess.sets[j];
-      if (s.exId === exId && s.completed && !s.skipped && s.setType !== 'warmup') {
+      if (getHistoryExerciseId(s.exId) === historyId && s.completed && !s.skipped && s.setType !== 'warmup') {
         sets.push({ set: s, sessionId: sess.id, sessionTime: sess.startTime, dayN: sess.dayN });
       }
     }
@@ -1253,11 +1462,12 @@ function getExHistory(db, exId) {
 
 // Returns the most recent complete working session for an exercise (non-warmup, completed sets only)
 function getLastExSession(db, exId) {
+  var historyId = getHistoryExerciseId(exId);
   var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime - a.startTime; });
   for (var i = 0; i < sessions.length; i++) {
     var sess = sessions[i];
     var found = sess.sets.filter(function(s) {
-      return s.exId === exId && s.completed && !s.skipped && s.setType !== 'warmup';
+      return getHistoryExerciseId(s.exId) === historyId && s.completed && !s.skipped && s.setType !== 'warmup';
     });
     if (found.length > 0) return { session: sess, sets: found };
   }
@@ -1345,11 +1555,198 @@ function detectPRs(db, session) {
 }
 
 // ---- next day in rotation ----
-function nextDay(db) {
-  if (db._nextDayOverride) return db._nextDayOverride;
-  var last = db.lastCompletedDay;
-  if (!last) return 1;
-  return (last % 4) + 1;
+// BEST WORKOUT TODAY RECOMMENDATION ENGINE
+var RECOMMENDATION_PRIORITY = {
+  'side-delts':1.50, 'lats':1.50, 'upper-chest':1.40, 'rear-delts':1.25,
+  'mid-back':1.20, 'abs':0.90, 'lower-traps':0.90, 'serratus':0.85,
+  'triceps':0.75, 'biceps':0.65, 'brachialis':0.50, 'mid-chest':0.45,
+  'glutes':0.40, 'front-delts':0.10
+};
+
+function getRollingSessions(dbRef, days, now) {
+  var end = now || Date.now();
+  var start = end - days * 24 * 60 * 60 * 1000;
+  return dbRef.completedSessions.filter(function(session) {
+    return session.startTime >= start && session.startTime <= end;
+  });
+}
+
+function calculateRollingMuscleStimulus(dbRef, days, now) {
+  return calcVolume(getRollingSessions(dbRef, days, now), dbRef.settings && dbRef.settings.muscleMappings);
+}
+
+function getMuscleLastTrainedTimes(dbRef) {
+  var times = {};
+  dbRef.completedSessions.forEach(function(session) {
+    session.sets.forEach(function(set) {
+      if (!set.completed || set.skipped || set.setType === 'warmup') return;
+      var ex = getExerciseDef(set.exId, session, dbRef);
+      Object.keys(ex.muscles || {}).forEach(function(muscleId) {
+        var trainedAt = set.timestamp || session.endTime || session.startTime;
+        times[muscleId] = Math.max(times[muscleId] || 0, trainedAt);
+      });
+    });
+  });
+  return times;
+}
+
+function getDayPlannedStimulus(dayN, dbRef) {
+  var stimulus = {};
+  getDayExerciseIds(dbRef || db, dayN).forEach(function(exId) {
+    var ex = getExerciseForDay(exId, dayN, dbRef || db);
+    Object.keys(ex.muscles || {}).forEach(function(muscleId) {
+      stimulus[muscleId] = (stimulus[muscleId] || 0) + ex.sDef * ex.muscles[muscleId];
+    });
+    if (ex.drop && ex.dropMuscles) {
+      Object.keys(ex.dropMuscles).forEach(function(muscleId) {
+        stimulus[muscleId] = (stimulus[muscleId] || 0) + ex.dropMuscles[muscleId];
+      });
+    }
+  });
+  return stimulus;
+}
+
+function getLastCompletedTimeForDay(dbRef, dayN) {
+  return dbRef.completedSessions.reduce(function(latest, session) {
+    if (session.dayN !== dayN) return latest;
+    return Math.max(latest, session.endTime || session.startTime || 0);
+  }, 0);
+}
+
+function getRecommendationTarget(dbRef, muscleId) {
+  var saved = dbRef.settings && dbRef.settings.volumeTargets && dbRef.settings.volumeTargets[muscleId];
+  if (saved && typeof saved === 'object' && isFinite(Number(saved.min)) && isFinite(Number(saved.max))) {
+    return { min:Number(saved.min), max:Number(saved.max) };
+  }
+  return { min:MUSCLES[muscleId].min, max:MUSCLES[muscleId].max };
+}
+
+function getNeedFactor(current, min, max) {
+  if (min <= 0 && max <= 0) return 0;
+  if (current < min) return 1 + Math.min(1, (min - current) / Math.max(min, 1));
+  if (current <= max) {
+    var range = Math.max(max - min, 1);
+    return 0.35 + 0.65 * ((max - current) / range);
+  }
+  return -0.5;
+}
+
+function getRecoveryFactor(hoursSinceTraining) {
+  if (hoursSinceTraining === Infinity) return 1.00;
+  if (hoursSinceTraining < 24) return 0.15;
+  if (hoursSinceTraining < 48) return 0.55;
+  if (hoursSinceTraining < 72) return 0.85;
+  return 1.00;
+}
+
+function scoreWorkoutDay(dbRef, dayN, now) {
+  var currentTime = now || Date.now();
+  var rolling = calculateRollingMuscleStimulus(dbRef, 7, currentTime);
+  var lastTimes = getMuscleLastTrainedTimes(dbRef);
+  var planned = getDayPlannedStimulus(dayN, dbRef);
+  var score = 0;
+  Object.keys(planned).forEach(function(muscleId) {
+    if (!MUSCLES[muscleId]) return;
+    var target = getRecommendationTarget(dbRef, muscleId);
+    var hoursSince = lastTimes[muscleId] ? (currentTime - lastTimes[muscleId]) / 3600000 : Infinity;
+    score += planned[muscleId] * (RECOMMENDATION_PRIORITY[muscleId] || 0.5) *
+      getNeedFactor(rolling[muscleId] || 0, target.min, target.max) * getRecoveryFactor(hoursSince);
+  });
+  var lastDayTime = getLastCompletedTimeForDay(dbRef, dayN);
+  var daysSince = lastDayTime ? (currentTime - lastDayTime) / 86400000 : Infinity;
+  if (daysSince < 1) score -= 10;
+  else if (daysSince < 2) score -= 5;
+  else if (daysSince < 3) score -= 1.5;
+  score += (daysSince === Infinity ? 7 : Math.min(daysSince, 7)) * 0.15;
+  return { dayN:dayN, score:score, planned:planned, daysSince:daysSince };
+}
+
+function getLatestSessionMuscles(dbRef) {
+  if (!dbRef.completedSessions.length) return [];
+  var latest = dbRef.completedSessions.slice().sort(function(a,b) { return b.startTime-a.startTime; })[0];
+  var volume = calcVolume([latest], dbRef.settings && dbRef.settings.muscleMappings);
+  return Object.keys(volume).filter(function(id) { return volume[id] >= 0.5; })
+    .sort(function(a,b) { return volume[b]-volume[a]; }).slice(0,2);
+}
+
+function buildRecommendationReasons(recommendation, dbRef) {
+  if (!dbRef.completedSessions.length) {
+    return ['Start with the foundation session. There is not enough workout history for a personalised recommendation yet.'];
+  }
+  var reasons = [];
+  var deficits = recommendation.muscleDetails.filter(function(detail) { return detail.current < detail.min; })
+    .sort(function(a,b) { return (b.min-b.current)-(a.min-a.current); });
+  if (deficits.length) {
+    var deficit = deficits[0];
+    reasons.push(deficit.label+' is '+round1(deficit.min-deficit.current)+' sets below your rolling weekly minimum.');
+  }
+  var latestMuscles = getLatestSessionMuscles(dbRef);
+  if (latestMuscles.length) {
+    reasons.push('Your last session mainly trained '+latestMuscles.map(function(id){return MUSCLES[id].label.toLowerCase();}).join(' and ')+'.');
+  }
+  var recovered = recommendation.muscleDetails.filter(function(detail) { return detail.hoursSince >= 72; })
+    .sort(function(a,b) { return (RECOMMENDATION_PRIORITY[b.muscleId]||0)-(RECOMMENDATION_PRIORITY[a.muscleId]||0); });
+  if (recovered.length) reasons.push(recovered[0].label+' has had more than 72 hours of recovery.');
+  if (reasons.length < 2 && recommendation.daysSince >= 3) reasons.push('Day '+recommendation.dayN+' has not been completed recently.');
+  return reasons.slice(0,3);
+}
+
+function getBestWorkoutRecommendation(dbRef, now) {
+  var currentTime = now || Date.now();
+  if (!dbRef.completedSessions.length) {
+    var first = scoreWorkoutDay(dbRef, 1, currentTime);
+    first.confidence = 'Low';
+    first.secondBestDayN = 2;
+    first.allScores = {1:first.score,2:0,3:0,4:0};
+    first.muscleDetails = buildRecommendationMuscleDetails(dbRef, first, currentTime);
+    first.reasons = buildRecommendationReasons(first, dbRef);
+    return first;
+  }
+  var scored = [1,2,3,4].map(function(dayN) { return scoreWorkoutDay(dbRef, dayN, currentTime); });
+  scored.sort(function(a,b) {
+    var maxAbs = Math.max(Math.abs(a.score), Math.abs(b.score), 1);
+    if (Math.abs(a.score-b.score) / maxAbs <= 0.05) {
+      if (a.daysSince !== b.daysSince) return b.daysSince-a.daysSince;
+      return a.dayN-b.dayN;
+    }
+    return b.score-a.score;
+  });
+  var top = scored[0], second = scored[1];
+  var denominator = Math.max(Math.abs(second.score), 1);
+  var lead = (top.score-second.score) / denominator;
+  top.confidence = dbRef.completedSessions.length <= 1 || lead < 0.10 ? 'Low' : lead <= 0.20 ? 'Medium' : 'High';
+  top.secondBestDayN = second.dayN;
+  top.allScores = {};
+  scored.forEach(function(item) { top.allScores[item.dayN] = item.score; });
+  top.muscleDetails = buildRecommendationMuscleDetails(dbRef, top, currentTime);
+  var mainCovered = ['side-delts','lats','upper-chest','rear-delts','mid-back'].every(function(id) {
+    var target = getRecommendationTarget(dbRef, id);
+    return (calculateRollingMuscleStimulus(dbRef,7,currentTime)[id] || 0) >= target.min;
+  });
+  top.reasons = mainCovered
+    ? ['Your main weekly targets are covered. This is the best recovered and least recent session.']
+    : buildRecommendationReasons(top, dbRef);
+  return top;
+}
+
+function buildRecommendationMuscleDetails(dbRef, recommendation, now) {
+  var rolling = calculateRollingMuscleStimulus(dbRef, 7, now);
+  var lastTimes = getMuscleLastTrainedTimes(dbRef);
+  return Object.keys(recommendation.planned).filter(function(id) { return MUSCLES[id]; })
+    .sort(function(a,b) {
+      return (recommendation.planned[b]*(RECOMMENDATION_PRIORITY[b]||0))-(recommendation.planned[a]*(RECOMMENDATION_PRIORITY[a]||0));
+    }).slice(0,5).map(function(id) {
+      var target = getRecommendationTarget(dbRef, id);
+      return {
+        muscleId:id, label:MUSCLES[id].label, current:round1(rolling[id]||0), min:target.min, max:target.max,
+        hoursSince:lastTimes[id] ? (now-lastTimes[id])/3600000 : Infinity
+      };
+    });
+}
+
+function nextDay(dbRef) {
+  if (dbRef._nextDayOverride) return dbRef._nextDayOverride;
+  return getBestWorkoutRecommendation(dbRef).dayN;
 }
 
 // ---- export / import ----
@@ -1393,97 +1790,58 @@ function fmtShortDate(ts) {
   return new Date(ts).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
 }
 
-
-'use strict';
 // ============================================================
 // REST TIMER
 // ============================================================
 var Timer = (function() {
   var _running = false;
   var _start = 0;
-  var _duration = 90; // seconds
-  var _remaining = 90;
+  var _target = 90;
+  var _elapsed = 0;
   var _interval = null;
   var _pill = null;
-  var _onDone = null;
 
   function _save() {
     try {
       localStorage.setItem(TIMER_KEY, JSON.stringify({
-        running: _running, start: _start, duration: _duration, remaining: _remaining
+        mode:'countup', running:_running, start:_start, target:_target
       }));
     } catch(e) {}
   }
 
-  function _beep() {
-    try {
-      var ctx = new (window.AudioContext || window.webkitAudioContext)();
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.frequency.value = 880;
-      gain.gain.setValueAtTime(0.4, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.6);
-    } catch(e) {}
-    try { navigator.vibrate([200, 80, 200]); } catch(e) {}
+  function formatSeconds(seconds) {
+    var m = Math.floor(seconds / 60);
+    var s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
   }
 
   function _render() {
     if (!_pill) _pill = document.getElementById('timer-pill');
     if (!_pill) return;
-    var r = Math.max(0, _remaining);
-    var m = Math.floor(r / 60);
-    var s = Math.floor(r % 60);
-    var display = m + ':' + (s < 10 ? '0' : '') + s;
-    _pill.classList.toggle('hidden', !_running && _remaining >= _duration);
+    _pill.classList.toggle('hidden', !_running);
     _pill.innerHTML =
-      '<span class="tp-label">REST</span>' +
-      '<button class="tp-adj" data-adj="-15" onclick="Timer.adjust(-15)">−15</button>' +
-      '<span class="tp-time' + (r <= 10 ? ' tp-urgent' : '') + '">' + display + '</span>' +
-      '<button class="tp-adj" data-adj="+15" onclick="Timer.adjust(15)">+15</button>' +
-      '<button class="tp-skip" onclick="Timer.skip()">Skip</button>';
-    if (!_running) _pill.classList.remove('hidden');
+      '<span class="tp-label">REST · target '+formatSeconds(_target)+'</span>' +
+      '<span class="tp-time' + (_elapsed >= _target ? ' tp-urgent' : '') + '">' + formatSeconds(_elapsed) + '</span>' +
+      '<button class="tp-skip" onclick="Timer.skip()">Done</button>';
   }
 
   function _tick() {
     if (!_running) return;
-    var elapsed = (Date.now() - _start) / 1000;
-    _remaining = Math.max(0, _duration - elapsed);
+    _elapsed = Math.max(0, (Date.now() - _start) / 1000);
     _render();
-    _save();
-    if (_remaining <= 0) {
-      _running = false;
-      clearInterval(_interval);
-      _interval = null;
-      _beep();
-      _save();
-      _render();
-      setTimeout(function() {
-        if (_pill) _pill.classList.add('hidden');
-      }, 4000);
-      if (_onDone) _onDone();
-    }
   }
 
-  // Handle page visibility (screen lock, tab switch)
   document.addEventListener('visibilitychange', function() {
-    if (!document.hidden && _running) {
-      var elapsed = (Date.now() - _start) / 1000;
-      _remaining = Math.max(0, _duration - elapsed);
-      if (_remaining <= 0) { _tick(); }
-      else { _render(); }
-    }
+    if (!document.hidden && _running) _tick();
   });
 
   return {
-    start: function(seconds, onDone) {
+    start: function(seconds) {
       if (_interval) clearInterval(_interval);
-      _duration = seconds || 90;
-      _remaining = _duration;
+      _target = seconds || 90;
+      _elapsed = 0;
       _start = Date.now();
       _running = true;
-      _onDone = onDone || null;
       _interval = setInterval(_tick, 500);
       _render(); _save();
     },
@@ -1493,47 +1851,37 @@ var Timer = (function() {
         if (!raw) return;
         var t = JSON.parse(raw);
         if (!t.running) return;
-        var elapsed = (Date.now() - t.start) / 1000;
-        _duration = t.duration;
-        _remaining = Math.max(0, t.duration - elapsed);
+        _target = t.target || t.duration || 90;
         _start = t.start;
-        if (_remaining > 0) {
-          _running = true;
-          if (_interval) clearInterval(_interval);
-          _interval = setInterval(_tick, 500);
-        }
+        _elapsed = Math.max(0, (Date.now() - _start) / 1000);
+        _running = true;
+        if (_interval) clearInterval(_interval);
+        _interval = setInterval(_tick, 500);
         _render();
       } catch(e) {}
     },
-    adjust: function(delta) {
-      _remaining = Math.max(0, _remaining + delta);
-      _start = Date.now() - (_duration - _remaining) * 1000;
-      _render(); _save();
-    },
     skip: function() {
       _running = false;
-      _remaining = 0;
+      _elapsed = 0;
       clearInterval(_interval); _interval = null;
       _save();
-      if (_pill) setTimeout(function() { _pill.classList.add('hidden'); }, 400);
       _render();
     },
     isRunning: function() { return _running; },
   };
 })();
 
-
-'use strict';
 // ============================================================
 // TODAY SCREEN
 // ============================================================
 function renderToday(db) {
   var active = db.activeSession && !db.activeSession.finished;
-  var nDay = nextDay(db);
+  var recommendation = getBestWorkoutRecommendation(db);
+  var manual = !!db._nextDayOverride;
+  var nDay = manual ? db._nextDayOverride : recommendation.dayN;
   var day = DAYS[nDay];
-  var exCount = day.exercises.length;
+  var exCount = getDayExerciseIds(db, nDay).length;
   var lastDone = null;
-  // find last session of this day
   var pastSame = db.completedSessions.filter(function(s){ return s.dayN === nDay; }).sort(function(a,b){ return b.startTime-a.startTime; });
   if (pastSame.length) lastDone = pastSame[0].startTime;
 
@@ -1558,11 +1906,25 @@ function renderToday(db) {
       '</label>';
   }).join('');
 
+  var cardReasons = manual
+    ? ['You selected Day '+nDay+' manually. The current recommendation is Day '+recommendation.dayN+'.']
+    : recommendation.reasons;
+  var reasons = cardReasons.map(function(reason) {
+    return '<div class="rec-reason">'+esc(reason)+'</div>';
+  }).join('');
+  var detailRows = recommendation.muscleDetails.map(function(detail) {
+    var recovery = detail.hoursSince === Infinity ? 'Not trained yet' : detail.hoursSince < 24
+      ? Math.max(1,Math.round(detail.hoursSince))+'h ago'
+      : round1(detail.hoursSince/24)+'d ago';
+    return '<div class="rec-muscle-row"><span class="rec-muscle-name">'+esc(detail.label)+'</span>' +
+      '<span class="rec-muscle-meta">'+detail.current+' / '+detail.min+' minimum · '+recovery+'</span></div>';
+  }).join('');
+
   return '<div class="today-wrap">' +
-    (active ? '' : '') +
     resumeBanner +
     '<div class="today-day-card">' +
-      '<div class="tdc-kicker">Next Workout</div>' +
+      '<div class="rec-topline"><div class="tdc-kicker">Best Workout Today</div>' +
+        '<span class="rec-confidence'+(manual?' rec-manual':'')+'">'+(manual?'Manual choice':recommendation.confidence+' confidence')+'</span></div>' +
       '<div class="tdc-day">Day ' + String(nDay).padStart(2,'0') + '</div>' +
       '<div class="tdc-title">' + day.title + '</div>' +
       '<div class="tdc-muscles">' + day.primaryMuscles.join(' · ') + '</div>' +
@@ -1571,10 +1933,17 @@ function renderToday(db) {
         '<span>~' + day.duration + ' min</span>' +
         (lastDone ? '<span>Last: ' + fmtShortDate(lastDone) + '</span>' : '<span>Never done</span>') +
       '</div>' +
-      '<button class="btn-primary btn-xl" onclick="App.startWorkout(' + nDay + ')" ' + (active ? 'disabled title="Finish current session first"' : '') + '>Start Workout</button>' +
+      '<div class="rec-why-title">Why today</div><div class="rec-reasons">'+reasons+'</div>' +
+      '<button class="btn-primary btn-xl" onclick="App.startWorkout(' + nDay + ')" ' + (active ? 'disabled title="Finish current session first"' : '') + '>'+(manual?'Start Chosen Workout':'Start Recommended Workout')+'</button>' +
+      (manual ? '<button class="rec-use" onclick="App.useRecommendation()">Use recommendation</button>' : '') +
     '</div>' +
+    '<details class="rec-details"><summary>'+(manual?'Why the recommendation?':'Why this workout?')+'</summary><div class="rec-detail-body">' +
+      detailRows +
+      '<div class="rec-note">Second best option: Day '+recommendation.secondBestDayN+' · '+esc(DAYS[recommendation.secondBestDayN].title)+'</div>' +
+      '<div class="rec-note">This is a deterministic recommendation based only on your logged completed sets.</div>' +
+    '</div></details>' +
     '<details class="today-picker">' +
-      '<summary class="tp-sum">Choose a different day</summary>' +
+      '<summary class="tp-sum">Choose another workout</summary>' +
       '<div class="tp-body">' + dayPickerRows + '</div>' +
     '</details>' +
   '</div>';
@@ -1583,11 +1952,10 @@ function renderToday(db) {
 // ============================================================
 // WORKOUT INIT
 // ============================================================
-function initWorkoutSets(dayN, db) {
-  var day = DAYS[dayN];
+function initWorkoutSets(dayN, db, session) {
   var sets = [];
-  day.exercises.forEach(function(exId) {
-    var ex = EX[exId];
+  getDayExerciseIds(db, dayN).forEach(function(exId) {
+    var ex = getExerciseDef(exId, session, db);
     sets = sets.concat(createExerciseSetsForSession(exId, ex, db));
   });
   return sets;
@@ -1658,6 +2026,10 @@ function renderExCard(exId, sess, db, exState) {
   if (!ex) return '';
   var exerciseIds = getSessionExerciseIds(sess);
   var exOrder = exerciseIds.indexOf(exId) + 1;
+  var substitutedForId = sess.substitutions && sess.substitutions[exId];
+  var substitutedFor = substitutedForId ? getExerciseDef(substitutedForId, sess) : null;
+  var substitutionLabel = substitutedFor ? '<span class="sub-label">Substituted for '+esc(substitutedFor.name)+'</span>' : '';
+  var unknownLabel = ex.unknown ? '<span class="sub-label">Saved ID: '+esc(ex.rawId)+'</span>' : '';
   var exSets = sess.sets.filter(function(s){ return s.exId === exId; });
   var workingSets = exSets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; });
   var allDone = workingSets.length>0 && workingSets.every(function(s){ return s.completed||s.skipped; });
@@ -1671,7 +2043,7 @@ function renderExCard(exId, sess, db, exState) {
     return '<div class="ex-card ex-card--done" id="exc-'+exId+'">' +
       '<div class="exc-compact exc-compact--done" onclick="App.expandExCard(\'' + exId + '\')">' +
         '<span class="exc-compact-check">✓</span>' +
-        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel +
         '<span class="exc-compact-sub">'+dSets.length+' sets · '+esc(summ)+'</span></div>' +
         '<span class="exc-expand-hint">edit ›</span>' +
       '</div></div>';
@@ -1681,7 +2053,7 @@ function renderExCard(exId, sess, db, exState) {
     return '<div class="ex-card ex-card--future" id="exc-'+exId+'">' +
       '<div class="exc-compact exc-compact--future" onclick="App.expandExCard(\'' + exId + '\')">' +
         '<span class="exc-compact-num">'+String(exOrder).padStart(2,'0')+'</span>' +
-        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel +
         '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+' reps</span></div>' +
         '<span class="exc-expand-hint">›</span>' +
       '</div></div>';
@@ -1706,6 +2078,7 @@ function renderExCard(exId, sess, db, exState) {
       '<div class="exc-meta">' +
         '<span class="exc-name">'+esc(ex.name)+'</span>' +
         '<span class="exc-target">'+esc(ex.target)+'</span>' +
+        substitutionLabel + unknownLabel +
       '</div>' +
       '<div class="exc-badges">' +
         '<span class="xb">'+ex.sDef+(ex.sMin!==ex.sMax?'–'+ex.sMax:'')+' sets</span>' +
@@ -1718,6 +2091,7 @@ function renderExCard(exId, sess, db, exState) {
       '<button class="btn-ghost btn-sm" onclick="App.addWorkingSet(\'' + exId + '\')">+ Set</button>' +
       '<button class="btn-ghost btn-sm" onclick="App.addWarmupSet(\'' + exId + '\')">+ Warmup</button>' +
     '</div>' +
+    (SUBSTITUTIONS[exId] ? '<div class="sub-action"><button class="btn-ghost btn-sm" onclick="App.openSubstitution(\''+exId+'\')">Substitute exercise</button></div>' : '') +
     '<textarea class="ex-note-input" placeholder="Exercise note..." rows="1" oninput="App.saveExNote(\'' + exId + '\',this.value)">'+esc(noteVal)+'</textarea>' +
     collapsibles + '</div>';
 }
@@ -1772,8 +2146,8 @@ function renderSetRow(s, prevSet, ex) {
 function renderAddExerciseModal(sess) {
   var options = exerciseOptionsForSession(sess);
   var optionHtml = options.map(function(exId) {
-    var ex = EX[exId];
-    return '<option value="' + exId + '">Day ' + ex.day + ' · ' + esc(ex.name) + '</option>';
+    var ex = getExerciseDef(exId, sess, db);
+    return '<option value="' + exId + '">' + (ex.day ? 'Day '+ex.day+' · ' : '') + esc(ex.name) + '</option>';
   }).join('');
   var muscleOptions = Object.keys(MUSCLES).map(function(mId) {
     return '<option value="' + mId + '">' + esc(MUSCLES[mId].label) + '</option>';
@@ -1817,6 +2191,24 @@ function renderAddExerciseModal(sess) {
       '<button class="btn-primary btn-lg" onclick="App.addCustomExercise()">Create and add</button>' +
       '<div class="addex-muted">Custom exercises are saved with this workout and will show in history and volume after you finish.</div>' +
     '</div>' +
+  '</div>';
+}
+
+function renderSubstitutionModal(exId, sess) {
+  var original = getExerciseDef(exId, sess);
+  var options = SUBSTITUTIONS[exId] || [];
+  var rows = options.map(function(option) {
+    var substitute = getExerciseDef(option.id, sess);
+    return '<div class="sub-option">' +
+      '<div class="sub-name">'+esc(substitute.name)+'</div>' +
+      '<div class="sub-reason">'+esc(option.reason)+'</div>' +
+      (!option.compareLoadDirectly ? '<div class="sub-warning">Load is not directly comparable to '+esc(original.name)+'. This substitute has separate progression history.</div>' : '') +
+      '<button class="btn-primary btn-lg" onclick="App.applySubstitution(\''+exId+'\',\''+option.id+'\')">Use this exercise</button>' +
+    '</div>';
+  }).join('');
+  return '<div class="addex-wrap">' +
+    '<div class="addex-header"><div class="addex-title">Substitute '+esc(original.name)+'</div><button class="addex-close" onclick="App.closeAddExercise()">✕</button></div>' +
+    rows +
   '</div>';
 }
 
@@ -1875,8 +2267,6 @@ function renderSummary(session, db) {
     '</div>';
 }
 
-
-'use strict';
 // ============================================================
 // VOLUME SCREEN
 // ============================================================
@@ -1893,14 +2283,14 @@ function renderVolume(db) {
 
   // planned volume per muscle (from all exercises across 4 days, using sDef)
   var plannedMin = {}, plannedMax = {};
-  Object.keys(EX).forEach(function(exId) {
-    var ex = EX[exId];
-    Object.keys(ex.muscles).forEach(function(m) {
-      var contrib = ex.muscles[m];
-      var minSets = ex.sMin * contrib;
-      var maxSets = ex.sMax * contrib;
-      plannedMin[m] = (plannedMin[m]||0) + minSets;
-      plannedMax[m] = (plannedMax[m]||0) + maxSets;
+  [1,2,3,4].forEach(function(dayN) {
+    getDayExerciseIds(db, dayN).forEach(function(exId) {
+      var ex = getExerciseForDay(exId, dayN, db);
+      Object.keys(ex.muscles || {}).forEach(function(m) {
+        var contrib = ex.muscles[m];
+        plannedMin[m] = (plannedMin[m]||0) + ex.sMin * contrib;
+        plannedMax[m] = (plannedMax[m]||0) + ex.sMax * contrib;
+      });
     });
   });
 
@@ -2015,43 +2405,6 @@ function renderMuscleDetail(mId, db) {
 // ============================================================
 // HISTORY SCREEN
 // ============================================================
-function renderHistory(db) {
-  if (!db.completedSessions.length) {
-    return '<div class="hist-empty"><div class="he-icon">—</div><div class="he-text">No completed workouts yet.</div></div>';
-  }
-
-  var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
-  var rows = sessions.map(function(sess) {
-    var day = DAYS[sess.dayN];
-    var dur = sess.durationMs ? fmtTime(sess.durationMs) : '—';
-    var workingSets = sess.sets.filter(function(s){ return s.completed && s.setType!=='warmup'; }).length;
-    var prs = (sess.prs||[]).length;
-
-    return '<div class="hist-item" id="hi-'+sess.id+'">' +
-      '<div class="hi-summary" onclick="App.toggleHistItem(\'' + sess.id + '\')">' +
-        '<div class="hi-left">' +
-          '<div class="hi-date">' + fmtDate(sess.startTime) + '</div>' +
-          '<div class="hi-title">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
-        '</div>' +
-        '<div class="hi-right">' +
-          '<span class="hi-meta">' + dur + '</span>' +
-          '<span class="hi-meta">' + workingSets + ' sets</span>' +
-          (prs ? '<span class="hi-pr">' + prs + ' PR</span>' : '') +
-          '<span class="hi-chev">›</span>' +
-        '</div>' +
-      '</div>' +
-      '<div class="hi-detail hidden" id="hd-'+sess.id+'">' +
-        renderSessionDetail(sess) +
-        '<div class="hi-actions">' +
-          '<button class="btn-ghost btn-sm btn-danger" onclick="App.deleteSession(\'' + sess.id + '\')">Delete session</button>' +
-        '</div>' +
-      '</div>' +
-      '</div>';
-  }).join('');
-
-  return '<div class="hist-wrap">' + rows + '</div>';
-}
-
 function renderSessionDetail(sess) {
   var day = DAYS[sess.dayN];
   var byEx = {};
@@ -2071,7 +2424,10 @@ function renderSessionDetail(sess) {
       var status = s.skipped ? 'skipped' : s.completed ? s.weight+' kg × '+s.reps : '—';
       return '<div class="sd-set"><span class="sd-sl">' + label + '</span><span class="sd-sv">' + status + '</span></div>';
     }).join('');
-    return '<div class="sd-ex"><div class="sd-ex-name">' + esc(ex.name) + '</div>' + setLines + '</div>';
+    var historyMeta = ex.unknown ? '<div class="addex-muted">Saved ID: '+esc(ex.rawId)+'</div>' : '';
+    var originalId = sess.substitutions && sess.substitutions[exId];
+    if (originalId) historyMeta += '<div class="addex-muted">Substituted for '+esc(getExerciseDef(originalId, sess).name)+'</div>';
+    return '<div class="sd-ex"><div class="sd-ex-name">' + esc(ex.name) + '</div>' + historyMeta + setLines + '</div>';
   }).join('');
 
   var prs = (sess.prs||[]).map(function(pr){ return '<div class="sd-pr">✦ ' + esc(pr.msg) + '</div>'; }).join('');
@@ -2085,8 +2441,9 @@ function renderSessionDetail(sess) {
 function renderProgram() {
   var dayBlocks = [1,2,3,4].map(function(n) {
     var day = DAYS[n];
-    var exCards = day.exercises.map(function(exId, idx) {
-      return renderProgExCard(exId, idx);
+    var dayExerciseIds = getDayExerciseIds(db, n);
+    var exCards = dayExerciseIds.map(function(exId, idx) {
+      return renderProgExCard(exId, idx, n);
     }).join('');
     return '<details class="prog-day" id="pd-' + n + '">' +
       '<summary class="pd-sum">' +
@@ -2096,6 +2453,7 @@ function renderProgram() {
       '</summary>' +
       '<div class="pd-body">' +
         '<p class="pd-goal"><b>Goal:</b> ' + esc(day.goal) + '</p>' +
+        '<div class="pd-edit-row"><button class="btn-ghost btn-sm" onclick="App.openDayEditor('+n+')">Edit exercises</button></div>' +
         exCards +
         '<div class="prog-cl"><div class="pcl-title">Day ' + n + ' Checklist</div><ul>' +
           day.checklist.map(function(c){ return '<li>' + esc(c) + '</li>'; }).join('') +
@@ -2120,8 +2478,8 @@ function renderProgram() {
     '</div>';
 }
 
-function renderProgExCard(exId, idx) {
-  var ex = EX[exId];
+function renderProgExCard(exId, idx, dayN) {
+  var ex = getExerciseForDay(exId, dayN, db);
   var rirDisplay = ex.rirMin===ex.rirMax ? String(ex.rirMin) : ex.rirMin + ' to ' + ex.rirMax;
   var setsDisplay = ex.sMin===ex.sMax ? String(ex.sDef) : ex.sMin + ' to ' + ex.sMax;
 
@@ -2162,6 +2520,42 @@ function renderProgExCard(exId, idx) {
     '</div>';
 }
 
+function renderExerciseSelectOptions(selectedId) {
+  return getSelectableExerciseIds(db).map(function(exId) {
+    var ex = getExerciseDef(exId, null, db);
+    return '<option value="'+exId+'"'+(exId===selectedId?' selected':'')+'>'+esc(ex.name)+'</option>';
+  }).join('');
+}
+
+function renderDayEditor(dayN) {
+  var ids = getDayExerciseIds(db, dayN);
+  var rows = ids.map(function(exId, index) {
+    return '<div class="dayedit-row">' +
+      '<span class="dayedit-no">'+String(index+1).padStart(2,'0')+'</span>' +
+      '<select class="addex-select" onchange="App.changeDayExercise('+dayN+','+index+',this.value)">'+renderExerciseSelectOptions(exId)+'</select>' +
+      '<button class="dayedit-remove" title="Remove exercise" onclick="App.removeDayExercise('+dayN+','+index+')">×</button>' +
+    '</div>';
+  }).join('');
+  return '<div class="addex-wrap">' +
+    '<div class="addex-header"><div class="addex-title">Edit Day '+dayN+'</div><button class="addex-close" onclick="App.closeDayEditor()">✕</button></div>' +
+    '<div class="dayedit-list">'+rows+'</div>' +
+    '<div class="addex-section">' +
+      '<label class="addex-label" for="dayAddExercise">Add existing exercise</label>' +
+      '<div class="dayedit-add"><select class="addex-select" id="dayAddExercise">'+renderExerciseSelectOptions('')+'</select><button class="btn-primary" onclick="App.addDayExercise('+dayN+')">Add</button></div>' +
+    '</div>' +
+    '<div class="addex-section">' +
+      '<div class="addex-label">Create exercise for this day</div>' +
+      '<input class="addex-input" id="dayCustomName" placeholder="Exercise name">' +
+      '<input class="addex-input" id="dayCustomTarget" placeholder="Target muscle or cue">' +
+      '<select class="addex-select" id="dayCustomMuscle">'+Object.keys(MUSCLES).map(function(id){return '<option value="'+id+'">'+esc(MUSCLES[id].label)+'</option>';}).join('')+'</select>' +
+      '<div class="addex-grid"><input class="addex-input" id="dayCustomSets" type="number" min="1" max="10" value="3" aria-label="Sets"><input class="addex-input" id="dayCustomRest" type="number" min="15" max="600" value="90" aria-label="Rest seconds"></div>' +
+      '<div class="addex-grid"><input class="addex-input" id="dayCustomMin" type="number" min="1" max="100" value="8" aria-label="Minimum reps"><input class="addex-input" id="dayCustomMax" type="number" min="1" max="100" value="12" aria-label="Maximum reps"></div>' +
+      '<label class="addex-check"><input id="dayCustomUni" type="checkbox">Left and right side sets</label>' +
+      '<button class="btn-primary btn-lg" onclick="App.addCustomExerciseToDay('+dayN+')">Create and add</button>' +
+    '</div>' +
+  '</div>';
+}
+
 function mkProgColl(id, label, count, body) {
   var countBadge = count ? '<span class="pcc">' + count + '</span>' : '';
   return '<details class="pe-coll"><summary class="pec-sum">' + label + countBadge + '</summary><div class="pec-body">' + body + '</div></details>';
@@ -2169,7 +2563,6 @@ function mkProgColl(id, label, count, body) {
 
 
 
-// PATCHED renderHistory
 function renderHistory(db) {
   var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
   var rows = sessions.map(function(sess) {
@@ -2209,6 +2602,7 @@ function renderHistory(db) {
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearActiveSession()">Clear active session</button>' +
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearWorkoutData()">Clear all history</button>' +
       '</div>' +
+      '<div class="app-version">App version '+APP_VERSION+'</div>' +
     '</div></details>';
   return '<div class="screen-title">History</div>' + mainContent + dataHtml;
 }
@@ -2241,9 +2635,13 @@ var App = (function() {
 
   /* ── today ── */
   function setNextDay(n) {
-    // Just visual — actual rotation is based on lastCompletedDay
-    // This lets user override for one session by calling startWorkout(n) directly
     db._nextDayOverride = parseInt(n, 10);
+    dbSave(db);
+    showScreen('today');
+  }
+
+  function useRecommendation() {
+    delete db._nextDayOverride;
     dbSave(db);
     showScreen('today');
   }
@@ -2253,8 +2651,9 @@ var App = (function() {
       if (!confirm('A workout is already in progress. Discard it and start a new one?')) return;
     }
     var sess = createSession(dayN);
-    sess.sets = initWorkoutSets(dayN, db);
+    sess.sets = initWorkoutSets(dayN, db, sess);
     sess.exNotes = {};
+    delete db._nextDayOverride;
     db.activeSession = sess;
     dbSave(db);
     openWorkoutOverlay();
@@ -2451,6 +2850,121 @@ var App = (function() {
     document.getElementById('modal-overlay').classList.add('hidden');
   }
 
+  function refreshProgramScreen() {
+    var screen = document.getElementById('scr-program');
+    if (screen) {
+      screen.innerHTML = renderProgram();
+      screen.dataset.rendered = '1';
+    }
+  }
+
+  function openDayEditor(dayN) {
+    var modal = document.getElementById('modal-overlay');
+    modal.innerHTML = '<div>'+renderDayEditor(dayN)+'</div>';
+    modal.classList.remove('hidden');
+  }
+
+  function closeDayEditor() {
+    document.getElementById('modal-overlay').classList.add('hidden');
+    refreshProgramScreen();
+  }
+
+  function changeDayExercise(dayN, index, exId) {
+    var ids = getDayExerciseIds(db, dayN);
+    if (ids.indexOf(exId) !== -1 && ids[index] !== exId) {
+      alert('That exercise is already in this day.');
+      openDayEditor(dayN);
+      return;
+    }
+    ids[index] = exId;
+    saveDayExerciseIds(db, dayN, ids);
+    openDayEditor(dayN);
+  }
+
+  function removeDayExercise(dayN, index) {
+    var ids = getDayExerciseIds(db, dayN);
+    if (ids.length <= 1) {
+      alert('A workout day needs at least one exercise.');
+      return;
+    }
+    ids.splice(index, 1);
+    saveDayExerciseIds(db, dayN, ids);
+    openDayEditor(dayN);
+  }
+
+  function addDayExercise(dayN) {
+    var select = document.getElementById('dayAddExercise');
+    var exId = select ? select.value : '';
+    if (!exId) return;
+    var ids = getDayExerciseIds(db, dayN);
+    if (ids.indexOf(exId) !== -1) {
+      alert('That exercise is already in this day.');
+      return;
+    }
+    ids.push(exId);
+    saveDayExerciseIds(db, dayN, ids);
+    openDayEditor(dayN);
+  }
+
+  function addCustomExerciseToDay(dayN) {
+    var customId = newCustomExerciseId();
+    try {
+      var ex = makeCustomExerciseDef({
+        id:customId,
+        name:document.getElementById('dayCustomName').value,
+        target:document.getElementById('dayCustomTarget').value,
+        muscleId:document.getElementById('dayCustomMuscle').value,
+        sets:document.getElementById('dayCustomSets').value,
+        rest:document.getElementById('dayCustomRest').value,
+        rMin:document.getElementById('dayCustomMin').value,
+        rMax:document.getElementById('dayCustomMax').value,
+        uni:document.getElementById('dayCustomUni').checked
+      });
+      db.settings.customExercises[customId] = ex;
+      var ids = getDayExerciseIds(db, dayN);
+      ids.push(customId);
+      saveDayExerciseIds(db, dayN, ids);
+      openDayEditor(dayN);
+    } catch(err) {
+      alert(err.message || 'Could not create exercise.');
+    }
+  }
+
+  function openSubstitution(exId) {
+    if (!db.activeSession || !SUBSTITUTIONS[exId]) return;
+    var modal = document.getElementById('modal-overlay');
+    modal.innerHTML = '<div>'+renderSubstitutionModal(exId, db.activeSession)+'</div>';
+    modal.classList.remove('hidden');
+  }
+
+  function applySubstitution(originalId, substituteId) {
+    if (!db.activeSession) return;
+    var sess = db.activeSession;
+    var originalSets = sess.sets.filter(function(set) { return set.exId === originalId; });
+    if (originalSets.some(function(set) { return set.completed; })) {
+      alert('Change the exercise before logging sets.');
+      return;
+    }
+    var orderIndex = sess.exerciseOrder.indexOf(originalId);
+    if (orderIndex < 0 || sess.exerciseOrder.indexOf(substituteId) !== -1) return;
+    var substitute = getExerciseDef(substituteId, sess);
+    sess.sets = sess.sets.filter(function(set) { return set.exId !== originalId; });
+    var replacementSets = createExerciseSetsForSession(substituteId, substitute, db);
+    replacementSets.forEach(function(set) { set.substitutedFor = originalId; });
+    sess.sets = sess.sets.concat(replacementSets);
+    sess.exerciseOrder[orderIndex] = substituteId;
+    sess.exercisePrescriptions = sess.exercisePrescriptions || {};
+    sess.exercisePrescriptions[substituteId] = substitute;
+    delete sess.exercisePrescriptions[originalId];
+    sess.substitutions = sess.substitutions || {};
+    sess.substitutions[substituteId] = originalId;
+    if (sess.exNotes && sess.exNotes[originalId]) sess.exNotes[substituteId] = sess.exNotes[originalId];
+    sess.currentExId = substituteId;
+    dbSave(db);
+    closeAddExercise();
+    renderWorkout(db);
+  }
+
   function addExerciseToActiveSession(exId, ex) {
     if (!db.activeSession || !ex) return;
     var sess = db.activeSession;
@@ -2460,6 +2974,8 @@ var App = (function() {
       return;
     }
     sess.exerciseOrder.push(exId);
+    sess.exercisePrescriptions = sess.exercisePrescriptions || {};
+    sess.exercisePrescriptions[exId] = ex;
     sess.sets = sess.sets.concat(createExerciseSetsForSession(exId, ex, db));
     sess.currentExId = exId;
     dbSave(db);
@@ -2475,7 +2991,7 @@ var App = (function() {
     if (!db.activeSession) return;
     var sel = document.getElementById('addExistingExercise');
     var exId = sel ? sel.value : '';
-    var ex = EX[exId];
+    var ex = getExerciseDef(exId, db.activeSession, db);
     if (!ex) return;
     addExerciseToActiveSession(exId, ex);
   }
@@ -2679,6 +3195,7 @@ var App = (function() {
   return {
     showScreen: showScreen,
     setNextDay: setNextDay,
+    useRecommendation: useRecommendation,
     startWorkout: startWorkout,
     resumeWorkout: resumeWorkout,
     discardSession: discardSession,
@@ -2699,6 +3216,14 @@ var App = (function() {
     addWarmupSet: addWarmupSet,
     openAddExercise: openAddExercise,
     closeAddExercise: closeAddExercise,
+    openDayEditor: openDayEditor,
+    closeDayEditor: closeDayEditor,
+    changeDayExercise: changeDayExercise,
+    removeDayExercise: removeDayExercise,
+    addDayExercise: addDayExercise,
+    addCustomExerciseToDay: addCustomExerciseToDay,
+    openSubstitution: openSubstitution,
+    applySubstitution: applySubstitution,
     addExistingExercise: addExistingExercise,
     addCustomExercise: addCustomExercise,
     saveExNote: saveExNote,
