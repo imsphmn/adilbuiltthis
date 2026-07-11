@@ -181,6 +181,12 @@ p { margin:0; }
 .rec-muscle-meta { text-align:right; color:var(--muted); font-size:12px; }
 .rec-note { margin-top:10px; color:var(--faint); font-size:12px; line-height:1.4; }
 .rec-use { display:block; margin:10px auto 0; background:none; border:none; color:var(--accent); font-size:13px; font-weight:700; cursor:pointer; }
+.cycle-box { margin:0 0 14px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px; }
+.cycle-title { font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.cycle-toggle { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.cycle-toggle button { min-height:40px; border-radius:999px; border:1px solid var(--line); background:var(--bg-soft); color:var(--muted); font-size:13px; font-weight:750; cursor:pointer; }
+.cycle-toggle button.is-on { border-color:var(--accent-ln); background:var(--accent-bg); color:var(--accent); }
+.cycle-note { margin-top:8px; font-size:12px; color:var(--faint); line-height:1.35; }
 .tdc-kicker { font-family:var(--mono); font-size:11px; letter-spacing:.22em;
   text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:12px; }
 .tdc-day { font-family:var(--mono); font-size:42px; font-weight:800;
@@ -239,6 +245,7 @@ p { margin:0; }
 .btn-rushed { border-color:var(--warn); color:var(--warn); background:var(--warn-bg); }
 .rushed-banner { margin:10px 0 2px; padding:10px 12px; border:1px solid oklch(0.798 0.128 90 / .3); border-radius:var(--radius-sm); background:var(--warn-bg); color:var(--warn); font-size:13px; line-height:1.4; }
 .rushed-tag { display:inline-flex; margin-top:7px; padding:3px 8px; border-radius:999px; background:var(--warn-bg); color:var(--warn); font-size:11px; font-weight:700; }
+.optional-tag { display:inline-flex; margin-top:7px; padding:3px 8px; border-radius:999px; background:var(--steel-bg); color:var(--steel); font-size:11px; font-weight:700; }
 
 /* prev bar */
 .prev-bar {
@@ -273,6 +280,9 @@ p { margin:0; }
 .sr-label { font-size:13.5px; font-weight:700; font-family:var(--mono); color:var(--text); }
 .sr-check { color:var(--ok); margin-left:4px; }
 .sr-skip-badge { font-size:11px; background:var(--bg-soft); border:1px solid var(--line); border-radius:999px; padding:2px 7px; color:var(--faint); margin-left:8px; }
+.sr-unit { position:absolute; right:42px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--faint); font-family:var(--mono); pointer-events:none; }
+.sr-hold { margin-top:8px; display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; font-family:var(--mono); }
+.sr-hold input { width:78px; min-height:34px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--text); text-align:center; font-weight:700; }
 .sr-label-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
 .sr-prev { font-size:12.5px; color:var(--muted); font-family:var(--mono); margin-bottom:10px; }
 .sr-prev--none { color:var(--faint); font-style:italic; }
@@ -346,6 +356,30 @@ p { margin:0; }
 .coll-hard { margin-top:8px; padding:10px 12px; background:var(--danger-bg); border-left:3px solid var(--danger); border-radius:0 8px 8px 0; font-size:13.5px; font-weight:600; }
 .stall-box { margin-top:10px; padding:10px 12px; background:var(--warn-bg); border:1px solid oklch(0.80 0.13 90 / 0.28); border-radius:var(--radius-sm); color:var(--muted); font-size:13px; line-height:1.4; }
 .stall-box b { display:block; color:var(--warn); font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px; }
+
+/* performance screen */
+.perf-wrap { padding-top:8px; }
+.perf-grid { display:grid; gap:10px; margin:12px 0 14px; }
+.perf-row { background:var(--card); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px; }
+.perf-top { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:7px; }
+.perf-name { font-weight:750; font-size:14px; }
+.perf-count { font-family:var(--mono); font-size:13px; color:var(--accent); white-space:nowrap; }
+.perf-bar { height:6px; border-radius:99px; background:var(--bg-soft); overflow:hidden; }
+.perf-fill { height:100%; border-radius:99px; background:var(--accent); }
+.perf-desc { margin-top:7px; color:var(--muted); font-size:12px; line-height:1.35; }
+.perf-actions { display:grid; gap:10px; }
+.perf-card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px; }
+.perf-card h3 { font-size:15px; margin:0 0 9px; }
+.perf-card p, .perf-card li { color:var(--muted); font-size:12.5px; line-height:1.4; }
+.perf-card ul { display:grid; gap:4px; margin-bottom:10px; }
+.perf-form { display:grid; gap:8px; }
+.perf-form input, .perf-form select, .perf-form textarea {
+  width:100%; min-height:40px; border:1px solid var(--line); border-radius:10px;
+  background:var(--bg-soft); color:var(--text); padding:8px 10px; outline:none;
+}
+.perf-form textarea { resize:vertical; }
+.perf-form .addex-grid { margin:0; }
+.perf-warning { padding:9px 10px; border-radius:10px; border:1px solid var(--warn); background:var(--warn-bg); color:var(--warn); font-size:12px; line-height:1.35; }
 
 /* finish section */
 .wo-finish-section { padding:24px 0 40px; text-align:center; }
@@ -664,6 +698,7 @@ p { margin:0; }
   <div id="scr-today" class="screen active"></div>
   <div id="scr-program" class="screen"></div>
   <div id="scr-volume" class="screen"></div>
+  <div id="scr-performance" class="screen"></div>
   <div id="scr-history" class="screen"></div>
 </div>
 <div id="workout-overlay" class="hidden"></div>
@@ -682,6 +717,10 @@ p { margin:0; }
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
     Volume
   </button>
+  <button class="nav-tab" data-screen="performance">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/><path d="M5 9l4-4 4 4 6-6"/></svg>
+    Performance
+  </button>
   <button class="nav-tab" data-screen="history">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     History
@@ -690,8 +729,8 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '2.3.1';
-const PROGRAM_NAME = 'Wedding Shape Block — July to End August 2026';
+const APP_VERSION = '2.4.0';
+const PROGRAM_NAME = 'Wedding Aesthetic + Performance Block — July to End August 2026';
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function round1(n){ return Math.round(n*10)/10; }
 
@@ -1233,6 +1272,30 @@ defineProgramExercise('calf_raise','d4e7','Calf Raise',{
   cues:['Use a full stretch.','Pause at the bottom.','Rise fully.','Pause at the top.','Lower slowly.'],
   mistakes:['Bouncing.','Using tiny range.','Going too heavy.','Skipping the stretch.'],tnf:'Use the same setup and full range.',cbum:'Own both pauses.',hard:'No bouncing.'
 });
+defineProgramExercise('high_plank_endurance','dead_bug_full_exhale','High Plank Endurance',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:45,rMax:75,rirMin:0,rirMax:0,rest:60,uni:false,drop:false,trackingUnit:'seconds',
+  target:'Shoulder, serratus and trunk endurance',muscles:{'abs':0.75,'serratus':0.5,'front-delts':0.25},
+  why:{label:'Purpose',text:'Missionary-position shoulder endurance, serratus endurance, trunk endurance, and rib/pelvis control.'},
+  cues:['Hands underneath or slightly outside shoulders.','Push the floor away gently.','Shoulder blades remain controlled.','Ribs down.','Glutes lightly contracted.','Maintain normal breathing.','Keep neck neutral.'],
+  mistakes:['Lower back sagging.','Holding breath.','Shrugging into neck.','Excessive pelvic tilt.','Continuing after form collapses.'],
+  tnf:'Stop the set when breathing or trunk position breaks.',cbum:'Quiet shoulders, ribs down, clean line.',hard:'Do not chase time after form collapses.'
+});
+defineProgramExercise('glute_bridge_endurance','hip_thrust','Glute Bridge Endurance',{
+  day:0,order:0,sMin:2,sMax:2,sDef:2,rMin:20,rMax:30,rirMin:0,rirMax:1,rest:60,uni:false,drop:false,finalHold:true,finalHoldMin:20,finalHoldMax:30,
+  target:'Hip-extension endurance',muscles:{'glutes':1,'hamstrings':0.25},
+  why:{label:'Purpose',text:'Hip-extension endurance, glute endurance, and pelvic positioning.'},
+  cues:['Ribs down.','Slight posterior pelvic tilt.','Drive through feet.','Squeeze glutes.','Do not hyperextend lower back.'],
+  mistakes:['Lower-back arch.','Hamstrings cramping because feet are too far away.','Bouncing.','Losing the top position.'],
+  tnf:'The final rep of the final set includes a controlled top hold.',cbum:'Keep the hips locked through glutes, not lower back.',hard:'Stop if the lower back takes over.'
+});
+defineProgramExercise('zone_2_cardio','dead_bug_full_exhale','Zone 2 Cardio',{
+  day:0,order:0,sMin:1,sMax:1,sDef:1,rMin:20,rMax:30,rirMin:0,rirMax:0,rest:0,uni:false,drop:false,trackingUnit:'minutes',noPR:true,
+  target:'Cardiovascular stamina',muscles:{},
+  why:{label:'Intensity',text:'Able to speak in short sentences while continuously exercising.'},
+  cues:['Use incline treadmill, bike, cross-trainer, StairMaster or another steady machine.','Keep effort smooth.','You should be able to speak in short sentences.'],
+  mistakes:['Turning it into intervals.','Going so easy there is no training effect.','Using a rigid heart-rate formula as the only definition.'],
+  tnf:'Record actual completed minutes.',cbum:'Smooth, repeatable stamina work.',hard:'Keep it low fatigue.'
+});
 
 var EX_LEGACY = {};
 [
@@ -1270,29 +1333,52 @@ var CANONICAL_EXERCISE_ALIASES = {
   d3e6:'dumbbell_hammer_curl',
   d3e7:'dead_bug_full_exhale',
   d4e3:'low_incline_cable_press',
-  d4e7:'hip_thrust'
+  d4e7:'hip_thrust',
+  high_plank_endurance:'high_plank_endurance',
+  glute_bridge_endurance:'glute_bridge_endurance',
+  zone_2_cardio:'zone_2_cardio'
 };
 
 var DAY_EXERCISE_PRESCRIPTIONS = {
   1:{},
-  2:{ reverse_pec_deck:{sMin:3,sMax:3,sDef:3} },
+  2:{
+    chest_supported_high_row:{sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rest:105},
+    reverse_pec_deck:{sMin:3,sMax:3,sDef:3},
+    serratus_cable_punch:{sMin:1,sMax:1,sDef:1,rMin:12,rMax:20,rest:45},
+    single_arm_cable_lat_pulldown:{sMin:1,sMax:1,sDef:1,rMin:8,rMax:12,optional:{label:'Optional',text:'Skipping this does not lower adherence.'}}
+  },
   3:{ cable_lateral_raise:{sMin:4,sMax:4,sDef:4,rMin:12,rMax:20,rest:75,drop:false} },
   4:{
     cable_lateral_raise:{sMin:3,sMax:3,sDef:3,rMin:12,rMax:25,rest:60,drop:false},
     low_incline_dumbbell_press:{sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rirMin:1,rirMax:1,rest:105},
-    chest_supported_row:{sMin:3,sMax:3,sDef:3,rMin:10,rMax:15},
-    reverse_pec_deck:{sMin:3,sMax:3,sDef:3}
+    chest_supported_row:{sMin:2,sMax:2,sDef:2,rMin:10,rMax:15},
+    reverse_pec_deck:{sMin:2,sMax:2,sDef:2,rMin:12,rMax:20},
+    straight_arm_cable_pulldown:{sMin:2,sMax:2,sDef:2,rMin:12,rMax:20},
+    leg_press:{sMin:2,sMax:2,sDef:2,rMin:8,rMax:12},
+    calf_raise:{sMin:2,sMax:2,sDef:2,rMin:8,rMax:15}
+  },
+  5:{
+    hip_thrust:{sMin:2,sMax:2,sDef:2,rMin:10,rMax:15,rirMin:1,rirMax:2,rest:90},
+    leg_curl:{sMin:2,sMax:2,sDef:2,rMin:8,rMax:12,why:{label:'Reason',text:'Choose the lower-body exercise that was missed or underperformed earlier in the cycle.'}},
+    weighted_floor_crunch:{sMin:2,sMax:2,sDef:2,rMin:10,rMax:20},
+    serratus_cable_punch:{sMin:1,sMax:1,sDef:1,rMin:12,rMax:20,rest:45}
   }
 };
 
 function getExerciseForDay(exId, dayN, dbRef) {
   var canonical = getExerciseDef(exId, null, dbRef);
   var override = DAY_EXERCISE_PRESCRIPTIONS[dayN] && DAY_EXERCISE_PRESCRIPTIONS[dayN][exId];
-  if (!override) return canonical;
-  var prescribed = Object.assign({}, canonical, override);
-  if (override.drop === false) {
+  var prescribed = override ? Object.assign({}, canonical, override) : Object.assign({}, canonical);
+  if (override && override.drop === false) {
     delete prescribed.dropMuscles;
     delete prescribed.special;
+  }
+  var mode = getTrainingCycleMode(dbRef || db);
+  if (dayN === 3 && exId === 'glute_bridge_endurance' && mode === '5day') {
+    prescribed.optional = { label:'Optional', text:'Hip Thrust scheduled on Day 5.' };
+  }
+  if (dayN === 5) {
+    prescribed.optional = prescribed.optional || { label:'Optional Day 5', text:'Optional insurance work. Skipping this day does not lower adherence.' };
   }
   return prescribed;
 }
@@ -1306,6 +1392,16 @@ var SUBSTITUTIONS = {
   straight_arm_cable_pulldown:[{
     id:'machine_pullover',
     reason:'Use only when the cable setup is unavailable.',
+    compareLoadDirectly:false
+  }],
+  leg_curl:[{
+    id:'leg_press',
+    reason:'Choose the lower-body exercise that was missed or underperformed earlier in the cycle.',
+    compareLoadDirectly:false
+  }],
+  weighted_floor_crunch:[{
+    id:'dead_bug_full_exhale',
+    reason:'Use when you want lower-fatigue core control instead of loaded crunches.',
     compareLoadDirectly:false
   }],
   pec_deck:[{
@@ -1340,26 +1436,33 @@ var DAYS = {
     checklist:['Cable laterals stayed in the 12 to 20 rep range.','Upper chest failed before front delts.','Row stayed chest-supported.','Pulldown hit lats without torso twist.','Rear delts worked without traps.','Crunch moved ribs toward pelvis.'] },
   2:{ n:2, title:'Lat Width + Mid Back + Rear Structure + Hamstrings', nav:'Back & Hamstrings',
     goal:'Build V-taper, mid-back density and rear structure while maintaining hamstrings and scapular control.',
-    exercises:['pullups','chest_supported_high_row','straight_arm_cable_pulldown','single_arm_cable_lat_pulldown','reverse_pec_deck','leg_curl','serratus_cable_punch'], duration:70,
+    exercises:['pullups','chest_supported_high_row','straight_arm_cable_pulldown','reverse_pec_deck','leg_curl','serratus_cable_punch','single_arm_cable_lat_pulldown'], duration:65,
     primaryMuscles:['Lats','Mid back','Rear delts','Hamstrings','Serratus'],
-    checklist:['Pull ups used clean full reps.','High row was second and stayed chest-supported.','Straight-arm pulldown hit lats, not triceps.','Single-arm pulldown used no torso twist.','Rear delts worked without traps.','Leg curls kept hips pinned.'] },
-  3:{ n:3, title:'Cable Delts + Arms + Lower Traps + Rib Control', nav:'Delts & Arms',
-    goal:'Prioritise cable side delts, alternate triceps and biceps, and reinforce lower traps and rib control.',
-    exercises:['cable_lateral_raise','cable_y_raise','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','underhand_cable_triceps_extension','dumbbell_hammer_curl','dead_bug_full_exhale'], duration:70,
-    primaryMuscles:['Side delts','Lower traps','Triceps','Biceps','Brachialis'],
-    checklist:['Cable laterals stayed clean.','Y raises hit lower traps without neck tension.','Triceps and biceps alternated.','Preacher curls kept the upper arm fixed.','Hammer curls used no body swing.','Dead bugs kept ribs down.'] },
-  4:{ n:4, title:'Upper Chest + Lat Sweep + Side Delts + Lower Maintenance', nav:'Top-Up & Lower',
-    goal:'Top up upper chest, lat sweep, side delts and rear structure while maintaining quads, glutes and calves.',
-    exercises:['cable_lateral_raise','low_incline_dumbbell_press','straight_arm_cable_pulldown','pec_deck','chest_supported_row','reverse_pec_deck','hip_thrust','leg_press','calf_raise','serratus_cable_punch'], duration:85,
-    primaryMuscles:['Side delts','Upper chest','Lats','Mid back','Rear delts','Legs'],
-    checklist:['Cable laterals widened the frame without traps.','Dumbbell press stayed upper-chest biased.','Straight-arm pulldown hit lats.','Rows and rear delts stayed controlled.','Lower-body work used stable full ranges.','Serratus punch moved the shoulder blade, not torso.'] },
+    checklist:['Pull ups used clean full reps.','High row was second and stayed chest-supported.','Straight-arm pulldown hit lats, not triceps.','Rear delts worked without traps.','Leg curls kept hips pinned.','Optional single-arm pulldown did not affect adherence if skipped.'] },
+  3:{ n:3, title:'Cable Delts + Arms + Performance Endurance', nav:'Delts & Arms',
+    goal:'Prioritise cable side delts, arms and lower traps while adding low-fatigue shoulder, trunk and hip-extension endurance.',
+    exercises:['cable_lateral_raise','cable_y_raise','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','underhand_cable_triceps_extension','dumbbell_hammer_curl','dead_bug_full_exhale','high_plank_endurance','glute_bridge_endurance'], duration:78,
+    primaryMuscles:['Side delts','Lower traps','Triceps','Biceps','Trunk endurance'],
+    checklist:['Cable laterals stayed clean.','Y raises hit lower traps without neck tension.','Triceps and biceps alternated.','Dead bugs kept ribs down.','Planks used normal breathing.','Glute bridges only counted if lower back stayed quiet.'] },
+  4:{ n:4, title:'Short Upper + Lower Top-Up', nav:'Short Top-Up',
+    goal:'Short reliable top-up for side delts, upper chest, back, rear delts, lats, leg press and calves.',
+    exercises:['cable_lateral_raise','low_incline_dumbbell_press','chest_supported_row','reverse_pec_deck','straight_arm_cable_pulldown','leg_press','calf_raise'], duration:55,
+    primaryMuscles:['Side delts','Upper chest','Mid back','Rear delts','Lats','Legs'],
+    checklist:['Cable laterals widened the frame without traps.','Dumbbell press stayed upper-chest biased.','Row stayed chest-supported.','Rear delts worked without traps.','Straight-arm pulldown hit lats.','Lower-body work stayed short and repeatable.'] },
+  5:{ n:5, title:'Optional Day 5 — Lower, Core + Cardio Insurance', nav:'Optional Day 5',
+    optional:true,
+    goal:'Optional lower, core, serratus and cardio insurance without disrupting the Day 1 to Day 4 rotation.',
+    exercises:['hip_thrust','leg_curl','calf_raise','weighted_floor_crunch','serratus_cable_punch','zone_2_cardio'], duration:55,
+    primaryMuscles:['Glutes','Hamstrings','Calves','Abs','Serratus','Cardio'],
+    checklist:['Day 5 stayed optional.','Hip thrust used ribs down and posterior pelvic tilt.','Lower-body choice matched what was missed earlier.','Core choice stayed separate in history.','Zone 2 stayed conversational.'] },
 };
 
 var RUSHED_MODE_LIMITS = {
   1:{ low_to_high_cable_fly:1, single_arm_cable_lat_pulldown:1, weighted_floor_crunch:1 },
   2:{ chest_supported_high_row:3, single_arm_cable_lat_pulldown:1 },
-  3:{ cable_y_raise:1, underhand_cable_triceps_extension:1, dumbbell_hammer_curl:2, dead_bug_full_exhale:1 },
-  4:{ pec_deck:1, chest_supported_row:2, calf_raise:1 }
+  3:{ cable_y_raise:1, underhand_cable_triceps_extension:1, dumbbell_hammer_curl:2, dead_bug_full_exhale:1, high_plank_endurance:1, glute_bridge_endurance:0 },
+  4:{ chest_supported_row:2, calf_raise:1 },
+  5:{ hip_thrust:1, leg_curl:1, leg_press:1, calf_raise:1, weighted_floor_crunch:1, dead_bug_full_exhale:1, serratus_cable_punch:1, zone_2_cardio:1 }
 };
 
 function applyRushedModeToSession(session) {
@@ -1378,6 +1481,15 @@ function applyRushedModeToSession(session) {
     }
     if (!actualId) return;
     var ex = getExerciseDef(actualId, session);
+    if (plannedId === 'glute_bridge_endurance' && session.sets.some(function(set) {
+      return set.exId === actualId && set.completed;
+    })) return;
+    if (plannedId === 'zone_2_cardio') {
+      session.sets.filter(function(set) { return set.exId === actualId && !set.completed && !set.skipped; }).forEach(function(set) {
+        if ((set.reps || 0) > 10) { set.reps = 10; reduced++; }
+      });
+      return;
+    }
     var groups = ex.uni ? ['L','R'] : ['all'];
     groups.forEach(function(group) {
       var sets = session.sets.filter(function(set) {
@@ -1389,7 +1501,7 @@ function applyRushedModeToSession(session) {
       candidates.slice(keepRemaining).forEach(function(set) {
         set.skipped = true;
         set.rushedMode = true;
-        set.skipReason = 'Rushed Mode';
+        set.skipReason = 'rushed_mode';
         reduced++;
         session.rushedReductions[actualId] = (session.rushedReductions[actualId] || 0) + 1;
       });
@@ -1429,9 +1541,9 @@ var PROGRESSION_RULES = [
 // ============================================================
 var DB_KEY = 'adil_v2';
 var TIMER_KEY = 'adil_timer';
-var SESSION_TIMER_CAP_SECONDS = 14400;
+var SESSION_TIMER_CAP_SECONDS = 10800;
 var SESSION_TIMER_CAP_MS = SESSION_TIMER_CAP_SECONDS * 1000;
-var SESSION_TIMER_CAP_REASON = 'automatic_4_hour_cap';
+var SESSION_TIMER_CAP_REASON = 'automatic_3_hour_cap';
 
 function dbLoad() {
   try {
@@ -1448,10 +1560,11 @@ function dbLoad() {
 function dbDefault() {
   return {
     schemaVersion: 2,
-    settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {}, programVersion: PROGRAM_NAME },
+    settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {}, trainingCycleMode: '4day', programVersion: PROGRAM_NAME },
     lastCompletedDay: null,
     activeSession: null,
     completedSessions: [],
+    performanceLogs: [],
     legacyData: null,
   };
 }
@@ -1466,6 +1579,7 @@ function migrateDb(data) {
   d.settings = d.settings || {};
   if (!d.settings.dayExercises) d.settings.dayExercises = {};
   if (!d.settings.customExercises) d.settings.customExercises = {};
+  if (d.settings.trainingCycleMode !== '5day') d.settings.trainingCycleMode = '4day';
   if (d.settings.programVersion !== PROGRAM_NAME) {
     d.settings.dayExercises = {};
     d.settings.programVersion = PROGRAM_NAME;
@@ -1473,6 +1587,7 @@ function migrateDb(data) {
   if (d.settings.muscleMappings === undefined) d.settings.muscleMappings = null;
   if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
   if (!Array.isArray(d.completedSessions)) d.completedSessions = [];
+  if (!Array.isArray(d.performanceLogs)) d.performanceLogs = [];
 
   function migrateSession(session) {
     if (!session) return;
@@ -1481,7 +1596,12 @@ function migrateDb(data) {
     if (!session.exNotes) session.exNotes = {};
     if (!session.rushedReductions) session.rushedReductions = {};
     if (session.rushedModeApplied === undefined) session.rushedModeApplied = false;
+    if (!session.trainingCycleMode) session.trainingCycleMode = d.settings.trainingCycleMode || '4day';
     if (!Array.isArray(session.sets)) session.sets = [];
+    session.sets.forEach(function(set) {
+      if (set.holdSeconds === undefined) set.holdSeconds = null;
+      if (set.trackingUnit === undefined) set.trackingUnit = null;
+    });
     if (!Array.isArray(session.exerciseOrder) || !session.exerciseOrder.length) {
       session.exerciseOrder = [];
       session.sets.forEach(function(set) {
@@ -1516,6 +1636,10 @@ function migrateDb(data) {
     d.migrations.d2e1ToPullups = true;
   }
   return d;
+}
+
+function getTrainingCycleMode(dbRef) {
+  return dbRef && dbRef.settings && dbRef.settings.trainingCycleMode === '5day' ? '5day' : '4day';
 }
 
 function getDayExerciseIds(dbRef, dayN) {
@@ -1568,6 +1692,7 @@ function createSession(dayN) {
     exerciseOrder: order,
     exercisePrescriptions: prescriptions,
     customExercises: {},
+    trainingCycleMode: getTrainingCycleMode(db),
     rushedModeApplied: false,
     rushedReductions: {},
     notes: '',
@@ -1585,6 +1710,8 @@ function createSet(exId, setNum, setType, side) {
     weight: 0,
     reps: 0,
     rir: null,
+    trackingUnit: null,
+    holdSeconds: null,
     completed: false,
     skipped: false,
     timestamp: null,
@@ -1601,6 +1728,11 @@ function applySessionTimerCap(session, now) {
   var capTime = getSessionCapTime(session);
   var currentTime = now || Date.now();
   var stoppedAt = session.sessionTimerStoppedAt || null;
+  if (stoppedAt && stoppedAt > capTime) {
+    session.sessionTimerStoppedAt = capTime;
+    stoppedAt = capTime;
+    changed = true;
+  }
   if (!stoppedAt && currentTime >= capTime) {
     session.sessionTimerStoppedAt = capTime;
     session.timerStopReason = SESSION_TIMER_CAP_REASON;
@@ -1665,6 +1797,11 @@ function normaliseSessionExerciseOrder(session) {
   if (!session.exerciseOrder) session.exerciseOrder = getSessionExerciseIds(session);
 }
 
+function isOptionalExerciseInSession(session, exId) {
+  var ex = getExerciseDef(exId, session, db);
+  return !!(ex && ex.optional);
+}
+
 function exerciseOptionsForSession(session) {
   var used = {};
   getSessionExerciseIds(session).forEach(function(exId) { used[exId] = true; });
@@ -1697,6 +1834,7 @@ function createExerciseSetsForSession(exId, ex, db) {
         s.weight = prev ? prev.weight : 0;
         s.reps = prev ? prev.reps : ex.rMin;
         s.rir = null;
+        s.trackingUnit = ex.trackingUnit || null;
         s.suggestedWeight = prev ? prev.weight : null;
         s.suggestedReps = prev ? prev.reps : null;
         sets.push(s);
@@ -1709,6 +1847,7 @@ function createExerciseSetsForSession(exId, ex, db) {
       ns.weight = prevSet ? prevSet.weight : 0;
       ns.reps = prevSet ? prevSet.reps : ex.rMin;
       ns.rir = null;
+      ns.trackingUnit = ex.trackingUnit || null;
       ns.suggestedWeight = prevSet ? prevSet.weight : null;
       ns.suggestedReps = prevSet ? prevSet.reps : null;
       sets.push(ns);
@@ -1719,6 +1858,7 @@ function createExerciseSetsForSession(exId, ex, db) {
       ds.weight = prevDrop ? prevDrop.weight : 0;
       ds.reps = prevDrop ? prevDrop.reps : ex.rMin;
       ds.rir = null;
+      ds.trackingUnit = ex.trackingUnit || null;
       ds.suggestedWeight = prevDrop ? prevDrop.weight : null;
       ds.suggestedReps = prevDrop ? prevDrop.reps : null;
       sets.push(ds);
@@ -1844,6 +1984,7 @@ function detectPRs(db, session) {
   exIds.forEach(function(exId) {
     var ex = getExerciseDef(exId, session);
     if (!ex) return;
+    if (ex.noPR || ex.trackingUnit) return;
     var historySets = getExHistory(db, exId);
     // Remove sets from current session
     var prevSets = historySets.filter(function(h) { return h.sessionId !== session.id; });
@@ -2109,7 +2250,14 @@ function nextDay(dbRef) {
 
 // ---- export / import ----
 function exportBackup(db) {
-  var out = { version: 2, exported: new Date().toISOString().slice(0,10), data: db };
+  var ws = weekStart();
+  var out = {
+    version: 2,
+    exported: new Date().toISOString().slice(0,10),
+    data: db,
+    performanceWeeklyTotals: getPerformanceTotals(db, ws),
+    trainingCycleMode: getTrainingCycleMode(db)
+  };
   var blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2253,7 +2401,17 @@ function renderToday(db) {
     '</div></div>'
   ) : '';
 
-  var dayPickerRows = [1,2,3,4].map(function(n) {
+  var mode = getTrainingCycleMode(db);
+  var cycleBox = '<div class="cycle-box">' +
+    '<div class="cycle-title">Training cycle</div>' +
+    '<div class="cycle-toggle">' +
+      '<button class="'+(mode==='4day'?'is-on':'')+'" onclick="App.setTrainingCycleMode(\'4day\')">4-Day Cycle</button>' +
+      '<button class="'+(mode==='5day'?'is-on':'')+'" onclick="App.setTrainingCycleMode(\'5day\')">5-Day Cycle</button>' +
+    '</div>' +
+    '<div class="cycle-note">'+(mode==='5day'?'Optional Day 5 is expected this cycle but still never required. Day 3 glute bridge is optional because Hip Thrust is scheduled.':'Days 1 to 4 are required. Day 3 glute bridge is active. Optional Day 5 remains available but not expected.')+'</div>' +
+  '</div>';
+
+  var dayPickerRows = [1,2,3,4,5].map(function(n) {
     var d = DAYS[n];
     var isNext = n === nDay;
     return '<label class="day-pick-row' + (isNext ? ' is-next' : '') + '">' +
@@ -2280,6 +2438,7 @@ function renderToday(db) {
 
   return '<div class="today-wrap">' +
     resumeBanner +
+    cycleBox +
     '<div class="today-day-card">' +
       '<div class="rec-topline"><div class="tdc-kicker">Best Workout Today</div>' +
         '<span class="rec-confidence'+(manual?' rec-manual':'')+'">'+(manual?'Manual choice':recommendation.confidence+' confidence')+'</span></div>' +
@@ -2424,6 +2583,7 @@ function renderExCard(exId, sess, db, exState) {
   var unknownLabel = ex.unknown ? '<span class="sub-label">Saved ID: '+esc(ex.rawId)+'</span>' : '';
   var rushedLabel = sess.rushedReductions && sess.rushedReductions[exId]
     ? '<span class="rushed-tag">Reduced by Rushed Mode</span>' : '';
+  var optionalLabel = ex.optional ? '<span class="optional-tag">'+esc(ex.optional.label)+'</span>' : '';
   var exSets = sess.sets.filter(function(s){ return s.exId === exId; });
   var workingSets = exSets.filter(function(s){ return s.setType==='working'||s.setType==='drop'; });
   var allDone = workingSets.length>0 && workingSets.every(function(s){ return s.completed||s.skipped; });
@@ -2437,7 +2597,7 @@ function renderExCard(exId, sess, db, exState) {
     return '<div class="ex-card ex-card--done" id="exc-'+exId+'">' +
       '<div class="exc-compact exc-compact--done" onclick="App.expandExCard(\'' + exId + '\')">' +
         '<span class="exc-compact-check">✓</span>' +
-        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel + rushedLabel +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel + rushedLabel + optionalLabel +
         '<span class="exc-compact-sub">'+dSets.length+' sets · '+esc(summ)+'</span></div>' +
         '<span class="exc-expand-hint">edit ›</span>' +
       '</div></div>';
@@ -2447,8 +2607,8 @@ function renderExCard(exId, sess, db, exState) {
     return '<div class="ex-card ex-card--future" id="exc-'+exId+'">' +
       '<div class="exc-compact exc-compact--future" onclick="App.expandExCard(\'' + exId + '\')">' +
         '<span class="exc-compact-num">'+String(exOrder).padStart(2,'0')+'</span>' +
-        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel + rushedLabel +
-        '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+' reps</span></div>' +
+        '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel + rushedLabel + optionalLabel +
+        '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+' '+(ex.trackingUnit || 'reps')+'</span></div>' +
         '<span class="exc-expand-hint">›</span>' +
       '</div></div>';
   }
@@ -2478,11 +2638,11 @@ function renderExCard(exId, sess, db, exState) {
       '<div class="exc-meta">' +
         '<span class="exc-name">'+esc(ex.name)+'</span>' +
         '<span class="exc-target">'+esc(ex.target)+'</span>' +
-        substitutionLabel + unknownLabel + rushedLabel +
+        substitutionLabel + unknownLabel + rushedLabel + optionalLabel +
       '</div>' +
       '<div class="exc-badges">' +
         '<span class="xb">'+ex.sDef+(ex.sMin!==ex.sMax?'–'+ex.sMax:'')+' sets</span>' +
-        '<span class="xb">'+ex.rMin+'–'+ex.rMax+' reps</span>' +
+        '<span class="xb">'+ex.rMin+'–'+ex.rMax+' '+(ex.trackingUnit || 'reps')+'</span>' +
         '<span class="xb">'+fmtRestLabel(ex.rest)+'</span>' +
       '</div>' +
       stallBox +
@@ -2501,10 +2661,17 @@ function renderExCard(exId, sess, db, exState) {
 function renderSetRow(s, prevSet, ex) {
   var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'Set '+s.setNum+(s.side?' '+s.side:'');
   var delBtn = s.isAdded ? '<button class="sr-del" onclick="App.deleteSet(\'' + s.id + '\')" title="Remove">×</button>' : '';
+  var unit = s.trackingUnit || ex.trackingUnit || 'reps';
+  var isTimed = unit === 'seconds' || unit === 'minutes';
+  function valLabel(set) {
+    if (isTimed) return (set.reps || 0) + ' ' + (unit === 'seconds' ? 'sec' : 'min');
+    var hold = set.holdSeconds ? ' · hold ' + set.holdSeconds + ' sec' : '';
+    return set.weight + ' kg × ' + set.reps + hold;
+  }
   if (s.completed) {
     return '<div class="set-row set-row--done" id="sr-'+s.id+'" onclick="App.editSet(\'' + s.id + '\')">' +
       '<span class="sr-done-label">'+esc(label)+'</span>' +
-      '<span class="sr-done-vals">'+s.weight+' kg × '+s.reps+'</span>' +
+      '<span class="sr-done-vals">'+esc(valLabel(s))+'</span>' +
       '<span class="sr-check">✓</span>'+delBtn+'</div>';
   }
   if (s.skipped) {
@@ -2515,8 +2682,33 @@ function renderSetRow(s, prevSet, ex) {
   }
   var w = s.weight || s.suggestedWeight || 0;
   var r = s.reps   || s.suggestedReps  || ex.rMin;
-  var prevLine = prevSet ? ('Prev: '+prevSet.weight+' kg × '+prevSet.reps) : 'First time';
-  var targetLine = prevSet ? (prevSet.reps >= ex.rMax ? 'Increase weight' : (prevSet.weight+' kg × '+(prevSet.reps+1))) : '';
+  var prevLine = prevSet ? ('Prev: '+valLabel(prevSet)) : 'First time';
+  var targetLine = prevSet ? (isTimed
+    ? (Math.min(ex.rMax, (prevSet.reps || ex.rMin) + (unit === 'seconds' ? 5 : 1)) + ' ' + (unit === 'seconds' ? 'sec' : 'min'))
+    : (prevSet.reps >= ex.rMax ? 'Increase weight' : (prevSet.weight+' kg × '+(prevSet.reps+1)))) : '';
+  var holdInput = ex.finalHold && s.setNum === ex.sDef && s.setType === 'working'
+    ? '<label class="sr-hold">Final hold <input type="number" inputmode="numeric" min="0" max="120" value="'+(s.holdSeconds||ex.finalHoldMin||20)+'" onchange="App.setHoldSeconds(\''+s.id+'\',parseInt(this.value)||0)" oninput="App.setHoldSeconds(\''+s.id+'\',parseInt(this.value)||0)"> sec</label>'
+    : '';
+  if (isTimed) {
+    return '<div class="set-row set-row--active" id="sr-'+s.id+'">' +
+      '<div class="sr-top">' +
+        '<span class="sr-label">'+esc(label)+'</span>' +
+        '<span class="sr-prev-line">'+esc(prevLine)+'</span>' +
+        (targetLine ? '<span class="sr-target-line">→ '+esc(targetLine)+'</span>' : '') +
+        '<button class="sr-skip-lnk" onclick="App.skipSet(\'' + s.id + '\')">Skip</button>'+delBtn+
+      '</div>' +
+      '<div class="sr-compact-row">' +
+        '<div class="sri-ctrl sri-r">' +
+          '<button class="sri-adj" onclick="App.adjReps(\'' + s.id + '\','+(unit === 'seconds' ? -5 : -1)+')">−</button>' +
+          '<input class="sri-inp" type="number" inputmode="numeric" step="'+(unit === 'seconds' ? '5' : '1')+'" min="0" value="'+r+'" ' +
+            'onchange="App.setReps(\'' + s.id + '\',parseInt(this.value)||0)" ' +
+            'oninput="App.setReps(\'' + s.id + '\',parseInt(this.value)||0)">' +
+          '<button class="sri-adj" onclick="App.adjReps(\'' + s.id + '\','+(unit === 'seconds' ? 5 : 1)+')">+</button>' +
+          '<span class="sr-unit">'+(unit === 'seconds' ? 'sec' : 'min')+'</span>' +
+        '</div>' +
+        '<button class="sr-tick" onclick="App.completeSet(\'' + s.id + '\')" aria-label="Complete">✓</button>' +
+      '</div></div>';
+  }
   return '<div class="set-row set-row--active" id="sr-'+s.id+'">' +
     '<div class="sr-top">' +
       '<span class="sr-label">'+esc(label)+'</span>' +
@@ -2541,7 +2733,7 @@ function renderSetRow(s, prevSet, ex) {
         '<button class="sri-adj" onclick="App.adjReps(\'' + s.id + '\',1)">+</button>' +
       '</div>' +
       '<button class="sr-tick" onclick="App.completeSet(\'' + s.id + '\')" aria-label="Complete">✓</button>' +
-    '</div></div>';
+    '</div>' + holdInput + '</div>';
 }
 
 function renderAddExerciseModal(sess) {
@@ -2744,6 +2936,112 @@ function renderVolume(db) {
     '</div>';
 }
 
+// ============================================================
+// PERFORMANCE SCREEN
+// ============================================================
+function perfLogsInWeek(dbRef, type, ws) {
+  return (dbRef.performanceLogs || []).filter(function(log) {
+    return log.type === type && log.date >= ws && log.date <= weekEnd(ws);
+  });
+}
+
+function completedExerciseSessionsInWeek(dbRef, exId, ws) {
+  return sessionsInWeek(dbRef, ws).filter(function(sess) {
+    return sess.sets.some(function(set) {
+      return getHistoryExerciseId(set.exId) === exId && set.completed && !set.skipped && set.setType !== 'warmup';
+    });
+  });
+}
+
+function getPerformanceTotals(dbRef, ws) {
+  var zone2Workout = completedExerciseSessionsInWeek(dbRef, 'zone_2_cardio', ws).length;
+  var highPlankWorkout = completedExerciseSessionsInWeek(dbRef, 'high_plank_endurance', ws).length;
+  var hipBridge = completedExerciseSessionsInWeek(dbRef, 'glute_bridge_endurance', ws).length;
+  var hipThrust = completedExerciseSessionsInWeek(dbRef, 'hip_thrust', ws).length;
+  return {
+    zone2: zone2Workout + perfLogsInWeek(dbRef, 'zone2', ws).length,
+    highPlank: highPlankWorkout + perfLogsInWeek(dbRef, 'high_plank_micro', ws).length,
+    pelvicFloor: perfLogsInWeek(dbRef, 'pelvic_floor', ws).length,
+    hipMobility: perfLogsInWeek(dbRef, 'hip_mobility', ws).length,
+    hipExtension: hipBridge + hipThrust > 0 ? 1 : 0,
+    intervals: perfLogsInWeek(dbRef, 'intervals', ws).length
+  };
+}
+
+function perfRow(label, done, target, desc) {
+  var pct = target ? Math.min(100, done / target * 100) : (done ? 100 : 0);
+  return '<div class="perf-row">' +
+    '<div class="perf-top"><span class="perf-name">'+esc(label)+'</span><span class="perf-count">'+done+' / '+target+'</span></div>' +
+    '<div class="perf-bar"><div class="perf-fill" style="width:'+pct.toFixed(1)+'%"></div></div>' +
+    '<div class="perf-desc">'+esc(desc)+'</div>' +
+  '</div>';
+}
+
+function renderPerformance(db) {
+  var ws = weekStart();
+  var totals = getPerformanceTotals(db, ws);
+  return '<div class="perf-wrap">' +
+    '<div class="screen-title">Performance</div>' +
+    '<div class="perf-grid">' +
+      perfRow('Zone 2', totals.zone2, 2, 'Able to speak in short sentences while continuously exercising.') +
+      perfRow('High Plank', totals.highPlank, 2, 'Day 3 counts as one. The separate micro-session counts as the second.') +
+      perfRow('Pelvic Floor', totals.pelvicFloor, 3, 'About 5 minutes. Contraction and relaxation, not continuous squeezing.') +
+      perfRow('Hip Mobility', totals.hipMobility, 3, 'About 5 minutes of hip flexor, adductor, squat hold and breathing work.') +
+      perfRow('Hip Extension', totals.hipExtension, 1, 'Satisfied by Glute Bridge Endurance or Hip Thrust. Do not require both.') +
+      perfRow('Optional Intervals', totals.intervals, 1, 'Optional. Maximum once per week.') +
+    '</div>' +
+    '<div class="perf-actions">' +
+      renderZone2Form() +
+      renderHighPlankMicroForm() +
+      renderPelvicFloorForm() +
+      renderHipMobilityForm() +
+      renderIntervalsForm() +
+    '</div>' +
+  '</div>';
+}
+
+function renderZone2Form() {
+  return '<div class="perf-card"><h3>Zone 2 Cardio</h3>' +
+    '<p>Weekly target: 2 sessions, 30 to 40 minutes each. Day 5 Zone 2 counts.</p>' +
+    '<div class="perf-form">' +
+      '<div class="addex-grid"><input id="z2Dur" type="number" min="1" value="30" aria-label="Duration minutes"><select id="z2Machine"><option>Incline treadmill</option><option>Bike</option><option>Cross-trainer</option><option>StairMaster</option><option>Other</option></select></div>' +
+      '<div class="addex-grid"><input id="z2Hr" type="number" min="0" placeholder="Avg HR optional"><input id="z2Rpe" type="number" min="1" max="10" value="5" placeholder="RPE 1-10"></div>' +
+      '<textarea id="z2Notes" rows="1" placeholder="Notes optional"></textarea>' +
+      '<button class="btn-primary btn-lg" onclick="App.logZone2()">Log Zone 2</button>' +
+    '</div></div>';
+}
+
+function renderHighPlankMicroForm() {
+  return '<div class="perf-card"><h3>High Plank Micro-Session</h3>' +
+    '<p>2 sets of 45 to 75 seconds with 60 seconds rest. Do not force it with shoulder, wrist or lower-back pain.</p>' +
+    '<div class="perf-form">' +
+      '<div class="addex-grid"><input id="hpSet1" type="number" min="0" value="45" aria-label="Set 1 seconds"><input id="hpSet2" type="number" min="0" value="45" aria-label="Set 2 seconds"></div>' +
+      '<label class="addex-check"><input id="hpPain" type="checkbox"> Pain recorded</label>' +
+      '<textarea id="hpNotes" rows="1" placeholder="Notes optional"></textarea>' +
+      '<button class="btn-primary btn-lg" onclick="App.logHighPlankMicro()">Log High Plank</button>' +
+    '</div></div>';
+}
+
+function renderPelvicFloorForm() {
+  return '<div class="perf-card"><h3>Pelvic-Floor Control</h3>' +
+    '<ul><li>Strength: 8 controlled 3-second contractions, fully relax 6 seconds.</li><li>Endurance: 3 contractions held 8 to 10 seconds, relax at least 10 seconds.</li><li>Relaxation: 5 slow diaphragmatic breaths, pelvic floor softens on inhale.</li></ul>' +
+    '<div class="perf-warning">Do not squeeze continuously. Do not train by repeatedly interrupting urination. Stop and seek professional advice if pelvic pain, urinary symptoms, pain after ejaculation or worsening erection quality develops.</div>' +
+    '<div class="perf-form"><label class="addex-check"><input id="pfWarning" type="checkbox"> Symptom warning recorded</label><textarea id="pfNotes" rows="1" placeholder="Notes optional"></textarea><button class="btn-primary btn-lg" onclick="App.logPelvicFloor()">Mark Pelvic Floor Done</button></div></div>';
+}
+
+function renderHipMobilityForm() {
+  return '<div class="perf-card"><h3>Hip Mobility + Breathing</h3>' +
+    '<ul><li>Half-kneeling hip-flexor stretch: 45 sec each side.</li><li>Adductor rock-back: 8 slow reps each side.</li><li>Supported deep squat: 30 to 60 sec if comfortable.</li><li>5 slow breaths with long relaxed exhale, ribs down, pelvic floor relaxed.</li></ul>' +
+    '<div class="perf-form"><input id="hmDur" type="number" min="1" value="5" aria-label="Duration minutes"><textarea id="hmNotes" rows="1" placeholder="Discomfort notes optional"></textarea><button class="btn-primary btn-lg" onclick="App.logHipMobility()">Mark Mobility Done</button></div></div>';
+}
+
+function renderIntervalsForm() {
+  return '<div class="perf-card"><h3>Optional Intervals</h3>' +
+    '<p>5-minute warm-up, 6 rounds of 20 sec hard / 100 sec easy, 5-minute cool-down.</p>' +
+    '<div class="perf-warning">Skip intervals when sleep is poor, legs are very sore, recovery is low or lifting performance is dropping.</div>' +
+    '<div class="perf-form"><textarea id="intNotes" rows="1" placeholder="Notes optional"></textarea><button class="btn-primary btn-lg" onclick="App.logIntervals()">Log Optional Intervals</button></div></div>';
+}
+
 // ---- Muscle detail modal ----
 function renderMuscleDetail(mId, db) {
   var mdef = MUSCLES[mId];
@@ -2823,7 +3121,12 @@ function renderSessionDetail(sess) {
     if (!ex) return '';
     var setLines = sets.map(function(s) {
       var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'S' + s.setNum + (s.side?' '+s.side:'');
-      var status = s.skipped ? 'skipped' : s.completed ? s.weight+' kg × '+s.reps : '—';
+      var unit = s.trackingUnit || ex.trackingUnit || 'reps';
+      var status = '—';
+      if (s.skipped) status = 'skipped';
+      else if (s.completed && unit === 'seconds') status = s.reps + ' sec';
+      else if (s.completed && unit === 'minutes') status = s.reps + ' min';
+      else if (s.completed) status = s.weight+' kg × '+s.reps+(s.holdSeconds?' · hold '+s.holdSeconds+' sec':'');
       return '<div class="sd-set"><span class="sd-sl">' + label + '</span><span class="sd-sv">' + status + '</span></div>';
     }).join('');
     var historyMeta = ex.unknown ? '<div class="addex-muted">Saved ID: '+esc(ex.rawId)+'</div>' : '';
@@ -2843,7 +3146,7 @@ function renderSessionDetail(sess) {
 // PROGRAM SCREEN
 // ============================================================
 function renderProgram() {
-  var dayBlocks = [1,2,3,4].map(function(n) {
+  var dayBlocks = [1,2,3,4,5].map(function(n) {
     var day = DAYS[n];
     var dayExerciseIds = getDayExerciseIds(db, n);
     var exCards = dayExerciseIds.map(function(exId, idx) {
@@ -2851,7 +3154,7 @@ function renderProgram() {
     }).join('');
     return '<details class="prog-day" id="pd-' + n + '">' +
       '<summary class="pd-sum">' +
-        '<span class="pd-num">Day ' + String(n).padStart(2,'0') + '</span>' +
+        '<span class="pd-num">' + (day.optional ? 'Optional ' : '') + 'Day ' + String(n).padStart(2,'0') + '</span>' +
         '<span class="pd-title">' + esc(day.title) + '</span>' +
         '<span class="pd-chev"></span>' +
       '</summary>' +
@@ -2886,6 +3189,7 @@ function renderProgExCard(exId, idx, dayN) {
   var ex = getExerciseForDay(exId, dayN, db);
   var rirDisplay = ex.rirMin===ex.rirMax ? String(ex.rirMin) : ex.rirMin + ' to ' + ex.rirMax;
   var setsDisplay = ex.sMin===ex.sMax ? String(ex.sDef) : ex.sMin + ' to ' + ex.sMax;
+  var repLabel = ex.trackingUnit === 'seconds' ? 'Seconds' : ex.trackingUnit === 'minutes' ? 'Minutes' : 'Reps';
 
   var specialBox = ex.special
     ? '<div class="pe-callout pe-drop"><b>' + esc(ex.special.label) + '</b><ul>' + ex.special.lines.map(function(l){ return '<li>'+esc(l)+'</li>'; }).join('') + '</ul></div>'
@@ -2909,7 +3213,7 @@ function renderProgExCard(exId, idx, dayN) {
     '</div>' +
     '<div class="pe-badges">' +
       '<div class="pe-badge"><span class="pb-l">Sets</span><span class="pb-v">' + setsDisplay + '</span></div>' +
-      '<div class="pe-badge"><span class="pb-l">Reps</span><span class="pb-v">' + ex.rMin + ' to ' + ex.rMax + '</span></div>' +
+      '<div class="pe-badge"><span class="pb-l">'+repLabel+'</span><span class="pb-v">' + ex.rMin + ' to ' + ex.rMax + '</span></div>' +
       '<div class="pe-badge"><span class="pb-l">RIR</span><span class="pb-v">' + rirDisplay + '</span></div>' +
       '<div class="pe-badge"><span class="pb-l">Rest</span><span class="pb-v">' + fmtRestLabel(ex.rest) + '</span></div>' +
       '<div class="pe-badge pe-badge--target"><span class="pb-l">Target</span><span class="pb-v">' + esc(ex.target) + '</span></div>' +
@@ -3031,6 +3335,7 @@ var App = (function() {
     // Render on demand
     if (name === 'today')   { el.innerHTML = renderToday(db); }
     if (name === 'volume')  { el.innerHTML = renderVolume(db); }
+    if (name === 'performance') { el.innerHTML = renderPerformance(db); }
     if (name === 'history') { el.innerHTML = renderHistory(db); }
     // Program is pre-rendered; only refresh on first visit
     if (name === 'program' && !el.dataset.rendered) {
@@ -3050,6 +3355,14 @@ var App = (function() {
   function useRecommendation() {
     delete db._nextDayOverride;
     dbSave(db);
+    showScreen('today');
+  }
+
+  function setTrainingCycleMode(mode) {
+    db.settings.trainingCycleMode = mode === '5day' ? '5day' : '4day';
+    dbSave(db);
+    var program = document.getElementById('scr-program');
+    if (program) delete program.dataset.rendered;
     showScreen('today');
   }
 
@@ -3149,6 +3462,11 @@ var App = (function() {
     s.rir = parseInt(val,10)||0; dbSave(db);
     rerenderSetRow(setId);
   }
+  function setHoldSeconds(setId, val) {
+    var s = getSet(setId); if (!s) return;
+    s.holdSeconds = Math.max(0, parseInt(val,10)||0);
+    dbSave(db);
+  }
   function saveExNote(exId, val) {
     if (!db.activeSession) return;
     if (!db.activeSession.exNotes) db.activeSession.exNotes = {};
@@ -3159,6 +3477,10 @@ var App = (function() {
   function completeSet(setId) {
     var s = getSet(setId); if (!s) return;
     if (s.reps <= 0) { alert('Enter reps before logging.'); return; }
+    var exForHold = getExerciseDef(s.exId, db.activeSession);
+    if (exForHold && exForHold.finalHold && s.setNum === exForHold.sDef && s.holdSeconds == null) {
+      s.holdSeconds = exForHold.finalHoldMin || 20;
+    }
     s.completed = true; s.rir = null; s.timestamp = Date.now();
     dbSave(db);
     try { navigator.vibrate(80); } catch(e){}
@@ -3485,7 +3807,7 @@ var App = (function() {
     if (!db.activeSession) return;
     var sess = db.activeSession;
     var incompleteSets = sess.sets.filter(function(s){
-      return s.setType==='working' && !s.completed && !s.skipped;
+      return s.setType==='working' && !s.completed && !s.skipped && !isOptionalExerciseInSession(sess, s.exId);
     }).length;
     if (incompleteSets > 0) {
       if (!confirm(incompleteSets + ' planned set(s) are not yet logged. Finish anyway?')) return;
@@ -3537,6 +3859,64 @@ var App = (function() {
   }
   function closeMuscleDetail() {
     document.getElementById('modal-overlay').classList.add('hidden');
+  }
+
+  function addPerformanceLog(log) {
+    db.performanceLogs = db.performanceLogs || [];
+    log.id = 'perf_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    log.date = Date.now();
+    db.performanceLogs.push(log);
+    dbSave(db);
+    showScreen('performance');
+  }
+  function logZone2() {
+    addPerformanceLog({
+      type:'zone2',
+      durationMinutes:parseInt(document.getElementById('z2Dur').value,10)||0,
+      modality:document.getElementById('z2Machine').value,
+      averageHeartRate:parseInt(document.getElementById('z2Hr').value,10)||null,
+      rpe:parseInt(document.getElementById('z2Rpe').value,10)||null,
+      notes:document.getElementById('z2Notes').value || ''
+    });
+  }
+  function logHighPlankMicro() {
+    addPerformanceLog({
+      type:'high_plank_micro',
+      setDurationsSeconds:[
+        parseInt(document.getElementById('hpSet1').value,10)||0,
+        parseInt(document.getElementById('hpSet2').value,10)||0
+      ],
+      painRecorded:!!document.getElementById('hpPain').checked,
+      notes:document.getElementById('hpNotes').value || ''
+    });
+  }
+  function logPelvicFloor() {
+    addPerformanceLog({
+      type:'pelvic_floor',
+      completed:true,
+      symptomWarning:!!document.getElementById('pfWarning').checked,
+      notes:document.getElementById('pfNotes').value || ''
+    });
+  }
+  function logHipMobility() {
+    addPerformanceLog({
+      type:'hip_mobility',
+      completed:true,
+      durationMinutes:parseInt(document.getElementById('hmDur').value,10)||5,
+      discomfortNotes:document.getElementById('hmNotes').value || ''
+    });
+  }
+  function logIntervals() {
+    if (perfLogsInWeek(db, 'intervals', weekStart()).length >= 1) {
+      alert('Optional intervals are capped at once per week.');
+      return;
+    }
+    addPerformanceLog({
+      type:'intervals',
+      completed:true,
+      protocol:'5 min warm-up, 6x20 sec hard / 100 sec easy, 5 min cool-down',
+      notes:document.getElementById('intNotes').value || ''
+    });
   }
 
   /* ── history ── */
@@ -3616,6 +3996,7 @@ var App = (function() {
     showScreen: showScreen,
     setNextDay: setNextDay,
     useRecommendation: useRecommendation,
+    setTrainingCycleMode: setTrainingCycleMode,
     startWorkout: startWorkout,
     resumeWorkout: resumeWorkout,
     discardSession: discardSession,
@@ -3633,6 +4014,7 @@ var App = (function() {
     adjReps: adjReps,
     setReps: setReps,
     setRir: setRir,
+    setHoldSeconds: setHoldSeconds,
     addWorkingSet: addWorkingSet,
     addWarmupSet: addWarmupSet,
     openAddExercise: openAddExercise,
@@ -3653,6 +4035,11 @@ var App = (function() {
     volNavWeek: volNavWeek,
     showMuscleDetail: showMuscleDetail,
     closeMuscleDetail: closeMuscleDetail,
+    logZone2: logZone2,
+    logHighPlankMicro: logHighPlankMicro,
+    logPelvicFloor: logPelvicFloor,
+    logHipMobility: logHipMobility,
+    logIntervals: logIntervals,
     toggleHistItem: toggleHistItem,
     deleteSession: deleteSession,
     doExport: doExport,
