@@ -231,7 +231,9 @@ p { margin:0; }
 .wo-back { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; min-width:36px; min-height:36px; padding:4px; }
 .wo-hinfo { flex:1; min-width:0; }
 .wo-htitle { font-size:13px; font-weight:650; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.wo-hprog { font-size:12px; color:var(--muted); font-family:var(--mono); }
+.wo-hprog { display:flex; flex-wrap:wrap; gap:4px 8px; align-items:center; font-size:12px; color:var(--muted); font-family:var(--mono); }
+.wo-duration { color:var(--steel); white-space:nowrap; }
+.wo-duration--capped { color:var(--warn); }
 .wo-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 14px 80px; }
 .rushed-control { display:flex; justify-content:flex-end; padding:10px 0 0; }
 .btn-rushed { border-color:var(--warn); color:var(--warn); background:var(--warn-bg); }
@@ -688,7 +690,7 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '2.3.0';
+const APP_VERSION = '2.3.1';
 const PROGRAM_NAME = 'Wedding Shape Block — July to End August 2026';
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function round1(n){ return Math.round(n*10)/10; }
@@ -1427,6 +1429,9 @@ var PROGRESSION_RULES = [
 // ============================================================
 var DB_KEY = 'adil_v2';
 var TIMER_KEY = 'adil_timer';
+var SESSION_TIMER_CAP_SECONDS = 14400;
+var SESSION_TIMER_CAP_MS = SESSION_TIMER_CAP_SECONDS * 1000;
+var SESSION_TIMER_CAP_REASON = 'automatic_4_hour_cap';
 
 function dbLoad() {
   try {
@@ -1488,6 +1493,8 @@ function migrateDb(data) {
 
   d.completedSessions.forEach(migrateSession);
   migrateSession(d.activeSession);
+  d.completedSessions.forEach(function(session) { applySessionTimerCap(session, session.endTime || Date.now()); });
+  applySessionTimerCap(d.activeSession);
   d.migrations = d.migrations || {};
   if (!d.migrations.d2e1ToPullups) {
     function migrateD2e1(session) {
@@ -1582,6 +1589,45 @@ function createSet(exId, setNum, setType, side) {
     skipped: false,
     timestamp: null,
   };
+}
+
+function getSessionCapTime(session) {
+  return session && session.startTime ? session.startTime + SESSION_TIMER_CAP_MS : null;
+}
+
+function applySessionTimerCap(session, now) {
+  if (!session || !session.startTime) return false;
+  var changed = false;
+  var capTime = getSessionCapTime(session);
+  var currentTime = now || Date.now();
+  var stoppedAt = session.sessionTimerStoppedAt || null;
+  if (!stoppedAt && currentTime >= capTime) {
+    session.sessionTimerStoppedAt = capTime;
+    session.timerStopReason = SESSION_TIMER_CAP_REASON;
+    stoppedAt = capTime;
+    changed = true;
+  }
+  if (stoppedAt && session.timerStopReason !== SESSION_TIMER_CAP_REASON) {
+    session.timerStopReason = SESSION_TIMER_CAP_REASON;
+    changed = true;
+  }
+  if (session.durationMs != null && session.durationMs > SESSION_TIMER_CAP_MS) {
+    session.durationMs = SESSION_TIMER_CAP_MS;
+    changed = true;
+  }
+  if (session.finished && session.durationMs == null && session.endTime) {
+    session.durationMs = Math.min(Math.max(0, session.endTime - session.startTime), SESSION_TIMER_CAP_MS);
+    changed = true;
+  }
+  return changed;
+}
+
+function getSessionDurationMs(session, now) {
+  if (!session || !session.startTime) return 0;
+  applySessionTimerCap(session, now);
+  if (session.durationMs != null && session.finished) return Math.min(session.durationMs, SESSION_TIMER_CAP_MS);
+  var end = session.sessionTimerStoppedAt || session.endTime || now || Date.now();
+  return Math.min(Math.max(0, end - session.startTime), SESSION_TIMER_CAP_MS);
 }
 
 function newCustomExerciseId() {
@@ -2276,9 +2322,38 @@ function initWorkoutSets(dayN, db, session) {
 // ============================================================
 // WORKOUT RENDERER
 // ============================================================
+var sessionDurationInterval = null;
+
+function refreshSessionDurationDisplay() {
+  if (!db || !db.activeSession || db.activeSession.finished) {
+    if (sessionDurationInterval) clearInterval(sessionDurationInterval);
+    sessionDurationInterval = null;
+    return;
+  }
+  var changed = applySessionTimerCap(db.activeSession);
+  if (changed) dbSave(db);
+  var el = document.getElementById('session-duration-label');
+  if (el) {
+    el.textContent = fmtTime(getSessionDurationMs(db.activeSession));
+    el.classList.toggle('wo-duration--capped', db.activeSession.timerStopReason === SESSION_TIMER_CAP_REASON);
+  }
+  if (db.activeSession.sessionTimerStoppedAt && sessionDurationInterval) {
+    clearInterval(sessionDurationInterval);
+    sessionDurationInterval = null;
+  }
+}
+
+function startSessionDurationDisplay() {
+  refreshSessionDurationDisplay();
+  if (sessionDurationInterval || !db.activeSession || db.activeSession.sessionTimerStoppedAt) return;
+  sessionDurationInterval = setInterval(refreshSessionDurationDisplay, 1000);
+}
+
 function renderWorkout(db) {
   var sess = db.activeSession;
   if (!sess) return '';
+  var timerChanged = applySessionTimerCap(sess);
+  if (timerChanged) dbSave(db);
   normaliseSessionExerciseOrder(sess);
   var day = DAYS[sess.dayN];
   var exerciseIds = getSessionExerciseIds(sess);
@@ -2310,7 +2385,7 @@ function renderWorkout(db) {
       '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
       '<div class="wo-hinfo">' +
         '<div class="wo-htitle">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
-        '<div class="wo-hprog">' + exDone + ' / ' + exerciseIds.length + ' exercises</div>' +
+        '<div class="wo-hprog"><span class="wo-ex-progress">' + exDone + ' / ' + exerciseIds.length + ' exercises</span><span class="wo-duration' + (sess.timerStopReason === SESSION_TIMER_CAP_REASON ? ' wo-duration--capped' : '') + '" id="session-duration-label">' + fmtTime(getSessionDurationMs(sess)) + '</span></div>' +
       '</div>' +
       '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
     '</div>' +
@@ -2329,6 +2404,7 @@ function renderWorkout(db) {
       '</div>' +
     '</div>';
   ov.classList.remove('hidden');
+  startSessionDurationDisplay();
 
   // Auto-scroll to first incomplete exercise
   setTimeout(function() {
@@ -2998,6 +3074,7 @@ var App = (function() {
   function discardSession() {
     if (!confirm('Discard the current workout session? This cannot be undone.')) return;
     db.activeSession = null;
+    refreshSessionDurationDisplay();
     dbSave(db);
     showScreen('today');
   }
@@ -3019,6 +3096,7 @@ var App = (function() {
     document.getElementById('workout-overlay').classList.add('hidden');
     document.getElementById('bottom-nav').classList.remove('hidden');
     document.body.style.overflow = '';
+    refreshSessionDurationDisplay();
     showScreen('today');
   }
 
@@ -3112,7 +3190,7 @@ var App = (function() {
           var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
           if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
         });
-        var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
+        var hp=document.querySelector('.wo-ex-progress'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
       } else {
         var na=document.querySelector('#exc-'+exId+' .set-row--active');
         if(na) scrollExIntoView(na, true);
@@ -3399,7 +3477,7 @@ var App = (function() {
       var sets=sess.sets.filter(function(s){return s.exId===eid&&(s.setType==='working'||s.setType==='drop')&&!s.skipped;});
       if(sets.length>0&&sets.every(function(s){return s.completed||s.skipped;})) exDone++;
     });
-    var hp=document.querySelector('.wo-hprog'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
+    var hp=document.querySelector('.wo-ex-progress'); if(hp) hp.textContent=exDone+' / '+exerciseIds.length+' exercises';
   }
 
   /* ── finish workout ── */
@@ -3412,8 +3490,10 @@ var App = (function() {
     if (incompleteSets > 0) {
       if (!confirm(incompleteSets + ' planned set(s) are not yet logged. Finish anyway?')) return;
     }
-    sess.endTime = Date.now();
-    sess.durationMs = sess.endTime - sess.startTime;
+    var finishTime = Date.now();
+    applySessionTimerCap(sess, finishTime);
+    sess.endTime = finishTime;
+    sess.durationMs = getSessionDurationMs(sess, finishTime);
     sess.finished = true;
     // Detect PRs
     db.completedSessions.push(sess);  // add first so detectPRs can compare
@@ -3421,6 +3501,7 @@ var App = (function() {
     db.lastCompletedDay = sess.dayN;
     delete db._nextDayOverride;
     db.activeSession = null;
+    refreshSessionDurationDisplay();
     dbSave(db);
     // Show summary
     showSummary(sess);
@@ -3609,6 +3690,11 @@ function initApp() {
 
   // Restore timer if running
   Timer.restore();
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) refreshSessionDurationDisplay();
+  });
+  window.addEventListener('focus', refreshSessionDurationDisplay);
+  window.addEventListener('pageshow', refreshSessionDurationDisplay);
 
   // Show today by default
   App.showScreen('today');
