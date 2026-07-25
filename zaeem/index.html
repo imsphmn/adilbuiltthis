@@ -381,7 +381,12 @@ button{font:inherit}
 .success-actions button:active{transform:translateY(7px)}
 
 /* ----------------------------------------------------------------- START */
-.start{justify-content:center;align-items:center;text-align:center;position:relative}
+.start{justify-content:center;align-items:center;text-align:center}
+/* .screen already establishes position:absolute (it must, to fill the
+   viewport). A second position rule here would win the cascade tie and
+   silently cancel that — which is exactly what caused the start screen
+   to collapse to a few hundred pixels tall. No extra position needed:
+   .start-hero below positions itself against .screen directly. */
 .start-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
 .start-logo{
   font-family:var(--font-display);font-weight:900;
@@ -409,10 +414,14 @@ button{font:inherit}
 .playbtn:active{transform:translateY(13px);box-shadow:0 5px 0 var(--go-edge),0 12px 24px rgba(0,0,0,.4)}
 .playbtn:focus-visible{outline:8px solid var(--sun);outline-offset:8px}
 @keyframes breathe{50%{transform:scale(1.035)}}
+/* Much bigger and anchored to the true floor of the scene — a character
+   sharing the stage, not a sticker in the corner. Sized off the smaller of
+   width/height (vmin) so it stays large and correct on tall, narrow windows
+   too, not just wide desktop ones. */
 .start-hero{
-  position:absolute;right:clamp(10px,4vw,90px);bottom:0;
-  width:clamp(210px,26vw,420px);z-index:1;pointer-events:none;
-  filter:drop-shadow(0 18px 22px rgba(0,0,0,.42));
+  position:absolute;right:clamp(4px,3vw,60px);bottom:0;
+  width:clamp(280px,40vmin,620px);z-index:1;pointer-events:none;
+  filter:drop-shadow(0 20px 26px rgba(0,0,0,.45));
   animation:idlefloat 5.5s ease-in-out infinite;
 }
 
@@ -663,7 +672,7 @@ button{font:inherit}
   .mission-btn{min-height:140px}
   .dropzone{min-height:110px}
   .bottom{height:82px}
-  .start-hero{display:none}
+  .start-hero{width:clamp(140px,30vmin,220px);right:4px}
   .sticker,.start-logo,.hub-title,.world-title{-webkit-text-stroke-width:6px}
 }
 @media(max-height:620px){
