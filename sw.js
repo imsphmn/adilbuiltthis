@@ -1,11 +1,11 @@
-const CACHE_NAME = 'adil-gym-shell-v14';
+const CACHE_NAME = 'adil-gym-shell-v15';
 const APP_SHELL = [
   './',
   './index.html',
-  './manifest.webmanifest?v=14',
-  './apple-touch-icon.png?v=14',
-  './icon-192.png?v=14',
-  './icon-512.png?v=14'
+  './manifest.webmanifest?v=15',
+  './apple-touch-icon.png?v=15',
+  './icon-192.png?v=15',
+  './icon-512.png?v=15'
 ];
 
 function shouldTransformIndex(request, response) {
