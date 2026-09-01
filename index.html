@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Adil Gym">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Adil Gym">
-<meta name="description" content="Adil's personal four day aesthetic workout tracker.">
+<meta name="description" content="Adil's personal adaptive September to November wedding workout tracker.">
 <link rel="manifest" href="./manifest.webmanifest?v=15">
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=15">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=15">
@@ -701,11 +701,11 @@ p { margin:0; }
 <script>
 'use strict';
 const APP_VERSION = '2.5.0';
-const PROGRAM_NAME = 'Chest and Back Showcase Block, Rest of August 2026';
-const PROGRAM_VERSION = 'august-2026-showcase-1';
+const PROGRAM_NAME = 'September to November Adaptive Wedding Programme';
+const PROGRAM_VERSION = 'september-november-2026-adaptive-1';
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
-const CORE_DAY_NUMBERS = [1,2,3,4];
-const ALL_DAY_NUMBERS = [1,2,3,4,5];
+const CORE_DAY_NUMBERS = [1,2];
+const ALL_DAY_NUMBERS = [1,2,3];
 const HOME_ROUTINE = [
   {id:'breathing_9090',name:'90/90 Breathing',dose:'45 seconds · about 5 slow breaths',cue:'Feet on a wall, ribs down, long 6–8 second exhale.'},
   {id:'wall_slides',name:'Wall Slides with Reach',dose:'8 slow reps · about 45 seconds',cue:'Slide upward without shrugging or arching the lower back.'},
@@ -1403,9 +1403,20 @@ function getHistoryExerciseId(exId) {
 }
 
 function getSelectableExerciseIds(dbRef) {
-  var ids = Object.keys(EX).filter(function(id) { return !EX[id].archived; });
+  // The picker is a complete catalogue: archived definitions and unknown IDs
+  // from imported or historical sessions must remain recoverable.
+  var ids = Object.keys(EX);
   var custom = dbRef && dbRef.settings && dbRef.settings.customExercises;
   if (custom) ids = ids.concat(Object.keys(custom));
+  (dbRef && dbRef.completedSessions || []).forEach(function(session) {
+    (session.exerciseOrder || []).forEach(function(id) { if (ids.indexOf(id) === -1) ids.push(id); });
+    (session.sets || []).forEach(function(set) { if (ids.indexOf(set.exId) === -1) ids.push(set.exId); });
+  });
+  if (dbRef && dbRef.activeSession) {
+    (dbRef.activeSession.exerciseOrder || []).forEach(function(id) { if (ids.indexOf(id) === -1) ids.push(id); });
+    (dbRef.activeSession.sets || []).forEach(function(set) { if (ids.indexOf(set.exId) === -1) ids.push(set.exId); });
+  }
+  ids = ids.filter(function(id, index) { return ids.indexOf(id) === index; });
   return ids.sort(function(a,b) {
     var ea = getExerciseDef(a, null, dbRef), eb = getExerciseDef(b, null, dbRef);
     return (ea ? ea.name : a).localeCompare(eb ? eb.name : b);
@@ -1481,25 +1492,25 @@ defineShowcaseExercise('incline_smith_press_30deg','30-Degree Incline Smith Pres
 defineShowcaseExercise('flat_converging_chest_press','Flat Converging Chest-Press Machine',{base:'low_incline_dumbbell_press_15deg',target:'Whole chest',muscles:{'mid-chest':1,'upper-chest':0.2,'triceps':0.5},substituteFor:'low_incline_dumbbell_press_15deg'});
 defineShowcaseExercise('smith_press_15deg','15-Degree Smith Press',{base:'low_incline_dumbbell_press_15deg',target:'Whole chest',muscles:{'mid-chest':1,'upper-chest':0.2,'triceps':0.5},substituteFor:'low_incline_dumbbell_press_15deg'});
 defineShowcaseExercise('assisted_neutral_grip_pullup','Assisted Neutral-Grip Pull-Up',{base:'neutral_grip_lat_pulldown',target:'Lat width',muscles:{'lats':1},substituteFor:'neutral_grip_lat_pulldown'});
+defineShowcaseExercise('seated_neutral_grip_cable_lat_row','Seated Neutral-Grip Cable Lat Row',{base:'chest_supported_lat_biased_row',sDef:3,sMin:3,sMax:3,rMin:8,rMax:15,rest:90,target:'Lats and teres major',muscles:{'lats':1},cues:['Use a close or medium neutral grip.','Sit tall with ribs down.','Reach forward under control.','Keep the torso almost completely still.','Keep elbows close to the body.','Pull toward lower ribs or the top of hips.','Think elbows into back pockets.','Stop when elbows reach the torso.','Straps are allowed.'],mistakes:['Rocking backwards.','Pulling to the upper chest.','Flaring elbows.','Shrugging.','Curling the handle with biceps.','Dragging elbows far behind the torso.'],hard:'Lat, not biceps or mid-back. Reduce the load if the hips or torso must move.'});
 
+var LEGACY_DAYS = DAYS;
 DAYS = {
-  1:{n:1,title:'Upper Chest, Side Delts and Rear Support',nav:'Upper Chest + Width',goal:'Build upper chest first, then side-delt width, mid-back density, rear delts and waist control.',exercises:['incline_dumbbell_press_30deg','cable_lateral_raise','low_to_high_cable_fly','chest_supported_mid_back_row','reverse_pec_deck','weighted_floor_crunch'],duration:65,primaryMuscles:['Upper chest','Side delts','Mid back','Rear delts'],checklist:['Chest was the limiter on the 30-degree press.','Cable laterals stayed strict.','Mid-back row stayed chest-supported.','Rear delts stayed separate from traps.']},
-  2:{n:2,title:'Back Showcase',nav:'Back Showcase',goal:'Build a wide, photographic back with lat width, mid-back density and rear-delt detail.',exercises:['pullups','chest_supported_high_row','reverse_pec_deck','straight_arm_cable_pulldown','chest_supported_lat_biased_row','back_posing_practice'],duration:70,primaryMuscles:['Lats','Mid back','Rear delts'],checklist:['Only clean pull-up reps counted.','High row stayed chest-supported.','Rear pec deck was completed before fatigue.','Back posing was optional and technical.']},
-  3:{n:3,title:'Lower Body, Arms and Side Delts',nav:'Lower + Arms',goal:'Maintain minimum effective lower-body development while progressing side delts and arms.',exercises:['cable_lateral_raise','leg_press','seated_leg_curl','hip_thrust','calf_raise','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','dumbbell_hammer_curl'],duration:75,primaryMuscles:['Side delts','Quads','Hamstrings','Glutes','Arms'],checklist:['Lower-body reps used stable ranges.','Cable laterals stayed clean.','Left arm set the preacher-curl standard.','No torso swing on hammer curls.']},
-  4:{n:4,title:'Whole Chest, Back Detail and Side Delts',nav:'Whole Chest + Back',goal:'Train the whole chest first, then lat width, mid-back density, rear delts and side-delt width.',exercises:['low_incline_dumbbell_press_15deg','pec_deck','cable_lateral_raise','neutral_grip_lat_pulldown','chest_supported_mid_back_row','reverse_pec_deck','weighted_floor_crunch'],duration:70,primaryMuscles:['Whole chest','Side delts','Lats','Mid back','Rear delts'],checklist:['The 15-degree press came first.','Pec deck stayed chest-led.','Neutral pulldown stayed lat-led.','Rows and reverse pec deck stayed controlled.']},
-  5:{n:5,title:'Optional Lower and Cardio Insurance',nav:'Optional Insurance',optional:true,goal:'Optional lower-body, core and Zone 2 insurance. Skipping this day never lowers adherence or delays Day 1.',exercises:['leg_extension','seated_leg_curl','calf_raise','weighted_floor_crunch','zone_2_cardio'],duration:45,primaryMuscles:['Quads','Hamstrings','Calves','Abs'],checklist:['Use only after the four core days or when lower-body/cardio insurance is genuinely needed.','Zone 2 stayed conversational.']}
+  1:{n:1,title:'Priority Full Body — Chest, Back and Delts',nav:'Priority Full Body',goal:'The highest-value one-session week: whole chest, lat width, side delts, rear structure and minimum lower-body maintenance.',exercises:['incline_dumbbell_press_30deg','pullups','cable_lateral_raise','chest_supported_mid_back_row','pec_deck','reverse_pec_deck','leg_press','seated_leg_curl'],duration:75,primaryMuscles:['Whole chest','Lats','Side delts','Mid back','Rear delts'],checklist:['Chest remained the limiter on the 30-degree press.','Pull-ups stayed clean.','Side delts and rear delts stayed separate from traps.','Lower-body sets used stable ranges.']},
+  2:{n:2,title:'Whole Chest, Back Density and Lower Support',nav:'Chest + Back Density',goal:'Complement Session A with whole-chest work, mid-back density, lat width and lower-body support.',exercises:['low_incline_dumbbell_press_15deg','chest_supported_high_row','neutral_grip_lat_pulldown','low_to_high_cable_fly','cable_lateral_raise','reverse_pec_deck','hip_thrust','calf_raise'],duration:75,primaryMuscles:['Whole chest','Mid back','Lats','Side delts','Rear delts'],checklist:['The 15-degree press came first.','Rows stayed chest-supported.','Pulldown stayed lat-led.','Hip thrust and calf work stayed controlled.']},
+  3:{n:3,title:'Optional Third Session — V-Taper and Arms',nav:'Optional V-Taper + Arms',optional:true,goal:'Bonus specialisation only. This session is never required for a complete one- or two-session week.',exercises:['cable_lateral_raise','seated_neutral_grip_cable_lat_row','straight_arm_cable_pulldown','low_to_high_cable_fly','reverse_pec_deck','leg_press','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','dumbbell_hammer_curl'],duration:70,primaryMuscles:['Side delts','Lats','Upper chest','Rear delts','Arms'],checklist:['Use only when A and B are complete or manually selected.','Lat rows stayed torso-still and lat-led.','Direct arm work stayed moderate.']}
 };
+DAYS[4] = LEGACY_DAYS[4];
+DAYS[5] = LEGACY_DAYS[5];
 defineShowcaseExercise('zone_2_cardio','Zone 2 Cardio',{base:'weighted_floor_crunch',sDef:1,sMin:1,sMax:1,rMin:1,rMax:1,rest:0,target:'Cardio',muscles:{},optional:{label:'Optional cardio',text:'20 to 30 minutes at an intensity where you can speak in short sentences.'},nonHypertrophy:true,cardio:true,cues:['Duration: 20 to 30 minutes.','Keep intensity conversational; speak in short sentences.'],mistakes:['Turning it into a maximal effort interval.'],hard:'Track duration and intensity only.'});
 ['single_arm_cable_lat_pulldown','low_incline_dumbbell_press','low_incline_cable_press','machine_lateral_raise'].forEach(function(id) {
   if (EX[id]) { EX[id].archived = true; EX[id].legacy = true; }
 });
 
 var RUSHED_MODE_LIMITS = {
-  1:{ low_to_high_cable_fly:1, weighted_floor_crunch:1, reverse_pec_deck:1 },
-  2:{ chest_supported_high_row:2, reverse_pec_deck:2, straight_arm_cable_pulldown:1, back_posing_practice:0 },
-  3:{ hip_thrust:1, calf_raise:1, dumbbell_hammer_curl:1 },
-  4:{ pec_deck:1, chest_supported_mid_back_row:1, reverse_pec_deck:1, weighted_floor_crunch:1 },
-  5:{ leg_extension:1, seated_leg_curl:1, calf_raise:1, weighted_floor_crunch:1, zone_2_cardio:1 }
+  1:{ pec_deck:1, reverse_pec_deck:1, leg_press:1, seated_leg_curl:1 },
+  2:{ low_to_high_cable_fly:1, cable_lateral_raise:2, reverse_pec_deck:1, hip_thrust:1, calf_raise:1 },
+  3:{ straight_arm_cable_pulldown:1, low_to_high_cable_fly:1, reverse_pec_deck:1, leg_press:1, dumbbell_hammer_curl:1 }
 };
 
 function applyRushedModeToSession(session) {
@@ -1798,9 +1809,9 @@ function exerciseOptionsForSession(session) {
   return getSelectableExerciseIds(db).filter(function(exId) {
     return !used[exId];
   }).sort(function(a,b) {
-    var ea = EX[a], eb = EX[b];
-    if (ea.day !== eb.day) return ea.day - eb.day;
-    if (ea.order !== eb.order) return ea.order - eb.order;
+    var ea = getExerciseDef(a, null, db), eb = getExerciseDef(b, null, db);
+    if ((ea.day || 0) !== (eb.day || 0)) return (ea.day || 0) - (eb.day || 0);
+    if ((ea.order || 0) !== (eb.order || 0)) return (ea.order || 0) - (eb.order || 0);
     return ea.name.localeCompare(eb.name);
   });
 }
@@ -2178,56 +2189,62 @@ function buildRecommendationReasons(recommendation, dbRef) {
   return reasons.slice(0,3);
 }
 
+function currentWeekKey(now) { return String(weekStart(now || Date.now())); }
+function getWeeklyAvailability(dbRef, now) {
+  var settings = dbRef.settings || {};
+  settings.weeklyAvailability = settings.weeklyAvailability || {};
+  return settings.weeklyAvailability[currentWeekKey(now)] || 'unsure';
+}
+function saveWeeklyAvailability(dbRef, value, now) {
+  var allowed = ['0','1','2','3','unsure'];
+  if (allowed.indexOf(String(value)) === -1) value = 'unsure';
+  dbRef.settings = dbRef.settings || {};
+  dbRef.settings.weeklyAvailability = dbRef.settings.weeklyAvailability || {};
+  dbRef.settings.weeklyAvailability[currentWeekKey(now)] = String(value);
+  dbSave(dbRef);
+}
+function getCurrentWeekCompletedDays(dbRef, now) {
+  var ws = weekStart(now || Date.now());
+  var we = ws + 7 * 86400000;
+  var days = {};
+  dbRef.completedSessions.forEach(function(session) {
+    if (session.startTime >= ws && session.startTime < we && session.dayN >= 1 && session.dayN <= 3) days[session.dayN] = true;
+  });
+  return days;
+}
+function getLastResistanceTime(dbRef) {
+  return dbRef.completedSessions.reduce(function(latest, session) {
+    if (session.dayN < 1 || session.dayN > 3) return latest;
+    return Math.max(latest, session.endTime || session.startTime || 0);
+  }, 0);
+}
 function getBestWorkoutRecommendation(dbRef, now) {
   var currentTime = now || Date.now();
-  if (!dbRef.completedSessions.length) {
-    var first = scoreWorkoutDay(dbRef, 1, currentTime);
-    first.confidence = 'Low';
-    first.secondBestDayN = 2;
-    first.allScores = {1:first.score,2:0,3:0,4:0};
-    first.muscleDetails = buildRecommendationMuscleDetails(dbRef, first, currentTime);
-    first.reasons = buildRecommendationReasons(first, dbRef);
-    return first;
-  }
-  var scored = CORE_DAY_NUMBERS.map(function(dayN) { return scoreWorkoutDay(dbRef, dayN, currentTime); });
-  var rollingSessions = getRollingSessions(dbRef, 7, currentTime);
-  var coreComplete = CORE_DAY_NUMBERS.every(function(dayN) {
-    return rollingSessions.some(function(session) { return session.dayN === dayN; });
-  });
-  var rollingVolume = calculateRollingMuscleStimulus(dbRef, 7, currentTime);
-  var lowerInsuranceNeeded = ['quads','hamstrings','glutes','calves'].some(function(id) {
-    var target = getRecommendationTarget(dbRef, id);
-    return (rollingVolume[id] || 0) < target.min;
-  });
-  if (coreComplete && lowerInsuranceNeeded) scored.push(scoreWorkoutDay(dbRef, 5, currentTime));
-  scored.sort(function(a,b) {
-    var maxAbs = Math.max(Math.abs(a.score), Math.abs(b.score), 1);
-    if (Math.abs(a.score-b.score) / maxAbs <= 0.05) {
-      if (a.daysSince !== b.daysSince) return b.daysSince-a.daysSince;
-      return a.dayN-b.dayN;
-    }
-    return b.score-a.score;
-  });
-  var top = scored[0], second = scored[1];
-  var denominator = Math.max(Math.abs(second.score), 1);
-  var lead = (top.score-second.score) / denominator;
-  top.confidence = dbRef.completedSessions.length <= 1 || lead < 0.10 ? 'Low' : lead <= 0.20 ? 'Medium' : 'High';
-  top.secondBestDayN = second.dayN;
-  top.allScores = {};
-  scored.forEach(function(item) { top.allScores[item.dayN] = item.score; });
-  top.muscleDetails = buildRecommendationMuscleDetails(dbRef, top, currentTime);
-  var chestCovered = ['upper-chest','mid-chest'].every(function(id) {
-    var target = getRecommendationTarget(dbRef, id);
-    return (calculateRollingMuscleStimulus(dbRef,7,currentTime)[id] || 0) >= target.min;
-  });
-  var mainCovered = chestCovered && ['side-delts','lats','rear-delts','mid-back'].every(function(id) {
-    var target = getRecommendationTarget(dbRef, id);
-    return (calculateRollingMuscleStimulus(dbRef,7,currentTime)[id] || 0) >= target.min;
-  });
-  top.reasons = mainCovered
-    ? ['Your main weekly targets are covered. This is the best recovered and least recent session.']
-    : buildRecommendationReasons(top, dbRef);
-  return top;
+  var availability = getWeeklyAvailability(dbRef, currentTime);
+  var done = getCurrentWeekCompletedDays(dbRef, currentTime);
+  var lastResistance = getLastResistanceTime(dbRef);
+  var daysSinceResistance = lastResistance ? (currentTime - lastResistance) / 86400000 : Infinity;
+  var dayN = 1;
+  if (daysSinceResistance >= 5) dayN = 1;
+  else if (!done[1]) dayN = 1;
+  else if (availability === '1') dayN = 1;
+  else if (!done[2]) dayN = 2;
+  else if ((availability === '3' || availability === 'unsure') && !done[3]) dayN = 3;
+  else dayN = availability === '2' ? 2 : 1;
+  var recommendation = scoreWorkoutDay(dbRef, dayN, currentTime);
+  recommendation.dayN = dayN;
+  recommendation.confidence = 'High';
+  recommendation.availability = availability;
+  recommendation.weekCompletedDays = done;
+  recommendation.secondBestDayN = dayN === 1 ? 2 : dayN === 2 ? 1 : 2;
+  recommendation.allScores = {1:scoreWorkoutDay(dbRef,1,currentTime).score,2:scoreWorkoutDay(dbRef,2,currentTime).score,3:scoreWorkoutDay(dbRef,3,currentTime).score};
+  recommendation.muscleDetails = buildRecommendationMuscleDetails(dbRef, recommendation, currentTime);
+  if (availability === '0') recommendation.reasons = ['No gym target is set this week. Home routine and Performance tasks are primary; take an unexpected gym opportunity with Session A.'];
+  else if (availability === '1' && done[1]) recommendation.reasons = ['Essential gym work complete for this week.'];
+  else if (availability === '2' && done[1] && done[2]) recommendation.reasons = ['Core two-session programme complete.'];
+  else if (dayN === 3) recommendation.reasons = ['Sessions A and B are complete. Session C is optional bonus V-taper and arm work.'];
+  else recommendation.reasons = ['Adaptive order: Session '+String.fromCharCode(64+dayN)+' is the highest-priority next session for this week.'];
+  return recommendation;
 }
 
 function buildRecommendationMuscleDetails(dbRef, recommendation, now) {
@@ -2410,6 +2427,23 @@ function renderToday(db) {
   var todayHomeLog = getHomeLog(db, localDateKey(), false) || {items:{},completed:false};
   var todayHomeDone = HOME_ROUTINE.filter(function(item){ return !!todayHomeLog.items[item.id]; }).length;
   var todayHomeComplete = todayHomeDone === HOME_ROUTINE.length;
+  var availability = getWeeklyAvailability(db);
+  var availabilityOptions = [['0','0 sessions'],['1','1 session'],['2','2 sessions'],['3','3 sessions'],['unsure','Not sure']].map(function(option) {
+    return '<option value="'+option[0]+'"'+(availability === option[0] ? ' selected' : '')+'>'+option[1]+'</option>';
+  }).join('');
+  var availabilityNote = availability === '0'
+    ? 'No missed-gym warning this week. Home routine and Performance tasks are primary.'
+    : availability === '1' && recommendation.weekCompletedDays[1]
+      ? 'Essential gym work complete for this week.'
+      : availability === '2' && recommendation.weekCompletedDays[1] && recommendation.weekCompletedDays[2]
+        ? 'Core two-session programme complete.'
+        : 'The app will prioritise Session A, then B, then optional C.';
+  var availabilityCard = '<div class="today-day-card" style="margin-bottom:14px">' +
+    '<div class="tdc-kicker">Planning</div><div class="tdc-title" style="font-size:18px">This Week\'s Gym Availability</div>' +
+    '<select class="addex-select" style="margin-top:10px" aria-label="This Week\'s Gym Availability" onchange="App.setWeeklyAvailability(this.value)">' + availabilityOptions + '</select>' +
+    '<div class="rec-note" style="margin-top:9px">'+esc(availabilityNote)+'</div>' +
+    (availability === '0' ? '<button class="btn-ghost btn-sm" style="margin-top:10px" onclick="App.startWorkout(1)">Unexpected gym opportunity</button>' : '') +
+    '</div>';
   var homeTodayCard = '<div class="today-home-card'+(todayHomeComplete?' is-complete':'')+'">' +
     '<div class="thc-icon">'+(todayHomeComplete?'✓':'⌂')+'</div>' +
     '<div class="thc-main"><div class="thc-kicker">Daily posture routine</div>' +
@@ -2455,6 +2489,7 @@ function renderToday(db) {
   return '<div class="today-wrap">' +
     resumeBanner +
     homeTodayCard +
+    availabilityCard +
     '<div class="today-day-card">' +
       '<div class="rec-topline"><div class="tdc-kicker">Best Workout Today</div>' +
         '<span class="rec-confidence'+(manual?' rec-manual':'')+'">'+(manual?'Manual choice':recommendation.confidence+' confidence')+'</span></div>' +
@@ -3252,6 +3287,11 @@ var App = (function() {
     showScreen('today');
   }
 
+  function setWeeklyAvailability(value) {
+    saveWeeklyAvailability(db, value);
+    showScreen('today');
+  }
+
   function useRecommendation() {
     delete db._nextDayOverride;
     dbSave(db);
@@ -3877,6 +3917,7 @@ var App = (function() {
   return {
     showScreen: showScreen,
     setNextDay: setNextDay,
+    setWeeklyAvailability: setWeeklyAvailability,
     useRecommendation: useRecommendation,
     startWorkout: startWorkout,
     resumeWorkout: resumeWorkout,
