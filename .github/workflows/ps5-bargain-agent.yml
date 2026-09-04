@@ -1,0 +1,46 @@
+name: PS5 bargain agent
+
+on:
+  schedule:
+    - cron: "13,43 * * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/ps5-bargain-agent/**"
+      - ".github/workflows/ps5-bargain-agent.yml"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ps5-bargain-agent
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    name: Search UK PS5 listings
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: tools/ps5-bargain-agent/requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check -r tools/ps5-bargain-agent/requirements.txt
+
+      - name: Search and alert
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PS5_ASSIGNEE: imsphmn
+          PS5_MAX_TOTAL_GBP: "280"
+        run: python tools/ps5-bargain-agent/monitor.py
