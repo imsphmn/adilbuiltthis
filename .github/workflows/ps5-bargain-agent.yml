@@ -2,7 +2,7 @@ name: PS5 bargain agent
 
 on:
   schedule:
-    - cron: "13,43 * * * *"
+    - cron: "3,18,33,48 * * * *"
   workflow_dispatch:
   push:
     paths:
@@ -43,4 +43,4 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           PS5_ASSIGNEE: imsphmn
           PS5_MAX_TOTAL_GBP: "280"
-        run: python tools/ps5-bargain-agent/monitor_v2.py
+        run: python tools/ps5-bargain-agent/monitor_v3.py
