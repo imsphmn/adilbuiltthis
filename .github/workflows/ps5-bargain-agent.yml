@@ -43,4 +43,4 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           PS5_ASSIGNEE: imsphmn
           PS5_MAX_TOTAL_GBP: "280"
-        run: python tools/ps5-bargain-agent/monitor.py
+        run: python tools/ps5-bargain-agent/monitor_v2.py
