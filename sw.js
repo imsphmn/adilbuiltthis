@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adil-gym-shell-v16';
+const CACHE_NAME = 'adil-gym-shell-v17';
 const APP_SHELL = [
   './',
   './index.html',

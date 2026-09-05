@@ -701,9 +701,9 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '2.5.0';
+const APP_VERSION = '2.6.0';
 const PROGRAM_NAME = 'September to November Adaptive Wedding Programme';
-const PROGRAM_VERSION = 'september-november-2026-adaptive-1';
+const PROGRAM_VERSION = 'september-november-2026-adaptive-2';
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
 const CORE_DAY_NUMBERS = [1,2];
 const ALL_DAY_NUMBERS = [1,2,3];
@@ -1348,22 +1348,20 @@ var DAY_EXERCISE_PRESCRIPTIONS = {
   1:{
     cable_lateral_raise:{sMin:3,sMax:3,sDef:3,rMin:12,rMax:25,rest:75,drop:true},
     reverse_pec_deck:{sMin:1,sMax:1,sDef:1,rMin:12,rMax:25,rest:70},
-    seated_leg_curl:{sMin:1,sMax:1,sDef:1,rMin:8,rMax:15,rest:90},
+    pullups:{sMin:2,sMax:2,sDef:2,rMin:6,rMax:12,rest:165},
+    seated_leg_curl:{sMin:2,sMax:2,sDef:2,rMin:8,rMax:15,rest:90},
     low_incline_dumbbell_press:{sMin:3,sMax:3,sDef:3,rMin:6,rMax:10,rest:120,
       loadGuidance:'Day 1 uses about 30 degrees for maximum upper-chest priority. Build 6 to 10 clean reps.',
       cues:['Bench around 30 degrees.','Shoulder blades back and slightly down.','Ribs down.','Elbows tucked 30 to 45 degrees.','Lower to upper chest.','Press up and slightly in.','Stop before shoulders roll forward.']}
   },
   2:{
-    chest_supported_high_row:{sMin:3,sMax:3,sDef:3,rMin:8,rMax:15},
+    seated_neutral_grip_cable_lat_row:{sMin:3,sMax:3,sDef:3,rMin:8,rMax:15,rest:105},
     cable_lateral_raise:{sMin:2,sMax:2,sDef:2,rMin:12,rMax:25,rest:70,drop:false},
-    low_to_high_cable_fly:{sMin:1,sMax:1,sDef:1,rMin:10,rMax:20,rest:85},
-    calf_raise:{sMin:1,sMax:1,sDef:1,rMin:8,rMax:20,rest:75},
-    single_arm_cable_lat_pulldown:{sMin:1,sMax:1,sDef:1,rMin:10,rMax:15,optional:{label:'Optional final exercise',text:'Skip without penalty when the main back, rear-delt and hamstring work is complete.'}}
+    overhead_cable_triceps_extension:{sMin:2,sMax:2,sDef:2,rMin:10,rMax:15,rest:85},
+    one_arm_dumbbell_preacher_curl:{sMin:2,sMax:2,sDef:2,rMin:8,rMax:15,rest:75}
   },
   3:{
-    cable_lateral_raise:{sMin:3,sMax:3,sDef:3,rMin:12,rMax:25,rest:75,drop:false},
-    cable_y_raise:{sMin:2,sMax:2,sDef:2,rMin:12,rMax:25},
-    dumbbell_hammer_curl:{sMin:1,sMax:1,sDef:1,rMin:8,rMax:15}
+    cable_lateral_raise:{sMin:2,sMax:2,sDef:2,rMin:12,rMax:25,rest:75,drop:false}
   },
   4:{
     low_incline_dumbbell_press:{sMin:3,sMax:3,sDef:3,rMin:8,rMax:12,rest:105,
@@ -1485,14 +1483,14 @@ function defineShowcaseExercise(id, name, spec) {
   EX[id] = exercise;
 }
 
-defineShowcaseExercise('incline_dumbbell_press_30deg','30-Degree Incline Dumbbell Press',{base:'low_incline_dumbbell_press',sDef:3,sMin:3,sMax:3,rMin:6,rMax:10,rest:150,target:'Upper chest',muscles:{'upper-chest':1,'mid-chest':0.2,'triceps':0.5,'front-delts':0.25},angleDeg:30,loadGuidance:'Use 24 kg for all three working sets. Immediate target: 10, 8, 8. Move to 26 kg after approximately 10, 10, 9 with stable technique.',warningLabel:'CHEST MUST BE THE LIMITER',rangeWarning:'Stop when the next repetition would require shoulder roll, rib flare or a materially different pressing path.',cues:['Bench at approximately 30 degrees.','Shoulder blades back and slightly down.','Ribs controlled.','Elbows approximately 45 to 60 degrees from torso.','Lower toward the upper-pec line.','Drive upper arms inward.','Stop before shoulders roll forward.'],mistakes:['Bench too steep.','Elbows excessively tucked.','Front delts or triceps becoming the limiter.','Rib flare.','Shoulders rolling forward.','Using a heavier load before technique is stable.'],hard:'Chest must remain the limiter. Keep the same depth and path every set.'});
+defineShowcaseExercise('incline_dumbbell_press_30deg','30-Degree Incline Dumbbell Press',{base:'low_incline_dumbbell_press',sDef:3,sMin:3,sMax:3,rMin:6,rMax:10,rest:150,target:'Upper chest',muscles:{'upper-chest':1,'mid-chest':0.2,'triceps':0.5,'front-delts':0.25},angleDeg:30,loadGuidance:'Current reference: 26 kg per hand, with recent performance around 7, 8, 7. Use one consistent working load where practical and add clean total repetitions before increasing.',warningLabel:'CHEST MUST BE THE LIMITER',rangeWarning:'Stop when the next repetition would require shoulder roll, rib flare or a materially different pressing path.',cues:['Bench at approximately 30 degrees.','Shoulder blades back and slightly down.','Ribs controlled.','Elbows approximately 45 to 60 degrees from torso.','Forearms approximately vertical at the bottom.','Lower toward the upper-pec line.','Drive upper arms inward.','Stop before shoulders roll forward.','No bouncing or dumbbell crashing.'],mistakes:['Bench too steep.','Elbows excessively tucked.','Front delts or triceps becoming the limiter.','Rib flare.','Shoulders rolling forward.','Using a heavier load before technique is stable.'],hard:'Chest must remain the limiter. Keep the same depth and path every set.'});
 defineShowcaseExercise('low_incline_dumbbell_press_15deg','15-Degree Low-Incline Dumbbell Press',{base:'low_incline_dumbbell_press',sDef:3,sMin:3,sMax:3,rMin:8,rMax:12,rest:150,target:'Whole chest',muscles:{'mid-chest':1,'upper-chest':0.25,'triceps':0.5,'front-delts':0.25},angleDeg:15,warningLabel:'WHOLE-CHEST PRESS',rangeWarning:'Stop when shoulder position, depth or pressing path materially changes.',cues:['Bench approximately 15 degrees.','Keep shoulder blades controlled against the bench.','Ribs down.','Elbows approximately 45 to 70 degrees from torso.','Lower until the pec is strongly loaded without shoulder roll.','Drive upper arms inward.','Do not aggressively lock out and lose pec tension.'],mistakes:['Bench angle too high.','Shoulder roll at the bottom.','Rib flare.','Losing pec tension at lockout.'],hard:'Keep the pressing path stable and chest-led.'});
 defineShowcaseExercise('cable_lateral_raise','Cable Lateral Raise',{base:'cable_lateral_raise',sDef:3,sMin:3,sMax:3,rMin:12,rMax:25,rest:70,drop:true,target:'Side delts',muscles:{'side-delts':1},dropMuscles:{'side-delts':0.5},warningLabel:'RANGE MATTERS',rangeWarning:'Do not increase load unless every main set reaches at least 12 clean repetitions without shrugging, swinging or shortening range.',loadGuidance:'Use 15 kg. Keep it until every main set reaches at least 12 clean repetitions.',cues:['Cable slightly behind body.','Slight lean away.','Lead with the elbow.','Wrist slightly below elbow.','Keep the shoulder away from the ear.','Pause briefly at the top.','Control the lower.'],mistakes:['Shrugging.','Swinging.','Shortening the range.','Increasing load too early.'],hard:'Stop when traps or torso momentum take over.'});
 defineShowcaseExercise('low_to_high_cable_fly','Low-to-High Cable Fly',{base:'low_to_high_cable_fly',sDef:2,sMin:2,sMax:2,rMin:10,rMax:20,rest:85,target:'Upper chest',muscles:{'upper-chest':1},warningLabel:'TARGET MUSCLE MATTERS',rangeWarning:'Reduce the load if the fly becomes a press or the front shoulders dominate.',loadGuidance:'Use approximately 13 to 15 kg. Progress after both sets exceed 15 clean repetitions.',cues:['Cables begin low.','Keep a soft elbow bend.','Move upper arms upward and inward.','Ribs controlled.','Stop the stretch before shoulder roll.','Bring upper arms together rather than merely touching hands.'],mistakes:['Turning it into a press.','Turning it into a front raise.','Excessive elbow bend.','Shoulders moving forward.'],hard:'Upper chest adduction and flexion, not handle movement at any cost.'});
 defineShowcaseExercise('chest_supported_mid_back_row','Chest-Supported Mid-Back Row',{base:'chest_supported_row',sDef:2,sMin:2,sMax:2,rMin:8,rMax:15,rest:105,target:'Mid-back density',muscles:{'mid-back':1,'rear-delts':0.5},loadGuidance:'Use 35 kg. Do not test heavier until both sets reach approximately 12 to 15 clean repetitions.',cues:['Chest remains attached to pad.','Neck long.','Elbows approximately 45 to 70 degrees from torso.','Pull toward lower chest or upper stomach.','Shoulder blades move back, not upward.','Hold the top for one second.','Allow controlled opening on the return.'],mistakes:['Chest lifting.','Shoulders shrugging.','Lost contracted pause.','Pulling too low toward the hips.'],hard:'Mid-back, not traps. End the set when the pause disappears.'});
 defineShowcaseExercise('reverse_pec_deck','Reverse Pec Deck',{base:'reverse_pec_deck',sDef:2,sMin:2,sMax:2,rMin:12,rMax:25,rest:70,target:'Rear delts',muscles:{'rear-delts':1},loadGuidance:'Use approximately 35 to 40 kg. Do not increase until both sets reach at least 15 clean repetitions.',warningLabel:'RANGE MATTERS',rangeWarning:'If traps or mid-back dominate before 12 repetitions, reduce the weight.',cues:['Handles around shoulder height or slightly below.','Chest against pad.','Hands relaxed.','Elbows lead outward.','Move upper arms apart.','Keep shoulders away from ears.','Control the return.'],mistakes:['Traps or mid-back dominating.','Aggressively pinching shoulder blades.','Neck tension.','Short range.'],hard:'Rear delts must remain the limiter.'});
 defineShowcaseExercise('weighted_floor_crunch','Weighted Floor Crunch',{base:'weighted_floor_crunch',sDef:2,sMin:2,sMax:2,rMin:8,rMax:20,rest:60,target:'Abs and rib-to-pelvis control',muscles:{'abs':1},warningLabel:'STOP WHEN NECK OR HIP FLEXORS TAKE OVER',cues:['Exhale first.','Curl ribs toward pelvis.','Lift shoulder blades, not the entire torso.','Keep the lower back gently controlled.','Do not pull the neck.'],mistakes:['Neck taking over.','Hip flexors taking over.','Turning it into a sit-up.','Rib flare.'],hard:'Stop when neck or hip flexors take over.'});
-defineShowcaseExercise('pullups','Pull-Ups',{base:'pullups',sDef:3,sMin:3,sMax:3,rMin:6,rMax:10,rest:165,target:'Lats and width',muscles:{'lats':1,'biceps':0.5},cues:['Begin from a controlled bottom.','Pull shoulders away from ears.','Drive elbows toward sides.','Keep ribs controlled.','Do not crane the chin.','No kicking or swinging.'],mistakes:['Kicking.','Shortened range.','Uncontrolled shrugging.','Crane-neck reps.'],hard:'Only clean repetitions count. Standardise approximately 12, 10, 8 before adding 2.5 kg.'});
+defineShowcaseExercise('pullups','Pull-Ups',{base:'pullups',sDef:3,sMin:3,sMax:3,rMin:6,rMax:10,rest:165,target:'Lats and width',muscles:{'lats':1,'biceps':0.5},cues:['Begin from a controlled bottom.','Pull shoulders away from ears.','Drive elbows downward.','Keep ribs controlled.','Do not crane the chin.','No kicking or swinging.'],mistakes:['Kicking.','Shortened range.','Uncontrolled shrugging.','Crane-neck reps.'],hard:'Only clean repetitions count. Stay bodyweight until both sets are around 12 clean reps, then add a small external load.'});
 defineShowcaseExercise('chest_supported_high_row','Chest-Supported High Row',{base:'chest_supported_high_row',sDef:3,sMin:3,sMax:3,rMin:8,rMax:15,rest:105,target:'Mid-back and upper-back density',muscles:{'mid-back':1,'rear-delts':0.5},loadGuidance:'Use approximately 30 kg. Keep the load until all sets reach at least 10 to 12 clean repetitions.',cues:['Chest glued to pad.','Elbows out and back.','Pull toward lower chest.','Shoulders remain away from ears.','Hold the top without shrugging.','Control the return.'],mistakes:['Upper-trap takeover.','Body momentum.','Chest lifting.','Shrugging.'],hard:'The set ends when shrugging or momentum replaces the row.'});
 defineShowcaseExercise('straight_arm_cable_pulldown','Straight-Arm Cable Pulldown',{base:'straight_arm_cable_pulldown',sDef:2,sMin:2,sMax:2,rMin:10,rMax:20,rest:85,target:'Lats through shoulder extension',muscles:{'lats':1},loadGuidance:'Use 45 kg. Do not use 50 kg until both sets exceed approximately 15 strict repetitions.',warningLabel:'RANGE MATTERS',rangeWarning:'Reduce load if elbows bend substantially, the torso crunches or the lower back arches.',cues:['Slight hip hinge.','Ribs down.','Elbow angle nearly fixed.','Move upper arms toward thighs.','Shoulders remain down.','Do not push using triceps.'],mistakes:['Bending elbows.','Torso crunching.','Lower-back arching.','Triceps taking over.'],hard:'Lats, not triceps. End when shoulder extension is no longer clean.'});
 defineShowcaseExercise('chest_supported_lat_biased_row','Chest-Supported Lat-Biased Row',{base:'chest_supported_row',sDef:2,sMin:2,sMax:2,rMin:8,rMax:15,rest:90,target:'Lats and teres major',muscles:{'lats':1},cues:['Chest fully supported.','Use a neutral grip.','Keep elbows close to torso.','Pull toward lower ribs or hips.','Use straps if grip or biceps dominate.','Control shoulder-blade opening on return.'],mistakes:['Pulling high.','Flaring elbows.','Turning it into a mid-back row.','Biceps failing first.'],hard:'Lat, not biceps. Reduce load and use straps when needed.'});
@@ -1515,9 +1513,9 @@ defineShowcaseExercise('seated_neutral_grip_cable_lat_row','Seated Neutral-Grip 
 
 var LEGACY_DAYS = DAYS;
 DAYS = {
-  1:{n:1,title:'Priority Full Body: Upper Chest, Width and Legs',nav:'Priority Full Body',goal:'The highest-value one-session week: whole chest, lat width, side delts, rear structure and minimum lower-body maintenance.',exercises:['incline_dumbbell_press_30deg','pullups','cable_lateral_raise','chest_supported_mid_back_row','pec_deck','reverse_pec_deck','leg_press','seated_leg_curl'],duration:75,primaryMuscles:['Whole chest','Lats','Side delts','Mid back','Rear delts'],checklist:['Chest remained the limiter on the 30-degree press.','Pull-ups stayed clean.','Side delts and rear delts stayed separate from traps.','Lower-body sets used stable ranges.']},
-  2:{n:2,title:'Whole Chest, Back Density and Lower Support',nav:'Chest + Back Density',goal:'Complement Session A with whole-chest work, mid-back density, lat width and lower-body support.',exercises:['low_incline_dumbbell_press_15deg','chest_supported_high_row','neutral_grip_lat_pulldown','low_to_high_cable_fly','cable_lateral_raise','reverse_pec_deck','hip_thrust','calf_raise','back_posing_practice'],duration:75,primaryMuscles:['Whole chest','Mid back','Lats','Side delts','Rear delts'],checklist:['The 15-degree press came first.','Rows stayed chest-supported.','Pulldown stayed lat-led.','Hip thrust and calf work stayed controlled.','Back posing was optional and did not count as training volume.']},
-  3:{n:3,title:'Optional Third Session: V-Taper and Arms',nav:'Optional V-Taper + Arms',optional:true,goal:'Bonus specialisation only. This session is never required for a complete one- or two-session week.',exercises:['cable_lateral_raise','seated_neutral_grip_cable_lat_row','straight_arm_cable_pulldown','low_to_high_cable_fly','reverse_pec_deck','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','dumbbell_hammer_curl'],duration:70,primaryMuscles:['Side delts','Lats','Upper chest','Rear delts','Arms'],checklist:['Use only when A and B are complete or manually selected.','Lat rows stayed torso-still and lat-led.','Direct arm work stayed moderate.']}
+  1:{n:1,title:'Session A — Upper Chest, Back Width and Whole-Body Coverage',nav:'Session A',goal:'The next core session in the continuous A/B rotation: upper chest, back width, side delts and minimum lower-body coverage.',exercises:['incline_dumbbell_press_30deg','pullups','chest_supported_mid_back_row','cable_lateral_raise','leg_press','pec_deck','seated_leg_curl','reverse_pec_deck'],duration:75,primaryMuscles:['Upper chest','Lats','Mid back','Side delts','Legs'],checklist:['Chest remained the limiter on the 30-degree press.','Pull-ups stayed clean and controlled.','The row remained mid-back-led.','Leg work used stable ranges.']},
+  2:{n:2,title:'Session B — Whole Chest, Cable Back, Legs and Arms',nav:'Session B',goal:'The alternating core session: whole chest, seated cable back work, lower-body maintenance and moderate direct arms.',exercises:['low_incline_dumbbell_press_15deg','seated_neutral_grip_cable_lat_row','cable_lateral_raise','reverse_pec_deck','leg_press','seated_leg_curl','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl'],duration:80,primaryMuscles:['Whole chest','Lats','Side delts','Rear delts','Legs','Arms'],checklist:['The 15-degree press came first.','The cable row stayed torso-still and lat-led.','Rear delts stayed separate from traps.','Lower-body work stayed controlled.','Direct arm work stayed moderate.']},
+  3:{n:3,title:'Session C — Optional Chest, Width and Lower-Body Top-Up',nav:'Session C · Optional',optional:true,goal:'Optional 12-set top-up only when Sessions A and B were recently completed and a genuine third gym opportunity exists.',exercises:['pec_deck','neutral_grip_lat_pulldown','cable_lateral_raise','reverse_pec_deck','hip_thrust','calf_raise'],duration:50,primaryMuscles:['Whole chest','Lats','Side delts','Rear delts','Lower body'],checklist:['Use only after A and B are recently completed.','Keep every set controlled and submaximal.','Skipping Session C never interrupts the A/B rotation.']}
 };
 DAYS[4] = LEGACY_DAYS[4];
 DAYS[5] = LEGACY_DAYS[5];
@@ -1527,9 +1525,9 @@ defineShowcaseExercise('zone_2_cardio','Zone 2 Cardio',{base:'weighted_floor_cru
 });
 
 var RUSHED_MODE_LIMITS = {
-  1:{ pec_deck:1, reverse_pec_deck:1, seated_leg_curl:1 },
-  2:{ low_to_high_cable_fly:0, reverse_pec_deck:1, hip_thrust:1, calf_raise:0, back_posing_practice:0 },
-  3:{ straight_arm_cable_pulldown:1, low_to_high_cable_fly:1, reverse_pec_deck:1, dumbbell_hammer_curl:0 }
+  1:{ pec_deck:1, seated_leg_curl:1, reverse_pec_deck:0 },
+  2:{ reverse_pec_deck:1, leg_press:1, seated_leg_curl:1 },
+  3:{ reverse_pec_deck:1, hip_thrust:1, calf_raise:1 }
 };
 
 function applyRushedModeToSession(session) {
@@ -1622,6 +1620,7 @@ function dbDefault() {
     completedSessions: [],
     homeRoutineLogs: [],
     legacyData: null,
+    nextCoreSession: 'A',
   };
 }
 
@@ -1645,6 +1644,11 @@ function migrateDb(data) {
   if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
   if (!Array.isArray(d.completedSessions)) d.completedSessions = [];
   if (!Array.isArray(d.homeRoutineLogs)) d.homeRoutineLogs = [];
+  if (d.nextCoreSession !== 'A' && d.nextCoreSession !== 'B') {
+    var latestCore = d.completedSessions.filter(function(session) { return session.dayN === 1 || session.dayN === 2; })
+      .sort(function(a,b) { return (b.endTime || b.startTime || 0) - (a.endTime || a.startTime || 0); })[0];
+    d.nextCoreSession = latestCore && latestCore.dayN === 1 ? 'B' : latestCore && latestCore.dayN === 2 ? 'A' : 'A';
+  }
 
   function migrateSession(session) {
     if (!session) return;
@@ -2279,15 +2283,23 @@ function getLastCompletedTimeForDay(dbRef, dayN) {
   }, 0);
 }
 
-function getAvailabilityDays(availability) {
+function getNextCoreDay(dbRef) {
+  return dbRef && dbRef.nextCoreSession === 'B' ? 2 : 1;
+}
+function sessionLabelForDay(dayN) {
+  return dayN === 1 ? 'Session A' : dayN === 2 ? 'Session B' : dayN === 3 ? 'Session C' : 'Day '+dayN;
+}
+function getAvailabilityDays(availability, dbRef) {
   if (availability === '0') return [];
-  if (availability === '1') return [1];
-  if (availability === '2') return [1,2];
-  return [1,2,3];
+  var first = getNextCoreDay(dbRef);
+  var second = first === 1 ? 2 : 1;
+  if (availability === '1') return [first];
+  if (availability === '2') return [first,second];
+  return [first,second,3];
 }
 function getAvailabilityPlannedStimulus(dbRef, availability) {
   var stimulus = {};
-  getAvailabilityDays(availability).forEach(function(dayN) {
+  getAvailabilityDays(availability, dbRef).forEach(function(dayN) {
     var dayStimulus = getDayPlannedStimulus(dayN, dbRef);
     Object.keys(dayStimulus).forEach(function(id) { stimulus[id] = (stimulus[id] || 0) + dayStimulus[id]; });
   });
@@ -2399,38 +2411,51 @@ function getCurrentWeekCompletedDays(dbRef, now) {
   });
   return days;
 }
+function getCurrentWeekCoreCount(dbRef, now) {
+  var days = getCurrentWeekCompletedDays(dbRef, now);
+  return [1,2].reduce(function(count, dayN) { return count + (days[dayN] ? 1 : 0); }, 0);
+}
 function getLastResistanceTime(dbRef) {
   return dbRef.completedSessions.reduce(function(latest, session) {
-    if (session.dayN < 1 || session.dayN > 3) return latest;
+    if (session.dayN !== 1 && session.dayN !== 2) return latest;
     return Math.max(latest, session.endTime || session.startTime || 0);
   }, 0);
+}
+function getRecentCoreSessions(dbRef, now) {
+  var currentTime = now || Date.now();
+  return dbRef.completedSessions.filter(function(session) {
+    return (session.dayN === 1 || session.dayN === 2) && (session.endTime || session.startTime || 0) <= currentTime;
+  }).sort(function(a,b) {
+    return (b.endTime || b.startTime || 0) - (a.endTime || a.startTime || 0);
+  });
+}
+function shouldRecommendOptionalC(dbRef, availability, now) {
+  if (availability !== '3' && availability !== 'unsure') return false;
+  var recent = getRecentCoreSessions(dbRef, now);
+  if (recent.length < 2 || recent[0].dayN === recent[1].dayN) return false;
+  var latestCoreTime = recent[0].endTime || recent[0].startTime || 0;
+  var lastC = dbRef.completedSessions.filter(function(session) { return session.dayN === 3; })
+    .reduce(function(latest, session) { return Math.max(latest, session.endTime || session.startTime || 0); }, 0);
+  return !lastC || lastC < latestCoreTime;
 }
 function getBestWorkoutRecommendation(dbRef, now) {
   var currentTime = now || Date.now();
   var availability = getWeeklyAvailability(dbRef, currentTime);
   var done = getCurrentWeekCompletedDays(dbRef, currentTime);
-  var lastResistance = getLastResistanceTime(dbRef);
-  var daysSinceResistance = lastResistance ? (currentTime - lastResistance) / 86400000 : Infinity;
-  var dayN = 1;
-  if (daysSinceResistance >= 5) dayN = 1;
-  else if (!done[1]) dayN = 1;
-  else if (availability === '1') dayN = 1;
-  else if (!done[2]) dayN = 2;
-  else if ((availability === '3' || availability === 'unsure') && !done[3]) dayN = 3;
-  else dayN = availability === '2' ? 2 : 3;
+  var nextCoreDay = getNextCoreDay(dbRef);
+  var dayN = shouldRecommendOptionalC(dbRef, availability, currentTime) ? 3 : nextCoreDay;
   var recommendation = scoreWorkoutDay(dbRef, dayN, currentTime);
   recommendation.dayN = dayN;
   recommendation.confidence = 'High';
   recommendation.availability = availability;
   recommendation.weekCompletedDays = done;
-  recommendation.secondBestDayN = dayN === 1 ? 2 : dayN === 2 ? 1 : 2;
+  recommendation.nextCoreSession = nextCoreDay === 1 ? 'A' : 'B';
+  recommendation.secondBestDayN = dayN === 3 ? nextCoreDay : (nextCoreDay === 1 ? 2 : 1);
   recommendation.allScores = {1:scoreWorkoutDay(dbRef,1,currentTime).score,2:scoreWorkoutDay(dbRef,2,currentTime).score,3:scoreWorkoutDay(dbRef,3,currentTime).score};
   recommendation.muscleDetails = buildRecommendationMuscleDetails(dbRef, recommendation, currentTime);
-  if (availability === '0') recommendation.reasons = ['No gym target is set this week. Home routine and Performance tasks are primary; take an unexpected gym opportunity with Session A.'];
-  else if (availability === '1' && done[1]) recommendation.reasons = ['Essential gym work complete for this week.'];
-  else if (availability === '2' && done[1] && done[2]) recommendation.reasons = ['Core two-session programme complete.'];
-  else if (dayN === 3) recommendation.reasons = ['Sessions A and B are complete. Session C is optional bonus V-taper and arm work.'];
-  else recommendation.reasons = ['Adaptive order: Session '+String.fromCharCode(64+dayN)+' is the highest-priority next session for this week.'];
+  if (availability === '0') recommendation.reasons = ['No gym target is set this week. Home routine and Performance tasks are primary; take an unexpected opportunity with '+(nextCoreDay === 1 ? 'Session A' : 'Session B')+'.'];
+  else if (dayN === 3) recommendation.reasons = ['Sessions A and B were both completed recently. Session C is optional and does not replace the next '+recommendation.nextCoreSession+' session.'];
+  else recommendation.reasons = ['Continuous A/B rotation: '+recommendation.nextCoreSession+' is next. The sequence does not reset at the start of a week.'];
   return recommendation;
 }
 
@@ -2470,7 +2495,7 @@ function importBackup(jsonText, currentDb) {
     // v2 backup
     var d = parsed.data;
     d.schemaVersion = 2;
-    return d;
+    return migrateDb(d);
   } else if (parsed.version === 1 || parsed.checks !== undefined || parsed.logs !== undefined) {
     // v1 backup: preserve as legacy
     currentDb.legacyData = { source: 'v1_import', checks: parsed.checks||{}, logs: parsed.logs||{}, importedAt: Date.now() };
@@ -2615,21 +2640,22 @@ function renderToday(db) {
   var todayHomeDone = HOME_ROUTINE.filter(function(item){ return !!todayHomeLog.items[item.id]; }).length;
   var todayHomeComplete = todayHomeDone === HOME_ROUTINE.length;
   var availability = getWeeklyAvailability(db);
+  var coreCountThisWeek = getCurrentWeekCoreCount(db);
   var availabilityOptions = [['0','0 sessions'],['1','1 session'],['2','2 sessions'],['3','3 sessions'],['unsure','Not sure']].map(function(option) {
     return '<option value="'+option[0]+'"'+(availability === option[0] ? ' selected' : '')+'>'+option[1]+'</option>';
   }).join('');
   var availabilityNote = availability === '0'
     ? 'No missed-gym warning this week. Home routine and Performance tasks are primary.'
-    : availability === '1' && recommendation.weekCompletedDays[1]
+    : availability === '1' && coreCountThisWeek >= 1
       ? 'Essential gym work complete for this week.'
-      : availability === '2' && recommendation.weekCompletedDays[1] && recommendation.weekCompletedDays[2]
+      : availability === '2' && coreCountThisWeek >= 2
         ? 'Core two-session programme complete.'
-        : 'The app will prioritise Session A, then B, then optional C.';
+        : 'The app will continue the A/B rotation; Session C is optional.';
   var availabilityCard = '<div class="today-day-card" style="margin-bottom:14px">' +
     '<div class="tdc-kicker">Planning</div><div class="tdc-title" style="font-size:18px">This Week\'s Gym Availability</div>' +
     '<select class="addex-select" style="margin-top:10px" aria-label="This Week\'s Gym Availability" onchange="App.setWeeklyAvailability(this.value)">' + availabilityOptions + '</select>' +
     '<div class="rec-note" style="margin-top:9px">'+esc(availabilityNote)+'</div>' +
-    (availability === '0' ? '<button class="btn-ghost btn-sm" style="margin-top:10px" onclick="App.startWorkout(1)">Unexpected gym opportunity</button>' : '') +
+    (availability === '0' ? '<button class="btn-ghost btn-sm" style="margin-top:10px" onclick="App.startWorkout('+getNextCoreDay(db)+')">Unexpected gym opportunity</button>' : '') +
     '</div>';
   var homeTodayCard = '<div class="today-home-card'+(todayHomeComplete?' is-complete':'')+'">' +
     '<div class="thc-icon">'+(todayHomeComplete?'✓':'⌂')+'</div>' +
@@ -2641,7 +2667,7 @@ function renderToday(db) {
   var resumeBanner = active ? (
     '<div class="resume-banner">' +
     '<div class="rb-title">Workout in progress</div>' +
-    '<div class="rb-sub">Day ' + db.activeSession.dayN + ' · ' + DAYS[db.activeSession.dayN].title + '</div>' +
+      '<div class="rb-sub">' + sessionLabelForDay(db.activeSession.dayN) + ' · ' + DAYS[db.activeSession.dayN].title + '</div>' +
     '<div class="rb-actions">' +
     '<button class="btn-primary btn-lg" onclick="App.resumeWorkout()">Resume Workout</button>' +
     '<button class="btn-ghost btn-sm" onclick="App.discardSession()">Discard session</button>' +
@@ -2653,14 +2679,14 @@ function renderToday(db) {
     var isNext = n === nDay;
     return '<label class="day-pick-row' + (isNext ? ' is-next' : '') + '">' +
       '<input type="radio" name="daypick" value="' + n + '"' + (isNext ? ' checked' : '') + ' onchange="App.setNextDay(' + n + ')">' +
-      '<span class="dp-no">Day ' + n + '</span>' +
+      '<span class="dp-no">' + sessionLabelForDay(n) + '</span>' +
       '<span class="dp-title">' + d.title + (d.optional ? ' · Optional' : '') + '</span>' +
       '<span class="dp-dur">' + d.duration + ' min</span>' +
       '</label>';
   }).join('');
 
   var cardReasons = manual
-    ? ['You selected Day '+nDay+' manually. The current recommendation is Day '+recommendation.dayN+'.']
+    ? ['You selected '+sessionLabelForDay(nDay)+' manually. The current recommendation is '+sessionLabelForDay(recommendation.dayN)+'.']
     : recommendation.reasons;
   var reasons = cardReasons.map(function(reason) {
     return '<div class="rec-reason">'+esc(reason)+'</div>';
@@ -2672,9 +2698,8 @@ function renderToday(db) {
     return '<div class="rec-muscle-row"><span class="rec-muscle-name">'+esc(detail.label)+'</span>' +
       '<span class="rec-muscle-meta">'+detail.current+' / '+detail.min+' minimum · '+recovery+'</span></div>';
   }).join('');
-  var plannedWeekComplete = (availability === '1' && recommendation.weekCompletedDays[1]) ||
-    (availability === '2' && recommendation.weekCompletedDays[1] && recommendation.weekCompletedDays[2]) ||
-    ((availability === '3' || availability === 'unsure') && recommendation.weekCompletedDays[1] && recommendation.weekCompletedDays[2] && recommendation.weekCompletedDays[3]);
+  var plannedWeekComplete = (availability === '1' && coreCountThisWeek >= 1) ||
+    (availability === '2' && coreCountThisWeek >= 2);
 
   return '<div class="today-wrap">' +
     resumeBanner +
@@ -2683,7 +2708,7 @@ function renderToday(db) {
     '<div class="today-day-card">' +
       '<div class="rec-topline"><div class="tdc-kicker">Best Workout Today</div>' +
         '<span class="rec-confidence'+(manual?' rec-manual':'')+'">'+(manual?'Manual choice':recommendation.confidence+' confidence')+'</span></div>' +
-      '<div class="tdc-day">Day ' + String(nDay).padStart(2,'0') + '</div>' +
+      '<div class="tdc-day">' + sessionLabelForDay(nDay) + '</div>' +
       '<div class="tdc-title">' + day.title + '</div>' +
       '<div class="tdc-muscles">' + day.primaryMuscles.join(' · ') + '</div>' +
       '<div class="tdc-meta">' +
@@ -2697,7 +2722,7 @@ function renderToday(db) {
     '</div>' +
     '<details class="rec-details"><summary>'+(manual?'Why the recommendation?':'Why this workout?')+'</summary><div class="rec-detail-body">' +
       detailRows +
-      '<div class="rec-note">Second best option: Day '+recommendation.secondBestDayN+' · '+esc(DAYS[recommendation.secondBestDayN].title)+'</div>' +
+      '<div class="rec-note">Second best option: '+sessionLabelForDay(recommendation.secondBestDayN)+' · '+esc(DAYS[recommendation.secondBestDayN].title)+'</div>' +
       '<div class="rec-note">This is a deterministic recommendation based only on your logged completed sets.</div>' +
     '</div></details>' +
     '<details class="today-picker">' +
@@ -2796,7 +2821,7 @@ function renderWorkout(db) {
     '<div class="wo-header">' +
       '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
       '<div class="wo-hinfo">' +
-        '<div class="wo-htitle">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
+        '<div class="wo-htitle">' + sessionLabelForDay(sess.dayN) + ' · ' + day.title + '</div>' +
         '<div class="wo-hprog">' + exDone + ' / ' + exerciseIds.length + ' exercises</div>' +
         '<div class="wo-session-clock" id="wo-session-clock">' + fmtTime(getSessionElapsedMs(sess)) + '</div>' +
       '</div>' +
@@ -3081,7 +3106,7 @@ function renderSummary(session, db) {
   return '<div class="sum-wrap">' +
     '<div class="sum-header">' +
       '<div class="sum-tag">Workout Complete</div>' +
-      '<div class="sum-title">Day ' + session.dayN + ' · ' + day.title + '</div>' +
+      '<div class="sum-title">' + sessionLabelForDay(session.dayN) + ' · ' + day.title + '</div>' +
     '</div>' +
     '<div class="sum-stats">' +
       '<div class="sum-stat"><div class="ss-val">' + dur + '</div><div class="ss-lbl">Duration</div></div>' +
@@ -3115,7 +3140,7 @@ function renderVolume(db) {
   // Planned volume follows this week's availability instead of judging a
   // short week against the full three-session programme.
   var plannedMin = {}, plannedMax = {};
-  var plannedDays = getAvailabilityDays(viewedAvailability);
+  var plannedDays = getAvailabilityDays(viewedAvailability, db);
   plannedDays.forEach(function(dayN) {
     getDayExerciseIds(db, dayN).forEach(function(exId) {
       var ex = getExerciseForDay(exId, dayN, db);
@@ -3338,7 +3363,7 @@ function renderProgram() {
         '<p class="pd-goal"><b>Goal:</b> ' + esc(day.goal) + '</p>' +
         '<div class="pd-edit-row"><button class="btn-ghost btn-sm" onclick="App.openDayEditor('+n+')">Edit exercises</button></div>' +
         exCards +
-        '<div class="prog-cl"><div class="pcl-title">Day ' + n + ' Checklist</div><ul>' +
+        '<div class="prog-cl"><div class="pcl-title">' + sessionLabelForDay(n) + ' Checklist</div><ul>' +
           day.checklist.map(function(c){ return '<li>' + esc(c) + '</li>'; }).join('') +
         '</ul></div>' +
       '</div>' +
@@ -3458,7 +3483,7 @@ function renderHistory(db) {
       '<div class="hi-summary" onclick="App.toggleHistItem(\'' + sess.id + '\')">' +
         '<div class="hi-left">' +
           '<div class="hi-date">' + fmtDate(sess.startTime) + '</div>' +
-          '<div class="hi-title">Day ' + sess.dayN + ' · ' + day.title + '</div>' +
+          '<div class="hi-title">' + sessionLabelForDay(sess.dayN) + ' · ' + day.title + '</div>' +
           (sess.programName && sess.programName !== PROGRAM_NAME ? '<div class="addex-muted">'+esc(sess.programName)+'</div>' : '') +
         '</div>' +
         '<div class="hi-right">' +
@@ -4073,6 +4098,8 @@ var App = (function() {
     db.completedSessions.push(sess);  // add first so detectPRs can compare
     sess.prs = detectPRs(db, sess);
     db.lastCompletedDay = sess.dayN;
+    if (sess.dayN === 1) db.nextCoreSession = 'B';
+    else if (sess.dayN === 2) db.nextCoreSession = 'A';
     delete db._nextDayOverride;
     db.activeSession = null;
     dbSave(db);
@@ -4171,6 +4198,7 @@ var App = (function() {
     db.completedSessions = [];
     db.activeSession = null;
     db.lastCompletedDay = null;
+    db.nextCoreSession = 'A';
     dbSave(db);
     showScreen('today');
   }
