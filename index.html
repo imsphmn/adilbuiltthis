@@ -708,15 +708,16 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '2.8.0';
-const PROGRAM_NAME = 'Chest and Back Priority, Four Days with Three-Day Fallback';
-const PROGRAM_VERSION = 'chest-back-priority-2026-11-30-v1';
+const APP_VERSION = '2.9.0';
+const PROGRAM_NAME = 'Focused Chest and Back Priority, Optional Fourth Session';
+const PROGRAM_VERSION = 'focused-chest-back-split-2026-11-30-v1';
 const PROGRAMME_END_DATE = '2026-11-30';
+const PREVIOUS_FOCUSED_BLOCK_VERSION = 'chest-back-priority-2026-11-30-v1';
 const PREVIOUS_PROGRAM_VERSION = 'september-november-2026-weekend-first-3';
 const LEGACY_ADAPTIVE_PROGRAM_VERSION = 'september-november-2026-adaptive-2';
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
-const CORE_DAY_NUMBERS = [1,2,3,4];
-const ALL_DAY_NUMBERS = [1,2,3,4];
+const CORE_DAY_NUMBERS = [2,3,4];
+const ALL_DAY_NUMBERS = [1,2,3,4,5];
 var DB_LOAD_ERROR = null;
 var DB_STORAGE_BLOCKED = false;
 var DB_SAFE_TO_EXPORT = true;
@@ -1450,6 +1451,7 @@ function getExerciseForDay(exId, dayN, dbRef, workoutLength) {
 var SUBSTITUTIONS = {
   incline_dumbbell_press_30deg:[{id:'incline_smith_press_30deg',reason:'Use a 30-degree Smith press when dumbbells are unavailable.',compareLoadDirectly:false}],
   low_incline_dumbbell_press_15deg:[{id:'flat_converging_chest_press',reason:'Use a flat or slightly inclined converging chest-press machine.',compareLoadDirectly:false},{id:'smith_press_15deg',reason:'Use a Smith press at 0 to 15 degrees.',compareLoadDirectly:false}],
+  flat_converging_chest_press:[{id:'low_incline_dumbbell_press_15deg',reason:'Use the 15-degree dumbbell press if a suitable chest-press machine is unavailable. History remains separate.',compareLoadDirectly:false}],
   chest_supported_mid_back_row:[{id:'supported_cable_mid_back_row',reason:'Use a chest-supported cable row with a moderately flared elbow path.',compareLoadDirectly:false}],
   chest_supported_high_row:[{id:'supported_cable_mid_back_row',reason:'Use a chest-supported cable row with a matching moderately flared path.',compareLoadDirectly:false}],
   reverse_pec_deck:[{id:'cable_rear_delt_fly',reason:'Use a cable rear-delt fly with a repeatable setup.',compareLoadDirectly:false}],
@@ -1569,6 +1571,7 @@ defineShowcaseExercise('calf_raise','Calf Raise',{base:'calf_raise',sDef:2,sMin:
 defineShowcaseExercise('overhead_cable_triceps_extension','Overhead Cable Triceps Extension',{base:'overhead_cable_triceps_extension',sDef:2,sMin:2,sMax:2,rMin:8,rMax:15,rest:85,target:'Triceps long head',muscles:{'triceps':1},loadGuidance:'Use approximately 30 kg. Do not increase until both sets reach 12 to 15 clean repetitions.',cues:['Upper arms beside or slightly forward of ears.','Ribs down.','Elbows stable.','Deep controlled elbow flexion.','Extend without turning it into a press.'],mistakes:['Elbows moving.','Rib flare.','Turning it into a press.','Shallow range.'],hard:'Keep the long-head stretch controlled.'});
 defineShowcaseExercise('one_arm_dumbbell_preacher_curl','One-Arm Dumbbell Preacher Curl',{base:'one_arm_dumbbell_preacher_curl',sDef:2,sMin:2,sMax:2,rMin:8,rMax:15,rest:55,target:'Biceps',muscles:{'biceps':1},loadGuidance:'Use 12 kg. Start with the left arm; the right matches the left arm’s clean repetitions.',warningLabel:'DO NOT CHASE LOW-REP PRs',rangeWarning:'Stop when the upper arm begins lifting from the bench.',cues:['Upper arm glued to incline bench.','Wrist straight.','Palm up.','Controlled near-full extension.','No bouncing.','Start with the left arm.'],mistakes:['Upper arm lifting.','Bouncing.','Wrist bending.','Chasing a heavier low-rep load.'],hard:'The weaker side sets the clean-rep limit.'});
 defineShowcaseExercise('dumbbell_hammer_curl','Dumbbell Hammer Curl',{base:'dumbbell_hammer_curl',sDef:2,sMin:2,sMax:2,rMin:8,rMax:15,rest:70,target:'Brachialis and brachioradialis',muscles:{'brachialis':1,'biceps':0.5},loadGuidance:'Use approximately 12 to 14 kg. Do not use 16 kg until both sets reach at least 10 clean repetitions.',cues:['Neutral grip.','Elbows fixed.','Wrists straight.','No torso swing.','Controlled lower.'],mistakes:['Torso swing.','Wrist collapse.','Elbows drifting.'],hard:'Stop when the torso must move.'});
+defineShowcaseExercise('rope_triceps_pushdown','Rope Triceps Pushdown',{base:'overhead_cable_triceps_extension',sDef:2,sMin:2,sMax:2,rMin:10,rMax:20,rest:80,target:'Triceps',muscles:{triceps:1},cues:['Use a comfortable neutral rope grip.','Keep upper arms relatively still.','Extend and return the elbows smoothly.','Avoid body swing; rope separation is optional.'],mistakes:['Rocking the torso.','Turning the movement into a shoulder extension.','Forcing the rope apart.'],hard:'Keep the movement comfortable and controlled; this is a separate exercise history.'});
 defineShowcaseExercise('pec_deck','Pec Deck',{base:'pec_deck',sDef:2,sMin:2,sMax:2,rMin:10,rMax:15,rest:85,target:'Mid and sternocostal chest',muscles:{'mid-chest':1},cues:['Handles around mid-chest level.','Soft elbow bend.','Shoulders controlled.','Move upper arms toward one another.','Stop before shoulders roll forward.'],mistakes:['Turning it into a press.','Shoulder roll.','Excessive stretch.'],hard:'Chest, not shoulders.'});
 defineShowcaseExercise('neutral_grip_lat_pulldown','Neutral-Grip Lat Pulldown',{base:'neutral_grip_lat_pulldown',sDef:2,sMin:2,sMax:2,rMin:8,rMax:12,rest:105,target:'Lat width',muscles:{'lats':1},cues:['Medium neutral grip.','Hands act as hooks.','Shoulders down before elbows bend.','Pull elbows toward sides.','Minimal backward lean.','Use straps if grip or biceps dominate.'],mistakes:['Torso lean.','Elbow flexion replacing shoulder-driven pulling.','Shrugging.'],hard:'Lat, not biceps.'});
 defineShowcaseExercise('leg_extension','Leg Extension',{base:'leg_press',sDef:2,sMin:2,sMax:2,rMin:10,rMax:15,rest:75,target:'Quads',muscles:{'quads':1},cues:['Hips remain against the pad.','Knees line up with the machine axis.','Extend through a controlled range.','Pause briefly at the top.','Lower slowly.'],mistakes:['Hip lifting.','Bouncing.','Short range.'],hard:'Leg extension maps primarily to quads.'});
@@ -1636,53 +1639,59 @@ defineShowcaseExercise('chest_supported_neutral_grip_lat_row','Chest-Supported N
 
 var PROGRAMME_SLOTS = {
   1:[
-    {slotId:'tue_press_15',exerciseId:'low_incline_dumbbell_press_15deg',sets:3,min:8,max:12,restMin:150,restMax:180,rest:165},
-    {slotId:'tue_lat_pulldown',exerciseId:'neutral_grip_lat_pulldown',sets:2,min:8,max:12,restMin:120,restMax:120,rest:120},
-    {slotId:'tue_midback_row',exerciseId:'chest_supported_mid_back_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120},
-    {slotId:'tue_lateral_raise',exerciseId:'cable_lateral_raise',sets:3,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15},
-    {slotId:'tue_low_high_fly',exerciseId:'low_to_high_cable_fly',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90},
-    {slotId:'tue_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:2,min:12,max:25,restMin:75,restMax:90,rest:82}
+    {slotId:'tue_press_15',exerciseId:'low_incline_dumbbell_press_15deg',sets:2,min:8,max:12,restMin:150,restMax:180,rest:165,priority:'core'},
+    {slotId:'tue_lat_pulldown',exerciseId:'neutral_grip_lat_pulldown',sets:2,min:8,max:12,restMin:120,restMax:120,rest:120,priority:'core'},
+    {slotId:'tue_midback_row',exerciseId:'chest_supported_mid_back_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
+    {slotId:'tue_pec_deck',exerciseId:'pec_deck',sets:2,min:10,max:15,restMin:75,restMax:90,rest:82,priority:'lower'},
+    {slotId:'tue_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:2,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'}
   ],
   2:[
-    {slotId:'thu_leg_press',exerciseId:'leg_press',sets:3,min:8,max:12,restMin:150,restMax:180,rest:165},
-    {slotId:'thu_seated_leg_curl',exerciseId:'seated_leg_curl',sets:3,min:8,max:15,restMin:90,restMax:120,rest:105},
-    {slotId:'thu_hip_thrust',exerciseId:'hip_thrust',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120},
-    {slotId:'thu_standing_calf_raise',exerciseId:'standing_calf_raise',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90},
-    {slotId:'thu_overhead_triceps',exerciseId:'overhead_cable_triceps_extension',sets:3,min:10,max:15,restMin:90,restMax:90,rest:90},
-    {slotId:'thu_preacher_curl',exerciseId:'one_arm_dumbbell_preacher_curl',sets:3,min:8,max:15,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15}
+    {slotId:'thu_lateral_raise',exerciseId:'cable_lateral_raise',sets:3,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,priority:'core'},
+    {slotId:'thu_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:2,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'},
+    {slotId:'thu_overhead_triceps',exerciseId:'overhead_cable_triceps_extension',sets:3,min:10,max:15,restMin:90,restMax:90,rest:90,priority:'core'},
+    {slotId:'thu_preacher_curl',exerciseId:'one_arm_dumbbell_preacher_curl',sets:3,min:8,max:15,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,priority:'core'},
+    {slotId:'thu_rope_pushdown',exerciseId:'rope_triceps_pushdown',sets:2,min:10,max:20,restMin:75,restMax:90,rest:82,priority:'lower'},
+    {slotId:'thu_hammer_curl',exerciseId:'dumbbell_hammer_curl',sets:2,min:8,max:15,restMin:90,restMax:90,rest:90,priority:'lower'}
   ],
   3:[
-    {slotId:'sat_press_30',exerciseId:'incline_dumbbell_press_30deg',sets:3,min:6,max:10,restMin:150,restMax:180,rest:165},
-    {slotId:'sat_pec_deck',exerciseId:'pec_deck',sets:3,min:10,max:15,restMin:90,restMax:90,rest:90},
-    {slotId:'sat_lateral_raise',exerciseId:'cable_lateral_raise',sets:4,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,optionalDrop:true},
-    {slotId:'sat_leg_extension',exerciseId:'leg_extension',sets:2,min:10,max:15,restMin:90,restMax:90,rest:90},
-    {slotId:'sat_standing_calf_raise',exerciseId:'standing_calf_raise',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90}
+    {slotId:'sat_press_30',exerciseId:'incline_dumbbell_press_30deg',sets:3,min:6,max:10,restMin:150,restMax:180,rest:165,priority:'core'},
+    {slotId:'sat_press_machine',exerciseId:'flat_converging_chest_press',sets:2,min:8,max:12,restMin:120,restMax:180,rest:150,priority:'core'},
+    {slotId:'sat_pec_deck',exerciseId:'pec_deck',sets:2,min:10,max:15,restMin:90,restMax:90,rest:90,priority:'core'},
+    {slotId:'sat_low_high_fly',exerciseId:'low_to_high_cable_fly',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90,priority:'lower'},
+    {slotId:'sat_lateral_raise',exerciseId:'cable_lateral_raise',sets:4,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,optionalDrop:true,priority:'core'}
   ],
   4:[
-    {slotId:'sun_pullups',exerciseId:'pullups',sets:3,min:6,max:12,restMin:150,restMax:180,rest:165},
-    {slotId:'sun_high_row',exerciseId:'chest_supported_high_row',sets:3,min:8,max:15,restMin:120,restMax:120,rest:120},
-    {slotId:'sun_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:3,min:12,max:25,restMin:75,restMax:90,rest:82},
-    {slotId:'sun_cable_lat_row',exerciseId:'seated_neutral_grip_cable_lat_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120},
-    {slotId:'sun_seated_leg_curl',exerciseId:'seated_leg_curl',sets:2,min:10,max:15,restMin:90,restMax:90,rest:90},
-    {slotId:'sun_back_posing',exerciseId:'back_posing_practice',sets:0,min:0,max:0,restMin:0,restMax:0,rest:0,optional:true}
+    {slotId:'sun_pullups',exerciseId:'pullups',sets:3,min:6,max:12,restMin:150,restMax:180,rest:165,priority:'core'},
+    {slotId:'sun_high_row',exerciseId:'chest_supported_high_row',sets:3,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
+    {slotId:'sun_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:3,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'},
+    {slotId:'sun_cable_lat_row',exerciseId:'seated_neutral_grip_cable_lat_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
+    {slotId:'sun_crunch',exerciseId:'weighted_floor_crunch',sets:2,min:10,max:20,restMin:60,restMax:90,rest:75,priority:'core'}
+  ],
+  5:[
+    {slotId:'legs_press',exerciseId:'leg_press',sets:3,min:8,max:12,restMin:150,restMax:180,rest:165,priority:'core'},
+    {slotId:'legs_curl',exerciseId:'seated_leg_curl',sets:2,min:8,max:15,restMin:90,restMax:120,rest:105,priority:'core'},
+    {slotId:'legs_hip_thrust',exerciseId:'hip_thrust',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'lower'},
+    {slotId:'legs_calf_raise',exerciseId:'standing_calf_raise',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90,priority:'core'}
   ]
 };
 
 var PROGRAMME_SHORT_OMISSIONS = {
-  four:{1:['tue_low_high_fly','tue_reverse_pec_deck'],2:['thu_hip_thrust'],3:['sat_standing_calf_raise'],4:[]},
-  three:{1:[],2:['thu_hip_thrust'],3:['sat_leg_extension','sat_standing_calf_raise'],4:[]}
+  three:{2:['thu_rope_pushdown','thu_hammer_curl'],3:['sat_low_high_fly']},
+  four:{2:['thu_rope_pushdown','thu_hammer_curl'],3:['sat_low_high_fly']}
 };
 var PROGRAMME_DAY_META = {
-  1:{title:'Tuesday — Additional Upper-Body Development',nav:'Tuesday Upper',duration:63,goal:'Additional chest, lat, mid-back, side-delt and rear-delt work.',primaryMuscles:['Chest','Back','Side delts','Rear delts'],weekday:2},
-  2:{title:'Thursday — Legs and Arms',nav:'Thursday Legs + Arms',duration:73,goal:'Lower-body maintenance and all direct arm work for the week.',primaryMuscles:['Legs','Triceps','Biceps'],weekday:4},
-  3:{title:'Saturday — Chest and Shoulder Width',nav:'Saturday Chest',duration:58,goal:'Main chest and side-delt priority, with quad and calf work.',primaryMuscles:['Chest','Side delts','Quads','Calves'],weekday:6},
-  4:{title:'Sunday — Back Width and Detail',nav:'Sunday Back',duration:63,goal:'Main back-width and detail priority with a small hamstring exposure.',primaryMuscles:['Lats','Mid back','Rear delts','Hamstrings'],weekday:0}
+  1:{title:'Tuesday — Combined Chest and Back',nav:'Combined Chest + Back',duration:50,goal:'A modest second chest and back exposure, not another exhausting main session.',primaryMuscles:['Chest','Lats','Mid back','Rear delts'],weekday:2},
+  2:{title:'Thursday — Shoulders and Arms',nav:'Shoulders + Arms',duration:68,goal:'Side delts, rear delts, and all direct biceps and triceps work. No leg exercises.',primaryMuscles:['Side delts','Rear delts','Triceps','Biceps'],weekday:4},
+  3:{title:'Saturday — Chest and Side Delts',nav:'Chest + Side Delts',duration:68,goal:'Main chest foundation and side-delt work. No leg exercises.',primaryMuscles:['Chest','Side delts'],weekday:6},
+  4:{title:'Sunday — Back and Rear Delts',nav:'Back + Rear Delts',duration:63,goal:'Main back-width and detail session. No leg exercises.',primaryMuscles:['Lats','Mid back','Rear delts'],weekday:0},
+  5:{title:'Separate Short Legs',nav:'Short Legs',duration:40,goal:'A standalone optional leg session, selected instead of the combined chest/back fourth visit.',primaryMuscles:['Quads','Hamstrings','Glutes','Calves'],weekday:2}
 };
 DAYS = {
-  1:Object.assign({n:1,exercises:PROGRAMME_SLOTS[1].map(function(s){return s.exerciseId;}),checklist:['Use the stated chest-press setup.','Keep pulling and lateral-raise setup repeatable.']},PROGRAMME_DAY_META[1]),
-  2:Object.assign({n:2,exercises:PROGRAMME_SLOTS[2].map(function(s){return s.exerciseId;}),checklist:['Keep the lower-body range comfortable and controlled.','Complete direct arms without compulsory extra work.']},PROGRAMME_DAY_META[2]),
-  3:Object.assign({n:3,exercises:PROGRAMME_SLOTS[3].map(function(s){return s.exerciseId;}),checklist:['Keep the 30-degree press first.','Saturday drops are optional and per side.']},PROGRAMME_DAY_META[3]),
-  4:Object.assign({n:4,exercises:PROGRAMME_SLOTS[4].map(function(s){return s.exerciseId;}),checklist:['Keep the back session focused on pulling and detail.','Posing is optional and does not count as work.']},PROGRAMME_DAY_META[4])
+  1:Object.assign({n:1,sessionType:'combined_chest_back',optional:true,exercises:PROGRAMME_SLOTS[1].map(function(s){return s.exerciseId;}),checklist:['Finish most sets with approximately two controlled repetitions still possible.','No forced reps or drop sets.']},PROGRAMME_DAY_META[1]),
+  2:Object.assign({n:2,sessionType:'shoulders_arms',exercises:PROGRAMME_SLOTS[2].map(function(s){return s.exerciseId;}),checklist:['Lateral raises and preacher curls are performed on each side.','Pushdowns and hammer curls are lower-priority accessories.']},PROGRAMME_DAY_META[2]),
+  3:Object.assign({n:3,sessionType:'chest_side_delts',exercises:PROGRAMME_SLOTS[3].map(function(s){return s.exerciseId;}),checklist:['Keep both presses and pec deck as the chest foundation.','Saturday drops and crunches are optional.']},PROGRAMME_DAY_META[3]),
+  4:Object.assign({n:4,sessionType:'back_rear_delts',exercises:PROGRAMME_SLOTS[4].map(function(s){return s.exerciseId;}),checklist:['Keep the back session focused on pulling and rear-delt detail.','Crunches are omitted if already covered Saturday.']},PROGRAMME_DAY_META[4]),
+  5:Object.assign({n:5,sessionType:'separate_short_legs',optional:true,exercises:PROGRAMME_SLOTS[5].map(function(s){return s.exerciseId;}),checklist:['This separate short leg workout is optional, not a fifth required visit.']},PROGRAMME_DAY_META[5])
 };
 
 function dateAddDays(dateKey, days) {
@@ -1694,46 +1703,79 @@ function isReentryActive(dbRef, now) {
   if (!state || !state.enabled || !state.startDate || !state.endDate) return false;
   var today=localDateKey(now||Date.now()); return today>=state.startDate && today<=state.endDate;
 }
-function getProgrammeSlots(dayN, availability, workoutLength, dbRef, now, forceManualDay, ignoreReentry, ignoreTuesdayRecord) {
-  var selectedAvailability=availability||getWeeklyAvailability(dbRef||db);
-  var length=workoutLength||getWeeklyWorkoutLength(dbRef||db);
-  var slots=(PROGRAMME_SLOTS[dayN]||[]).map(function(slot){return Object.assign({},slot);});
-  var overrides=(dbRef||db).settings&&((dbRef||db).settings.programmeExerciseOverrides||{})[dayN];
-  if (Array.isArray(overrides)) {
-    slots=overrides.map(function(exId,index){
-      var original=(PROGRAMME_SLOTS[dayN]||[]).find(function(slot){return slot.exerciseId===exId;});
-      if(original)return Object.assign({},original,{order:index+1});
-      var ex=getExerciseDef(exId,null,dbRef||db);
-      return {slotId:'customised_'+dayN+'_'+exId,exerciseId:exId,sets:ex.sDef||2,min:ex.rMin||8,max:ex.rMax||12,restMin:ex.rest||90,restMax:ex.rest||90,rest:ex.rest||90,unilateral:!!ex.uni,order:index+1,effortNote:'Manually added programme exercise.'};
+function getFourthSessionChoice(dbRef,now) {
+  var data=dbRef||db, week=currentWeekKey(now), settings=data.settings||{}, saved=(settings.fourthSessionByWeek||{})[week];
+  if(saved==='combined'||saved==='legs')return saved;
+  var last=(data.completedSessions||[]).filter(function(session){return session.finished!==false&&session.programVersion===PROGRAM_VERSION&&(session.sessionType==='combined_chest_back'||session.sessionType==='separate_short_legs');})
+    .sort(function(a,b){return toTimestamp(b.endTime||b.startTime)-toTimestamp(a.endTime||a.startTime);})[0];
+  return last&&last.sessionType==='combined_chest_back'?'legs':'combined';
+}
+function getCombinedIntroDose(dbRef,now) {
+  var data=dbRef||db,week=currentWeekKey(now),settings=data.settings||{},map=settings.combinedIntroDoseByWeek||{};
+  if(Object.prototype.hasOwnProperty.call(map,week))return map[week]===true;
+  return !(data.completedSessions||[]).some(function(session){
+    if(session.finished!==true||session.programVersion!==PROGRAM_VERSION||session.sessionType!=='combined_chest_back'||!session.programmeSnapshot)return false;
+    var required=(session.programmeSnapshot.slots||[]).filter(function(slot){return !slot.optional;});
+    return required.every(function(slot){
+      var rounds={};(session.sets||[]).forEach(function(set){if(set.slotId===slot.slotId&&set.setType==='working'&&set.completed&&!set.skipped)rounds[set.setNum||1]=true;});
+      return Object.keys(rounds).length>=slot.sets;
     });
-  }
-  if(selectedAvailability==='3'&&dayN===1&&!forceManualDay)return [];
-  if (dayN===2 && selectedAvailability==='3' && (ignoreTuesdayRecord||!hasCompletedTrainingOnLocalWeekday(dbRef||db,2,now))) {
-    slots.splice(4,0,{slotId:'thu_lateral_raise_3day',exerciseId:'cable_lateral_raise',sets:2,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,effortNote:'No drop set.'});
-  }
-  if (length==='short') {
-    var variant=selectedAvailability==='3'?'three':'four';
-    var omitted=PROGRAMME_SHORT_OMISSIONS[variant][dayN]||[];
+  });
+}
+function isSaturdayCrunchCovered(dbRef,now) {
+  var start=weekStart(now||Date.now()),end=weekEnd(start)+1;
+  return (dbRef.completedSessions||[]).some(function(session){
+    var at=toTimestamp(session.startTime);if(session.dayN!==3||session.finished===false||at<start||at>=end)return false;
+    var rounds={};(session.sets||[]).forEach(function(set){if(set.exId==='weighted_floor_crunch'&&set.setType==='working'&&set.completed&&!set.skipped)rounds[set.setNum||1]=true;});
+    return Object.keys(rounds).length>=2;
+  });
+}
+function getProgrammeSlots(dayN,availability,workoutLength,dbRef,now,forceManualDay,ignoreReentry,ignoreLegacy,options) {
+  var data=dbRef||db,opts=options||{},selectedAvailability=availability||getWeeklyAvailability(data,now),length=workoutLength||getWeeklyWorkoutLength(data,now);
+  var fourth=opts.fourthSession||getFourthSessionChoice(data,now),settings=data.settings||{};
+  if(!forceManualDay&&dayN===1&&(selectedAvailability!=='4'||fourth!=='combined'))return [];
+  if(!forceManualDay&&dayN===5&&(selectedAvailability!=='4'||fourth!=='legs'))return [];
+  if(!forceManualDay&&selectedAvailability==='3'&&dayN===1)return [];
+  var slots=(PROGRAMME_SLOTS[dayN]||[]).map(function(slot){return Object.assign({},slot);});
+  var overridesVersion=settings.programmeExerciseOverridesProgramVersion,overrides=overridesVersion===PROGRAM_VERSION&&(settings.programmeExerciseOverrides||{})[dayN];
+  if(Array.isArray(overrides))slots=overrides.map(function(exId,index){
+    var original=(PROGRAMME_SLOTS[dayN]||[]).find(function(slot){return slot.exerciseId===exId;});
+    if(original)return Object.assign({},original,{order:index+1});
+    var ex=getExerciseDef(exId,null,data);
+    return {slotId:'customised_'+dayN+'_'+exId,exerciseId:exId,sets:ex.sDef||2,min:ex.rMin||8,max:ex.rMax||12,restMin:ex.rest||90,restMax:ex.rest||90,rest:ex.rest||90,unilateral:!!ex.uni,priority:'manual',effortNote:'Manually added programme exercise.'};
+  });
+  if(length==='short'){
+    var omitted=(PROGRAMME_SHORT_OMISSIONS[selectedAvailability==='3'?'three':'four'][dayN]||[]).slice();
+    if(dayN===1&&fourth==='combined')omitted.push('tue_pec_deck');
+    if(dayN===5&&fourth==='legs')omitted.push('legs_hip_thrust');
     slots=slots.filter(function(slot){return omitted.indexOf(slot.slotId)===-1;});
   }
-  var reentry=!ignoreReentry&&isReentryActive(dbRef||db,now);
-  slots.forEach(function(slot,index){
-    slot.order=index+1;
-    if (reentry && slot.sets>0) slot.sets=Math.min(2,slot.sets);
-    if (reentry) slot.optionalDrop=false;
-    slot.effortNote=slot.effortNote||(slot.unilateral?'Complete the prescribed rounds on each side.':'Compound sets generally stop with about one or two controlled reps available; final isolation sets may reach comfortable technical failure.');
-  });
+  if(dayN===1&&!opts.ignoreIntro){
+    var intro=opts.introDose!==undefined?!!opts.introDose:getCombinedIntroDose(data,now);
+    if(intro)slots.forEach(function(slot){slot.sets=Math.min(slot.sets,1);slot.introDose=true;});
+  }
+  var week=currentWeekKey(now);
+  if(dayN===3&&(opts.includeSaturdayCrunch||(settings.saturdayCrunchByWeek||{})[week]===true)){slots.push({slotId:'sat_optional_crunch',exerciseId:'weighted_floor_crunch',sets:2,min:10,max:20,restMin:60,restMax:90,rest:75,priority:'optional',optional:true,optionalReason:'Saturday crunches are an alternative placement for Sunday crunches.'});}
+  if(dayN===4){
+    var crunchCovered=isSaturdayCrunchCovered(data,now)||(settings.crunchAlreadyDoneByWeek||{})[week]===true;
+    if(crunchCovered){var crunch=slots.find(function(slot){return slot.slotId==='sun_crunch';});if(crunch){crunch.optional=true;crunch.optionalReason='Already covered Saturday, optional today.';}}
+    var makeUp=(settings.sundayLateralMakeupByWeek||{})[week];
+    if(makeUp&&makeUp.enabled)slots.push({slotId:'sun_optional_lateral_makeup',exerciseId:'cable_lateral_raise',sets:makeUp.rounds===2?2:1,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,priority:'optional',optional:true,optionalReason:'Optional make-up only; not included in Sunday totals or completion requirements.'});
+  }
+  var reentry=!ignoreReentry&&isReentryActive(data,now);
+  slots.forEach(function(slot,index){slot.order=index+1;if(reentry&&slot.sets>0)slot.sets=Math.min(2,slot.sets);if(reentry)slot.optionalDrop=false;slot.effortNote=slot.effortNote||(slot.unilateral?'Complete the prescribed rounds on each side, then rest about 60 to 90 seconds.':'Compound sets generally finish with about one or two controlled repetitions available; final isolation sets may reach comfortable technical failure.');});
   return slots;
 }
-function getProgrammedRounds(dayN, availability, length, dbRef, now) {
-  return getProgrammeSlots(dayN,availability,length,dbRef,now,false,true,true).reduce(function(sum,slot){return sum+(slot.optional?0:slot.sets);},0);
+function getProgrammedRounds(dayN,availability,length,dbRef,now,options) {
+  return getProgrammeSlots(dayN,availability,length,dbRef,now,true,true,true,Object.assign({ignoreIntro:true},options||{})).reduce(function(sum,slot){return sum+(slot.optional?0:slot.sets);},0);
 }
 
 var RUSHED_MODE_LIMITS = {
-  1:{tue_press_15:2,tue_lat_pulldown:2,tue_midback_row:1,tue_lateral_raise:2,tue_low_high_fly:0,tue_reverse_pec_deck:1},
-  2:{thu_leg_press:2,thu_seated_leg_curl:2,thu_hip_thrust:0,thu_standing_calf_raise:1,thu_overhead_triceps:2,thu_preacher_curl:2,thu_lateral_raise_3day:2},
-  3:{sat_press_30:2,sat_pec_deck:2,sat_lateral_raise:3,sat_leg_extension:1,sat_standing_calf_raise:0},
-  4:{sun_pullups:2,sun_high_row:2,sun_reverse_pec_deck:2,sun_cable_lat_row:1,sun_seated_leg_curl:2}
+  1:{tue_press_15:2,tue_lat_pulldown:2,tue_midback_row:2,tue_pec_deck:0,tue_reverse_pec_deck:0},
+  2:{thu_lateral_raise:2,thu_reverse_pec_deck:2,thu_overhead_triceps:2,thu_preacher_curl:2,thu_rope_pushdown:0,thu_hammer_curl:0},
+  3:{sat_press_30:3,sat_press_machine:2,sat_pec_deck:2,sat_low_high_fly:0,sat_lateral_raise:3,sat_optional_crunch:0},
+  4:{sun_pullups:2,sun_high_row:2,sun_reverse_pec_deck:2,sun_cable_lat_row:2,sun_crunch:0,sun_optional_lateral_makeup:0},
+  5:{legs_press:2,legs_curl:2,legs_hip_thrust:0,legs_calf_raise:1}
 };
 function setHasStarted(set) { return !!(set && (set.completed || set.startedAt || set.draftTouched || set.weightEdited || set.repsEdited || set.lastLoadApplied || set.note)); }
 function applyRushedModeToSession(session) {
@@ -1832,7 +1874,8 @@ function dbDefault() {
     settings: { muscleMappings: null, volumeTargets: null, dayExercises: {}, customExercises: {}, programVersion: PROGRAM_VERSION, programmeName: PROGRAM_NAME, programmeEnabledOn:localDateKey(), programmeArchive:[
       {name:'Chest and Back Showcase Block, Rest of August 2026',version:'august-chest-back-showcase-2026'},
       {name:'September–November Adaptive A/B/C Programme',version:LEGACY_ADAPTIVE_PROGRAM_VERSION},
-      {name:'September–November Weekend-First Wedding Programme',version:PREVIOUS_PROGRAM_VERSION}
+      {name:'September–November Weekend-First Wedding Programme',version:PREVIOUS_PROGRAM_VERSION},
+      {name:'Chest and Back Priority, Four Days with Three-Day Fallback',version:PREVIOUS_FOCUSED_BLOCK_VERSION}
     ] },
     lastCompletedDay: null,
     activeSession: null,
@@ -1861,11 +1904,13 @@ function migrateDb(data) {
   if(d.homeRoutineLogs!==undefined&&!Array.isArray(d.homeRoutineLogs))throw new Error('Saved Home history is malformed; the original database was left untouched.');
   if(d.activeSession!==undefined&&d.activeSession!==null&&(typeof d.activeSession!=='object'||Array.isArray(d.activeSession)))throw new Error('Saved active workout is malformed; the original database was left untouched.');
   var priorProgrammeName = d.settings && (d.settings.programmeName || d.settings.programVersion) || 'Legacy programme';
+  var priorProgrammeVersion = d.settings && d.settings.programVersion || 'legacy';
   var programmeChanged = !!(d.settings && d.settings.programVersion !== PROGRAM_VERSION);
   d.schemaVersion = Math.max(3, Number(d.schemaVersion)||0);
   d.settings = d.settings || {};
   if(d.settings.dayExercises!==undefined&&(!d.settings.dayExercises||typeof d.settings.dayExercises!=='object'||Array.isArray(d.settings.dayExercises)))throw new Error('Saved day settings are malformed; the original database was left untouched.');
   if(d.settings.customExercises!==undefined&&(!d.settings.customExercises||typeof d.settings.customExercises!=='object'||Array.isArray(d.settings.customExercises)))throw new Error('Saved custom exercise data is malformed; the original database was left untouched.');
+  if(d.settings.programmeExerciseOverrides!==undefined&&(!d.settings.programmeExerciseOverrides||typeof d.settings.programmeExerciseOverrides!=='object'||Array.isArray(d.settings.programmeExerciseOverrides)))throw new Error('Saved programme overrides are malformed; the original database was left untouched.');
   if (!d.settings.dayExercises) d.settings.dayExercises = {};
   if (!d.settings.customExercises) d.settings.customExercises = {};
   if (d.settings.programVersion !== PROGRAM_VERSION) {
@@ -1873,6 +1918,11 @@ function migrateDb(data) {
     if (d.settings.programVersion && !d.settings.programmeArchive.some(function(item){return item.version===d.settings.programVersion;})) {
       d.settings.programmeArchive.push({name:d.settings.programmeName||d.settings.programVersion,version:d.settings.programVersion,archivedAt:Date.now()});
     }
+    d.settings.programmeArchiveData=d.settings.programmeArchiveData||{};
+    if(!d.settings.programmeArchiveData[priorProgrammeVersion])d.settings.programmeArchiveData[priorProgrammeVersion]={programmeName:priorProgrammeName,dayExercises:d.settings.dayExercises,programmeExerciseOverrides:d.settings.programmeExerciseOverrides||{},archivedAt:Date.now()};
+    d.settings.dayExercises={};
+    d.settings.programmeExerciseOverrides={};
+    d.settings.programmeExerciseOverridesProgramVersion=PROGRAM_VERSION;
     d.settings.programVersion = PROGRAM_VERSION;
   }
   d.settings.programmeName = PROGRAM_NAME;
@@ -1883,7 +1933,8 @@ function migrateDb(data) {
   [
     {name:'Chest and Back Showcase Block, Rest of August 2026',version:'august-chest-back-showcase-2026'},
     {name:'September–November Adaptive A/B/C Programme',version:LEGACY_ADAPTIVE_PROGRAM_VERSION},
-    {name:'September–November Weekend-First Wedding Programme',version:PREVIOUS_PROGRAM_VERSION}
+    {name:'September–November Weekend-First Wedding Programme',version:PREVIOUS_PROGRAM_VERSION},
+    {name:'Chest and Back Priority, Four Days with Three-Day Fallback',version:PREVIOUS_FOCUSED_BLOCK_VERSION}
   ].forEach(function(archived){if(!d.settings.programmeArchive.some(function(item){return item.version===archived.version;}))d.settings.programmeArchive.push(archived);});
   if (d.settings.muscleMappings === undefined) d.settings.muscleMappings = null;
   if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
@@ -1900,8 +1951,11 @@ function migrateDb(data) {
     if (session.programName === undefined) session.programName = priorProgrammeName;
     if (session.dayTitle === undefined) {
       var previousTitles={1:'Saturday — Chest, Side Delts + Quads',2:'Sunday — Aesthetic Back, Rear Delts + Arms',3:'Optional Midweek — Aesthetic Booster',4:'One-Session Week — Full Body Insurance',5:'Optional Day 5 — Lower + Core Insurance'};
+      var focusedTitles={1:'Tuesday — Additional Upper-Body Development',2:'Thursday — Legs and Arms',3:'Saturday — Chest and Shoulder Width',4:'Sunday — Back Width and Detail'};
       var adaptiveTitles={1:'Session A — Upper Chest, Back Width and Whole-Body Coverage',2:'Session B — Whole Chest, Cable Back, Legs and Arms',3:'Session C — Optional Chest, Width and Lower-Body Top-Up',4:'Short Chest + Upper/Lower Top-Up',5:'Optional Day 5 — Lower + Core Insurance'};
-      session.dayTitle = session.programVersion === PREVIOUS_PROGRAM_VERSION && previousTitles[session.dayN]
+      session.dayTitle = session.programVersion === PREVIOUS_FOCUSED_BLOCK_VERSION && focusedTitles[session.dayN]
+        ? focusedTitles[session.dayN]
+        : session.programVersion === PREVIOUS_PROGRAM_VERSION && previousTitles[session.dayN]
         ? previousTitles[session.dayN]
         : session.programVersion === LEGACY_ADAPTIVE_PROGRAM_VERSION && adaptiveTitles[session.dayN]
           ? adaptiveTitles[session.dayN]
@@ -1936,25 +1990,7 @@ function migrateDb(data) {
   migrateSession(d.activeSession);
   d.migrations = d.migrations || {};
   if (!d.migrations.program240) d.migrations.program240 = true;
-  if (!d.migrations.d2e1ToPullups) {
-    function migrateD2e1(session) {
-      if (!session) return;
-      session.sets.forEach(function(set) {
-        if (set.exId === 'd2e1') set.exId = 'pullups';
-        if (set.substitutedFor === 'd2e1') set.substitutedFor = 'pullups';
-      });
-      session.exerciseOrder = session.exerciseOrder.map(function(exId) {
-        return exId === 'd2e1' ? 'pullups' : exId;
-      }).filter(function(exId, index, ids) { return ids.indexOf(exId) === index; });
-      if (session.currentExId === 'd2e1') session.currentExId = 'pullups';
-      if (session.exNotes.d2e1 && !session.exNotes.pullups) session.exNotes.pullups = session.exNotes.d2e1;
-      delete session.exNotes.d2e1;
-      if (session.exercisePrescriptions) delete session.exercisePrescriptions.d2e1;
-    }
-    d.completedSessions.forEach(migrateD2e1);
-    migrateD2e1(d.activeSession);
-    d.migrations.d2e1ToPullups = true;
-  }
+  if (d.migrations.d2e1ToPullups === undefined) d.migrations.d2e1ToPullups = 'preserved-ambiguous-history';
   if (!d.migrations.augustShowcasePressVariants) d.migrations.augustShowcasePressVariants = 'not-applied-angle-ambiguous';
   return d;
 }
@@ -1968,6 +2004,7 @@ function saveDayExerciseIds(dbRef, dayN, exerciseIds) {
   if (!dbRef.settings) dbRef.settings = {};
   if (!dbRef.settings.programmeExerciseOverrides) dbRef.settings.programmeExerciseOverrides = {};
   dbRef.settings.programmeExerciseOverrides[dayN] = exerciseIds.slice();
+  dbRef.settings.programmeExerciseOverridesProgramVersion = PROGRAM_VERSION;
   dbSave(dbRef);
 }
 
@@ -1997,14 +2034,15 @@ function newSetId()     { return 'set_'  + Date.now() + '_' + Math.random().toSt
 
 function createSession(dayN, manualSelection) {
   var workoutLength = getWeeklyWorkoutLength(db);
-  var availability=getWeeklyAvailability(db), reentry=isReentryActive(db), slots=getProgrammeSlots(dayN,availability,workoutLength,db,undefined,!!manualSelection);
+  var availability=getWeeklyAvailability(db), fourthSession=getFourthSessionChoice(db), introDose=dayN===1&&getCombinedIntroDose(db), reentry=isReentryActive(db);
+  var slots=getProgrammeSlots(dayN,availability,workoutLength,db,undefined,!!manualSelection,false,false,{fourthSession:fourthSession,introDose:introDose,ignoreIntro:dayN!==1});
   var order=slots.map(function(slot){return slot.exerciseId;});
   var prescriptions = {};
   slots.forEach(function(slot) {
     var base=getExerciseDef(slot.exerciseId,null,db);
     prescriptions[slot.exerciseId]=Object.assign({},base,{sDef:slot.sets,sMin:slot.sets,sMax:slot.sets,rMin:slot.min,rMax:slot.max,rest:slot.rest,restMinSeconds:slot.restMin,restMaxSeconds:slot.restMax,uni:!!slot.unilateral,drop:!!slot.optionalDrop,slotId:slot.slotId,sideTransitionRest:slot.sideTransitionRest||null,optional:!!slot.optional,effortNote:slot.effortNote||''});
   });
-  var typeByDay={1:'tuesday_upper',2:'thursday_legs_arms',3:'saturday_chest_width',4:'sunday_back_detail'};
+  var typeByDay={1:'combined_chest_back',2:'shoulders_arms',3:'chest_side_delts',4:'back_rear_delts',5:'separate_short_legs'};
   var sessionType=typeByDay[dayN]||'manual_session';
   return {
     id: newSessionId(),
@@ -2022,7 +2060,7 @@ function createSession(dayN, manualSelection) {
     scheduleWeekKey:currentWeekKey(),
     manualSelection:!!manualSelection,
     availabilitySnapshot:availability,
-    programmeSnapshot:{name:PROGRAM_NAME,version:PROGRAM_VERSION,enabledOn:db.settings.programmeEnabledOn||localDateKey(),dayN:dayN,sessionType:sessionType,availability:availability,workoutLength:workoutLength,reentry:reentry,slots:slots.map(function(slot){return Object.assign({},slot);})},
+    programmeSnapshot:{name:PROGRAM_NAME,version:PROGRAM_VERSION,enabledOn:db.settings.programmeEnabledOn||localDateKey(),dayN:dayN,sessionType:sessionType,availability:availability,fourthSession:fourthSession,workoutLength:workoutLength,reentry:reentry,introDose:!!introDose,slots:slots.map(function(slot){return Object.assign({},slot);})},
     sets: [],
     exerciseOrder: order,
     exercisePrescriptions: prescriptions,
@@ -2282,6 +2320,8 @@ function isEffectiveWorkingSet(set, session) {
 }
 function isRequiredSessionSet(set, session) {
   if (!isEffectiveWorkingSet(set,session)) return false;
+  var slot=(session&&session.programmeSnapshot&&session.programmeSnapshot.slots||[]).find(function(item){return item.slotId===set.slotId;});
+  if(slot&&slot.optional)return false;
   if (set.setType==='drop' && set.optional && !set.completed && !setHasStarted(set) && !set.skipped) return false;
   return true;
 }
@@ -2899,11 +2939,6 @@ function buildRecommendationReasons(recommendation, dbRef) {
 }
 
 function currentWeekKey(now) { return String(weekStart(now || Date.now())); }
-function getWeeklyAvailability(dbRef, now) {
-  var settings = dbRef.settings || {};
-  settings.weeklyAvailability = settings.weeklyAvailability || {};
-  return settings.weeklyAvailability[currentWeekKey(now)] || 'unsure';
-}
 function getWeeklyWorkoutLength(dbRef, now) {
   var settings = dbRef && dbRef.settings || {};
   settings.weeklyWorkoutLength = settings.weeklyWorkoutLength || {};
@@ -2914,28 +2949,6 @@ function saveWeeklyWorkoutLength(dbRef, value, now) {
   dbRef.settings.weeklyWorkoutLength = dbRef.settings.weeklyWorkoutLength || {};
   dbRef.settings.weeklyWorkoutLength[currentWeekKey(now)] = value === 'short' ? 'short' : 'full';
   dbSave(dbRef);
-}
-function saveWeeklyAvailability(dbRef, value, now) {
-  var allowed = ['0','1','2','3','unsure'];
-  if (allowed.indexOf(String(value)) === -1) value = 'unsure';
-  dbRef.settings = dbRef.settings || {};
-  dbRef.settings.weeklyAvailability = dbRef.settings.weeklyAvailability || {};
-  dbRef.settings.weeklyAvailability[currentWeekKey(now)] = String(value);
-  dbSave(dbRef);
-}
-function getCurrentWeekCompletedDays(dbRef, now) {
-  var ws = weekStart(now || Date.now());
-  var we = ws + 7 * 86400000;
-  var days = {};
-  dbRef.completedSessions.forEach(function(session) {
-    if (session.startTime >= ws && session.startTime < we && session.dayN >= 1 && session.dayN <= 4) days[session.dayN] = true;
-  });
-  return days;
-}
-function getCurrentWeekCoreCount(dbRef, now) {
-  var days = getCurrentWeekCompletedDays(dbRef, now);
-  if (getWeeklyAvailability(dbRef, now) === '1') return days[4] ? 1 : 0;
-  return [1,2].reduce(function(count, dayN) { return count + (days[dayN] ? 1 : 0); }, 0);
 }
 function hasRecentWeekendPriorities(dbRef, now) {
   var current=now||Date.now(), cutoff=current-8*86400000, latest={1:0,2:0};
@@ -2968,58 +2981,6 @@ function shouldRecommendOptionalC(dbRef, availability, now) {
     .reduce(function(latest, session) { return Math.max(latest, session.endTime || session.startTime || 0); }, 0);
   return !lastC || lastC < latestCoreTime;
 }
-function getBestWorkoutRecommendation(dbRef, now) {
-  var currentTime = now || Date.now();
-  var availability = getWeeklyAvailability(dbRef, currentTime);
-  var done = getCurrentWeekCompletedDays(dbRef, currentTime);
-  var weekday = new Date(currentTime).getDay();
-  var hasWeekend = !!(done[1] && done[2]);
-  var dayN;
-  var reason;
-  if (availability === '1') {
-    dayN = 4;
-    reason = 'One session is planned, so this combines the highest-return chest, back, delt and lower-body work.';
-  } else if (availability === '2') {
-    dayN = done[1] && !done[2] ? 2 : done[2] && !done[1] ? 1 : weekday === 0 ? 2 : 1;
-    if (weekday === 6 && !done[1]) dayN = 1;
-    if (weekday === 0 && !done[2]) dayN = 2;
-    reason = dayN === 1 ? 'Saturday Chest is the first weekend priority. Sunday Back follows when you train again.' : 'Sunday Back is the second weekend priority after Saturday Chest.';
-  } else if (availability === '3' && weekday >= 2 && weekday <= 4) {
-    dayN = 3;
-    reason = 'This is the optional midweek booster. Saturday Chest and Sunday Back remain the weekend priorities.';
-  } else if (availability === 'unsure' && weekday >= 2 && weekday <= 4 && hasRecentWeekendPriorities(dbRef,currentTime)) {
-    dayN = 3;
-    reason = 'Both weekend priorities are complete, so the optional midweek booster is available.';
-  } else if (weekday === 0) {
-    dayN = 2;
-    reason = 'Sunday is the weekend back priority.';
-  } else if (weekday === 6) {
-    dayN = 1;
-    reason = 'Saturday is the weekend chest priority.';
-  } else {
-    dayN = done[1] && !done[2] ? 2 : 1;
-    reason = (availability === '3' || availability === 'unsure')
-      ? 'Keep the weekend chest and back sessions as priorities. The midweek booster becomes available after both are complete.'
-      : 'The weekend chest and back sessions are the priority. You can start any workout manually.';
-  }
-  if (availability === '0') {
-    dayN = weekday === 0 ? 2 : 1;
-    reason = 'No gym adherence target this week. Home and Performance tasks are primary; manual workout selection remains available.';
-  }
-  var recommendation = scoreWorkoutDay(dbRef, dayN, currentTime);
-  recommendation.dayN = dayN;
-  recommendation.confidence = 'High';
-  recommendation.availability = availability;
-  recommendation.weekCompletedDays = done;
-  recommendation.nextCoreSession = done[1] && !done[2] ? 'Sunday Back' : 'Saturday Chest';
-  recommendation.secondBestDayN = dayN === 1 ? 2 : 1;
-  recommendation.allScores = {1:scoreWorkoutDay(dbRef,1,currentTime).score,2:scoreWorkoutDay(dbRef,2,currentTime).score,3:scoreWorkoutDay(dbRef,3,currentTime).score,4:scoreWorkoutDay(dbRef,4,currentTime).score};
-  recommendation.muscleDetails = buildRecommendationMuscleDetails(dbRef, recommendation, currentTime);
-  recommendation.reasons = [reason];
-  recommendation.workoutLength = getWeeklyWorkoutLength(dbRef, currentTime);
-  return recommendation;
-}
-
 function buildRecommendationMuscleDetails(dbRef, recommendation, now) {
   var rolling = calculateRollingMuscleStimulus(dbRef, 7, now);
   var lastTimes = getMuscleLastTrainedTimes(dbRef);
@@ -3035,14 +2996,10 @@ function buildRecommendationMuscleDetails(dbRef, recommendation, now) {
     });
 }
 
-function nextDay(dbRef) {
-  if (dbRef._nextDayOverride) return dbRef._nextDayOverride;
-  return getBestWorkoutRecommendation(dbRef).dayN;
-}
-
 // Current-block planning supersedes the legacy rolling A/B recommendation.
 function getWeeklyAvailability(dbRef, now) {
-  var settings=dbRef&&dbRef.settings||{}, value=(settings.weeklyPlanAvailability||{})[currentWeekKey(now)];
+  var settings=dbRef&&dbRef.settings||{}, map=settings.weeklyPlanAvailability||{}, value=map[currentWeekKey(now)];
+  if(value===undefined){value=(settings.weeklyAvailability||{})[currentWeekKey(now)];}
   return value==='3'?'3':value==='unsure'?'unsure':'4';
 }
 function saveWeeklyAvailability(dbRef,value,now) {
@@ -3050,10 +3007,17 @@ function saveWeeklyAvailability(dbRef,value,now) {
   dbRef.settings=dbRef.settings||{}; dbRef.settings.weeklyPlanAvailability=dbRef.settings.weeklyPlanAvailability||{};
   dbRef.settings.weeklyPlanAvailability[currentWeekKey(now)]=value; dbSave(dbRef);
 }
-function getAvailabilityDays(availability) { return availability==='3'?[2,3,4]:[1,2,3,4]; }
+function saveFourthSessionChoice(dbRef,value,now) {
+  dbRef.settings=dbRef.settings||{};dbRef.settings.fourthSessionByWeek=dbRef.settings.fourthSessionByWeek||{};
+  dbRef.settings.fourthSessionByWeek[currentWeekKey(now)]=value==='legs'?'legs':'combined';dbSave(dbRef);
+}
+function getAvailabilityDays(availability,dbRef,now) {
+  if(availability==='3'||availability==='unsure')return [2,3,4];
+  return getFourthSessionChoice(dbRef||db,now)==='legs'?[5,2,3,4]:[1,2,3,4];
+}
 function getAvailabilityPlannedStimulus(dbRef,availability) {
   var out={};
-  getAvailabilityDays(availability).forEach(function(dayN){var day=getDayPlannedStimulus(dayN,dbRef);Object.keys(day).forEach(function(id){out[id]=(out[id]||0)+day[id];});});
+  getAvailabilityDays(availability,dbRef).forEach(function(dayN){var day=getDayPlannedStimulus(dayN,dbRef);Object.keys(day).forEach(function(id){out[id]=(out[id]||0)+day[id];});});
   return out;
 }
 function getRecommendationTarget(dbRef,muscleId) {
@@ -3064,7 +3028,7 @@ function getRecommendationTarget(dbRef,muscleId) {
   return {min:MUSCLES[muscleId].min,max:MUSCLES[muscleId].max};
 }
 function sessionScheduleDay(session) {
-  if(session&&session.programVersion===PROGRAM_VERSION&&session.dayN>=1&&session.dayN<=4)return session.dayN;
+  if(session&&session.programVersion===PROGRAM_VERSION&&session.dayN>=1&&session.dayN<=5)return session.dayN;
   return null;
 }
 function getCurrentWeekCompletedDays(dbRef,now) {
@@ -3077,43 +3041,37 @@ function getProgrammeScheduleDate(dayN,now) {
   return dateAddDays(monday,offset);
 }
 function getProgrammeWeekDays(availability,dbRef,now) {
-  var days=getAvailabilityDays(availability),enabled=dbRef&&dbRef.settings&&dbRef.settings.programmeEnabledOn;
+  var days=getAvailabilityDays(availability,dbRef,now),enabled=dbRef&&dbRef.settings&&dbRef.settings.programmeEnabledOn;
   if(!enabled)return days;
   var current=now||Date.now(),monday=localDateKey(weekStart(current)),enabledWeek=localDateKey(weekStart(new Date(enabled+'T12:00:00').getTime()));
   if(monday!==enabledWeek)return days;
   return days.filter(function(dayN){return getProgrammeScheduleDate(dayN,current)>=enabled;});
 }
-function hasCompletedTrainingOnLocalWeekday(dbRef,weekday,now) {
-  var start=weekStart(now||Date.now()),end=weekEnd(start)+1;
-  return (dbRef.completedSessions||[]).some(function(session){var at=toTimestamp(session.startTime);return session.finished!==false&&at>=start&&at<end&&(new Date(at).getDay()===weekday||(session.programVersion===PROGRAM_VERSION&&session.dayN===1));});
-}
 function getCurrentWeekCoreCount(dbRef,now) {
   var days=getCurrentWeekCompletedDays(dbRef,now), planned=getProgrammeWeekDays(getWeeklyAvailability(dbRef,now),dbRef,now);
   return planned.reduce(function(total,day){return total+(days[day]?1:0);},0);
 }
-function sessionLabelForDay(dayN) { return ({1:'Tuesday Upper',2:'Thursday Legs + Arms',3:'Saturday Chest + Width',4:'Sunday Back + Detail'})[dayN]||('Day '+dayN); }
+function sessionLabelForDay(dayN) { return ({1:'Tuesday Chest + Back',2:'Thursday Shoulders + Arms',3:'Saturday Chest',4:'Sunday Back',5:'Separate Short Legs'})[dayN]||('Day '+dayN); }
 function getSessionLabel(session) {
+  if(session&&session.programVersion===PREVIOUS_FOCUSED_BLOCK_VERSION)return ({1:'Tuesday Upper',2:'Thursday Legs + Arms',3:'Saturday Chest',4:'Sunday Back'})[session.dayN]||('Day '+session.dayN);
   if(session&&session.programVersion===LEGACY_ADAPTIVE_PROGRAM_VERSION)return ({1:'Session A',2:'Session B',3:'Session C',4:'Day 4',5:'Day 5'})[session.dayN]||('Day '+session.dayN);
   if(session&&session.programVersion===PREVIOUS_PROGRAM_VERSION)return ({1:'Saturday Chest',2:'Sunday Back',3:'Midweek Booster',4:'One-Session Insurance'})[session.dayN]||('Day '+session.dayN);
   if(session&&session.programName&&session.programName!==PROGRAM_NAME)return 'Day '+session.dayN;
-  return sessionLabelForDay(session&&session.dayN);
+  return session&&session.sessionType?({combined_chest_back:'Tuesday Chest + Back',shoulders_arms:'Thursday Shoulders + Arms',chest_side_delts:'Saturday Chest',back_rear_delts:'Sunday Back',separate_short_legs:'Separate Short Legs'})[session.sessionType]||sessionLabelForDay(session.dayN):sessionLabelForDay(session&&session.dayN);
 }
 function getBestWorkoutRecommendation(dbRef,now) {
-  var current=now||Date.now(), availability=getWeeklyAvailability(dbRef,current), planned=getProgrammeWeekDays(availability,dbRef,current), done=getCurrentWeekCompletedDays(dbRef,current);
+  dbRef=dbRef||db;var current=now||Date.now(), availability=getWeeklyAvailability(dbRef,current), planned=getProgrammeWeekDays(availability,dbRef,current), done=getCurrentWeekCompletedDays(dbRef,current);
   var active=dbRef.activeSession&&!dbRef.activeSession.finished?dbRef.activeSession:null;
   if(active)return {dayN:active.dayN,confidence:'Active',availability:availability,weekCompletedDays:done,plannedDays:planned,plannedWeekComplete:false,requiresManualReschedule:false,workoutLength:getWeeklyWorkoutLength(dbRef,current),reasons:['Resume the active session first.'],muscleDetails:[],planned:{}};
   if(localDateKey(current)>PROGRAMME_END_DATE)return {dayN:1,confidence:'Block complete',availability:availability,weekCompletedDays:done,plannedDays:[],plannedWeekComplete:false,requiresManualReschedule:true,workoutLength:getWeeklyWorkoutLength(dbRef,current),reasons:['This programme ended on 30 November 2026. Choose a workout manually to keep using its exercises; no new programme is being assigned.'],muscleDetails:[],planned:{}};
   var remaining=planned.filter(function(dayN){return !done[dayN];}),todayKey=localDateKey(current);
-  var upcoming=remaining.filter(function(dayN){return getProgrammeScheduleDate(dayN,current)>=todayKey;});
-  var selected=upcoming.length?upcoming[0]:remaining.length?remaining[0]:null;
-  var overdue=!!(selected!==null&&!upcoming.length);
-  var complete=remaining.length===0;
-  if(complete)selected=availability==='3'?2:1;
-  var reasons=[];
-  if(complete)reasons=['The preferred sessions for this week are complete. You can still choose any session manually.'];
-  else if(overdue)reasons=[sessionLabelForDay(selected)+' was scheduled earlier this week. Choose it manually if you want to reschedule; no catch-up work is added.'];
-  else reasons=[sessionLabelForDay(selected)+' is the next preferred session in your selected '+(availability==='3'?'three-visit':'four-visit')+' schedule.'];
-  return {dayN:selected||1,confidence:availability==='unsure'?'Preferred schedule':'Schedule',availability:availability,weekCompletedDays:done,plannedDays:planned,plannedWeekComplete:complete,requiresManualReschedule:overdue,workoutLength:getWeeklyWorkoutLength(dbRef,current),reasons:reasons,muscleDetails:[],planned:{}};
+  var upcoming=remaining.filter(function(dayN){return getProgrammeScheduleDate(dayN,current)>=todayKey;}).sort(function(a,b){return getProgrammeScheduleDate(a,current).localeCompare(getProgrammeScheduleDate(b,current));});
+  var selected=upcoming.length?upcoming[0]:remaining[0]||null,overdue=!!(selected!==null&&!upcoming.length),complete=remaining.length===0;
+  var reasons=complete?['The preferred sessions for this week are complete. You can still choose any session manually.']:
+    overdue?[sessionLabelForDay(selected)+' was scheduled earlier this week. Reschedule it manually if you choose; no catch-up work is added before the next preferred session.']:
+    [sessionLabelForDay(selected)+' is the next preferred session in the selected schedule.'];
+  if(availability==='unsure'&&!complete&&!overdue)reasons=['Preferred next session: '+sessionLabelForDay(selected)+'. No visit target or missed-work penalty is being applied.'];
+  return {dayN:selected||2,confidence:availability==='unsure'?'Preferred schedule':'Schedule',availability:availability,weekCompletedDays:done,plannedDays:planned,plannedWeekComplete:complete,requiresManualReschedule:overdue,workoutLength:getWeeklyWorkoutLength(dbRef,current),reasons:reasons,muscleDetails:[],planned:{},fourthSession:getFourthSessionChoice(dbRef,current)};
 }
 function nextDay(dbRef) { return dbRef._nextDayOverride||getBestWorkoutRecommendation(dbRef).dayN; }
 
@@ -3284,13 +3242,26 @@ function renderToday(db) {
   var availabilityPreview=availability==='3'?(nDay===2?(daySlots.some(function(slot){return slot.slotId==='thu_lateral_raise_3day';})?'Three-visit mode omits Tuesday and adds two cable lateral-raise sets per side on Thursday after calves.':'Three-visit mode omits Tuesday; no extra Thursday lateral raises are added because Tuesday training is already recorded this week.'):'Three-visit mode keeps Thursday, Saturday and Sunday. Thursday receives two lateral-raise sets per side only if Tuesday is not already recorded.') : availability==='unsure'?'Not sure: the preferred schedule is shown without a visit target or missed-work penalty.':'Four-visit mode plans Tuesday, Thursday, Saturday and Sunday; missed sessions are not added as catch-up work.';
   var availabilityOptions=[['4','4'],['3','3'],['unsure','Not sure']].map(function(o){return '<option value="'+o[0]+'"'+(availability===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('');
   var lengthOptions=[['full','Full'],['short','Short']].map(function(o){return '<option value="'+o[0]+'"'+(length===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('');
+  var fourthChoice=getFourthSessionChoice(db),fourthOptions=[['combined','Combined Chest + Back'],['legs','Separate Legs']].map(function(o){return '<option value="'+o[0]+'"'+(fourthChoice===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('');
+  var combinedIntro=getCombinedIntroDose(db),introOverride=db.settings.combinedIntroDoseByWeek&&db.settings.combinedIntroDoseByWeek[currentWeekKey()];
+  var satCrunch=!!(db.settings&&db.settings.saturdayCrunchByWeek&&db.settings.saturdayCrunchByWeek[currentWeekKey()]);
+  var sundayCrunchOverride=!!(db.settings&&db.settings.crunchAlreadyDoneByWeek&&db.settings.crunchAlreadyDoneByWeek[currentWeekKey()]);
+  var lateralMakeup=!!(db.settings&&db.settings.sundayLateralMakeupByWeek&&db.settings.sundayLateralMakeupByWeek[currentWeekKey()]);
+  var lateralRounds=db.settings&&db.settings.sundayLateralMakeupByWeek&&db.settings.sundayLateralMakeupByWeek[currentWeekKey()]&&Number(db.settings.sundayLateralMakeupByWeek[currentWeekKey()].rounds)===2?2:1;
   var planCard='<div class="today-day-card planning-card"><div class="tdc-kicker">Planning</div>'+
     '<label class="planning-label">Gym sessions this week</label><select class="addex-select" aria-label="Gym sessions this week" onchange="App.setWeeklyAvailability(this.value)">'+availabilityOptions+'</select>'+
     '<label class="planning-label">Workout length this week</label><select class="addex-select" aria-label="Workout length this week" onchange="App.setWeeklyWorkoutLength(this.value)">'+lengthOptions+'</select>'+
+    '<label class="planning-label">Fourth session (four-visit weeks)</label><select class="addex-select" aria-label="Fourth session choice" onchange="App.setFourthSessionChoice(this.value)">'+fourthOptions+'</select>'+
+    '<div class="rec-note">Four visits add '+(fourthChoice==='combined'?'a lighter combined chest-and-back session on Tuesday':'a separate short legs session on Tuesday')+'. Three visits omit Tuesday. “Not sure” keeps the three core sessions visible without a target.</div>'+
+    ((availability==='3'||availability==='unsure'||fourthChoice==='combined')?'<div class="rec-note">No leg session planned this week.</div>':'')+
+    (fourthChoice==='combined'?'<label class="planning-label"><input type="checkbox" '+(combinedIntro?'checked':'')+' onchange="App.setCombinedIntroDose(this.checked)"> Lighter first combined session this week</label><div class="rec-note">The lighter introduction applies only until a combined session is fully completed; later new combined workouts use the full selected template.</div>':'')+
+    '<label class="planning-label"><input type="checkbox" '+(satCrunch?'checked':'')+' onchange="App.setSaturdayCrunch(this.checked)"> Optional Saturday weighted floor crunch</label>'+
+    '<label class="planning-label"><input type="checkbox" '+(sundayCrunchOverride?'checked':'')+' onchange="App.setSundayCrunchOverride(this.checked)"> Keep Sunday crunch even if Saturday crunch is logged</label>'+
+    '<label class="planning-label">Sunday lateral make-up</label><select class="addex-select" aria-label="Sunday lateral make-up rounds" onchange="App.setSundayLateralMakeup(this.value)"><option value="0"'+(!lateralMakeup?' selected':'')+'>Off</option><option value="1"'+(lateralMakeup&&lateralRounds===1?' selected':'')+'>Optional · 1 set per side</option><option value="2"'+(lateralMakeup&&lateralRounds===2?' selected':'')+'>Optional · 2 sets per side</option></select>'+
     '<div class="rec-note">'+esc(availability==='unsure'?visits+' recorded gym visit'+(visits===1?'':'s')+' this week. No visit target or missed-work penalty is being applied.':visits+' finished workout'+(visits===1?'':'s')+' recorded this week; this is attendance, not a completion score.')+'</div>'+
     '<div class="rec-note">Preferred schedule: '+esc(scheduleNames)+'. Weekday sessions can be moved manually.</div>'+
     '<div class="rec-note">'+esc(availabilityPreview)+'</div>'+
-    (length==='short'?'<div class="rec-note">Short Week omits these slots: '+esc((availability==='3'?['Thursday Hip Thrust','Saturday Leg Extension','Saturday Standing Calf Raise']:['Tuesday Low-to-High Cable Fly','Tuesday Reverse Pec Deck','Thursday Hip Thrust','Saturday Standing Calf Raise']).join(' · '))+'. Omitted work is not failed work.</div>':'')+
+    (length==='short'?'<div class="rec-note">Short Week omits lower-priority slots across the week. The session preview shows this workout’s resulting prescription; omitted work is not failed work.</div>':'')+
     '<div class="rec-note">Mode changes apply to new sessions only. An active workout keeps its saved prescription; use Rushed Mode only when shortening that active session.</div></div>';
   var recent=db.completedSessions.filter(function(s){return toTimestamp(s.endTime||s.startTime)>0;}).sort(function(a,b){return toTimestamp(b.endTime||b.startTime)-toTimestamp(a.endTime||a.startTime);})[0];
   var daysSince=recent?Math.floor((Date.now()-toTimestamp(recent.endTime||recent.startTime))/86400000):Infinity;
@@ -4005,13 +3976,13 @@ function renderHome(dbRef) {
 function renderProgram() {
   var dayBlocks = ALL_DAY_NUMBERS.map(function(n) {
     var day = DAYS[n];
-    var slots=getProgrammeSlots(n,'4','full',db);
+    var slots=getProgrammeSlots(n,'4','full',db,undefined,true,true,true,{fourthSession:n===5?'legs':'combined',ignoreIntro:true});
     var exCards = slots.map(function(slot,idx) {
       return renderProgExCard(slot, idx, n);
     }).join('');
     return '<details class="prog-day" id="pd-' + n + '">' +
       '<summary class="pd-sum">' +
-        '<span class="pd-num">' + esc(['','Tuesday','Thursday','Saturday','Sunday'][n]) + '</span>' +
+        '<span class="pd-num">' + esc(['','Tuesday','Thursday','Saturday','Sunday','Flexible'][n]) + '</span>' +
         '<span class="pd-title">' + esc(day.title) + (day.optional ? '<span class="optional-day-tag">OPTIONAL</span>' : '') + '</span>' +
         '<span class="pd-chev"></span>' +
       '</summary>' +
@@ -4028,8 +3999,15 @@ function renderProgram() {
 
   var rulesHtml = '<ul class="prog-rules">' + GLOBAL_RULES.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>';
   var progHtml  = '<ul class="prog-rules">' + PROGRESSION_RULES.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>';
-  var templates=[['Four-day Full',[1,2,3,4],'full','4'],['Three-day Full',[2,3,4],'full','3'],['Four-day Short',[1,2,3,4],'short','4'],['Three-day Short',[2,3,4],'short','3']].map(function(item){
-    var counts=item[1].map(function(dayN){return getProgrammedRounds(dayN,item[3],item[2],db);}),total=counts.reduce(function(a,b){return a+b;},0);
+  var templates=[
+    ['Three-day Full',[2,3,4],'full','3','combined'],
+    ['Three-day Short',[2,3,4],'short','3','combined'],
+    ['Four-day Full · Chest + Back',[1,2,3,4],'full','4','combined'],
+    ['Four-day Short · Chest + Back',[1,2,3,4],'short','4','combined'],
+    ['Four-day Full · Separate Legs',[5,2,3,4],'full','4','legs'],
+    ['Four-day Short · Separate Legs',[5,2,3,4],'short','4','legs']
+  ].map(function(item){
+    var counts=item[1].map(function(dayN){return getProgrammedRounds(dayN,item[3],item[2],db,undefined,{fourthSession:item[4],ignoreIntro:true});}),total=counts.reduce(function(a,b){return a+b;},0);
     return '<div class="md-ex-row"><span class="md-ex-name">'+esc(item[0])+'</span><span class="md-ex-v">'+counts.join(' + ')+' = '+total+' rounds</span></div>';
   }).join('');
   var archives=(db.settings.programmeArchive||[]).map(function(item){return '<div class="md-ex-row"><span class="md-ex-name">'+esc(item.name||item.version)+'</span><span class="md-ex-v">Archived · '+esc(item.version||'legacy')+'</span></div>';}).join('');
@@ -4039,8 +4017,8 @@ function renderProgram() {
     '<div class="prog-hero">' +
       '<div class="prog-kicker">'+status+'</div>' +
       '<h1 class="prog-title">'+esc(PROGRAM_NAME)+'</h1>' +
-      '<p class="prog-sub">Tuesday · Thursday · Saturday · Sunday</p>' +
-      '<p class="prog-goal">Four preferred sessions most weeks; omit Tuesday for the three-session option. Saturday chest and Sunday back remain core priorities. Sessions can be moved manually.</p>' +
+      '<p class="prog-sub">Thursday · Saturday · Sunday, plus one selected fourth-session option</p>' +
+      '<p class="prog-goal">The three core sessions are shoulders and arms, chest, and back. Choose either Tuesday combined chest and back or a separate short legs session as the fourth visit. No leg work is inserted into upper-body sessions; sessions can be moved manually.</p>' +
     '</div>' +
     '<details class="prog-section"><summary class="ps-sum">Weekly Templates</summary><div class="ps-body">'+templates+'<p class="rec-note">Short Week removes exercise slots across the week. Omitted slots are not failed work. Re-entry and weekly mode changes affect new sessions only.</p></div></details>' +
     '<details class="prog-section"><summary class="ps-sum">Global Rules</summary><div class="ps-body">' + rulesHtml + '</div></details>' +
@@ -4199,6 +4177,24 @@ var App = (function() {
   function setWeeklyWorkoutLength(value) {
     saveWeeklyWorkoutLength(db, value);
     showScreen('today');
+  }
+  function setFourthSessionChoice(value) {
+    saveFourthSessionChoice(db,value);
+    showScreen('today');
+  }
+  function saveWeekToggle(key,value) {
+    db.settings=db.settings||{};db.settings[key]=db.settings[key]||{};
+    db.settings[key][currentWeekKey()]=!!value;dbSave(db);showScreen('today');
+  }
+  function setCombinedIntroDose(value) {
+    db.settings=db.settings||{};db.settings.combinedIntroDoseByWeek=db.settings.combinedIntroDoseByWeek||{};
+    db.settings.combinedIntroDoseByWeek[currentWeekKey()]=!!value;dbSave(db);showScreen('today');
+  }
+  function setSaturdayCrunch(value) { saveWeekToggle('saturdayCrunchByWeek',value); }
+  function setSundayCrunchOverride(value) { saveWeekToggle('crunchAlreadyDoneByWeek',value); }
+  function setSundayLateralMakeup(value) {
+    db.settings=db.settings||{};db.settings.sundayLateralMakeupByWeek=db.settings.sundayLateralMakeupByWeek||{};
+    var rounds=Number(value);db.settings.sundayLateralMakeupByWeek[currentWeekKey()]={enabled:rounds===1||rounds===2,rounds:rounds===2?2:1};dbSave(db);showScreen('today');
   }
 
   function enableReentryWeek() {
@@ -4964,6 +4960,11 @@ var App = (function() {
     setNextDay: setNextDay,
     setWeeklyAvailability: setWeeklyAvailability,
     setWeeklyWorkoutLength: setWeeklyWorkoutLength,
+    setFourthSessionChoice: setFourthSessionChoice,
+    setCombinedIntroDose: setCombinedIntroDose,
+    setSaturdayCrunch: setSaturdayCrunch,
+    setSundayCrunchOverride: setSundayCrunchOverride,
+    setSundayLateralMakeup: setSundayLateralMakeup,
     previewExercisePerformance: previewExercisePerformance,
     filterExerciseCatalogue: filterExerciseCatalogue,
     useLastLoad: useLastLoad,
