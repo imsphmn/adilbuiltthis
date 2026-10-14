@@ -1,13 +1,7 @@
 name: PS5 bargain agent
 
 on:
-  schedule:
-    - cron: "3,18,33,48 * * * *"
   workflow_dispatch:
-  push:
-    paths:
-      - "tools/ps5-bargain-agent/**"
-      - ".github/workflows/ps5-bargain-agent.yml"
 
 permissions:
   contents: read
