@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#090d1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Adil Gym · Chest and Back Priority</title>
+<title>Adil Gym · Chest Priority</title>
 <meta name="apple-mobile-web-app-title" content="Adil Gym">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Adil Gym">
@@ -26,7 +26,7 @@
 </template>
 <style>
 /* ============================================================
-   Adil Aesthetic App — Complete CSS
+   Adil Aesthetic App ,  Complete CSS
    ============================================================ */
 :root {
   --bg:         oklch(0.100 0.015 255);
@@ -680,6 +680,16 @@ p { margin:0; }
 @keyframes live-pr-highlight{0%{box-shadow:0 0 0 0 rgba(241,199,91,.5)}100%{box-shadow:0 0 0 8px rgba(241,199,91,0)}}
 .home-timer{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 12px}.home-timer-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.home-timer-top strong{font:700 22px var(--mono);color:var(--accent)}.home-timer-phase{font-size:14px;font-weight:800;margin-top:4px}.home-timer progress{display:block;width:100%;height:8px;margin:12px 0;accent-color:var(--accent)}.home-timer-actions{display:flex;gap:8px;flex-wrap:wrap}.home-timer-note{font-size:12px;color:var(--muted);margin-top:8px}
 
+/* Compact coaching and short, non-blocking achievements. */
+.coach-tips{margin:4px 16px 16px;border-top:1px solid var(--line-soft);font-size:14px;line-height:1.5}.coach-tips summary{cursor:pointer;padding:13px 0;color:var(--muted);font-weight:650}.coach-tips li{padding:9px 0;overflow-wrap:anywhere}.coach-tip-new{color:#86e5d2}.new-tip-count,.new-tip-marker{font-size:10px;font-weight:800;letter-spacing:1px;border:1px solid #86e5d255;border-radius:5px;color:#86e5d2;padding:2px 5px;display:inline-block}.new-tip-marker{margin-right:8px}.new-tip-count{margin-left:7px}.coach-effort{color:var(--muted);font-size:12px;padding:9px 0}
+.today-shortcuts{display:flex;gap:10px;margin:12px 0}.today-shortcuts button{flex:1;min-height:46px}.prog-mini-list{margin:0 0 12px;font-size:14px;color:var(--muted)}.prog-mini-list li{padding:8px 0;border-bottom:1px solid var(--line-soft)}.prog-mini-list span{display:block;color:var(--text);font-size:13px;margin-top:2px}.prog-session{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0}.prog-session h2{font-size:21px;line-height:1.25}.schedule-kicker{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--accent);margin-bottom:7px}.prog-session p{color:var(--muted);font-size:13px;margin:8px 0 12px}.prog-session details{margin-top:10px}.prog-session summary{font-size:14px;color:var(--muted);cursor:pointer;padding:9px 0}.fifth-note{font-size:13px!important;color:var(--muted);padding:8px 0}
+.pr-settings{border:0;border-top:1px solid var(--line);padding:14px 0;margin-top:12px}.pr-settings legend{font-weight:700;font-size:14px}.pr-settings label{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px}.pr-settings input{width:19px;height:19px;accent-color:#f0c96a}
+.pr-achievement-layer{position:fixed;inset:0;z-index:10050;pointer-events:none;overflow:hidden;contain:layout style}.pr-achievement-message{position:absolute;top:max(105px,calc(env(safe-area-inset-top) + 65px));left:50%;transform:translateX(-50%);width:min(380px,calc(100% - 36px));padding:23px 20px;background:rgba(18,21,25,.96);border:1px solid #eac46a;border-radius:20px;box-shadow:0 8px 40px #0009,0 0 32px #dab85e25;text-align:center;animation:pr-reveal 2.1s ease both}.pr-trophy{font-size:32px;margin-bottom:6px}.pr-achievement-title{font-size:12px;letter-spacing:2px;font-weight:850;color:#f5d588}.pr-achievement-value{font-size:clamp(21px,5vw,29px);font-weight:800;margin:8px 0;color:#fff;overflow-wrap:anywhere}.pr-achievement-detail{font-size:14px;color:#f5d588}.pr-achievement-congrats{font-size:12px;margin-top:9px;color:#c8cdd5}.pr-confetti{position:absolute;left:50%;top:210px;width:6px;height:12px;background:#edca76;border-radius:1px;animation:pr-confetti 1.25s var(--delay) ease-out both}.pr-confetti:nth-child(3n){background:#fff0bd;width:4px;height:8px}.pr-achievement-glow{box-shadow:0 0 0 2px #f0cd78,0 0 32px #f0cd7835!important;transition:box-shadow .25s ease}.pr-baseline{position:fixed;bottom:110px;left:50%;transform:translateX(-50%);z-index:10050;pointer-events:none;background:#16202b;border:1px solid var(--line);border-radius:10px;color:var(--muted);padding:10px 17px;font-size:14px}
+@keyframes pr-reveal{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.97)}12%,80%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}100%{opacity:0;transform:translateX(-50%) translateY(-5px)}}@keyframes pr-confetti{0%{opacity:0;transform:translate(0,-30px) rotate(0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx),210px) rotate(var(--rot))}}.reduced-motion .pr-achievement-message{animation:none}@media(prefers-reduced-motion:reduce){.pr-achievement-message,.pr-confetti{animation:none!important}.pr-confetti{display:none}.pr-achievement-glow{transition:none}}
+.workout-record-compact{font-size:13px!important;line-height:1.55;overflow-wrap:anywhere}.workout-pr-badge{color:#f1cc74!important}.workout-pr-badge.is-live{animation:none!important}.timed-set-input{display:flex;align-items:end;gap:14px}.timed-set-input label{display:flex;flex:1;flex-direction:column;gap:8px;color:var(--muted);font-size:13px}.timed-set-input input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font:700 26px var(--mono)}
+
+.cardio-view #timer-pill{display:none!important}.cd-header{display:flex;gap:18px;align-items:center;margin:10px 0 20px}.cd-header h1{font-size:27px}.cd-week{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:15px 0;font-size:14px}.cd-stats{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}.cd-stats>div,.cd-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin:12px 0}.cd-stats b{display:block;font-size:25px}.cd-stats small{font-size:13px;color:var(--muted)}.cd-stats span{font-size:12px;color:var(--muted)}.cd-card h2{font-size:20px;line-height:1.25}.cd-card p{font-size:14px;color:var(--muted);margin:10px 0 14px}.cd-note{font-size:13px;color:var(--muted);margin:14px 0;line-height:1.6}.cd-safety{font-size:12px!important;color:#e2c68a!important}.cd-card button{margin:5px 3px 5px 0;min-height:44px}.cd-field{display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--muted);margin:14px 0}.cd-field input,.cd-field select,.cd-field textarea{width:100%;min-width:0;font-size:16px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px}.cd-check{display:flex;align-items:start;gap:10px;font-size:14px;margin:15px 0}.cd-check input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}.cd-timer{text-align:center}#cd-countdown{font-family:var(--mono);font-size:clamp(48px,15vw,74px);font-weight:750;margin:20px 0}#cd-phase{min-height:42px;font-weight:650;color:var(--text)}#cd-error{color:var(--danger);font-size:14px}.cd-log{padding:14px 0;border-bottom:1px solid var(--line-soft)}.cd-log strong,.cd-log span{display:block;font-size:14px}.cd-log span{color:var(--muted);font-size:12px;margin:6px 0}.cd-history-heading{font-size:19px;margin-top:24px}#scr-cardio{overflow-wrap:anywhere}#scr-cardio details summary{padding:10px 0;cursor:pointer;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -689,6 +699,7 @@ p { margin:0; }
   <div id="scr-home" class="screen"></div>
   <div id="scr-volume" class="screen"></div>
   <div id="scr-history" class="screen"></div>
+<div id="scr-cardio" class="screen"></div>
 </div>
 <div id="workout-overlay" class="hidden"></div>
 <div id="modal-overlay" class="hidden"></div>
@@ -718,17 +729,18 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.2.0';
-const PROGRAM_NAME = 'Focused Chest and Back Priority';
-const PROGRAM_VERSION = 'focused-chest-back-split-2026-11-30-v2';
+const APP_VERSION = '3.4.0';
+const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
+const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
+const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
 const PROGRAMME_END_DATE = '2026-11-30';
 const PREVIOUS_FOCUSED_BLOCK_VERSION = 'chest-back-priority-2026-11-30-v1';
 const PREVIOUS_LOCAL_PROGRAM_VERSION = 'focused-chest-back-split-2026-11-30-v1';
 const PREVIOUS_PROGRAM_VERSION = 'september-november-2026-weekend-first-3';
 const LEGACY_ADAPTIVE_PROGRAM_VERSION = 'september-november-2026-adaptive-2';
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
-const CORE_DAY_NUMBERS = [1,2,3,4,5];
-const ALL_DAY_NUMBERS = [1,2,3,4,5];
+const CORE_DAY_NUMBERS = [4,5,1,2];
+const ALL_DAY_NUMBERS = [4,5,1,2,3];
 var DB_LOAD_ERROR = null;
 var DB_STORAGE_BLOCKED = false;
 var DB_SAFE_TO_EXPORT = true;
@@ -736,10 +748,10 @@ var DB_WRITE_ALERTED = false;
 var DB_MIGRATION_BACKUP_KEY = 'adil_v2_backup_before_' + PROGRAM_VERSION;
 const HOME_ROUTINE = [
   {id:'breathing_9090',name:'90/90 Breathing',dose:'45 seconds · about 5 slow breaths',cue:'Feet on a wall, ribs down, long 6–8 second exhale.'},
-  {id:'wall_slides',name:'Wall Slides with Reach',dose:'8 slow reps · about 45 seconds',cue:'Slide upward without shrugging or arching the lower back.'},
+  {id:'wall_slides',name:'Wall Slides with Reach',dose:'8 slow reps · about 45 seconds',cue:'Slide comfortably with natural shoulder-blade movement; avoid forcing your lower back to arch.'},
   {id:'high_plank',name:'High Plank',dose:'45–60 seconds',cue:'Push the floor away, ribs down, glutes lightly on, keep breathing.'},
   {id:'dead_bug',name:'Dead Bug with Full Exhale',dose:'5 reps each side · about 60 seconds',cue:'Move slowly and stop before the lower back arches.'},
-  {id:'glute_bridge',name:'Glute Bridge Endurance',dose:'20 reps + 20-second final hold',cue:'Posterior pelvic tilt, squeeze glutes, no lower-back hyperextension.'},
+  {id:'glute_bridge',name:'Glute Bridge Endurance',dose:'Comfortable bridges within the timer; optional brief hold',cue:'Posterior pelvic tilt, squeeze glutes, no lower-back hyperextension.'},
   {id:'hip_flexor',name:'Half-Kneeling Hip-Flexor Stretch',dose:'30 seconds each side',cue:'Tuck pelvis slightly and squeeze the kneeling-side glute.'},
   {id:'adductor_rockback',name:'Alternate: Adductor Rock-Back / Thoracic Extension',dose:'5 slow reps each side, alternate with thoracic extension',cue:'Use the adductor rock-back one day and a controlled thoracic extension over a stable chair or sofa edge the next.'}
 ];
@@ -804,7 +816,7 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function round1(n){ return Math.round(n*10)/10; }
 
 // ============================================================
-// MUSCLES — weekly volume targets (editable via settings)
+// MUSCLES ,  weekly volume targets (editable via settings)
 // ============================================================
 var MUSCLES = {
   'upper-chest':  { label:'Upper chest',          min:5,  max:8  },
@@ -845,7 +857,7 @@ var EX = {
     target:'Side delts', uni:false, drop:true,
     muscles:{'side-delts':1},
     dropMuscles:{'side-delts':0.5},
-    special:{ label:'Drop Set — Final Set', lines:['Last set is a drop set.','On set 4, reach 0 to 1 RIR.','Drop the weight by about 30 percent.','Do 8 to 15 more clean reps.','Stop when traps take over.'] },
+    special:{ label:'Drop Set ,  Final Set', lines:['Last set is a drop set.','On set 4, reach 0 to 1 RIR.','Drop the weight by about 30 percent.','Do 8 to 15 more clean reps.','Stop when traps take over.'] },
     cues:['Cable slightly behind your body.','Slight lean away.','Shoulder stays down.','Lead with elbow.','Wrist slightly below elbow.','Raise slightly forward of true side.','Pause at the top.','Lower slowly.','Do not chase stretch at the bottom.','The goal is side delt tension, not extreme range.'],
     tnf:'Side delt only. Do not let this become traps, front delt or momentum.',
     cbum:'Show the cap. Every rep should feel like you are making the shoulder wider.',
@@ -1486,7 +1498,7 @@ var SUBSTITUTIONS = {
 };
 
 function getHistoryExerciseId(exId) {
-  if (exId==='d1e1'||exId==='d4e7'||exId==='low_incline_dumbbell_press') return exId;
+  if (exId==='d1e1'||exId==='d2e1'||exId==='d4e7'||exId==='low_incline_dumbbell_press') return exId;
   return CANONICAL_EXERCISE_ALIASES[exId] || exId;
 }
 
@@ -1544,7 +1556,7 @@ var DAYS = {
     exercises:['low_incline_dumbbell_press','cable_lateral_raise','chest_supported_row','reverse_pec_deck','straight_arm_cable_pulldown','leg_press','calf_raise'], duration:55,
     primaryMuscles:['Upper and mid chest','Side delts','Mid back','Rear delts','Lats','Legs'],
     checklist:['The 15-degree dumbbell press was performed first.','Cable laterals stayed clean.','Rows and rear delts were completed before fatigue.','Straight-arm pulldown used fixed elbows.','Leg press and calves used stable full ranges.'] },
-  5:{ n:5, title:'Optional Day 5 — Lower + Core Insurance', nav:'Optional Lower', optional:true,
+  5:{ n:5, title:'Optional Day 5 ,  Lower + Core Insurance', nav:'Optional Lower', optional:true,
     goal:'Optional insurance work for five-day weeks. Skipping this day does not reduce the quality of the four-day core programme.',
     exercises:['hip_thrust','leg_curl','calf_raise','weighted_floor_crunch','serratus_cable_punch'], duration:40,
     primaryMuscles:['Glutes','Hamstrings','Calves','Abs','Serratus'],
@@ -1594,10 +1606,10 @@ defineShowcaseExercise('seated_neutral_grip_cable_lat_row','Seated Neutral-Grip 
 
 var LEGACY_DAYS = DAYS;
 DAYS = {
-  1:{n:1,title:'Saturday — Chest, Side Delts + Quads',nav:'Saturday Chest',goal:'Weekend priority 1: chest first, side-delt width and minimum quad work.',exercises:['incline_dumbbell_press_30deg','low_incline_dumbbell_press_15deg','pec_deck','cable_lateral_raise','leg_press','calf_raise'],duration:70,primaryMuscles:['Chest','Side delts','Quads'],checklist:['Chest stayed the limiter on both presses.','Cable laterals stayed controlled.','Leg press used a stable full range.']},
-  2:{n:2,title:'Sunday — Aesthetic Back, Rear Delts + Arms',nav:'Sunday Back',goal:'Weekend priority 2: lat width, mid-back density, rear delts, hamstrings and moderate arms.',exercises:['pullups','chest_supported_high_row','seated_neutral_grip_cable_lat_row','reverse_pec_deck','cable_lateral_raise','seated_leg_curl','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','back_posing_practice'],duration:75,primaryMuscles:['Lats','Mid back','Rear delts','Hamstrings','Arms'],checklist:['Pull-ups used clean full reps.','Rows stayed stable and lat or mid-back led as prescribed.','Rear delts stayed separate from traps.','Start preacher curls with the weaker side.']},
-  3:{n:3,title:'Optional Midweek — Aesthetic Booster',nav:'Midweek Booster',optional:true,goal:'Optional Tuesday–Thursday booster after both weekend priority workouts are complete.',exercises:['incline_dumbbell_press_30deg','neutral_grip_lat_pulldown','cable_lateral_raise','low_to_high_cable_fly','reverse_pec_deck','hip_thrust'],duration:55,primaryMuscles:['Chest','Lats','Side delts','Rear delts','Glutes'],checklist:['Use only when both weekend sessions are already done this week.','Keep the sets controlled and leave the weekend sessions as the priority.']},
-  4:{n:4,title:'One-Session Week — Full Body Insurance',nav:'One-Session Insurance',goal:'Highest-return chest, back, delts and lower-body coverage when only one gym session is available.',exercises:['incline_dumbbell_press_30deg','pullups','chest_supported_mid_back_row','cable_lateral_raise','pec_deck','reverse_pec_deck','leg_press','seated_leg_curl'],duration:65,primaryMuscles:['Chest','Back','Side delts','Legs'],checklist:['Cover the main movement patterns without rushing the work.','Keep unilateral side work even.']}
+  1:{n:1,title:'Saturday ,  Chest, Side Delts + Quads',nav:'Saturday Chest',goal:'Weekend priority 1: chest first, side-delt width and minimum quad work.',exercises:['incline_dumbbell_press_30deg','low_incline_dumbbell_press_15deg','pec_deck','cable_lateral_raise','leg_press','calf_raise'],duration:70,primaryMuscles:['Chest','Side delts','Quads'],checklist:['Chest stayed the limiter on both presses.','Cable laterals stayed controlled.','Leg press used a stable full range.']},
+  2:{n:2,title:'Sunday ,  Aesthetic Back, Rear Delts + Arms',nav:'Sunday Back',goal:'Weekend priority 2: lat width, mid-back density, rear delts, hamstrings and moderate arms.',exercises:['pullups','chest_supported_high_row','seated_neutral_grip_cable_lat_row','reverse_pec_deck','cable_lateral_raise','seated_leg_curl','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','back_posing_practice'],duration:75,primaryMuscles:['Lats','Mid back','Rear delts','Hamstrings','Arms'],checklist:['Pull-ups used clean full reps.','Rows stayed stable and lat or mid-back led as prescribed.','Rear delts stayed separate from traps.','Start preacher curls with the weaker side.']},
+  3:{n:3,title:'Optional Midweek ,  Aesthetic Booster',nav:'Midweek Booster',optional:true,goal:'Optional Tuesday–Thursday booster after both weekend priority workouts are complete.',exercises:['incline_dumbbell_press_30deg','neutral_grip_lat_pulldown','cable_lateral_raise','low_to_high_cable_fly','reverse_pec_deck','hip_thrust'],duration:55,primaryMuscles:['Chest','Lats','Side delts','Rear delts','Glutes'],checklist:['Use only when both weekend sessions are already done this week.','Keep the sets controlled and leave the weekend sessions as the priority.']},
+  4:{n:4,title:'One-Session Week ,  Full Body Insurance',nav:'One-Session Insurance',goal:'Highest-return chest, back, delts and lower-body coverage when only one gym session is available.',exercises:['incline_dumbbell_press_30deg','pullups','chest_supported_mid_back_row','cable_lateral_raise','pec_deck','reverse_pec_deck','leg_press','seated_leg_curl'],duration:65,primaryMuscles:['Chest','Back','Side delts','Legs'],checklist:['Cover the main movement patterns without rushing the work.','Keep unilateral side work even.']}
 };
 DAYS[5] = LEGACY_DAYS[5];
 var SHORT_DAY_EXERCISES = {
@@ -1653,59 +1665,21 @@ SUBSTITUTIONS.flat_converging_chest_press=[{id:'low_incline_dumbbell_press_15deg
 EX.single_arm_cable_lat_pulldown.name='Single-Arm Cable Lat Pulldown';
 EX.straight_arm_cable_pulldown.hard='If lower-back involvement is substantial, reduce the load and keep the torso still. If discomfort persists, use another lat movement.';
 
-var PROGRAMME_SLOTS = {
-  1:[
-    {slotId:'v2_sat_incline_30',exerciseId:'incline_dumbbell_press_30deg',sets:3,min:6,max:10,restMin:150,restMax:180,rest:165,prescribedAngleDeg:30,equipmentSetup:'Dumbbells; bench at 30 degrees',priority:'core'},
-    {slotId:'v2_sat_machine_press',exerciseId:'flat_converging_chest_press',sets:2,min:8,max:12,restMin:120,restMax:180,rest:150,prescribedAngleRangeDeg:[0,15],equipmentSetup:'Flat or slightly inclined converging chest-press machine',priority:'core'},
-    {slotId:'v2_sat_pec_deck',exerciseId:'pec_deck',sets:2,min:10,max:15,restMin:90,restMax:90,rest:90,priority:'core'},
-    {slotId:'v2_sat_low_high_fly',exerciseId:'low_to_high_cable_fly',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90,priority:'lower'},
-    {slotId:'v2_sat_lateral_raise',exerciseId:'cable_lateral_raise',sets:4,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,optionalDrop:true,priority:'core'},
-    {slotId:'v2_sat_optional_crunch',exerciseId:'weighted_floor_crunch',sets:2,min:10,max:20,restMin:60,restMax:90,rest:75,optional:true,priority:'optional',optionalReason:'Optional core work; omission does not affect workout completion.'}
-  ],
-  2:[
-    {slotId:'v2_sun_pullups',exerciseId:'pullups',sets:3,min:6,max:12,restMin:150,restMax:180,rest:165,priority:'core'},
-    {slotId:'v2_sun_high_row',exerciseId:'chest_supported_high_row',sets:3,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
-    {slotId:'v2_sun_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:3,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'},
-    {slotId:'v2_sun_cable_lat_row',exerciseId:'seated_neutral_grip_cable_lat_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
-    {slotId:'v2_sun_crunch',exerciseId:'weighted_floor_crunch',sets:2,min:10,max:20,restMin:60,restMax:90,rest:75,priority:'core'}
-  ],
-  3:[
-    {slotId:'v2_arms_lateral_raise',exerciseId:'cable_lateral_raise',sets:3,min:12,max:25,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,priority:'core'},
-    {slotId:'v2_arms_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:2,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'},
-    {slotId:'v2_arms_overhead_triceps',exerciseId:'overhead_cable_triceps_extension',sets:3,min:10,max:15,restMin:90,restMax:90,rest:90,priority:'core'},
-    {slotId:'v2_arms_preacher_curl',exerciseId:'one_arm_dumbbell_preacher_curl',sets:3,min:8,max:15,restMin:60,restMax:90,rest:75,unilateral:true,sideTransitionRest:15,priority:'core'},
-    {slotId:'v2_arms_rope_pushdown',exerciseId:'rope_triceps_pushdown',sets:2,min:10,max:20,restMin:75,restMax:90,rest:82,priority:'lower'},
-    {slotId:'v2_arms_hammer_curl',exerciseId:'dumbbell_hammer_curl',sets:2,min:8,max:15,restMin:90,restMax:90,rest:90,priority:'lower'}
-  ],
-  4:[
-    {slotId:'v2_midweek_press_15',exerciseId:'low_incline_dumbbell_press_15deg',sets:2,min:8,max:12,restMin:150,restMax:180,rest:165,prescribedAngleDeg:15,equipmentSetup:'Dumbbells; bench at 15 degrees',priority:'core'},
-    {slotId:'v2_midweek_pulldown',exerciseId:'neutral_grip_lat_pulldown',sets:2,min:8,max:12,restMin:120,restMax:120,rest:120,priority:'core'},
-    {slotId:'v2_midweek_midback_row',exerciseId:'chest_supported_mid_back_row',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
-    {slotId:'v2_midweek_pec_deck',exerciseId:'pec_deck',sets:2,min:10,max:15,restMin:90,restMax:90,rest:90,priority:'core'},
-    {slotId:'v2_midweek_reverse_pec_deck',exerciseId:'reverse_pec_deck',sets:2,min:12,max:25,restMin:75,restMax:90,rest:82,priority:'core'}
-  ],
-  5:[
-    {slotId:'v2_legs_press',exerciseId:'leg_press',sets:3,min:8,max:12,restMin:150,restMax:180,rest:165,priority:'core'},
-    {slotId:'v2_legs_curl',exerciseId:'seated_leg_curl',sets:2,min:8,max:15,restMin:90,restMax:120,rest:105,priority:'core'},
-    {slotId:'v2_legs_hip_thrust',exerciseId:'hip_thrust',sets:2,min:8,max:15,restMin:120,restMax:120,rest:120,priority:'core'},
-    {slotId:'v2_legs_calf_raise',exerciseId:'standing_calf_raise',sets:2,min:10,max:20,restMin:90,restMax:90,rest:90,priority:'core'}
-  ]
-};
+defineShowcaseExercise('forearm_plank','Forearm Plank',{base:'weighted_floor_crunch',sDef:2,sMin:2,sMax:2,rMin:30,rMax:60,rest:60,timed:true,trackingUnit:'seconds',measurementMode:'timed',target:'Trunk endurance',muscles:{},drop:false,nonHypertrophy:false,prEligible:false,cues:[],mistakes:[],hard:'Keep breathing; not a max-duration test.'});
+var UPDATED_COACHING_TIPS={"incline_dumbbell_press_30deg": [["Keep 26 kg only while your normal range is comfortable. Complete all three sets before chasing 28 kg.", "Film a normal working set once; a chest photo cannot diagnose pressing technique."], ["Use the same 30-degree bench setting. Lower beside the pecs with wrists roughly above elbows.", "Press upward and slightly inward. Stop before pain or a major path change."]], "low_incline_dumbbell_press_15deg": [["This is your fresh Tuesday press. Choose the load from today's 8-12-rep performance, not a PR."], ["Keep the 15-degree history separate from the 30-degree press.", "Use a repeatable comfortable bottom position and smooth upward/inward press."]], "cable_lateral_raise": [["Try 15 kg on the SAME cable setup or an intermediate step. Build repeatable reps rather than forcing a 15-to-20 kg jump.", "Prefill is a previous result, not an instruction. A below-range set is still recorded work."], ["Soft elbow, quiet torso, raise slightly forward of your side.", "Allow natural shoulder-blade upward rotation; some trap assistance is normal."]], "overhead_cable_triceps_extension": [["Test a lighter load, around 30-35 kg on the same setup if suitable, rather than repeating 40 kg for 7 and 6."], ["Complete two comfortable sets in the 10-15 range. Do not force elbows against your head.", "Arms comfortably elevated; bend and straighten elbows without repeated back arching."]], "hip_thrust": [["On your lying machine, keep your head supported if provided. Do not lift it to force a chin tuck.", "Adjust secure foot placement for comfortable hip extension. If hamstrings cramp, try feet slightly closer where safely possible."], ["Finish with hips extended, not by arching the lower back.", "Hamstrings can assist. Repeatable glute-focused loading matters more than chasing a burn."]], "leg_press": [["Start with feet in the middle of the platform; adjust width and toe angle for comfort.", "First dedicated leg session is capped at two working sets here. Normal prescription: three."], ["Knees track toes; descend only while the pelvis stays supported.", "No bounce or violent knee lockout; take the full rest."]], "weighted_floor_crunch": [["Abs are planned work: Thursday third and Saturday last, not an automatic skip.", "Exhale and curl shoulder blades off the floor; do not turn it into a full sit-up."], ["Add a small plate at the chest only when bodyweight reps are controlled.", "Do not pull your head. Add load after all sets reach 20."]], "pec_deck": [["Your 50 kg x 11, 8 does not require an automatic reset. Use enough rest and a lighter back-off set if needed."], ["Keep the three Saturday sets repeatable before adding work.", "Comfortable seat and stretch; bring upper arms together without forced shoulder roll."]], "neutral_grip_lat_pulldown": [["Biceps assistance is normal. Judge the repeatable movement, not only the burn."], ["Allow a controlled overhead reach and natural scapular movement.", "Pull upper arms toward your sides without progressively leaning backward."]], "pullups": [["Avoid exhausting the first set for a record. Rest 2.5-3 minutes and protect later sets.", "Build toward three sets of about 12 before adding a small load; bodyweight changes also affect performance."], ["Consistent grip and controlled bottom position.", "No kicking or neck craning; allow natural shoulder-blade motion."]], "chest_supported_mid_back_row": [["Normal biceps and trap assistance does not invalidate a row. Keep the setup repeatable."], ["Chest supported, moderately flared elbows toward lower chest.", "Allow a controlled forward reach and shoulder-blade movement."]], "chest_supported_high_row": [["Rear delts are next, before the cable row, so they are not lost at the end."], ["Chest supported, moderately flared elbows pulling toward lower chest.", "Control the reach without large body movement."]], "seated_neutral_grip_cable_lat_row": [["This still needs trunk stabilisation. Use the supported alternative if lower-back discomfort limits you."], ["Close-to-medium neutral grip, elbows near sides, pull to lower ribs.", "Controlled reach; do not rock backward to finish."]], "reverse_pec_deck": [["Do not infer failure of the exercise from a low-rep set or burn location alone."], ["Handles around shoulder height, soft elbows, chest supported.", "Move upper arms apart without exaggerating the shoulder-blade squeeze."]], "low_to_high_cable_fly": [["Lower-priority chest accessory. Protect the presses, pec deck and lateral raises first."], ["Soft consistent elbows, sweep inward/upward to around upper-chest height.", "Avoid turning it into a front raise or increasing elbow bend to move more load."]], "one_arm_dumbbell_preacher_curl": [["Keep arms together but modest: two sets per arm. More curls are not your chest solution."], ["Support the upper arm, control near-extension, no bounce.", "Start weaker side and match controlled reps on the other."]], "seated_leg_curl": [["Keep hips secured; do not lift them to finish a heavier rep."], ["Align knee with pivot and control both directions.", "Lying and seated curl machines have separate histories."]], "leg_extension": [["Two sets are a thigh top-up, not another max-load test."], ["Align knee with pivot, keep hips supported and extend smoothly.", "No kicking or painful forced end range."]], "standing_calf_raise": [["Use a brief settling pause at the bottom, not a bounce."], ["Knees comfortably straight, full comfortable rise and stretch.", "Keep standing/seated machine records separate."]], "forearm_plank": [["Submaximal 30-60-second holds, not PR attempts. Omit the duplicate home plank today."], ["Elbows under shoulders. Keep breathing and body aligned.", "Stop before sagging, neck strain or breath-holding."]]};
+Object.keys(UPDATED_COACHING_TIPS).forEach(function(id){var ex=EX[id];if(!ex)return;ex.newTips=UPDATED_COACHING_TIPS[id][0].slice();ex.cues=UPDATED_COACHING_TIPS[id][1].slice();ex.coachingRevision=PROGRAM_VERSION;ex.mistakes=[];ex.hard='Stop for pain or a major change in the intended movement.';['loadGuidance','rangeWarning','special','tnf','cbum','why'].forEach(function(k){delete ex[k];});ex.tempo='About two seconds lowering, smooth reversal, controlled lift.';});
+EX.hip_thrust.name='Machine Hip Thrust, Glute Focus';EX.hip_thrust.target='Glutes';
+SUBSTITUTIONS.low_incline_dumbbell_press_15deg=[{id:'smith_press_15deg',reason:'Use a comfortable 15-degree Smith setup if necessary. Separate history.',compareLoadDirectly:false}];
+var PROGRAMME_SLOTS={"4": [{"slotId": "dec_tue_press", "exerciseId": "low_incline_dumbbell_press_15deg", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 15}, {"slotId": "dec_tue_pull", "exerciseId": "neutral_grip_lat_pulldown", "sets": 2, "min": 8, "max": 12, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_row", "exerciseId": "chest_supported_mid_back_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_tue_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_tue_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}], "5": [{"slotId": "dec_thu_hip", "exerciseId": "hip_thrust", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_thu_press", "exerciseId": "leg_press", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_thu_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}, {"slotId": "dec_thu_curl", "exerciseId": "seated_leg_curl", "sets": 3, "min": 8, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_thu_ext", "exerciseId": "leg_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_thu_calf", "exerciseId": "standing_calf_raise", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}], "1": [{"slotId": "dec_sat_press", "exerciseId": "incline_dumbbell_press_30deg", "sets": 3, "min": 6, "max": 10, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 30}, {"slotId": "dec_sat_pec", "exerciseId": "pec_deck", "sets": 3, "min": 10, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_sat_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "optionalDrop": true, "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_sat_fly", "exerciseId": "low_to_high_cable_fly", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_sat_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}], "2": [{"slotId": "dec_sun_pull", "exerciseId": "pullups", "sets": 3, "min": 6, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_sun_row", "exerciseId": "chest_supported_high_row", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_rear", "exerciseId": "reverse_pec_deck", "sets": 3, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_sun_cable", "exerciseId": "seated_neutral_grip_cable_lat_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_plank", "exerciseId": "forearm_plank", "sets": 2, "min": 30, "max": 60, "restMin": 60, "restMax": 60, "rest": 60, "priority": "core", "trackingUnit": "seconds", "effortNote": "Comfortable submaximal holds. Keep breathing and stop before sagging. Omit the duplicate home plank today."}], "3": [{"slotId": "dec_wed_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_wed_rear", "exerciseId": "reverse_pec_deck", "sets": 2, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_wed_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_wed_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}]};
+var PROGRAMME_DAY_META={"4": {"title": "Chest + Back + Arms", "weekday": 2, "scheduleLabel": "Tuesday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_upper", "primaryMuscles": ["Chest", "Back", "Side delts", "Arms"], "subtitle": "Second chest exposure, then back and modest accessories.", "directSummary": "Chest 3 \u00b7 Back 4 \u00b7 Side delts 3/side \u00b7 Direct arms 2 each"}, "5": {"title": "Glutes, Thighs + Abs", "weekday": 4, "scheduleLabel": "Thursday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_legs", "primaryMuscles": ["Glutes", "Quads", "Hamstrings", "Abs"], "subtitle": "One focused leg session. Abs are third, not optional.", "directSummary": "Hip thrust 3 \u00b7 Quads 5 \u00b7 Hamstrings 3 \u00b7 Calves 2 \u00b7 Abs 2"}, "1": {"title": "Chest + Shoulder Width", "weekday": 6, "scheduleLabel": "Saturday", "duration": 65, "durationLabel": "55-70 min", "sessionType": "dec_chest", "primaryMuscles": ["Chest", "Side delts", "Abs"], "subtitle": "Your main chest session. Laterals come before the fly.", "directSummary": "Chest 8 \u00b7 Side delts 3/side \u00b7 Abs 2"}, "2": {"title": "Back + Rear Delts", "weekday": 0, "scheduleLabel": "Sunday", "duration": 60, "durationLabel": "50-65 min", "sessionType": "dec_back", "primaryMuscles": ["Lats", "Mid-back", "Rear delts"], "subtitle": "Back width and detail, then comfortable trunk endurance.", "directSummary": "Back pulling 8 \u00b7 Rear delts 3 \u00b7 Plank 2 holds"}, "3": {"title": "Shoulders + Arms", "weekday": 3, "scheduleLabel": "Optional Wednesday", "duration": 40, "durationLabel": "35-50 min", "sessionType": "dec_fifth", "primaryMuscles": ["Side delts", "Rear delts", "Arms"], "subtitle": "Moves Tuesday accessories, adding only two rear-delt sets.", "directSummary": "Moved: lateral raises 3/side and arms 2 each \u00b7 Extra rear delts 2"}};
+DAYS={};ALL_DAY_NUMBERS.forEach(function(n){DAYS[n]=Object.assign({n:n,exercises:PROGRAMME_SLOTS[n].map(function(s){return s.exerciseId;}),checklist:[]},PROGRAMME_DAY_META[n]);});
+function fifthDaySelected(data,now){return !!(data&&data.settings&&data.settings.fifthDayWeeks&&data.settings.fifthDayWeeks[currentWeekKey(now)]);}
+function validCompletedNormal(set){return !!(set&&set.completed===true&&!set.skipped&&set.setType==='working'&&(Number(set.reps)>0||Number(set.durationSeconds)>0));}
+function currentTuesdaySessions(data,now){var ws=weekStart(now||Date.now()),we=weekEnd(ws);return (data.completedSessions||[]).filter(function(sess){return sess.programVersion===PROGRAM_VERSION&&sess.dayN===4&&sess.finished===true&&toTimestamp(sess.startTime)>=ws&&toTimestamp(sess.startTime)<=we;});}
+function movedAccessoryCount(data,id,now){var rows=[];currentTuesdaySessions(data,now).forEach(function(sess){(sess.sets||[]).forEach(function(set){if(set.exId===id&&validCompletedNormal(set))rows.push(set);});});if(id==='cable_lateral_raise'||id==='one_arm_dumbbell_preacher_curl'||EX[id]&&EX[id].uni)return Math.min(rows.filter(function(r){return r.side==='L';}).length,rows.filter(function(r){return r.side==='R';}).length);return rows.length;}
+function fifthDayAlreadyCovered(data,now){return movedAccessoryCount(data,'cable_lateral_raise',now)>=3&&movedAccessoryCount(data,'overhead_cable_triceps_extension',now)>=2&&movedAccessoryCount(data,'one_arm_dumbbell_preacher_curl',now)>=2;}
+function firstLegVisit(data){return !(data.completedSessions||[]).some(function(sess){return sess.programVersion===PROGRAM_VERSION&&sess.dayN===5&&sess.finished===true&&(sess.sets||[]).filter(validCompletedNormal).length>=2;});}
 
-var PROGRAMME_DAY_META = {
-  1:{title:'Chest + Side Delts',nav:'Chest + Side Delts',duration:68,durationLabel:'60–75 min',goal:'Chest-first training with focused side-delt work. No leg exercises.',primaryMuscles:['Chest','Side delts'],weekday:6,directSummary:'Chest 9 direct sets · Side delts 4 sets per side'},
-  2:{title:'Back + Rear Delts',nav:'Back + Rear Delts',duration:63,durationLabel:'55–70 min',goal:'Back width, upper-back density and rear delts. No chest or leg exercises.',primaryMuscles:['Lats','Mid back','Rear delts'],weekday:0,directSummary:'Main pulling 8 sets · Rear delts 3 · Abs 2'},
-  3:{title:'Shoulders + Arms',nav:'Shoulders + Arms',duration:68,durationLabel:'60–75 min',goal:'Side delts, rear delts and direct arm work. No leg exercises.',primaryMuscles:['Side delts','Rear delts','Triceps','Biceps'],weekday:null,directSummary:'Side delts 3 · Rear delts 2 · Triceps 5 · Curls 5 per arm'},
-  4:{title:'Chest + Back',nav:'Chest + Back',duration:48,durationLabel:'40–55 min',goal:'Optional moderate upper-body session pairing chest and back, with no leg work.',primaryMuscles:['Chest','Lats','Mid back','Rear delts'],weekday:null,directSummary:'Chest 4 · Main back pulling/rowing 4 · Rear delts 2'},
-  5:{title:'Legs',nav:'Legs',duration:40,durationLabel:'35–45 min',goal:'A short standalone lower-body session.',primaryMuscles:['Quads','Hamstrings','Glutes','Calves'],weekday:null,directSummary:'Quads 3 primary · Hamstrings 2 · Hip thrust 2 · Calves 2'}
-};
-DAYS = {
-  1:Object.assign({n:1,sessionType:'chest_side_delts',exercises:PROGRAMME_SLOTS[1].map(function(s){return s.exerciseId;}),checklist:['Keep each pressing setup repeatable.','The final lateral-raise drop is optional.']},PROGRAMME_DAY_META[1]),
-  2:Object.assign({n:2,sessionType:'back_rear_delts',exercises:PROGRAMME_SLOTS[2].map(function(s){return s.exerciseId;}),checklist:['Use consistent pull and row setups.','Sunday lateral make-up is optional and added only by choice.']},PROGRAMME_DAY_META[2]),
-  3:Object.assign({n:3,sessionType:'shoulders_arms',exercises:PROGRAMME_SLOTS[3].map(function(s){return s.exerciseId;}),checklist:['Lateral raises and preacher curls are performed on each side.','Pushdowns and hammer curls are lower-priority accessories.']},PROGRAMME_DAY_META[3]),
-  4:Object.assign({n:4,sessionType:'combined_chest_back',exercises:PROGRAMME_SLOTS[4].map(function(s){return s.exerciseId;}),checklist:['Keep this session moderate and focused.','No lower-body or direct-arm work is prescribed.']},PROGRAMME_DAY_META[4]),
-  5:Object.assign({n:5,sessionType:'separate_short_legs',exercises:PROGRAMME_SLOTS[5].map(function(s){return s.exerciseId;}),checklist:['Keep the four lower-body movements controlled.']},PROGRAMME_DAY_META[5])
-};
 
 function dateAddDays(dateKey, days) {
   var parts=String(dateKey).split('-').map(Number), d=new Date(parts[0],parts[1]-1,parts[2],12,0,0,0);
@@ -1716,52 +1690,25 @@ function isReentryActive(dbRef, now) {
   if (!state || !state.enabled || !state.startDate || !state.endDate) return false;
   var today=localDateKey(now||Date.now()); return today>=state.startDate && today<=state.endDate;
 }
-function getFourthSessionChoice(dbRef,now) {
-  var data=dbRef||db, week=currentWeekKey(now), settings=data.settings||{}, saved=(settings.fourthSessionByWeek||{})[week];
-  if(saved==='combined'||saved==='legs')return saved;
-  var last=(data.completedSessions||[]).filter(function(session){return session.finished!==false&&session.programVersion===PROGRAM_VERSION&&(session.sessionType==='combined_chest_back'||session.sessionType==='separate_short_legs');})
-    .sort(function(a,b){return toTimestamp(b.endTime||b.startTime)-toTimestamp(a.endTime||a.startTime);})[0];
-  return last&&last.sessionType==='combined_chest_back'?'legs':'combined';
+function getFourthSessionChoice(){return 'legs';}
+function getCombinedIntroDose(){return false;}
+function isSaturdayCrunchCovered(){return false;}
+
+function getProgrammeSlots(dayN,availability,workoutLength,dbRef,now,forceManualDay,ignoreReentry,ignoreLegacy,options){
+var data=dbRef||db,at=toTimestamp(now)||Date.now(),slots=(PROGRAMME_SLOTS[dayN]||[]).map(function(s){return Object.assign({},s);});
+if(dayN===4&&fifthDaySelected(data,at))slots=slots.slice(0,3);
+if(dayN===3)slots=slots.map(function(s){if(s.exerciseId!=='reverse_pec_deck'){if(s.unilateral){var done=accessorySidesCompleted(data,s.exerciseId,at);s.sideSetCounts={L:Math.max(0,s.sets-done.L),R:Math.max(0,s.sets-done.R)};s.sets=Math.max(s.sideSetCounts.L,s.sideSetCounts.R);}else s.sets=Math.max(0,s.sets-movedAccessoryCount(data,s.exerciseId,at));}return s;}).filter(function(s){return s.sets>0;});
+if(dayN===5&&firstLegVisit(data))slots.forEach(function(s){s.sets=Math.min(2,s.sets);s.introDose=true;});
+var enabled=data.settings&&data.settings.programmeEnabledOn,intro=enabled&&localDateKey(at)<=dateAddDays(enabled,6);
+slots.forEach(function(s,i){s.order=i+1;if(intro||isReentryActive(data,at))s.optionalDrop=false;s.effortNote=s.effortNote||(s.unilateral?'Complete both sides, then rest 60-90 seconds.':'Most compounds: leave one or two controlled reps. Final isolation sets may reach comfortable technical failure.');});return slots;
 }
-function getCombinedIntroDose(dbRef,now) {
-  var data=dbRef||db,week=currentWeekKey(now),settings=data.settings||{},map=settings.combinedIntroDoseByWeek||{};
-  if(Object.prototype.hasOwnProperty.call(map,week))return map[week]===true;
-  return !(data.completedSessions||[]).some(function(session){
-    if(session.finished!==true||session.programVersion!==PROGRAM_VERSION||session.sessionType!=='combined_chest_back'||!session.programmeSnapshot)return false;
-    var required=(session.programmeSnapshot.slots||[]).filter(function(slot){return !slot.optional;});
-    return required.every(function(slot){
-      var rounds={};(session.sets||[]).forEach(function(set){if(set.slotId===slot.slotId&&set.setType==='working'&&set.completed&&!set.skipped)rounds[set.setNum||1]=true;});
-      return Object.keys(rounds).length>=slot.sets;
-    });
-  });
-}
-function isSaturdayCrunchCovered(dbRef,now) {
-  var start=weekStart(now||Date.now()),end=weekEnd(start)+1;
-  return (dbRef.completedSessions||[]).some(function(session){
-    var at=toTimestamp(session.startTime);if(session.dayN!==3||session.finished===false||at<start||at>=end)return false;
-    var rounds={};(session.sets||[]).forEach(function(set){if(set.exId==='weighted_floor_crunch'&&set.setType==='working'&&set.completed&&!set.skipped)rounds[set.setNum||1]=true;});
-    return Object.keys(rounds).length>=2;
-  });
-}
-function getProgrammeSlots(dayN,availability,workoutLength,dbRef,now,forceManualDay,ignoreReentry,ignoreLegacy,options) {
-  var data=dbRef||db,slots=(PROGRAMME_SLOTS[dayN]||[]).map(function(slot){return Object.assign({},slot);});
-  slots.forEach(function(slot,index){
-    slot.order=index+1;
-    slot.effortNote=slot.effortNote||(slot.unilateral?'Complete the prescribed rounds on each side, then rest about 60 to 90 seconds.':'Compound sets generally finish with about one or two controlled repetitions available; final isolation sets may reach comfortable technical failure.');
-  });
-  return slots;
-}
+
 function getProgrammedRounds(dayN,availability,length,dbRef,now,options) {
   return getProgrammeSlots(dayN,availability,length,dbRef,now,true,true,true,Object.assign({ignoreIntro:true},options||{})).reduce(function(sum,slot){return sum+(slot.optional?0:slot.sets);},0);
 }
 
-var RUSHED_MODE_LIMITS = {
-  1:{v2_sat_incline_30:3,v2_sat_machine_press:2,v2_sat_pec_deck:2,v2_sat_low_high_fly:0,v2_sat_lateral_raise:4,v2_sat_optional_crunch:0},
-  2:{v2_sun_pullups:3,v2_sun_high_row:3,v2_sun_reverse_pec_deck:3,v2_sun_cable_lat_row:2,v2_sun_crunch:0},
-  3:{v2_arms_lateral_raise:3,v2_arms_reverse_pec_deck:2,v2_arms_overhead_triceps:3,v2_arms_preacher_curl:3,v2_arms_rope_pushdown:0,v2_arms_hammer_curl:0},
-  4:{v2_midweek_press_15:2,v2_midweek_pulldown:2,v2_midweek_midback_row:2,v2_midweek_pec_deck:0,v2_midweek_reverse_pec_deck:0},
-  5:{v2_legs_press:3,v2_legs_curl:2,v2_legs_hip_thrust:0,v2_legs_calf_raise:2}
-};
+var RUSHED_MODE_LIMITS={"4": {"dec_tue_press": 2, "dec_tue_pull": 2, "dec_tue_row": 2, "dec_tue_lat": 2, "dec_tue_tri": 1, "dec_tue_bi": 1}, "5": {"dec_thu_hip": 2, "dec_thu_press": 2, "dec_thu_abs": 2, "dec_thu_curl": 2, "dec_thu_ext": 0, "dec_thu_calf": 0}, "1": {"dec_sat_press": 2, "dec_sat_pec": 2, "dec_sat_lat": 2, "dec_sat_fly": 0, "dec_sat_abs": 1}, "2": {"dec_sun_pull": 2, "dec_sun_row": 2, "dec_sun_rear": 2, "dec_sun_cable": 1, "dec_sun_plank": 1}, "3": {"dec_wed_lat": 2, "dec_wed_rear": 1, "dec_wed_tri": 2, "dec_wed_bi": 2}};
+
 function setHasStarted(set) { return !!(set && (set.completed || set.startedAt || set.draftTouched || set.weightEdited || set.repsEdited || set.lastLoadApplied || set.note)); }
 function applyRushedModeToSession(session) {
   if (!session || session.rushedModeApplied) return 0;
@@ -1800,7 +1747,7 @@ function getRushedModeDescription(session) {
     return (ex?ex.name:slotId)+': '+session.rushedReductions[slotId]+' untouched row(s) skipped';
   });
   var completed=(session.sets||[]).filter(function(set){return set.completed&&set.setType==='working';}).length;
-  return 'Rushed Mode active — lower-priority work reduced. '+(changes.length?changes.join('; '):'No untouched prescribed rows needed removal.')+'. Completed working rows preserved: '+completed+' (unilateral sides shown separately).';
+  return 'Rushed Mode active ,  lower-priority work reduced. '+(changes.length?changes.join('; '):'No untouched prescribed rows needed removal.')+'. Completed working rows preserved: '+completed+' (unilateral sides shown separately).';
 }
 
 var GLOBAL_RULES = [
@@ -1824,7 +1771,7 @@ var PROGRESSION_RULES = [
 ];
 
 // ============================================================
-// STORAGE — schema v2
+// STORAGE ,  schema v2
 // ============================================================
 var DB_KEY = 'adil_v2';
 var TIMER_KEY = 'adil_timer';
@@ -1868,6 +1815,7 @@ function dbDefault() {
     homeRoutineLogs: [],
     legacyData: null,
     nextCoreSession: 'A',
+    cardio:cardioDefault(),prCelebrationEvents:[],
   };
 }
 
@@ -1935,11 +1883,12 @@ function migrateDb(data) {
     if (!session) return;
     if (session.programName === undefined) session.programName = priorProgrammeName;
     if (session.dayTitle === undefined) {
-      var previousTitles={1:'Saturday — Chest, Side Delts + Quads',2:'Sunday — Aesthetic Back, Rear Delts + Arms',3:'Optional Midweek — Aesthetic Booster',4:'One-Session Week — Full Body Insurance',5:'Optional Day 5 — Lower + Core Insurance'};
-      var focusedTitles={1:'Tuesday — Additional Upper-Body Development',2:'Thursday — Legs and Arms',3:'Saturday — Chest and Shoulder Width',4:'Sunday — Back Width and Detail'};
-      var previousLocalTitles={1:'Tuesday — Combined Chest and Back',2:'Thursday — Shoulders and Arms',3:'Saturday — Chest and Side Delts',4:'Sunday — Back and Rear Delts',5:'Separate Short Legs'};
-      var adaptiveTitles={1:'Session A — Upper Chest, Back Width and Whole-Body Coverage',2:'Session B — Whole Chest, Cable Back, Legs and Arms',3:'Session C — Optional Chest, Width and Lower-Body Top-Up',4:'Short Chest + Upper/Lower Top-Up',5:'Optional Day 5 — Lower + Core Insurance'};
-      session.dayTitle = session.programVersion === PREVIOUS_FOCUSED_BLOCK_VERSION && focusedTitles[session.dayN]
+      var previousTitles={1:'Saturday ,  Chest, Side Delts + Quads',2:'Sunday ,  Aesthetic Back, Rear Delts + Arms',3:'Optional Midweek ,  Aesthetic Booster',4:'One-Session Week ,  Full Body Insurance',5:'Optional Day 5 ,  Lower + Core Insurance'};
+      var focusedTitles={1:'Tuesday ,  Additional Upper-Body Development',2:'Thursday ,  Legs and Arms',3:'Saturday ,  Chest and Shoulder Width',4:'Sunday ,  Back Width and Detail'};
+      var previousLocalTitles={1:'Tuesday ,  Combined Chest and Back',2:'Thursday ,  Shoulders and Arms',3:'Saturday ,  Chest and Side Delts',4:'Sunday ,  Back and Rear Delts',5:'Separate Short Legs'};
+      var oldFocusedTitles={1:'Chest + Side Delts',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back',5:'Legs'};
+      var adaptiveTitles={1:'Session A ,  Upper Chest, Back Width and Whole-Body Coverage',2:'Session B ,  Whole Chest, Cable Back, Legs and Arms',3:'Session C ,  Optional Chest, Width and Lower-Body Top-Up',4:'Short Chest + Upper/Lower Top-Up',5:'Optional Day 5 ,  Lower + Core Insurance'};
+      session.dayTitle = session.programVersion===PRIOR_ACTIVE_VERSION ? oldFocusedTitles[session.dayN]||('Day '+session.dayN) : session.programVersion === PREVIOUS_FOCUSED_BLOCK_VERSION && focusedTitles[session.dayN]
         ? focusedTitles[session.dayN]
         : session.programVersion === PREVIOUS_LOCAL_PROGRAM_VERSION && previousLocalTitles[session.dayN]
         ? previousLocalTitles[session.dayN]
@@ -1980,6 +1929,9 @@ function migrateDb(data) {
   if (!d.migrations.program240) d.migrations.program240 = true;
   if (d.migrations.d2e1ToPullups === undefined) d.migrations.d2e1ToPullups = 'preserved-ambiguous-history';
   if (!d.migrations.augustShowcasePressVariants) d.migrations.augustShowcasePressVariants = 'not-applied-angle-ambiguous';
+  d.cardio=normalizeCardioStore(d.cardio);
+  if(d.prCelebrationEvents===undefined)d.prCelebrationEvents=[];
+  if(!Array.isArray(d.prCelebrationEvents))throw new Error('Malformed PR event data. Original saved data preserved.');
   return d;
 }
 
@@ -2044,6 +1996,7 @@ function createSession(dayN, manualSelection) {
     scheduleSlotId:sessionType,
     scheduleWeekKey:currentWeekKey(),
     manualSelection:!!manualSelection,
+    fifthDaySnapshot:fifthDaySelected(db),legIntroSnapshot:dayN===5&&firstLegVisit(db),
     availabilitySnapshot:'manual',
     programmeSnapshot:{name:PROGRAM_NAME,version:PROGRAM_VERSION,enabledOn:db.settings.programmeEnabledOn||localDateKey(),dayN:dayN,sessionType:sessionType,manualSelection:!!manualSelection,slots:slots.map(function(slot){return Object.assign({},slot);})},
     sets: [],
@@ -2205,7 +2158,7 @@ function renderExerciseCatalogueOptions(session) {
 
 function getExactLastPerformance(dbRef,exerciseId) {
   var rows=getNormalizedExerciseHistory(dbRef,exerciseId,false).filter(function(row){
-    return row.originalExerciseId===exerciseId&&row.type==='working'&&row.completed&&!row.skipped;
+    return row.canonicalExerciseId===getHistoryExerciseId(exerciseId)&&row.type==='working'&&row.completed&&!row.skipped;
   });
   if(!rows.length)return null;
   var latest=rows[0],sameSession=rows.filter(function(row){return row.sessionId===latest.sessionId;}).sort(function(a,b){return a.sequence-b.sequence;});
@@ -2240,11 +2193,13 @@ function createExerciseSetsForSession(exId, ex, db, allowPreviousLoad, slot) {
     s.weight=row?row.weight:0;s.reps=row&&prior.exact?row.reps:ex.rMin;
     s.suggestedWeight=row?row.weight:null;s.suggestedReps=row&&prior.exact?row.reps:null;
     s.measurementMode=row?row.measurementMode:(exId==='pullups'?'bodyweight':null);
-    if(row){s.units=row.units||s.units;s.prefilledFromSetId=row.setId;s.prefilledExact=!!prior.exact;}
+    if(row){s.units=row.units||s.units;s.prefilledFromSetId=row.setId;s.prefilledExact=!!prior.exact;s.equipmentSetup=row.equipmentSetup;s.loadConvention=row.loadConvention;}
+    if(ex.timed||slot&&slot.trackingUnit==='seconds'){s.measurementMode='timed';s.durationSeconds=row&&prior.exact?row.durationSeconds:ex.rMin;s.reps=0;}
+    s.prefillOrigin=row?'history':'default';
     if(slot){s.slotId=slot.slotId;s.prescriptionSnapshot=Object.assign({},slot);}
     return s;
   }
-  if(ex.uni){for(var i=1;i<=ex.sDef;i++)['L','R'].forEach(function(side){sets.push(makeWorking(i,side));});}
+  if(ex.uni){for(var i=1;i<=ex.sDef;i++)['L','R'].forEach(function(side){if(!slot||!slot.sideSetCounts||i<=slot.sideSetCounts[side])sets.push(makeWorking(i,side));});}
   else{for(var j=1;j<=ex.sDef;j++)sets.push(makeWorking(j,null));}
   if(slot&&slot.optionalDrop){['L','R'].forEach(function(side){var ds=createSet(exId,slot.sets,'drop',side);ds.optional=true;ds.slotId=slot.slotId;ds.prescriptionSnapshot=Object.assign({},slot);ds.reps=0;sets.push(ds);});}
   else if(ex.drop){var ds=createSet(exId,ex.sDef,'drop',null);ds.rir=null;if(slot){ds.slotId=slot.slotId;ds.prescriptionSnapshot=Object.assign({},slot);}sets.push(ds);}
@@ -2291,10 +2246,11 @@ function makeCustomExerciseDef(form) {
 function isEffectiveWorkingSet(set, session) {
   if (!set || (set.setType !== 'working' && set.setType !== 'drop')) return false;
   var ex = getExerciseDef(set.exId, session);
-  return !(ex && ex.nonHypertrophy);
+  return !(ex && (ex.nonHypertrophy||ex.timed));
 }
 function isRequiredSessionSet(set, session) {
-  if (!isEffectiveWorkingSet(set,session)) return false;
+  var def=set&&getExerciseDef(set.exId,session);
+  if (!isEffectiveWorkingSet(set,session)&&!(def&&def.timed&&set.setType==='working'))return false;
   var slot=(session&&session.programmeSnapshot&&session.programmeSnapshot.slots||[]).find(function(item){return item.slotId===set.slotId;});
   if(slot&&slot.optional)return false;
   if (set.setType==='drop' && set.optional && !set.completed && !setHasStarted(set) && !set.skipped) return false;
@@ -2522,10 +2478,11 @@ function normalizePerformanceRecord(set,session,index,source) {
   var preset=set.prescriptionSnapshot||slot&&Object.assign({},slot)||session.exercisePrescriptions&&session.exercisePrescriptions[rawId]||null;
   var setup=set.equipmentSetup||set.setupKey||set.setup||session.exerciseSetups&&session.exerciseSetups[rawId]||preset&&preset.equipmentSetup||ex.equipmentSetup||null;
   var mode=set.measurementMode||set.loadMode||null;
+  if(rawId==='pullups'&&mode==='repetition')mode=weight>0?'weighted_bodyweight_addition':'bodyweight';
   if(!mode)mode=rawId==='assisted_neutral_grip_pullup'?'assisted':rawId==='pullups'?(weight>0?'weighted_bodyweight_addition':'bodyweight'):(ex.timed?'timed':'repetition');
   var loadConvention=set.loadConvention||ex.loadConvention||(/dumbbell|preacher/i.test(rawId)?'per-hand':null);
   var valid=completed&&!skipped&&type!=='warmup'&&type!=='activity'&&!(source==='completed'&&session.finished===false)&&weight!==null&&weight>=0&&
-    ((mode==='timed'||duration!==null)?duration!==null&&duration>0:reps!==null&&reps>0);
+    (mode==='timed'?duration!==null&&duration>0:reps!==null&&reps>0);
   if(!valid)return null;
   var stableSetId=String(set.id||set.setId||sessionId+':set:'+index);
   var setNumber=parseFiniteNumber(set.setNum!==undefined?set.setNum:set.setNumber!==undefined?set.setNumber:set.set_number!==undefined?set.set_number:set.setIndex);
@@ -2638,20 +2595,21 @@ function renderExercisePerformance(dbRef,exerciseId,includeLoadAction) {
 function renderCompactExerciseRecords(dbRef,exerciseId,slotId,slot) {
   var previous=getExactLastPerformance(dbRef,exerciseId),pr=getExercisePR(dbRef,exerciseId),ex=getExerciseDef(exerciseId,null,dbRef),lastRows=previous&&previous.records||[];
   var previousLines=[];
-  ['L','R',null].forEach(function(side){var sideRows=lastRows.filter(function(row){return row.side===side;});if(!sideRows.length)return;var label=side==='L'?'L ':side==='R'?'R ':lastRows.some(function(row){return row.side!==null;})?'Side ? ':' ';previousLines.push(label+sideRows.map(formatPerformanceLine).join(', '));});
+  ['L','R',null].forEach(function(side){var sideRows=lastRows.filter(function(row){return row.side===side;});if(!sideRows.length)return;var label=side==='L'?'L ':side==='R'?'R ':lastRows.some(function(row){return row.side!==null;})?'Side ? ':' ';previousLines.push(label+compactPerformanceSequence(sideRows));});
   var groups=pr&&pr.groups||[],prLines=[];
   groups.forEach(function(group){
     var sideBased=!!(ex&&ex.uni)||!!group.left||!!group.right||!!group.rawLeft||!!group.rawRight;
     if(sideBased){if(group.left)prLines.push('L '+formatPerformanceLine(group.left));if(group.right)prLines.push('R '+formatPerformanceLine(group.right));if(group.unspecified)prLines.push('Side ? '+formatPerformanceLine(group.unspecified));}
     else if(group.best)prLines.push(formatPerformanceLine(group.best));
   });
-  var hasLive=groups.some(function(group){return group.live;});
+  var hasLive=(dbRef.prCelebrationEvents||[]).some(function(event){return event.sessionId===(dbRef.activeSession&&dbRef.activeSession.id)&&event.exerciseId===exerciseId&&isCelebrationEventValid(dbRef,event);});
   var previousText=previousLines.length?previousLines.join(' · '):'No previous finished set';
-  var prText=prLines.length?prLines.join(' · '):'No qualified PR yet';
-  var stall=getStallInfo(dbRef,exerciseId,slotId),stallLine=stall?'<div class="workout-stall-hint">Progress stalled — keep the same load and try to beat your reps.</div>':'';
+  var prText=prLines.length?prLines.join(' · '):'No PR recorded yet';
+  var stall=getStallInfo(dbRef,exerciseId,slotId),stallLine=stall?'<div class="workout-stall-hint">Progress stalled ,  keep the same load and try to beat your reps.</div>':'';
   var progression=!stall&&slot?getProgressionAdvice(dbRef,exerciseId,slot):'';
+  if(ex.prEligible===false)return '<div class="workout-record-compact"><div><b>Prev:</b> '+esc(previousText)+'</div></div>';
   return '<div class="workout-record-compact"><div><b>Prev:</b> '+esc(previousText)+'</div><div class="workout-pr-badge'+(hasLive?' is-live':'')+'"><b>'+(hasLive?'NEW PR':'PR')+' ★</b> '+esc(prText)+'</div></div>'+stallLine+
-    (progression?'<div class="workout-progression-hint">'+esc(progression)+'</div>':'')+
+    ''+
     '<details class="workout-record-details"><summary>History &amp; Records</summary>'+renderExercisePerformance(dbRef,exerciseId,false)+(stall?renderStallWatch(stall):'')+'</details>';
 }
 function formatSessionSetLine(set) {
@@ -2685,6 +2643,7 @@ function sessionsInWeek(db, weekStartTs) {
 // ---- PRs ----
 // Returns array of PR descriptions for a completed session
 function detectPRs(db, session) {
+  if(session.programVersion===PROGRAM_VERSION)return (db.prCelebrationEvents||[]).filter(function(e){return e.sessionId===session.id&&isCelebrationEventValid(db,e);}).map(function(e){return {exId:e.exerciseId,side:e.side,type:e.type,msg:getExerciseDef(e.exerciseId,session,db).name+' '+e.headline+': '+e.display};});
   var prs = [];
   var exIds = [];
   session.sets.forEach(function(s) { if (exIds.indexOf(s.exId) === -1) exIds.push(s.exId); });
@@ -2700,14 +2659,14 @@ function detectPRs(db, session) {
       if (!comparable.length) return;
       var prevBest = comparable.slice().sort(function(a,b){return (b.set.weight||0)-(a.set.weight||0) || (b.set.reps||0)-(a.set.reps||0);})[0];
       if ((cur.set.weight||0) > (prevBest.set.weight||0) && (cur.set.weight||0) > 0) {
-        prs.push({ exId: exId, side:cur.set.side, type:'weight', msg: ex.name + (cur.set.side ? ' ('+cur.set.side+')' : '') + ' — new weight record: ' + cur.set.weight + ' kg' });
+        prs.push({ exId: exId, side:cur.set.side, type:'weight', msg: ex.name + (cur.set.side ? ' ('+cur.set.side+')' : '') + ' ,  new weight record: ' + cur.set.weight + ' kg' });
         return;
       }
       var sameWeight = comparable.filter(function(h) { return h.set.weight === cur.set.weight; });
       if (sameWeight.length > 0) {
         var prevBestReps = Math.max.apply(null, sameWeight.map(function(h) { return h.set.reps; }));
         if (cur.set.reps > prevBestReps) {
-          prs.push({ exId: exId, side:cur.set.side, type:'reps', msg: ex.name + (cur.set.side ? ' ('+cur.set.side+')' : '') + ' — ' + (cur.set.reps - prevBestReps) + ' more reps at ' + cur.set.weight + ' kg' });
+          prs.push({ exId: exId, side:cur.set.side, type:'reps', msg: ex.name + (cur.set.side ? ' ('+cur.set.side+')' : '') + ' ,  ' + (cur.set.reps - prevBestReps) + ' more reps at ' + cur.set.weight + ' kg' });
         }
       }
     });
@@ -2839,278 +2798,11 @@ function getLastCompletedTimeForDay(dbRef, dayN) {
 function getNextCoreDay(dbRef) {
   return dbRef && dbRef.nextCoreSession === 'B' ? 2 : 1;
 }
-function sessionLabelForDay(dayN) {
-  return dayN === 1 ? 'Saturday Chest' : dayN === 2 ? 'Sunday Back' : dayN === 3 ? 'Midweek Booster' : dayN === 4 ? 'One-Session Insurance' : 'Day '+dayN;
-}
-function getSessionDayTitle(session) {
-  return session && session.dayTitle || (DAYS[session && session.dayN] && DAYS[session.dayN].title) || ('Day '+(session && session.dayN));
-}
-function getSessionLabel(session) {
-  if (session && session.programVersion === PREVIOUS_PROGRAM_VERSION) return ({1:'Session A',2:'Session B',3:'Session C',4:'Day 4',5:'Day 5'})[session.dayN] || ('Day '+session.dayN);
-  if (session && session.programName && session.programName !== PROGRAM_NAME) return 'Day '+session.dayN;
-  return sessionLabelForDay(session && session.dayN);
-}
-function getAvailabilityDays(availability, dbRef) {
-  if (availability === '0') return [];
-  if (availability === '1') return [4];
-  if (availability === '2') return [1,2];
-  if (availability === '3') return [1,2,3];
-  return [1,2];
-}
-function getAvailabilityPlannedStimulus(dbRef, availability) {
-  var stimulus = {};
-  getAvailabilityDays(availability, dbRef).forEach(function(dayN) {
-    var dayStimulus = getDayPlannedStimulus(dayN, dbRef);
-    Object.keys(dayStimulus).forEach(function(id) { stimulus[id] = (stimulus[id] || 0) + dayStimulus[id]; });
-  });
-  return stimulus;
-}
+function sessionLabelForDay(n){return DAYS[n]?DAYS[n].title:'Workout';}
+function getSessionLabel(sess){if(!sess)return 'Workout';if(sess.dayTitle)return sess.dayTitle;if(sess.programVersion===PRIOR_ACTIVE_VERSION)return ({1:'Chest + Side Delts',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back',5:'Legs'})[sess.dayN]||'Workout';if(sess.programVersion===PROGRAM_VERSION)return sessionLabelForDay(sess.dayN);return sess.title||sess.name||('Day '+sess.dayN);}
+function getBestWorkoutRecommendation(data,now){data=data||db;var at=toTimestamp(now)||Date.now();if(data.activeSession&&!data.activeSession.finished)return {dayN:data.activeSession.dayN,reason:'Resume your saved workout.',active:true};var weekday=new Date(at).getDay(),schedule={2:4,4:5,6:1,0:2},done=getCurrentWeekCompletedDays(data,at),n=schedule[weekday];if(weekday===3&&fifthDaySelected(data,at)&&!fifthDayAlreadyCovered(data,at))n=3;if(n&&!done[n])return {dayN:n,reason:n===5?'Your one focused leg day.':n===1?'Main chest session.':n===2?'Back width and detail.':n===3?'Tuesday accessories, moved here.':'Your second chest and back exposure.'};for(var i=1;i<=7;i++){var d=new Date(at);d.setDate(d.getDate()+i);n=schedule[d.getDay()];if(n)return {dayN:n,reason:'Next priority: '+DAYS[n].scheduleLabel+'. Choose another workout any time.'};}return {dayN:4,reason:'Chest-first upper-body session.'};}
 
-function getRecommendationTarget(dbRef, muscleId) {
-  var saved = dbRef.settings && dbRef.settings.volumeTargets && dbRef.settings.volumeTargets[muscleId];
-  if (saved && typeof saved === 'object' && isFinite(Number(saved.min)) && isFinite(Number(saved.max))) {
-    return { min:Number(saved.min), max:Number(saved.max) };
-  }
-  var availability = getWeeklyAvailability(dbRef);
-  if (availability === '0') return { min:0, max:0 };
-  var planned = getAvailabilityPlannedStimulus(dbRef, availability)[muscleId] || 0;
-  if (planned > 0) return { min:round1(planned), max:round1(planned * 1.25) };
-  return { min:MUSCLES[muscleId].min, max:MUSCLES[muscleId].max };
-}
 
-function getNeedFactor(current, min, max) {
-  if (min <= 0 && max <= 0) return 0;
-  if (current < min) return 1 + Math.min(1, (min - current) / Math.max(min, 1));
-  if (current <= max) {
-    var range = Math.max(max - min, 1);
-    return 0.35 + 0.65 * ((max - current) / range);
-  }
-  return -0.5;
-}
-
-function getRecoveryFactor(hoursSinceTraining) {
-  if (hoursSinceTraining === Infinity) return 1.00;
-  if (hoursSinceTraining < 24) return 0.15;
-  if (hoursSinceTraining < 48) return 0.55;
-  if (hoursSinceTraining < 72) return 0.85;
-  return 1.00;
-}
-
-function scoreWorkoutDay(dbRef, dayN, now) {
-  var currentTime = now || Date.now();
-  var rolling = calculateRollingMuscleStimulus(dbRef, 7, currentTime);
-  var lastTimes = getMuscleLastTrainedTimes(dbRef);
-  var planned = getDayPlannedStimulus(dayN, dbRef);
-  var score = 0;
-  Object.keys(planned).forEach(function(muscleId) {
-    if (!MUSCLES[muscleId]) return;
-    var target = getRecommendationTarget(dbRef, muscleId);
-    var hoursSince = lastTimes[muscleId] ? (currentTime - lastTimes[muscleId]) / 3600000 : Infinity;
-    score += planned[muscleId] * (RECOMMENDATION_PRIORITY[muscleId] || 0.5) *
-      getNeedFactor(rolling[muscleId] || 0, target.min, target.max) * getRecoveryFactor(hoursSince);
-  });
-  var lastDayTime = getLastCompletedTimeForDay(dbRef, dayN);
-  var daysSince = lastDayTime ? (currentTime - lastDayTime) / 86400000 : Infinity;
-  if (daysSince < 1) score -= 10;
-  else if (daysSince < 2) score -= 5;
-  else if (daysSince < 3) score -= 1.5;
-  score += (daysSince === Infinity ? 7 : Math.min(daysSince, 7)) * 0.15;
-  return { dayN:dayN, score:score, planned:planned, daysSince:daysSince };
-}
-
-function getLatestSessionMuscles(dbRef) {
-  if (!dbRef.completedSessions.length) return [];
-  var latest = dbRef.completedSessions.slice().sort(function(a,b) { return b.startTime-a.startTime; })[0];
-  var volume = calcVolume([latest], dbRef.settings && dbRef.settings.muscleMappings);
-  return Object.keys(volume).filter(function(id) { return volume[id] >= 0.5; })
-    .sort(function(a,b) { return volume[b]-volume[a]; }).slice(0,2);
-}
-
-function buildRecommendationReasons(recommendation, dbRef) {
-  if (!dbRef.completedSessions.length) {
-    return ['Start with the foundation session. There is not enough workout history for a personalised recommendation yet.'];
-  }
-  var reasons = [];
-  var deficits = recommendation.muscleDetails.filter(function(detail) { return detail.current < detail.min; })
-    .sort(function(a,b) { return (b.min-b.current)-(a.min-a.current); });
-  if (deficits.length) {
-    var deficit = deficits[0];
-    reasons.push(deficit.label+' is '+round1(deficit.min-deficit.current)+' sets below your rolling weekly minimum.');
-  }
-  var latestMuscles = getLatestSessionMuscles(dbRef);
-  if (latestMuscles.length) {
-    reasons.push('Your last session mainly trained '+latestMuscles.map(function(id){return MUSCLES[id].label.toLowerCase();}).join(' and ')+'.');
-  }
-  var recovered = recommendation.muscleDetails.filter(function(detail) { return detail.hoursSince >= 72; })
-    .sort(function(a,b) { return (RECOMMENDATION_PRIORITY[b.muscleId]||0)-(RECOMMENDATION_PRIORITY[a.muscleId]||0); });
-  if (recovered.length) reasons.push(recovered[0].label+' has had more than 72 hours of recovery.');
-  if (reasons.length < 2 && recommendation.daysSince >= 3) reasons.push('Day '+recommendation.dayN+' has not been completed recently.');
-  return reasons.slice(0,3);
-}
-
-function currentWeekKey(now) { return String(weekStart(now || Date.now())); }
-function getWeeklyWorkoutLength(dbRef, now) {
-  var settings = dbRef && dbRef.settings || {};
-  settings.weeklyWorkoutLength = settings.weeklyWorkoutLength || {};
-  return settings.weeklyWorkoutLength[currentWeekKey(now)] === 'short' ? 'short' : 'full';
-}
-function saveWeeklyWorkoutLength(dbRef, value, now) {
-  dbRef.settings = dbRef.settings || {};
-  dbRef.settings.weeklyWorkoutLength = dbRef.settings.weeklyWorkoutLength || {};
-  dbRef.settings.weeklyWorkoutLength[currentWeekKey(now)] = value === 'short' ? 'short' : 'full';
-  dbSave(dbRef);
-}
-function hasRecentWeekendPriorities(dbRef, now) {
-  var current=now||Date.now(), cutoff=current-8*86400000, latest={1:0,2:0};
-  (dbRef.completedSessions||[]).forEach(function(session){
-    var day=session.dayN, time=session.endTime||session.startTime||0;
-    if ((day===1||day===2)&&time<=current&&time>=cutoff) latest[day]=Math.max(latest[day],time);
-  });
-  return !!(latest[1]&&latest[2]);
-}
-function getLastResistanceTime(dbRef) {
-  return dbRef.completedSessions.reduce(function(latest, session) {
-    if (session.dayN !== 1 && session.dayN !== 2) return latest;
-    return Math.max(latest, session.endTime || session.startTime || 0);
-  }, 0);
-}
-function getRecentCoreSessions(dbRef, now) {
-  var currentTime = now || Date.now();
-  return dbRef.completedSessions.filter(function(session) {
-    return (session.dayN === 1 || session.dayN === 2) && (session.endTime || session.startTime || 0) <= currentTime;
-  }).sort(function(a,b) {
-    return (b.endTime || b.startTime || 0) - (a.endTime || a.startTime || 0);
-  });
-}
-function shouldRecommendOptionalC(dbRef, availability, now) {
-  if (availability !== '3' && availability !== 'unsure') return false;
-  var recent = getRecentCoreSessions(dbRef, now);
-  if (recent.length < 2 || recent[0].dayN === recent[1].dayN) return false;
-  var latestCoreTime = recent[0].endTime || recent[0].startTime || 0;
-  var lastC = dbRef.completedSessions.filter(function(session) { return session.dayN === 3; })
-    .reduce(function(latest, session) { return Math.max(latest, session.endTime || session.startTime || 0); }, 0);
-  return !lastC || lastC < latestCoreTime;
-}
-function buildRecommendationMuscleDetails(dbRef, recommendation, now) {
-  var rolling = calculateRollingMuscleStimulus(dbRef, 7, now);
-  var lastTimes = getMuscleLastTrainedTimes(dbRef);
-  return Object.keys(recommendation.planned).filter(function(id) { return MUSCLES[id]; })
-    .sort(function(a,b) {
-      return (recommendation.planned[b]*(RECOMMENDATION_PRIORITY[b]||0))-(recommendation.planned[a]*(RECOMMENDATION_PRIORITY[a]||0));
-    }).slice(0,5).map(function(id) {
-      var target = getRecommendationTarget(dbRef, id);
-      return {
-        muscleId:id, label:MUSCLES[id].label, current:round1(rolling[id]||0), min:target.min, max:target.max,
-        hoursSince:lastTimes[id] ? (now-lastTimes[id])/3600000 : Infinity
-      };
-    });
-}
-
-// Current-block planning supersedes the legacy rolling A/B recommendation.
-function getWeeklyAvailability(dbRef, now) {
-  var settings=dbRef&&dbRef.settings||{}, map=settings.weeklyPlanAvailability||{}, value=map[currentWeekKey(now)];
-  if(value===undefined){value=(settings.weeklyAvailability||{})[currentWeekKey(now)];}
-  return value==='3'?'3':value==='unsure'?'unsure':'4';
-}
-function saveWeeklyAvailability(dbRef,value,now) {
-  value=['3','4','unsure'].indexOf(String(value))>=0?String(value):'4';
-  dbRef.settings=dbRef.settings||{}; dbRef.settings.weeklyPlanAvailability=dbRef.settings.weeklyPlanAvailability||{};
-  dbRef.settings.weeklyPlanAvailability[currentWeekKey(now)]=value; dbSave(dbRef);
-}
-function saveFourthSessionChoice(dbRef,value,now) {
-  dbRef.settings=dbRef.settings||{};dbRef.settings.fourthSessionByWeek=dbRef.settings.fourthSessionByWeek||{};
-  dbRef.settings.fourthSessionByWeek[currentWeekKey(now)]=value==='legs'?'legs':'combined';dbSave(dbRef);
-}
-function getAvailabilityDays(availability,dbRef,now) {
-  if(availability==='3'||availability==='unsure')return [2,3,4];
-  return getFourthSessionChoice(dbRef||db,now)==='legs'?[5,2,3,4]:[1,2,3,4];
-}
-function getAvailabilityPlannedStimulus(dbRef,availability) {
-  var out={};
-  getAvailabilityDays(availability,dbRef).forEach(function(dayN){var day=getDayPlannedStimulus(dayN,dbRef);Object.keys(day).forEach(function(id){out[id]=(out[id]||0)+day[id];});});
-  return out;
-}
-function getRecommendationTarget(dbRef,muscleId) {
-  var saved=dbRef.settings&&dbRef.settings.volumeTargets&&dbRef.settings.volumeTargets[muscleId];
-  if(saved&&isFinite(Number(saved.min))&&isFinite(Number(saved.max)))return {min:Number(saved.min),max:Number(saved.max)};
-  return {min:MUSCLES[muscleId].min,max:MUSCLES[muscleId].max};
-}
-function sessionScheduleDay(session) {
-  if(session&&session.programVersion===PROGRAM_VERSION&&session.dayN>=1&&session.dayN<=5)return session.dayN;
-  return null;
-}
-function getCurrentWeekCompletedDays(dbRef,now) {
-  var start=weekStart(now||Date.now()), end=weekEnd(start)+1, out={};
-  (dbRef.completedSessions||[]).forEach(function(session){var at=toTimestamp(session.startTime),day=sessionScheduleDay(session);if(day&&session.finished!==false&&at>=start&&at<end)out[day]=true;});
-  return out;
-}
-function getProgrammeScheduleDate(dayN,now) {
-  var monday=localDateKey(weekStart(now||Date.now())),offset=(PROGRAMME_DAY_META[dayN].weekday+6)%7;
-  return dateAddDays(monday,offset);
-}
-function getProgrammeWeekDays(availability,dbRef,now) {
-  var days=getAvailabilityDays(availability,dbRef,now),enabled=dbRef&&dbRef.settings&&dbRef.settings.programmeEnabledOn;
-  if(!enabled)return days;
-  var current=now||Date.now(),monday=localDateKey(weekStart(current)),enabledWeek=localDateKey(weekStart(new Date(enabled+'T12:00:00').getTime()));
-  if(monday!==enabledWeek)return days;
-  return days.filter(function(dayN){return getProgrammeScheduleDate(dayN,current)>=enabled;});
-}
-function getCurrentWeekCoreCount(dbRef,now) {
-  var days=getCurrentWeekCompletedDays(dbRef,now), planned=getProgrammeWeekDays(getWeeklyAvailability(dbRef,now),dbRef,now);
-  return planned.reduce(function(total,day){return total+(days[day]?1:0);},0);
-}
-function sessionLabelForDay(dayN) { return ({1:'Chest + Side Delts',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back',5:'Legs'})[dayN]||('Day '+dayN); }
-function getSessionLabel(session) {
-  if(session&&session.programVersion===PREVIOUS_LOCAL_PROGRAM_VERSION)return ({1:'Tuesday Chest + Back',2:'Thursday Shoulders + Arms',3:'Saturday Chest',4:'Sunday Back',5:'Separate Short Legs'})[session.dayN]||('Day '+session.dayN);
-  if(session&&session.programVersion===PREVIOUS_FOCUSED_BLOCK_VERSION)return ({1:'Tuesday Upper',2:'Thursday Legs + Arms',3:'Saturday Chest',4:'Sunday Back'})[session.dayN]||('Day '+session.dayN);
-  if(session&&session.programVersion===LEGACY_ADAPTIVE_PROGRAM_VERSION)return ({1:'Session A',2:'Session B',3:'Session C',4:'Day 4',5:'Day 5'})[session.dayN]||('Day '+session.dayN);
-  if(session&&session.programVersion===PREVIOUS_PROGRAM_VERSION)return ({1:'Saturday Chest',2:'Sunday Back',3:'Midweek Booster',4:'One-Session Insurance'})[session.dayN]||('Day '+session.dayN);
-  if(session&&session.programName&&session.programName!==PROGRAM_NAME)return 'Day '+session.dayN;
-  return session&&session.sessionType?({chest_side_delts:'Chest + Side Delts',back_rear_delts:'Back + Rear Delts',shoulders_arms:'Shoulders + Arms',combined_chest_back:'Chest + Back',separate_short_legs:'Legs'})[session.sessionType]||sessionLabelForDay(session.dayN):sessionLabelForDay(session&&session.dayN);
-}
-function getBestWorkoutRecommendation(dbRef,now) {
-  dbRef=dbRef||db;var current=toTimestamp(now)||Date.now(),active=dbRef.activeSession&&!dbRef.activeSession.finished?dbRef.activeSession:null;
-  if(active)return {dayN:active.dayN,reason:'Resume your active workout.',active:true};
-  var latest={chest:0,back:0,shoulders:0,chestBack:0,legs:0},mostRecent=0;
-  function completedIds(session){
-    var ids=[];(session.exerciseOrder||[]).forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});
-    (session.sets||[]).forEach(function(set){if(set.completed&&!set.skipped&&set.setType==='working'&&parseFiniteNumber(set.reps)>0&&ids.indexOf(set.exId)<0)ids.push(set.exId);});
-    return ids;
-  }
-  (dbRef.completedSessions||[]).forEach(function(session){
-    if(!session||session.finished===false)return;
-    var hasWork=(session.sets||[]).some(function(set){return set.completed&&!set.skipped&&set.setType==='working'&&isEffectiveWorkingSet(set,session)&&parseFiniteNumber(set.reps)>0;});
-    if(!hasWork)return;
-    var at=toTimestamp(session.endTime||session.startTime);if(!at)return;mostRecent=Math.max(mostRecent,at);
-    var cats=[];
-    if(session.programVersion===PROGRAM_VERSION){
-      var type=session.sessionType||DAYS[session.dayN]&&DAYS[session.dayN].sessionType;
-      cats=type==='chest_side_delts'?['chest']:type==='back_rear_delts'?['back']:type==='shoulders_arms'?['shoulders']:type==='combined_chest_back'?['chestBack']:type==='separate_short_legs'?['legs']:[];
-    }else{
-      var ids=completedIds(session),hasChest=ids.some(function(id){return ['incline_dumbbell_press_30deg','low_incline_dumbbell_press_15deg','low_incline_dumbbell_press','flat_converging_chest_press','pec_deck','low_to_high_cable_fly','mid_height_cable_fly'].indexOf(id)>=0;}),hasBack=ids.some(function(id){return ['pullups','neutral_grip_lat_pulldown','single_arm_cable_lat_pulldown','straight_arm_cable_pulldown','chest_supported_high_row','chest_supported_mid_back_row','chest_supported_lat_biased_row','seated_neutral_grip_cable_lat_row'].indexOf(id)>=0;}),hasArms=ids.some(function(id){return ['cable_lateral_raise','reverse_pec_deck','overhead_cable_triceps_extension','one_arm_dumbbell_preacher_curl','rope_triceps_pushdown','dumbbell_hammer_curl'].indexOf(id)>=0;}),hasLegs=ids.some(function(id){return ['leg_press','seated_leg_curl','hip_thrust','standing_leg_calf_raise','standing_calf_raise','calf_raise','leg_extension'].indexOf(id)>=0;});
-      if(hasChest&&hasBack)cats.push('chestBack');else if(hasChest)cats.push('chest');else if(hasBack)cats.push('back');
-      if(hasArms)cats.push('shoulders');if(hasLegs)cats.push('legs');
-    }
-    cats.forEach(function(cat){latest[cat]=Math.max(latest[cat]||0,at);});
-  });
-  function daysSince(at){if(!at)return Infinity;var today=new Date(localDateKey(current)+'T12:00:00'),then=new Date(localDateKey(at)+'T12:00:00');return Math.floor((today.getTime()-then.getTime())/86400000);}
-  var weekday=new Date(current).getDay(),selected,reason;
-  if(weekday===6)return {dayN:1,reason:'Saturday chest priority.'};
-  if(weekday===0)return {dayN:2,reason:'Sunday back priority.'};
-  if(weekday===5){
-    selected=daysSince(latest.shoulders)>=daysSince(latest.legs)?3:5;
-    reason=selected===3?'Direct shoulders and arms are due.':'Legs have gone longest without direct work.';
-  }else if(mostRecent&&daysSince(mostRecent)>=4){
-    var ordered=[['chest',1],['back',2],['shoulders',3],['chestBack',4],['legs',5]];
-    ordered.sort(function(a,b){return (latest[a[0]]||0)-(latest[b[0]]||0)||a[1]-b[1];});
-    selected=ordered[0][1];reason=selected===1?'Chest + Side Delts have gone longest without a session.':selected===2?'Back + Rear Delts have gone longest without a session.':selected===3?'Direct shoulders and arms are due.':selected===4?'Extra upper-body opportunity this week.':'Legs have gone longest without direct work.';
-  }else if(weekday>=1&&weekday<=4){
-    if(daysSince(latest.shoulders)>=7){selected=3;reason='Direct shoulders and arms are due.';}
-    else if(daysSince(latest.legs)>=8){selected=5;reason='Legs have gone longest without direct work.';}
-    else{selected=4;reason='Extra upper-body opportunity this week.';}
-  }
-  return {dayN:selected,reason:reason,active:false};
-}
 function nextDay(dbRef) { return dbRef._nextDayOverride||getBestWorkoutRecommendation(dbRef).dayN; }
 
 // ---- export / import ----
@@ -3121,6 +2813,7 @@ function exportBackup(db) {
   a.href = URL.createObjectURL(blob);
   a.download = 'adil-v3-' + out.exported + '.json';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  return JSON.stringify(out, null, 2);
 }
 
 function importBackup(jsonText, currentDb) {
@@ -3244,7 +2937,7 @@ var Timer = (function() {
 })();
 
 // ============================================================
-// MAIN WORKOUT CLOCK — 3 HOUR CAP
+// MAIN WORKOUT CLOCK ,  3 HOUR CAP
 // ============================================================
 var SessionClock = (function(){
   var interval = null;
@@ -3266,20 +2959,15 @@ var SessionClock = (function(){
 // ============================================================
 // TODAY SCREEN
 // ============================================================
-function renderToday(db) {
-  var active=db.activeSession&&!db.activeSession.finished,recommendation=getBestWorkoutRecommendation(db),homeLog=getHomeLog(db,localDateKey(),false)||{items:{}};
-  var homeDone=HOME_ROUTINE.filter(function(item){return !!homeLog.items[item.id];}).length;
-  var homeCard='<div class="today-home-card'+(homeDone===HOME_ROUTINE.length?' is-complete':'')+'"><div class="thc-icon">'+(homeDone===HOME_ROUTINE.length?'✓':'⌂')+'</div><div class="thc-main"><div class="thc-kicker">Daily Home Routine</div><div class="thc-title">Maximum 7 minutes</div><div class="thc-meta">'+homeDone+' / '+HOME_ROUTINE.length+' complete today</div></div><button class="thc-open" onclick="App.showScreen(\'home\')">'+(homeDone===HOME_ROUTINE.length?'View':'Open')+'</button></div>';
-  var storageNote=DB_LOAD_ERROR?'<div class="timer-cap-banner" role="alert">Workout storage warning: '+esc(DB_LOAD_ERROR)+' Saved data was not overwritten.'+(DB_SAFE_TO_EXPORT?'<button class="btn-ghost btn-sm" onclick="App.doExport()">Export database</button>':'')+'</div>':'';
-  var n=recommendation.dayN,day=DAYS[n],title=active?getSessionLabel(db.activeSession):day.title;
-  var action=active?'<button class="btn-primary btn-xl" onclick="App.resumeWorkout()">Resume Workout</button>':'<button class="btn-primary btn-xl" onclick="App.startWorkout('+n+',false)">Start Recommended Workout</button>';
-  var recommended='<section class="today-day-card"><div class="tdc-kicker">Recommended Today</div><h2 class="today-workout-title">'+esc(title)+'</h2><p class="today-reason">'+esc(active?'Resume your active workout.':recommendation.reason)+'</p>'+action+'</section>';
-  var choices=ALL_DAY_NUMBERS.map(function(n){var day=DAYS[n],slots=getProgrammeSlots(n,'4','full',db,undefined,true,false,true,{}),count=slots.filter(function(slot){return !slot.optional;}).length;return '<article class="today-choice"><div><strong>'+esc(day.title)+'</strong><span>'+count+' exercises · ~'+esc(day.durationLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';}).join('');
-  var chooser='<details class="today-picker"><summary class="tp-sum">Choose Another Workout</summary><div class="tp-body">'+choices+'</div></details>';
-  var blockNote=localDateKey()>PROGRAMME_END_DATE?'<div class="addex-muted">Programme block complete. All workouts remain available.</div>':'';
-  var appMeta='<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button type="button" onclick="App.checkForUpdates()">Check for updates</button><span class="today-update-status" id="today-update-status" aria-live="polite"></span></div>';
-  return '<div class="today-wrap">'+storageNote+recommended+chooser+homeCard+blockNote+appMeta+'</div>';
+function renderToday(data){
+ var active=data.activeSession&&!data.activeSession.finished,rec=getBestWorkoutRecommendation(data),day=DAYS[rec.dayN],home=getHomeLog(data,localDateKey(),false)||{items:{}},done=HOME_ROUTINE.filter(function(i){return !!home.items[i.id];}).length;
+ var warn=DB_LOAD_ERROR?'<div class="timer-cap-banner" role="alert">'+esc(DB_LOAD_ERROR)+' Saved data was not overwritten.</div>':'';
+ var card='<section class="today-day-card"><div class="tdc-kicker">'+(active?'Workout in progress':'Recommended workout')+'</div><h2 class="today-workout-title">'+esc(active?getSessionLabel(data.activeSession):day.title)+'</h2><p class="today-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="'+(active?'App.resumeWorkout()':'App.startWorkout('+rec.dayN+',false)')+'">'+(active?'Resume workout':'Start workout')+'</button></section>';
+ var choices=ALL_DAY_NUMBERS.map(function(n){return '<article class="today-choice"><div><strong>'+esc(DAYS[n].title)+(n===3?' · optional':'')+'</strong><span>'+esc(DAYS[n].scheduleLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';}).join('');
+ var homeCard='<div class="today-home-card"><div class="thc-icon">⌂</div><div class="thc-main"><div class="thc-kicker">Daily Home Routine</div><div class="thc-title">Maximum 7 minutes</div><div class="thc-meta">'+done+' / '+HOME_ROUTINE.length+' complete today</div></div><button class="thc-open" onclick="App.showScreen(\'home\')">Open</button></div>';
+ return '<div class="today-wrap">'+warn+card+'<details class="today-picker"><summary class="tp-sum">Choose another workout</summary><div class="tp-body">'+choices+'</div></details><div class="today-shortcuts"><button class="btn-ghost" onclick="Cardio.open()">Cardio</button></div>'+homeCard+(localDateKey()>PROGRAMME_END_DATE?'<p class="addex-muted">Block complete. Workouts and history remain available.</p>':'')+'<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button onclick="App.checkForUpdates()">Check for updates</button><span id="today-update-status" aria-live="polite"></span></div></div>';
 }
+
 
 // ============================================================
 // WORKOUT INIT
@@ -3377,7 +3065,7 @@ function renderWorkout(db) {
     '<div class="wo-header">' +
       '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
       '<div class="wo-hinfo">' +
-        '<div class="wo-htitle">' + getSessionLabel(sess) + ' · ' + day.title + '</div>' +
+        '<div class="wo-htitle">' + esc(getSessionLabel(sess)) + '</div>' +
         '<div class="wo-hprog">' + exDone + ' / ' + exerciseIds.length + ' exercises</div>' +
         '<div class="wo-session-clock" id="wo-session-clock">' + fmtTime(getSessionElapsedMs(sess)) + '</div>' +
       '</div>' +
@@ -3393,7 +3081,7 @@ function renderWorkout(db) {
       lateralMakeup+
       '<div class="wo-finish-section">' +
         '<div class="workout-add-ex"><button class="btn-ghost btn-add-ex" onclick="App.openAddExercise()">+ Add exercise</button></div>' +
-        '<div class="wo-stats">' + doneWorking + ' completed working rows · ' + getCompletedProgrammeRounds(sess) + ' programmed rounds · ' + sess.sets.filter(function(s){return s.completed;}).reduce(function(a,s){return a+s.reps;},0) + ' total reps</div>' +
+        '<div class="wo-stats">' + doneWorking + ' completed working rows · ' + getCompletedProgrammeRounds(sess) + ' programmed rounds · ' + sess.sets.filter(function(s){return s.completed;}).reduce(function(a,s){return a+(s.measurementMode==='timed'?0:Number(s.reps)||0);},0) + ' total reps</div>' +
         '<button class="btn-primary btn-xl" onclick="App.finishWorkout()">Finish Workout</button>' +
       '</div>' +
     '</div>';
@@ -3407,12 +3095,7 @@ function renderWorkout(db) {
   }, 200);
 }
 
-function renderSundayLateralMakeupAction(session) {
-  if(!session||session.programVersion!==PROGRAM_VERSION||session.dayN!==2)return '';
-  var slots=session.programmeSnapshot&&session.programmeSnapshot.slots||[];
-  if(slots.some(function(slot){return slot.slotId==='v2_sun_optional_lateral_makeup';})||getSessionExerciseIds(session).indexOf('cable_lateral_raise')>=0)return '';
-  return '<details class="sunday-makeup"><summary>Make up missed Saturday laterals</summary><div><p>Optional cable lateral raises · 1–2 sets per side · 12–25 reps. No drop set.</p><button class="btn-ghost btn-sm" onclick="App.addSundayLateralMakeup(1)">Add 1 set per side</button> <button class="btn-ghost btn-sm" onclick="App.addSundayLateralMakeup(2)">Add 2 sets per side</button></div></details>';
-}
+function renderSundayLateralMakeupAction(){return '';}
 
 function renderExCard(exId, sess, db, exState) {
   var ex = getExerciseDef(exId, sess);
@@ -3450,7 +3133,7 @@ function renderExCard(exId, sess, db, exState) {
       '<div class="exc-compact exc-compact--future" onclick="App.expandExCard(\'' + exId + '\')">' +
         '<span class="exc-compact-num">'+String(exOrder).padStart(2,'0')+'</span>' +
         '<div class="exc-compact-info"><span class="exc-compact-name">'+esc(ex.name)+'</span>' + substitutionLabel + unknownLabel + rushedLabel + optionalLabel +
-        '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+' reps</span></div>' +
+        '<span class="exc-compact-sub">'+esc(ex.target)+' · '+ex.sDef+' sets · '+ex.rMin+'–'+ex.rMax+(ex.timed?' sec':' reps')+'</span></div>' +
         '<span class="exc-expand-hint">›</span>' +
       '</div><div class="ex-compact-perf">'+renderCompactExerciseRecords(db,exId,slotForExercise&&slotForExercise.slotId)+'</div></div>';
   }
@@ -3460,19 +3143,7 @@ function renderExCard(exId, sess, db, exState) {
   var setRows = exSets.map(function(s) {
     return renderSetRow(s,getPreviousPerformanceSet(db,exId,s),ex);
   }).join('');
-  var slotAdvice=getProgressionAdvice(db,exId,slotForExercise,sess);
-  var guidanceNotes=(ex.tempo?'<div class="coll-tnf"><b>Tempo</b> '+esc(ex.tempo)+'</div>':'')+
-    (ex.loadGuidance?'<div class="coll-cbum"><b>Load guidance</b> '+esc(ex.loadGuidance)+'</div>':'')+
-    (slotForExercise&&slotForExercise.effortNote?'<div class="coll-tnf"><b>Effort</b> '+esc(slotForExercise.effortNote)+'</div>':'')+
-    '<div class="coll-tnf">Rep ranges guide progression; a completed set outside the range remains valid recorded work.</div>'+
-    (slotAdvice?'<div class="coll-tnf"><b>Progression</b> '+esc(slotAdvice)+'</div>':'');
-  var rangeWarning = ex.rangeWarning ? '<div class="range-warning"><strong>'+esc(ex.warningLabel || 'IMPORTANT')+':</strong> '+esc(ex.rangeWarning)+'</div>' : '';
-  var collapsibles =
-    '<div class="ex-coll-row">' +
-    mkColl('cue-'+exId,'Cues','<ul class="coll-list">'+ex.cues.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>') +
-    mkColl('note-'+exId,'Notes',guidanceNotes) +
-    mkColl('err-'+exId,'Mistakes',rangeWarning+'<ul class="coll-list coll-mist">'+ex.mistakes.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul><div class="coll-hard">'+esc(ex.hard)+'</div>') +
-    '</div>';
+  var collapsibles=renderCoachingTips(ex,sess,slotForExercise);
   var noteVal = (sess.exNotes && sess.exNotes[exId]) || '';
   return '<div class="ex-card ex-card--current" id="exc-'+exId+'">' +
     '<div class="exc-head">' +
@@ -3483,7 +3154,7 @@ function renderExCard(exId, sess, db, exState) {
       '</div>' +
       '<div class="exc-badges">' +
         '<span class="xb">'+ex.sDef+(ex.sMin!==ex.sMax?'–'+ex.sMax:'')+' sets</span>' +
-        '<span class="xb">'+ex.rMin+'–'+ex.rMax+' reps</span>' +
+        '<span class="xb">'+ex.rMin+'–'+ex.rMax+(ex.timed?' sec':' reps')+'</span>' +
         '<span class="xb">'+(slotForExercise?fmtRestRange(slotForExercise.restMin,slotForExercise.restMax):fmtRestLabel(ex.rest))+' rest</span>' +
       '</div>' +
       '<div id="performance-'+exId+'">'+performanceBox+'</div>' +
@@ -3500,7 +3171,7 @@ function renderExCard(exId, sess, db, exState) {
 
 
 function isFirstWarmupCandidate(set, ex) {
-  if (!db || !db.activeSession || !set || set.setType !== 'working') return false;
+  if (!db || !db.activeSession || !set || set.setType !== 'working'||ex&&ex.timed) return false;
   var sets = db.activeSession.sets.filter(function(s){ return s.exId === set.exId; });
   if (sets.some(function(s){ return s.isWarmupMarked; })) return false;
   var working = sets.filter(function(s){ return s.setType === 'working'&&!s.isAdded; }).sort(function(a,b){ return (a.setNum||0)-(b.setNum||0); });
@@ -3511,6 +3182,7 @@ function isFirstWarmupCandidate(set, ex) {
 }
 
 function renderSetRow(s, prevSet, ex) {
+  if(ex.timed||s.measurementMode==='timed')return renderTimedSetRow(s,prevSet,ex);
   var label = s.setType==='warmup' ? 'WU'+(s.side?' '+s.side:'') : s.setType==='drop' ? 'Drop'+(s.side?' '+s.side:'') : 'Set '+s.setNum+(s.side?' '+s.side:'');
   var units=s.units||'kg';
   var delBtn = s.isAdded ? '<button class="sr-del" onclick="App.deleteSet(\'' + s.id + '\')" title="Remove">×</button>' : '';
@@ -3651,9 +3323,9 @@ function scrollExIntoView(el, center) {
 // ============================================================
 function renderSummary(session, db) {
   var day = Object.assign({}, DAYS[session.dayN], {title:getSessionDayTitle(session)});
-  var dur = session.durationMs ? fmtTime(session.durationMs) : '—';
+  var dur = session.durationMs ? fmtTime(session.durationMs) : ', ';
   var workingSets = session.sets.filter(function(s){ return s.completed && s.setType==='working' && isEffectiveWorkingSet(s, session); });
-  var totalReps = workingSets.reduce(function(a,s){ return a+s.reps; }, 0);
+  var totalReps = workingSets.reduce(function(a,s){ return a+(s.measurementMode==='timed'?0:Number(s.reps)||0); }, 0);
   var draftRows=session.sets.filter(function(s){return s.setType==='working'&&!s.completed&&!s.skipped&&setHasStarted(s);}).length;
   var plannedRounds=(session.programmeSnapshot&&session.programmeSnapshot.slots||[]).reduce(function(total,slot){return total+(slot.optional?0:slot.sets||0);},0);
   var completedRounds=getCompletedProgrammeRounds(session);
@@ -3714,7 +3386,7 @@ function renderVolume(db) {
     var tMin  = adaptiveTarget.min, tMax = adaptiveTarget.max;
     var pct   = tMax > 0 ? Math.min(100, done / tMax * 100) : 0;
     var status, statusCls;
-    if      (done === 0)       { status='—';            statusCls='vs-none';  }
+    if      (done === 0)       { status=', ';            statusCls='vs-none';  }
     else if (done < tMin)      { status='Below target'; statusCls='vs-low';   }
     else if (done <= tMax)     { status='On track';     statusCls='vs-ok';    }
     else if (done <= tMax*1.2) { status='Target reached'; statusCls='vs-hit'; }
@@ -3837,7 +3509,7 @@ function renderSessionDetail(sess) {
     }
     var setLines = sets.map(function(s) {
       var label = s.setType==='warmup' ? 'WU' : s.setType==='drop' ? 'Drop' : 'S' + s.setNum + (s.side?' '+s.side:'');
-      var status = s.skipped ? 'skipped ('+esc(s.skipReason||'manual')+')' : s.completed ? s.weight+' '+esc(s.units||'kg')+' × '+s.reps : setHasStarted(s)?'Draft '+s.weight+' '+esc(s.units||'kg')+' × '+s.reps:'—';
+      var status = s.skipped ? 'skipped ('+esc(s.skipReason||'manual')+')' : s.completed ? esc(formatSessionSetLine(s)) : setHasStarted(s)?'Draft '+esc(formatSessionSetLine(s)):', ';
       return '<div class="sd-set"><span class="sd-sl">' + label + '</span><span class="sd-sv">' + status + '</span></div>';
     }).join('');
     var historyMeta = ex.unknown ? '<div class="addex-muted">Saved ID: '+esc(ex.rawId)+'</div>' : '';
@@ -3948,15 +3620,15 @@ function renderHome(dbRef) {
 // ============================================================
 // PROGRAM SCREEN
 // ============================================================
-function renderProgram() {
-  var cards=ALL_DAY_NUMBERS.map(function(n){
-    var day=DAYS[n],slots=getProgrammeSlots(n,'4','full',db,undefined,true,false,true,{}),count=slots.filter(function(slot){return !slot.optional;}).length;
-    var muscles=(day.primaryMuscles||[]).join(' · ');
-    var optionalTag=n===4?'<span class="optional-day-tag">Optional extra</span>':'';
-    return '<article class="prog-simple-card"><div class="prog-simple-main"><h2>'+esc(day.title)+optionalTag+'</h2><div class="prog-simple-meta">'+count+' exercises · ~'+esc(day.durationLabel)+'</div><p class="prog-simple-summary">'+esc(muscles)+'</p></div><button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';
-  }).join('');
-  return '<div class="prog-wrap prog-simple"><div class="prog-hero"><h1 class="prog-title">'+esc(PROGRAM_NAME)+'</h1><p class="prog-sub">Five focused workouts. Choose any session at any time.</p>'+((localDateKey()>PROGRAMME_END_DATE)?'<p class="prog-sub">Block complete · 30 November 2026. Workouts and history remain available.</p>':'')+'</div><div class="prog-simple-list">'+cards+'</div></div>';
+function renderProgram(){
+ var intro='<div class="prog-hero"><h1 class="prog-title">Chest Priority</h1><p class="prog-sub">Four complete sessions through 30 November. One focused leg day. Choose or reschedule any workout.</p></div>';
+ var cards=CORE_DAY_NUMBERS.map(function(n){var day=DAYS[n],slots=getProgrammeSlots(n,null,null,db),count=slots.reduce(function(t,s){return t+s.sets;},0),special=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise. Later visits return to three sets for hip thrust, leg press and leg curl.</p>':n===4&&fifthDaySelected(db)?'<p class="fifth-note">Shoulders and arms moved to Wednesday this week.</p>':'';return '<article class="prog-session"><div class="schedule-kicker">'+esc(day.scheduleLabel)+'</div><h2>'+esc(day.title)+'</h2><p>'+slots.length+' exercises · '+(n===2?'11 lifting sets + 2 holds':count+' working rounds')+' · '+esc(day.durationLabel)+'</p>'+special+'<button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button><details><summary>Exercises &amp; tips</summary>'+renderPlanList(slots)+'</details></article>';}).join('');
+ var selected=fifthDaySelected(db),fifth='<details class="prog-session"><summary>Optional fifth day: shoulders + arms</summary><p>Move Tuesday lateral raises, triceps and preacher curls here, then add only two rear-delt sets. Decide before Tuesday. Unexpected extra visit after those sets are done: cardio or posing instead.</p><button class="btn-ghost btn-sm" onclick="toggleFifthDay()">'+(selected?'Return to four days this week':'Split Tuesday accessories this week')+'</button><p class="fifth-note">This choice applies only to newly started workouts. Your active workout never changes.</p>'+renderPlanList(getProgrammeSlots(3,null,null,db))+'<button class="btn-primary btn-sm" onclick="App.startWorkout(3,true)">Start remaining accessories</button></details>';
+ var guide='<details class="prog-session"><summary>Progression and final-week guidance</summary><p>Use repeatable technique and rest. Add reps before load; increase after all normal sets reach the top of the range. Prefill is a previous result, not an instruction. No compulsory RIR entry.</p><p>First week: no drop sets. Before your first wedding event, use less volume, familiar exercises and no failure attempts. Do not use dehydration or a last-minute volume surge.</p><p>Cardio is separate: build toward 150 moderate minutes and one interval option, introduced gradually. The Home routine stays at seven minutes.</p></details>';
+ return '<div class="prog-wrap prog-simple">'+intro+cards+fifth+guide+'</div>';
 }
+function renderPlanList(slots){return '<ol class="prog-mini-list">'+slots.map(function(slot,i){var ex=getExerciseDef(slot.exerciseId,null,db);return '<li>'+String(i+1)+'. '+esc(ex.name)+'<span>'+slot.sets+' × '+slot.min+'-'+slot.max+(slot.trackingUnit==='seconds'?' seconds':slot.unilateral?' per side':' reps')+' · '+esc(fmtRestRange(slot.restMin,slot.restMax))+' rest</span>'+renderCoachingTips(ex,null,slot)+'</li>';}).join('')+'</ol>';}
+
 
 function renderProgExCard(slot,idx,dayN) {
   var ex=getExerciseDef(slot.exerciseId,null,db),setsDisplay=slot.optional?'Optional':String(slot.sets)+(slot.unilateral?' / side':'');
@@ -3964,7 +3636,7 @@ function renderProgExCard(slot,idx,dayN) {
   var optBox=slot.optional?'<div class="pe-callout pe-opt"><b>Optional · completion and actual duration only.</b> Does not count toward sets, progression, PRs or adherence.</div>':'';
   var loadBox=ex.loadGuidance?'<div class="pe-callout pe-opt"><b>Load guidance</b> '+esc(ex.loadGuidance)+'</div>':'';
   var rangeBox=ex.rangeWarning?'<div class="range-warning"><strong>'+esc(ex.warningLabel||'IMPORTANT')+':</strong> '+esc(ex.rangeWarning)+'</div>':'';
-  var restLabel=slot.restMin?fmtRestRange(slot.restMin,slot.restMax):'—';
+  var restLabel=slot.restMin?fmtRestRange(slot.restMin,slot.restMax):', ';
   return '<div class="prog-ex"><div class="pe-head"><span class="pe-no">'+String(idx+1).padStart(2,'0')+'</span><span class="pe-name">'+esc(ex.name)+'</span></div>'+
     '<div class="pe-badges"><div class="pe-badge"><span class="pb-l">Sets</span><span class="pb-v">'+setsDisplay+'</span></div>'+
     '<div class="pe-badge"><span class="pb-l">Reps</span><span class="pb-v">'+(slot.optional?'Completion only':slot.min+' to '+slot.max)+'</span></div>'+
@@ -4024,7 +3696,7 @@ function renderHistory(db) {
   var sessions = db.completedSessions.slice().sort(function(a,b){ return b.startTime-a.startTime; });
   var rows = sessions.map(function(sess) {
     var day = Object.assign({}, DAYS[sess.dayN], {title:getSessionDayTitle(sess)});
-    var dur = sess.durationMs ? fmtTime(sess.durationMs) : '—';
+    var dur = sess.durationMs ? fmtTime(sess.durationMs) : ', ';
     var workingSets = sess.sets.filter(function(s){ return s.completed && s.setType==='working' && isEffectiveWorkingSet(s, sess); }).length;
     var prs = (sess.prs||[]).length;
     return '<div class="hist-item" id="hi-'+sess.id+'">' +
@@ -4050,7 +3722,7 @@ function renderHistory(db) {
       '</div>' +
     '</div>';
   }).join('');
-  var mainContent = sessions.length === 0 ? '<div class="hist-empty"><div class="he-icon">—</div><div class="he-text">No completed workouts yet.</div></div>' : '<div class="hist-wrap">' + rows + '</div>';
+  var mainContent = sessions.length === 0 ? '<div class="hist-empty"><div class="he-icon">, </div><div class="he-text">No completed workouts yet.</div></div>' : '<div class="hist-wrap">' + rows + '</div>';
   var dataHtml = '<details class="data-mgmt"><summary class="dm-sum">Data &amp; Settings</summary>' +
     '<div class="dm-body">' +
       '<div class="dm-row">' +
@@ -4061,7 +3733,7 @@ function renderHistory(db) {
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearActiveSession()">Clear active session</button>' +
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearWorkoutData()">Clear all history</button>' +
       '</div>' +
-      '<div class="app-version">'+esc(PROGRAM_NAME)+' · App version '+APP_VERSION+'</div>' +
+      renderAchievementSettings()+'<div class="app-version">'+esc(PROGRAM_NAME)+' · App version '+APP_VERSION+'</div>' +
     '</div></details>';
   return '<div class="screen-title">History</div>' + mainContent + dataHtml;
 }
@@ -4069,7 +3741,7 @@ function renderHistory(db) {
 
 
 // ============================================================
-// APP — navigation and all action handlers
+// APP ,  navigation and all action handlers
 // ============================================================
 var db;
 var App = (function() {
@@ -4081,12 +3753,14 @@ var App = (function() {
     if (el) el.classList.add('active');
     document.querySelectorAll('.nav-tab').forEach(function(b) { b.classList.toggle('nav-tab--on', b.dataset.screen === name); });
     // Render on demand
+    if(typeof Cardio!=='undefined')Cardio.onNavigate(name);
+    if (name === 'cardio') { el.innerHTML = Cardio.render(); }
     if (name === 'today')   { el.innerHTML = renderToday(db); }
     if (name === 'home')    { el.innerHTML = renderHome(db); }
     if (name === 'volume')  { el.innerHTML = renderVolume(db); }
     if (name === 'history') { el.innerHTML = renderHistory(db); }
     // Program is pre-rendered; only refresh on first visit
-    if (name === 'program' && !el.dataset.rendered) {
+    if (name === 'program') {
       el.innerHTML = renderProgram();
       el.dataset.rendered = '1';
     }
@@ -4147,9 +3821,11 @@ var App = (function() {
   function startWorkout(dayN,manualSelection) {
     if(!canPersistUserChanges())return;
     if (db.activeSession && !db.activeSession.finished) {
-      if (!confirm('A workout is already in progress. Discard it and start a new one?')) return;
+      alert('A saved workout is active. Finish or explicitly discard it before starting another.');resumeWorkout();return;
     }
-    var sess = createSession(dayN,!!manualSelection||!!db._nextDayOverride);
+    if(Number(dayN)===3&&!currentTuesdaySessions(db).length&&!fifthDaySelected(db)){if(!confirm('Move Tuesday accessories into this optional workout this week? Tuesday will then contain only press, pulldown and row.'))return;db.settings.fifthDayWeeks=db.settings.fifthDayWeeks||{};db.settings.fifthDayWeeks[currentWeekKey()]=true;}
+    if(Number(dayN)===3&&fifthDayAlreadyCovered(db)){alert('Tuesday already covered these shoulder and arm sets. Use Cardio or posing for an unexpected extra visit.');return;}
+    var sess = createSession(Number(dayN),!!manualSelection||!!db._nextDayOverride);
     sess.sets = initWorkoutSets(dayN, db, sess);
     sess.exNotes = {};
     delete db._nextDayOverride;
@@ -4220,6 +3896,7 @@ var App = (function() {
     document.querySelectorAll('#wo-body .set-row--active[id^="sr-"]').forEach(function(row){
       var id=row.id.slice(3),set=db.activeSession.sets.find(function(item){return item.id===id;});
       if(!set)return;
+      var hold=row.querySelector('[data-hold-seconds]');if(hold){var secs=parseFiniteNumber(hold.value);if(secs!==null&&secs!==Number(set.durationSeconds)){set.durationSeconds=Math.max(0,Math.floor(secs));set.draftTouched=true;set.startedAt=set.startedAt||Date.now();}return;}
       var inputs=row.querySelectorAll('.sri-inp');
       if(inputs[0]){var weight=parseFiniteNumber(inputs[0].value);if(weight!==null&&weight!==Number(set.weight)){set.weight=Math.max(0,weight);set.weightEdited=true;set.draftTouched=true;set.startedAt=set.startedAt||Date.now();}}
       if(inputs[1]){var reps=parseFiniteNumber(inputs[1].value);if(reps!==null&&reps!==Number(set.reps)){set.reps=Math.max(0,Math.floor(reps));set.repsEdited=true;set.draftTouched=true;set.startedAt=set.startedAt||Date.now();}}
@@ -4313,12 +3990,16 @@ var App = (function() {
 
   function completeSet(setId) {
     if(!canPersistUserChanges())return;
-    var s = getSet(setId); if (!s) return;
-    if (s.reps <= 0) { alert('Enter reps before logging.'); return; }
+    var s = getSet(setId); if (!s||s.completed) return;
+    flushVisibleSetDrafts();
+    var definition=getExerciseDef(s.exId,db.activeSession);
+    if(definition.timed||s.measurementMode==='timed'){if(!(Number(s.durationSeconds)>0)){alert('Enter seconds held first.');return;}}else if(!(Number(s.reps)>0)){alert('Enter reps before logging.');return;}
+    var candidate=evaluateSetAchievement(db,db.activeSession,s);var priorState=Object.assign({},s);
     s.completed=true;s.draftTouched=true;s.startedAt=s.startedAt||Date.now();s.rir=null;s.timestamp=Date.now();invalidatePerformanceCaches(db);
-    dbSave(db);
+    var achievement=recordSetAchievement(db,db.activeSession,s,candidate);
+    if(!dbSave(db)){Object.keys(s).forEach(function(k){delete s[k];});Object.assign(s,priorState);if(achievement&&achievement.eventId)db.prCelebrationEvents=db.prCelebrationEvents.filter(function(e){return e.eventId!==achievement.eventId;});alert('Set could not be saved. Check storage; export a backup.');return;}
     refreshExercisePerformance(s.exId,s.slotId);
-    try { navigator.vibrate(80); } catch(e){}
+    if(achievement)PRCelebration.show(achievement);
     rerenderSetRow(setId);
     var ex=getExerciseDef(s.exId,db.activeSession),sess=db.activeSession,exId=s.exId;
     if (ex && s.setType !== 'warmup') {
@@ -4328,6 +4009,7 @@ var App = (function() {
     }
     var exerciseIds=getSessionExerciseIds(sess);
     setTimeout(function() {
+      if(db.activeSession!==sess||sess.finished)return;
       var prescSets = sess.sets.filter(function(ss){
         return ss.exId===exId&&isRequiredSessionSet(ss,sess)&&!ss.isAdded;
       });
@@ -4354,7 +4036,7 @@ var App = (function() {
         if(na) scrollExIntoView(na, true);
         updateExCardDoneState(exId);
       }
-    }, 150);
+    }, achievement?2300:150);
   }
 
   function undoSet(setId) {
@@ -4428,6 +4110,7 @@ var App = (function() {
       ref = ref[ref.length-1] || exWS[exWS.length-1];
       var ns = createSet(exId, nextNum, 'working', side||null);
       ns.weight = ref ? ref.weight : 0; ns.reps = ref ? ref.reps : ex.rMin;
+      if(ex.timed){ns.measurementMode='timed';ns.durationSeconds=ref&&ref.durationSeconds||ex.rMin;ns.reps=0;}
       ns.rir = null; ns.suggestedWeight = ns.weight; ns.suggestedReps = ns.reps; ns.isAdded = true;
       if(slot){ns.slotId=slot.slotId;ns.prescriptionSnapshot=Object.assign({},slot);}
       return ns;
@@ -4597,7 +4280,7 @@ var App = (function() {
     var originalSlot=(sess.programmeSnapshot&&sess.programmeSnapshot.slots||[]).find(function(slot){return slot.exerciseId===originalId;})||null;
     var substitute = Object.assign({},getExerciseDef(substituteId, sess));
     var replacementSlot=originalSlot?Object.assign({},originalSlot,{substituteId:substituteId}):null;
-    if(replacementSlot){substitute.sDef=replacementSlot.sets;substitute.sMin=replacementSlot.sets;substitute.sMax=replacementSlot.sets;substitute.rMin=replacementSlot.min;substitute.rMax=replacementSlot.max;substitute.rest=replacementSlot.rest;substitute.uni=!!replacementSlot.unilateral;substitute.slotId=replacementSlot.slotId;}
+    if(replacementSlot){replacementSlot=Object.assign({},replacementSlot,{exerciseId:substituteId});delete replacementSlot.equipmentSetup;delete replacementSlot.prescribedAngleDeg;var subAngle=substitute.prescribedAngleDeg;if(subAngle!==undefined)replacementSlot.prescribedAngleDeg=subAngle;if(substitute.equipmentSetup)replacementSlot.equipmentSetup=substitute.equipmentSetup;substitute.sDef=replacementSlot.sets;substitute.sMin=replacementSlot.sets;substitute.sMax=replacementSlot.sets;substitute.rMin=replacementSlot.min;substitute.rMax=replacementSlot.max;substitute.rest=replacementSlot.rest;substitute.uni=!!replacementSlot.unilateral;substitute.slotId=replacementSlot.slotId;}
     sess.sets = sess.sets.filter(function(set) { return set.exId !== originalId; });
     var replacementSets = createExerciseSetsForSession(substituteId, substitute, db, true, replacementSlot);
     replacementSets.forEach(function(set) { set.substitutedFor = originalId;set.originalExerciseId=originalId; });
@@ -4947,6 +4630,7 @@ var App = (function() {
     setWeight: setWeight,
     adjReps: adjReps,
     setReps: setReps,
+    setHoldSeconds:function(id,value){if(!canPersistUserChanges())return;var s=getSet(id);if(!s||s.completed)return;s.durationSeconds=Math.max(0,Math.floor(Number(value)||0));s.measurementMode='timed';s.draftTouched=true;s.startedAt=s.startedAt||Date.now();dbSave(db);},
     setRir: setRir,
     toggleOptionalActivity: toggleOptionalActivity,
     setActivityDuration: setActivityDuration,
@@ -4989,11 +4673,178 @@ var App = (function() {
   };
 })();
 
+// Compact coaching and accessory redistribution. These are not weekly-planner panels.
+function compactPerformanceSequence(rows){if(!rows.length)return '';var f=rows[0];if(f.measurementMode!=='timed'&&rows.every(function(r){return r.weight===f.weight&&r.units===f.units&&r.measurementMode===f.measurementMode;})){var p=f.measurementMode==='bodyweight'?'BW':f.measurementMode==='weighted_bodyweight_addition'?'BW + '+f.weight+' '+f.units:f.measurementMode==='assisted'?f.weight+' '+f.units+' assistance':f.weight+' '+f.units;return p+' × '+rows.map(function(r){return r.reps;}).join(', ')+(f.loadConvention==='per-hand'?' / hand':'');}return rows.map(formatPerformanceLine).join(', ');}
+function renderCoachingTips(ex,session,slot){var news=(ex.newTips||[]).slice(0,2),cues=(ex.cues||[]).slice(0,4-news.length),html=news.map(function(t){return '<li class="coach-tip-new"><span class="new-tip-marker">NEW</span>'+esc(t)+'</li>';}).join('')+cues.map(function(t){return '<li>'+esc(t)+'</li>';}).join('');return '<details class="coach-tips"><summary>Tips &amp; setup '+(news.length?'<span class="new-tip-count">'+news.length+' new</span>':'')+'</summary><ul>'+html+'</ul>'+(slot&&slot.effortNote?'<p class="coach-effort">'+esc(slot.effortNote)+'</p>':'')+'</details>';}
+function renderTimedSetRow(s,prev,ex){var label='Hold '+s.setNum;if(s.completed)return '<div class="set-row set-row--done" id="sr-'+esc(s.id)+'" onclick="App.editSet(\''+esc(s.id)+'\')"><span>'+label+'</span><strong>'+Number(s.durationSeconds||0)+' sec</strong><span class="sr-check">✓</span></div>';if(s.skipped)return '<div class="set-row set-row--skipped" id="sr-'+esc(s.id)+'"><span>'+label+'</span><span>Skipped</span><button class="btn-ghost btn-xs" onclick="App.undoSkip(\''+esc(s.id)+'\')">Undo</button></div>';return '<div class="set-row set-row--active" id="sr-'+esc(s.id)+'"><div class="sr-top"><span class="sr-label">'+label+'</span><span class="sr-prev-line">'+esc(prev?'Prev: '+prev.durationSeconds+' sec':'30-60 sec, comfortably short of failure')+'</span><button class="sr-skip-lnk" onclick="App.skipSet(\''+esc(s.id)+'\')">Skip</button></div><div class="timed-set-input"><label>Seconds held<input data-hold-seconds type="number" inputmode="numeric" min="0" max="3600" value="'+Number(s.durationSeconds||30)+'" oninput="App.setHoldSeconds(\''+esc(s.id)+'\',this.value)"></label><button class="sr-tick" onclick="App.completeSet(\''+esc(s.id)+'\')" aria-label="Log hold">✓</button></div></div>';}
+function toggleFifthDay(){if(!canPersistUserChanges())return;if(db.activeSession&&db.activeSession.dayN===4&&db.activeSession.programVersion===PROGRAM_VERSION){alert('Your active Tuesday workout stays unchanged. Finish it first.');return;}if(currentTuesdaySessions(db).length){alert('Tuesday is already logged this week. Choose the optional session to see only remaining accessories, or do Cardio.');return;}var on=fifthDaySelected(db);if(!on&&!confirm('Move Tuesday lateral raises, triceps and curls to Wednesday this week? The normal four-day plan returns next week.'))return;db.settings.fifthDayWeeks=db.settings.fifthDayWeeks||{};db.settings.fifthDayWeeks[currentWeekKey()]=!on;dbSave(db);App.showScreen('program');}
+
+// PR events are created only by an explicit, successfully saved set-completion action.
+function evaluateSetAchievement(data,session,set){
+ var ex=getExerciseDef(set.exId,session,data);if(set.prEvaluationDone||set.completed||set.skipped||set.setType!=='working'||ex.prEligible===false||ex.nonHypertrophy)return null;
+ var c=normalizePerformanceRecord(Object.assign({},set,{completed:true,skipped:false,timestamp:Date.now()}),session,session.sets.indexOf(set),'active');if(!c||!isQualifiedPerformance(c,set.exId))return null;
+ var hist=getNormalizedExerciseHistory(data,set.exId,true).filter(function(r){return r.setId!==set.id&&r.type==='working'&&r.side===c.side&&performanceGroupKey(r)===performanceGroupKey(c);});
+ var q=hist.filter(function(r){return isQualifiedPerformance(r,set.exId);});if(!q.length)return {type:'baseline',exerciseId:set.exId};
+ var old=q.slice().sort(comparePerformanceRows)[0],type=null,delta=null,detail='';
+ if(c.measurementMode==='timed'){if(c.durationSeconds>old.durationSeconds){type='time';delta=c.durationSeconds-old.durationSeconds;detail='+'+delta+' seconds at the same exercise';}}
+ else if(c.measurementMode==='bodyweight'){if(c.reps>old.reps){type='reps';delta=c.reps-old.reps;detail='+'+delta+(delta===1?' rep':' reps')+' at bodyweight';}}
+ else if(c.measurementMode==='assisted'){if(c.weight<old.weight){type='assistance';detail='Less assistance: '+c.weight+' '+c.units;}}
+ else if(c.weight>old.weight){type='weight';detail='Previous qualifying best: '+formatPerformanceLine(old);}
+ var same=hist.filter(function(r){return r.weight===c.weight;});if(!type&&same.length&&c.measurementMode!=='timed'){var best=Math.max.apply(null,same.map(function(r){return r.reps;}));if(c.reps>best){type='reps';delta=c.reps-best;detail='+'+delta+(delta===1?' rep':' reps')+' at the same weight';}}
+ if(!type)return null;var side=c.side==='L'?'LEFT-SIDE ':c.side==='R'?'RIGHT-SIDE ':'';
+ return {type:type,exerciseId:set.exId,canonicalExerciseId:c.canonicalExerciseId,side:c.side,groupKey:performanceGroupKey(c),headline:side+(type==='weight'?'NEW WEIGHT PR':type==='time'?'NEW TIME PR':type==='assistance'?'LESS ASSISTANCE PR':'NEW REP PR'),display:formatPerformanceLine(c),detail:detail,delta:delta,weight:c.weight,reps:c.reps,durationSeconds:c.durationSeconds,units:c.units,measurementMode:c.measurementMode};
+}
+function recordSetAchievement(data,session,set,c){set.prEvaluationDone=true;if(!c)return null;if(c.type==='baseline')return Object.assign(c,{setId:set.id,sessionId:session.id});data.prCelebrationEvents=data.prCelebrationEvents||[];var id=session.id+':'+set.id;if(data.prCelebrationEvents.some(function(e){return e.eventId===id;}))return null;var e=Object.assign({},c,{eventId:id,setId:set.id,sessionId:session.id,achievedAt:set.timestamp});data.prCelebrationEvents.push(e);set.achievementEventId=id;return e;}
+function isCelebrationEventValid(data,e){return getNormalizedExerciseHistory(data,e.exerciseId,true).some(function(r){return r.sessionId===e.sessionId&&r.setId===e.setId&&r.type==='working'&&isQualifiedPerformance(r,e.exerciseId)&&r.weight===e.weight&&r.reps===e.reps&&r.durationSeconds===e.durationSeconds&&r.side===e.side;});}
+function getPRCelebrationPreferences(){return Object.assign({visual:true,sound:false,haptics:false},db&&db.settings&&db.settings.prCelebration||{});}
+var PRCelebration=(function(){var timer=null,audio=null;
+ function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('pr-achievement-layer');if(el)el.remove();document.querySelectorAll('.pr-achievement-glow').forEach(function(e){e.classList.remove('pr-achievement-glow');});}
+ function chime(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});[659,831,988].forEach(function(f,i){var o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.07;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.08,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.20);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.22);});}catch(e){}}
+ function show(e){if(!e)return;var p=getPRCelebrationPreferences();if(!p.visual&&!p.sound&&!p.haptics)return;
+ if(e.type==='baseline'){if(p.visual){clear();var b=document.createElement('div');b.id='pr-achievement-layer';b.className='pr-baseline';b.setAttribute('role','status');b.textContent='Baseline recorded';document.body.appendChild(b);timer=setTimeout(clear,1400);}return;}
+ if(p.sound)chime();if(p.haptics&&typeof navigator.vibrate==='function'){try{navigator.vibrate([35,40,60]);}catch(err){}}if(!p.visual)return;clear();
+ var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,layer=document.createElement('div');layer.id='pr-achievement-layer';layer.className='pr-achievement-layer'+(reduce?' reduced-motion':'');var card=document.createElement('div');card.className='pr-achievement-message';card.setAttribute('role','status');card.setAttribute('aria-live','polite');
+ [['pr-trophy','🏆'],['pr-achievement-title',e.headline],['pr-achievement-value',e.display],['pr-achievement-detail',e.detail],['pr-achievement-congrats','Congratulations, Adil!']].forEach(function(pair){var el=document.createElement('div');el.className=pair[0];el.textContent=pair[1];card.appendChild(el);});layer.appendChild(card);
+ if(!reduce){for(var i=0;i<18;i++){var bit=document.createElement('i');bit.className='pr-confetti';bit.style.setProperty('--dx',((i%9)-4)*37+'px');bit.style.setProperty('--rot',((i*71)%360)+'deg');bit.style.setProperty('--delay',(i%4)*.03+'s');layer.appendChild(bit);}}
+ document.body.appendChild(layer);var exercise=document.getElementById('exc-'+e.exerciseId);if(exercise&&!reduce)exercise.classList.add('pr-achievement-glow');timer=setTimeout(clear,reduce?2200:2100);
+ }
+ return {show:show,clear:clear,preview:function(){show({exerciseId:'preview',headline:'NEW REP PR',display:'26 kg × 10 / hand',detail:'+1 rep at the same weight'});}};
+})();
+function savePRPreference(k,value){if(!canPersistUserChanges()||['visual','sound','haptics'].indexOf(k)<0)return;db.settings.prCelebration=getPRCelebrationPreferences();db.settings.prCelebration[k]=!!value;dbSave(db);}
+function renderAchievementSettings(){var p=getPRCelebrationPreferences();return '<fieldset class="pr-settings"><legend>PR celebrations</legend>'+[['visual','Gold celebration'],['sound','Achievement chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="savePRPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="PRCelebration.preview()">Preview celebration</button></fieldset>';}
+// Legacy settings remain readable, but do not control new prescription templates.
+function currentWeekKey(now){return String(weekStart(now||Date.now()));}
+function getWeeklyAvailability(data,now){return fifthDaySelected(data,now)?'5':'4';}
+function getWeeklyWorkoutLength(){return 'full';}
+function saveWeeklyAvailability(data,value,now){data.settings.weeklyPlanAvailability=data.settings.weeklyPlanAvailability||{};data.settings.weeklyPlanAvailability[currentWeekKey(now)]=String(value);dbSave(data);}
+function saveWeeklyWorkoutLength(data,value,now){data.settings.weeklyWorkoutLength=data.settings.weeklyWorkoutLength||{};data.settings.weeklyWorkoutLength[currentWeekKey(now)]=value;dbSave(data);}
+function saveFourthSessionChoice(data,value,now){data.settings.fourthSessionByWeek=data.settings.fourthSessionByWeek||{};data.settings.fourthSessionByWeek[currentWeekKey(now)]=value;dbSave(data);}
+function getAvailabilityDays(v,data,now){return fifthDaySelected(data,now)?[4,3,5,1,2]:[4,5,1,2];}
+function getSessionDayTitle(session){return session.dayTitle||getSessionLabel(session);}
+function getCurrentWeekCompletedDays(data,now){var ws=weekStart(now||Date.now()),we=weekEnd(ws),out={};(data.completedSessions||[]).forEach(function(sess){var at=toTimestamp(sess.startTime);if(sess.programVersion===PROGRAM_VERSION&&sess.finished===true&&at>=ws&&at<=we&&(sess.sets||[]).some(validCompletedNormal))out[sess.dayN]=true;});return out;}
+function getRecommendationTarget(data,id){var saved=data.settings&&data.settings.volumeTargets&&data.settings.volumeTargets[id];if(saved&&isFinite(Number(saved.min))&&isFinite(Number(saved.max)))return {min:Number(saved.min),max:Number(saved.max)};var planned=0;getAvailabilityDays(null,data).forEach(function(n){var slots=PROGRAMME_SLOTS[n]||[];if(n===4&&fifthDaySelected(data))slots=slots.slice(0,3);slots.forEach(function(slot){var ex=getExerciseDef(slot.exerciseId,null,data);if(!ex.timed)planned+=slot.sets*Number((ex.muscles||{})[id]||0);});});return {min:round1(planned),max:round1(planned*1.25)};}
+// Side-specific remaining accessories prevent duplicating a partially logged Tuesday pair.
+function accessorySidesCompleted(data,id,now){var count={L:0,R:0};currentTuesdaySessions(data,now).forEach(function(sess){(sess.sets||[]).forEach(function(s){if(s.exId===id&&validCompletedNormal(s)){var side=normalizeSide(s.side);if(side)count[side]++;}});});return count;}
+
+// Separate Cardio screen. Never auto-log work from a running timer.
+function cardioDefault(){return {version:1,goals:{steadyMinutes:150,hiitSessions:1},preferences:{steadyMinutes:30,treadmillRounds:2,sound:true},logs:[],active:null};}
+function validLocalDateString(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;var d=new Date(v+'T12:00:00');return isFinite(d.getTime())&&localDateKey(d.getTime())===v;}
+function normalizeCardioStore(value){
+ if(value===undefined||value===null)return cardioDefault();
+ if(typeof value!=='object'||Array.isArray(value)||value.version!==1||!Array.isArray(value.logs))throw new Error('Cardio data is not recognised. Saved data has not been overwritten.');
+ value.logs.forEach(function(log){if(!log||typeof log!=='object'||!validLocalDateString(log.date)||!isFinite(Number(log.durationSeconds))||Number(log.durationSeconds)<0||!isFinite(Number(log.steadySeconds))||Number(log.steadySeconds)<0||Number(log.steadySeconds)>Number(log.durationSeconds))throw new Error('A cardio log is malformed. Original data was preserved.');});
+ if(value.goals===undefined)value.goals=cardioDefault().goals;if(!value.goals||typeof value.goals!=='object')throw new Error('Cardio goals are malformed.');
+ if(value.preferences===undefined)value.preferences=cardioDefault().preferences;if(!value.preferences||typeof value.preferences!=='object'||Array.isArray(value.preferences))throw new Error('Cardio preferences are malformed.');
+ if(value.active!==undefined&&value.active!==null&&(typeof value.active!=='object'||Array.isArray(value.active)))throw new Error('Cardio timer data is malformed.');
+ return value;
+}
+var CARDIO_PRESETS={
+ treadmill_z2:{name:'Treadmill Zone 2',type:'steady',desc:'Conversational incline walking. Adjust speed and incline so full sentences stay comfortable. Do not hang on the rails.'},
+ stairmaster_z2:{name:'StairMaster Zone 2',type:'steady',desc:'Steady steps, not a race. Full sentences remain possible. Rails for balance, not to support your body weight.'},
+ brisk_walk:{name:'Brisk walk',type:'steady',desc:'Walk purposefully while full sentences stay comfortable. Count moderate moving minutes, not stops or an easy stroll.'},
+ treadmill_hiit:{name:'Treadmill hill intervals',type:'hiit',desc:'Start with two 4-minute hard rounds, 3 minutes easy between. Build to three or four only when recovering well. About 8/10 effort, not a sprint. Never jump on or off a moving belt.'},
+ bike_hiit:{name:'Short bike intervals',type:'hiit',desc:'Three controlled 20-second hard efforts, with 2 minutes easy between. Not all-out initially. This short option is not an equivalent dose to four 4-minute intervals.'}
+};
+function cardioBuildSteps(id,minutes,rounds){
+ var p=CARDIO_PRESETS[id];if(!p)throw new Error('Unknown cardio workout');
+ if(p.type==='steady')return [{kind:'steady',label:'Conversational steady work',seconds:Math.max(1,Number(minutes)||30)*60}];
+ var bike=id==='bike_hiit',n=bike?3:Math.max(2,Math.min(4,Number(rounds)||2)),steps=[{kind:'warmup',label:'Warm up',seconds:bike?300:600}];
+ for(var i=1;i<=n;i++){steps.push({kind:'hard',label:'Hard interval '+i+' of '+n,seconds:bike?20:240});if(i<n)steps.push({kind:'easy',label:'Easy recovery',seconds:bike?120:180});}
+ steps.push({kind:'cooldown',label:'Cool down',seconds:bike?180:300});return steps;
+}
+function cardioTimerSupported(a){return !!(a&&a.format==='adil-cardio-340'&&Array.isArray(a.steps)&&a.steps.every(function(s){return Number(s.seconds)>0;})&&Number(a.totalSeconds)>0);}
+function cardioTimerElapsed(a,now){if(!cardioTimerSupported(a))return 0;return Math.min(a.totalSeconds*1000,Math.max(0,Number(a.elapsedMs)||0)+(a.running?Math.max(0,(now||Date.now())-Number(a.runningAt||Date.now())):0));}
+function cardioHardRounds(a,elapsedMs){var cursor=0,n=0;(a.steps||[]).forEach(function(s){cursor+=s.seconds*1000;if(s.kind==='hard'&&elapsedMs>=cursor)n++;});return n;}
+var Cardio=(function(){
+ var view='hub',preset='treadmill_z2',offset=0,editId=null,reviewTimer=false,formSeed=null,ticker=null,wake=null,audio=null,lastPhase=-1;
+ function store(){if(!db.cardio)db.cardio=cardioDefault();return db.cardio;}
+ function title(id){return CARDIO_PRESETS[id]?CARDIO_PRESETS[id].name:'Saved cardio';}
+ function weekBounds(){var start=addLocalCalendarDays(weekStart(),offset*7);return {start:localDateKey(start),end:localDateKey(weekEnd(start))};}
+ function ownButton(label,action,extra,cls){return '<button type="button" class="'+(cls||'btn-ghost btn-sm')+'" data-cd-action="'+action+'" '+(extra||'')+'>'+label+'</button>';}
+ function field(label,id,type,value,attrs){return '<label class="cd-field">'+label+'<input id="'+id+'" type="'+type+'" value="'+esc(value===null||value===undefined?'':String(value))+'" '+(attrs||'')+'></label>';}
+ function render(){
+  var c=store(),html='<div class="cd-header">'+ownButton('‹ Back','back')+'<h1>Cardio</h1></div>';
+  if(view==='hub'){
+   var w=weekBounds(),logs=c.logs.filter(function(l){return l.date>=w.start&&l.date<=w.end;}),steady=logs.reduce(function(n,l){return n+Number(l.steadySeconds||0)/60;},0),hiit=logs.filter(function(l){return Number(l.plannedRounds)>=2&&Number(l.completedRounds)>=Number(l.plannedRounds);}).length;
+   html+='<div class="cd-week">'+ownButton('‹','week','data-value="-1"')+'<span>'+esc(offset===0?'This week':w.start+' to '+w.end)+'</span>'+ownButton('›','week','data-value="1" '+(offset===0?'disabled':''))+'</div>';
+   html+='<div class="cd-stats"><div><b>'+Math.round(steady)+'<small> / '+Number(c.goals.steadyMinutes||0)+' min</small></b><span>'+Math.max(0,Math.round(Number(c.goals.steadyMinutes||0)-steady))+' steady minutes left</span></div><div><b>'+hiit+'<small> / '+Number(c.goals.hiitSessions||0)+'</small></b><span>HIIT sessions</span></div></div>';
+   if(c.active)html+='<div class="cd-card"><strong>Saved cardio timer</strong><p>'+esc(title(c.active.presetId))+'</p>'+ownButton('Resume / review','resume',null,'btn-primary btn-sm')+'</div>';
+   html+='<p class="cd-note">Build toward 150 moderate minutes, including brisk walks. One HIIT option, not both. Partial workouts still count as work even when they do not complete a dashboard target.</p>';
+   Object.keys(CARDIO_PRESETS).forEach(function(id){html+='<div class="cd-card"><h2>'+esc(title(id))+'</h2><p>'+esc(CARDIO_PRESETS[id].type==='steady'?'Conversational pace':id==='bike_hiit'?'13-minute alternative':'Start with 2 rounds, 26 minutes')+'</p>'+ownButton('Open workout','detail','data-id="'+id+'"','btn-primary btn-sm')+'</div>';});
+   html+='<details class="cd-card"><summary>Targets and sound</summary>'+field('Steady minutes per week','cd-goal-steady','number',c.goals.steadyMinutes,'min="0" max="1000"')+field('HIIT sessions per week','cd-goal-hiit','number',c.goals.hiitSessions,'min="0" max="3"')+'<label class="cd-check"><input id="cd-sound" type="checkbox" '+(c.preferences.sound?'checked':'')+'> Interval sound while this screen is open</label>'+ownButton('Save targets','goals')+'</details>';
+   html+='<h2 class="cd-history-heading">Logged this week</h2>';
+   if(!logs.length)html+='<p class="cd-note">No cardio recorded for this week.</p>';
+   logs.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).forEach(function(l){html+='<div class="cd-log"><strong>'+esc(title(l.presetId))+'</strong><span>'+esc(l.date)+' · '+round1(Number(l.durationSeconds)/60)+' min'+(Number(l.plannedRounds)?' · '+Number(l.completedRounds)+'/'+Number(l.plannedRounds)+' rounds':'')+'</span>'+ownButton('Edit','edit','data-id="'+esc(l.id)+'"')+' '+ownButton('Delete','delete','data-id="'+esc(l.id)+'"')+'</div>';});
+  }else if(view==='detail'){
+   var p=CARDIO_PRESETS[preset],last=c.logs.filter(function(l){return l.presetId===preset;}).sort(function(a,b){return b.date.localeCompare(a.date);})[0];
+   html+='<div class="cd-card"><h2>'+esc(p.name)+'</h2><p>'+esc(p.desc)+'</p>';
+   if(p.type==='steady')html+=field('Moderate work, minutes','cd-minutes','number',c.preferences.steadyMinutes||30,'min="1" max="180"')+'<p class="cd-note">Warm up and cool down separately. This timer counts only the moderate steady portion.</p>';
+   else if(preset==='treadmill_hiit')html+='<label class="cd-field">Hard rounds<select id="cd-rounds"><option value="2" '+(c.preferences.treadmillRounds===2?'selected':'')+'>2 rounds · 26 min</option><option value="3" '+(c.preferences.treadmillRounds===3?'selected':'')+'>3 rounds · 33 min</option><option value="4" '+(c.preferences.treadmillRounds===4?'selected':'')+'>4 rounds · 40 min</option></select></label><p class="cd-note">10 min warm-up, 4 min hard / 3 min easy, 5 min cool-down.</p>';
+   else html+='<p class="cd-note">5 min warm-up, 3 × 20 sec hard, 2 min easy between, 3 min cool-down.</p>';
+   if(last)html+='<p class="cd-note">Last: '+esc(last.date)+' · '+round1(Number(last.durationSeconds)/60)+' min'+(last.speedKmh!==null&&last.speedKmh!==undefined?' · '+Number(last.speedKmh)+' km/h':'')+(last.inclinePct!==null&&last.inclinePct!==undefined?' · '+Number(last.inclinePct)+'% incline':'')+'</p>';
+   html+='<p class="cd-safety">Stop for chest pain, dizziness or unusual breathlessness. Recurring symptoms need assessment before hard intervals.</p>'+ownButton('Start guided timer','start',null,'btn-primary')+' '+ownButton('Log completed workout','manual')+'</div>';
+  }else if(view==='timer'){
+   var a=c.active;
+   if(!cardioTimerSupported(a))html+='<div class="cd-card"><p>A saved timer from another build has been preserved. It cannot be resumed by this build. Finish it in the earlier app, or explicitly discard only this timer.</p>'+ownButton('Discard saved timer','discard')+'</div>';
+   else html+='<div class="cd-card cd-timer"><h2>'+esc(title(a.presetId))+'</h2><p id="cd-phase" aria-live="polite"></p><div id="cd-countdown" role="timer" aria-label="Time left in current phase">00:00</div><p id="cd-total"></p>'+ownButton(a.running?'Pause':'Resume','pause',null,'btn-primary')+' '+ownButton('Finish & review','review')+'<p class="cd-note">The timer is a guide. Nothing is logged until you review and save.</p>'+ownButton('Discard timer','discard')+'</div>';
+  }else if(view==='form'){
+   var seed=formSeed||{},isHiit=CARDIO_PRESETS[preset]&&CARDIO_PRESETS[preset].type==='hiit';
+   html+='<form id="cd-form" class="cd-card"><h2>'+esc(editId?'Edit workout':'Review completed workout')+'</h2><p>'+esc(title(preset))+'</p>'+field('Workout date','cd-date','date',seed.date||localDateKey(),'max="'+localDateKey()+'" required')+field(isHiit?'Actual total minutes':'Actual moderate / steady minutes','cd-duration','number',round1(Number(seed.durationSeconds||0)/60),'min="0" max="360" step="0.1" required');
+   if(isHiit)html+=field('Planned hard rounds','cd-planned','number',seed.plannedRounds|| (preset==='bike_hiit'?3:2),'min="2" max="4"')+field('Fully completed hard rounds','cd-completed','number',seed.completedRounds||0,'min="0" max="4"')+'<p class="cd-note">An incomplete interval session is saved as partial work. It does not satisfy the full-session target.</p>';
+   else html+='<label class="cd-check"><input id="cd-moderate" type="checkbox" '+(seed.moderate!==false?'checked':'')+'> These were moderate conversational minutes</label>';
+   html+='<details><summary>Machine settings and notes</summary>'+field('Speed, km/h','cd-speed','number',seed.speedKmh,'min="0" max="35" step="0.1"')+field('Incline, %','cd-incline','number',seed.inclinePct,'min="0" max="45" step="0.5"')+field('Level / resistance','cd-level','number',seed.level,'min="0" max="1000" step="0.1"')+field('Average heart rate, optional','cd-hr','number',seed.avgHr,'min="20" max="250"')+'<label class="cd-field">Notes<textarea id="cd-notes">'+esc(seed.notes||'')+'</textarea></label></details><p id="cd-error" role="alert"></p><button type="submit" class="btn-primary">Save actual workout</button></form>';
+  }
+  return html;
+ }
+ function redraw(){var el=document.getElementById('scr-cardio');if(el)el.innerHTML=render();tick();}
+ function pauseActive(){var a=store().active;if(!cardioTimerSupported(a))return;a.elapsedMs=cardioTimerElapsed(a);a.running=false;a.runningAt=null;dbSave(db);}
+ function tick(){var a=store().active;if(!cardioTimerSupported(a))return;var elapsed=cardioTimerElapsed(a);if(elapsed>=a.totalSeconds*1000&&a.running){a.elapsedMs=elapsed;a.running=false;a.runningAt=null;dbSave(db);if(view==='timer')redraw();return;}if(window._currentScreen!=='cardio'||view!=='timer')return;var cursor=0,phase=a.steps.length-1,remaining=0;a.steps.some(function(step,i){var end=cursor+step.seconds*1000;if(elapsed<end){phase=i;remaining=Math.ceil((end-elapsed)/1000);return true;}cursor=end;return false;});var p=document.getElementById('cd-phase'),count=document.getElementById('cd-countdown'),total=document.getElementById('cd-total');if(p)p.textContent=elapsed>=a.totalSeconds*1000?'Complete. Review what you actually did.':a.steps[phase].label;if(count)count.textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');if(total)total.textContent='Elapsed '+Math.floor(elapsed/60000)+' / '+round1(a.totalSeconds/60)+' min';if(lastPhase>=0&&phase!==lastPhase&&store().preferences.sound&&document.visibilityState==='visible')beep();lastPhase=phase;}
+ function beep(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});var o=audio.createOscillator(),g=audio.createGain();o.frequency.value=660;g.gain.value=.08;o.connect(g);g.connect(audio.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.15);o.stop(audio.currentTime+.16);}catch(e){}}
+ function wakeScreen(){if(navigator.wakeLock&&document.visibilityState==='visible'&&window._currentScreen==='cardio'&&store().active&&store().active.running){navigator.wakeLock.request('screen').then(function(w){wake=w;}).catch(function(){});}}
+ function releaseWake(){if(wake){wake.release().catch(function(){});wake=null;}}
+ function value(id){var el=document.getElementById(id);return el?el.value:'';}
+ function saveForm(){
+  if(!canPersistUserChanges())return;var date=value('cd-date'),duration=Number(value('cd-duration'))*60,p=CARDIO_PRESETS[preset],isHiit=p.type==='hiit',planned=isHiit?Number(value('cd-planned')):0,completed=isHiit?Number(value('cd-completed')):0;
+  function fail(msg){document.getElementById('cd-error').textContent=msg;return;}
+  if(!validLocalDateString(date)||date>localDateKey())return fail('Choose a real date, no later than today.');
+  if(!isFinite(duration)||duration<=0||duration>21600)return fail('Enter the actual completed duration.');
+  if(isHiit&&(!Number.isInteger(planned)||planned<2||planned>4||!Number.isInteger(completed)||completed<0||completed>planned))return fail('Completed rounds must be between zero and planned rounds.');
+  if(isHiit&&preset==='bike_hiit'&&planned!==3)return fail('The bike preset has three planned rounds.');
+  if(isHiit){var hard=preset==='bike_hiit'?20:240,gap=preset==='bike_hiit'?120:180,minDuration=completed*hard+Math.max(0,completed-1)*gap;if(duration+1<minDuration)return fail('Duration is too short for that many completed hard rounds and recoveries.');}
+  var c=store(),old=editId?c.logs.find(function(l){return l.id===editId;}):null;
+  var log=Object.assign({},old||{},{id:editId||'cardio_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),date:date,presetId:preset,durationSeconds:Math.round(duration),steadySeconds:isHiit?0:document.getElementById('cd-moderate').checked?Math.round(duration):0,plannedRounds:planned,completedRounds:completed,notes:value('cd-notes'),source:old?old.source:reviewTimer?'timer':'manual',createdAt:old?old.createdAt:Date.now(),updatedAt:Date.now()});
+  [['speedKmh','cd-speed',0,35],['inclinePct','cd-incline',0,45],['level','cd-level',0,1000],['avgHr','cd-hr',20,250]].forEach(function(f){var v=value(f[1]);log[f[0]]=v===''?null:Number(v);});
+  if([['speedKmh',0,35],['inclinePct',0,45],['level',0,1000],['avgHr',20,250]].some(function(f){return log[f[0]]!==null&&(!isFinite(log[f[0]])||log[f[0]]<f[1]||log[f[0]]>f[2]);}))return fail('A machine setting is outside its supported range.');
+  var before=JSON.stringify(c);if(old)c.logs[c.logs.indexOf(old)]=log;else c.logs.push(log);if(reviewTimer&&c.active){log.timerElapsedSeconds=Math.round(cardioTimerElapsed(c.active)/1000);log.timerSteps=c.active.steps;c.active=null;}
+  if(!dbSave(db)){db.cardio=JSON.parse(before);return fail('Could not save. Your saved data was not cleared.');}
+  editId=null;reviewTimer=false;formSeed=null;view='hub';releaseWake();redraw();
+ }
+ function act(action,el){if(!canPersistUserChanges()&&['back','week','detail','resume'].indexOf(action)<0)return;var c=store();
+  if(action==='back'){if(view==='hub'){App.showScreen('today');return;}view='hub';redraw();return;}
+  if(action==='week'){offset=Math.min(0,offset+Number(el.dataset.value));redraw();return;}
+  if(action==='detail'){preset=el.dataset.id;view='detail';redraw();return;}
+  if(action==='resume'){view='timer';redraw();wakeScreen();return;}
+  if(action==='goals'){var s=Number(value('cd-goal-steady')),h=Number(value('cd-goal-hiit'));if(!isFinite(s)||s<0||s>1000||!Number.isInteger(h)||h<0||h>3){alert('Choose 0-1000 steady minutes and 0-3 HIIT sessions.');return;}c.goals.steadyMinutes=s;c.goals.hiitSessions=h;c.preferences.sound=document.getElementById('cd-sound').checked;dbSave(db);redraw();return;}
+  if(action==='start'){
+   if(c.active){view='timer';redraw();return;}var minutes=Number(value('cd-minutes'))||30,rounds=preset==='bike_hiit'?3:Number(value('cd-rounds'))||2;if(minutes<1||minutes>180){alert('Choose 1-180 steady minutes.');return;}var steps=cardioBuildSteps(preset,minutes,rounds);c.preferences.steadyMinutes=minutes;c.preferences.treadmillRounds=preset==='treadmill_hiit'?rounds:c.preferences.treadmillRounds;c.active={format:'adil-cardio-340',id:'ct_'+Date.now(),presetId:preset,date:localDateKey(),plannedRounds:CARDIO_PRESETS[preset].type==='hiit'?rounds:0,steps:steps,totalSeconds:steps.reduce(function(n,s){return n+s.seconds;},0),elapsedMs:0,running:true,runningAt:Date.now(),createdAt:Date.now()};dbSave(db);lastPhase=-1;view='timer';redraw();wakeScreen();return;
+  }
+  if(action==='pause'){var a=c.active;if(!cardioTimerSupported(a))return;if(a.running){pauseActive();releaseWake();}else if(cardioTimerElapsed(a)<a.totalSeconds*1000){a.running=true;a.runningAt=Date.now();dbSave(db);wakeScreen();}redraw();return;}
+  if(action==='discard'){if(confirm('Discard only this cardio timer? Saved workouts are kept.')){c.active=null;dbSave(db);view='hub';releaseWake();redraw();}return;}
+  if(action==='review'){if(!cardioTimerSupported(c.active))return;pauseActive();preset=c.active.presetId;var elapsed=cardioTimerElapsed(c.active);formSeed={date:c.active.date,durationSeconds:Math.round(elapsed/1000),plannedRounds:c.active.plannedRounds,completedRounds:cardioHardRounds(c.active,elapsed),moderate:true};editId=null;reviewTimer=true;view='form';releaseWake();redraw();return;}
+  if(action==='manual'){var rounds=preset==='bike_hiit'?3:Number(value('cd-rounds'))||2;formSeed={date:localDateKey(),durationSeconds:0,plannedRounds:rounds,completedRounds:0,moderate:true};editId=null;reviewTimer=false;view='form';redraw();return;}
+  if(action==='edit'){var old=c.logs.find(function(l){return l.id===el.dataset.id;});if(!old)return;if(!CARDIO_PRESETS[old.presetId]){alert('This saved preset is preserved but cannot be edited by this build.');return;}preset=old.presetId;editId=old.id;formSeed=Object.assign({},old,{moderate:old.steadySeconds>0});reviewTimer=false;view='form';redraw();return;}
+  if(action==='delete'&&confirm('Delete this cardio log only?')){c.logs=c.logs.filter(function(l){return l.id!==el.dataset.id;});dbSave(db);redraw();}
+ }
+ function init(){var root=document.getElementById('scr-cardio');root.addEventListener('click',function(e){var el=e.target.closest('[data-cd-action]');if(el)act(el.dataset.cdAction,el);});root.addEventListener('submit',function(e){if(e.target.id==='cd-form'){e.preventDefault();saveForm();}});ticker=setInterval(tick,500);document.addEventListener('visibilitychange',function(){if(document.hidden)releaseWake();else{tick();wakeScreen();}});}
+ return {init:init,render:render,open:function(){view='hub';App.showScreen('cardio');},onNavigate:function(name){document.body.classList.toggle('cardio-view',name==='cardio');if(name!=='cardio')releaseWake();},buildSteps:cardioBuildSteps};
+})();
+
 // ============================================================
 // INIT
 // ============================================================
 function initApp() {
   db = dbLoad();
+  Cardio.init();
 
   // Close modal overlay on backdrop click
   var modal = document.getElementById('modal-overlay');
