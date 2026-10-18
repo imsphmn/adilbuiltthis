@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#090d1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Adil Gym · Chest Priority</title>
+<title>Adil Gym · Victory Edition</title>
 <meta name="apple-mobile-web-app-title" content="Adil Gym">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Adil Gym">
 <meta name="description" content="Adil's personal chest and back priority workout tracker through 30 November 2026.">
-<link rel="manifest" href="./manifest.webmanifest?v=15">
-<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=15">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=15">
+<link rel="manifest" href="./manifest.webmanifest?v=16">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=16">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=16">
 
 <template id="__bundler_thumbnail">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -217,6 +217,39 @@ p { margin:0; }
 .dp-no { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--accent); flex:none; width:44px; }
 .dp-title { flex:1; font-size:14px; font-weight:550; }
 .dp-dur { font-size:12px; color:var(--faint); font-family:var(--mono); }
+
+
+/* ============================================================
+   MOMENTUM HABIT SYSTEM
+   A right-sized set of habit cues: dynamic Today colours,
+   streak milestones, weekly rhythm, and comeback reinforcement.
+   ============================================================ */
+body.momentum-theme-1{--accent:oklch(.73 .18 245);--accent-dk:oklch(.63 .17 245);--accent-bg:oklch(.73 .18 245/.13);--accent-ln:oklch(.73 .18 245/.34)}
+body.momentum-theme-2{--accent:oklch(.80 .16 210);--accent-dk:oklch(.68 .16 215);--accent-bg:oklch(.80 .16 210/.14);--accent-ln:oklch(.80 .16 210/.38)}
+body.momentum-theme-3{--accent:oklch(.73 .20 285);--accent-dk:oklch(.63 .19 285);--accent-bg:oklch(.73 .20 285/.14);--accent-ln:oklch(.73 .20 285/.38)}
+body.momentum-theme-4{--accent:oklch(.75 .22 325);--accent-dk:oklch(.64 .20 325);--accent-bg:oklch(.75 .22 325/.14);--accent-ln:oklch(.75 .22 325/.38)}
+body.momentum-theme-5{--accent:oklch(.82 .14 310);--accent-dk:oklch(.70 .16 300);--accent-bg:oklch(.82 .14 310/.14);--accent-ln:oklch(.82 .14 310/.40)}
+#scr-today{position:relative;isolation:isolate;transition:background .45s ease}
+body.momentum-theme-1 #scr-today.active{background:radial-gradient(circle at 50% -12%,rgba(45,111,255,.22),transparent 42%),var(--bg)}
+body.momentum-theme-2 #scr-today.active{background:radial-gradient(circle at 18% 0,rgba(35,211,255,.25),transparent 40%),radial-gradient(circle at 90% 12%,rgba(40,111,255,.20),transparent 42%),var(--bg)}
+body.momentum-theme-3 #scr-today.active{background:radial-gradient(circle at 18% 0,rgba(139,92,246,.28),transparent 43%),radial-gradient(circle at 92% 18%,rgba(61,104,255,.22),transparent 40%),var(--bg)}
+body.momentum-theme-4 #scr-today.active{background:radial-gradient(circle at 18% 0,rgba(222,73,255,.27),transparent 43%),radial-gradient(circle at 92% 18%,rgba(121,77,255,.22),transparent 40%),var(--bg)}
+body.momentum-theme-5 #scr-today.active{background:radial-gradient(circle at 8% 0,rgba(105,232,255,.31),transparent 34%),radial-gradient(circle at 94% 12%,rgba(255,142,213,.28),transparent 36%),radial-gradient(circle at 48% 8%,rgba(172,143,255,.30),transparent 38%),linear-gradient(180deg,#0a1020 0%,var(--bg) 58%)}
+body.momentum-theme-5 #scr-today.active::before{content:'';position:fixed;z-index:-1;inset:-25%;pointer-events:none;opacity:.42;background:conic-gradient(from 35deg at 50% 35%,rgba(113,229,255,.0),rgba(113,229,255,.28),rgba(174,145,255,.26),rgba(255,145,213,.25),rgba(248,215,130,.18),rgba(113,229,255,.0));filter:blur(65px);animation:elysium-aura 11s linear infinite}
+body.momentum-theme-5 .today-day-card .btn-primary{background:linear-gradient(110deg,#64dff3,#899ff5 30%,#bd95ef 55%,#f08fc6 78%,#e8c978);color:#07101b;box-shadow:0 8px 28px rgba(177,145,246,.25)}
+body.momentum-theme-5 #bottom-nav{border-top-color:rgba(192,161,255,.30)}
+@keyframes elysium-aura{to{transform:rotate(360deg)}}
+.today-wrap{position:relative;z-index:1}
+.momentum-card{--momentum-col:var(--accent);position:relative;overflow:hidden;border:1px solid var(--accent-ln);border-radius:18px;padding:15px 15px 13px;margin:0 0 14px;background:linear-gradient(145deg,var(--accent-bg),rgba(13,18,31,.88) 54%,rgba(8,13,24,.92));box-shadow:0 12px 34px rgba(0,0,0,.18);transition:border-color .35s ease,background .35s ease,transform .2s ease}
+.momentum-card::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 0 35%,rgba(255,255,255,.07) 48%,transparent 61%);transform:translateX(-125%)}
+.momentum-card.is-elysium{border-color:rgba(211,180,255,.55);background:linear-gradient(135deg,rgba(92,222,255,.15),rgba(123,145,255,.13) 28%,rgba(183,139,242,.16) 53%,rgba(255,139,205,.14) 78%,rgba(240,205,126,.10));box-shadow:0 12px 40px rgba(140,111,225,.16),inset 0 1px 0 rgba(255,255,255,.06)}
+.momentum-card.is-elysium::after{animation:momentum-sheen 5.5s ease-in-out infinite}
+@keyframes momentum-sheen{0%,18%{transform:translateX(-125%)}55%,100%{transform:translateX(135%)}}
+.momentum-top{display:flex;align-items:center;gap:13px}.momentum-copy{flex:1;min-width:0}.momentum-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:var(--accent);font-weight:850}.momentum-title{font-size:21px;line-height:1.12;font-weight:850;letter-spacing:-.02em;margin-top:4px}.momentum-card.is-elysium .momentum-title{background:linear-gradient(90deg,#70e4f5,#9cb1ff 31%,#caa8ff 55%,#ff9bd3 78%,#f2d38a);-webkit-background-clip:text;background-clip:text;color:transparent}.momentum-sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.35}.momentum-ring{--momentum-progress:0deg;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:none;background:conic-gradient(var(--accent) var(--momentum-progress),var(--line-soft) 0);position:relative;box-shadow:0 0 20px var(--accent-bg)}.momentum-ring::before{content:'';position:absolute;inset:6px;border-radius:50%;background:#0c111d;border:1px solid rgba(255,255,255,.04)}.momentum-ring span{position:relative;z-index:1;font-family:var(--mono);font-size:14px;font-weight:850}.momentum-ring small{font-size:9px;color:var(--muted);font-weight:700}.momentum-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:13px}.momentum-day{display:grid;justify-items:center;gap:4px}.momentum-day b{font-family:var(--mono);font-size:8px;color:var(--faint);font-weight:750}.momentum-day i{display:block;width:8px;height:8px;border-radius:50%;background:var(--line);border:1px solid var(--line2)}.momentum-day.is-active i{background:var(--accent);border-color:var(--accent);box-shadow:0 0 12px var(--accent)}.momentum-day.is-today b{color:var(--text)}.momentum-next{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);font-size:11px;color:var(--faint);display:flex;align-items:center;gap:7px}.momentum-next strong{color:var(--accent);font-weight:800}.momentum-mini-icon{font-size:13px}.momentum-achievements{margin:0 0 14px;border:1px solid var(--line-soft);border-radius:var(--radius);background:var(--card);overflow:hidden}.momentum-achievements summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:780;color:var(--text)}.momentum-achievements summary::-webkit-details-marker{display:none}.momentum-achievement-body{padding:0 14px 14px}.momentum-best{font-size:12px;color:var(--muted);margin-bottom:11px}.momentum-badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.momentum-badge{border:1px solid var(--line-soft);border-radius:12px;padding:10px;background:var(--bg-soft);opacity:.45}.momentum-badge.is-unlocked{opacity:1;border-color:var(--accent-ln);background:var(--accent-bg)}.momentum-badge b{display:block;font-size:12px}.momentum-badge span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.momentum-settings{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:12px}.momentum-settings legend{padding:0 6px;font-size:12px;color:var(--muted);font-weight:800}.momentum-settings label{display:flex;align-items:center;gap:9px;margin:8px 0;color:var(--text);font-size:13px}.momentum-settings input{width:18px;height:18px;accent-color:var(--accent)}
+.sum-momentum{margin:0 0 14px;padding:12px 14px;border-radius:12px;border:1px solid var(--accent-ln);background:var(--accent-bg);color:var(--text);font-size:13px;font-weight:760}.sum-momentum span{color:var(--accent)}
+.momentum-celebration-layer{position:fixed;inset:0;z-index:10070;pointer-events:none;overflow:hidden;display:grid;place-items:start center;padding-top:max(96px,calc(env(safe-area-inset-top) + 58px))}.momentum-celebration-card{width:min(390px,calc(100% - 34px));padding:23px 20px;border-radius:22px;text-align:center;color:#fff;background:rgba(15,20,32,.97);border:1px solid var(--momentum-celebration-color,#65dfff);box-shadow:0 12px 52px rgba(0,0,0,.60),0 0 38px color-mix(in srgb,var(--momentum-celebration-color,#65dfff) 28%,transparent);animation:momentum-pop 2.35s ease both}.momentum-celebration-card.is-elysium{background:linear-gradient(135deg,rgba(26,38,58,.98),rgba(74,61,109,.98) 48%,rgba(96,55,91,.98));border-color:#d3b2ff;box-shadow:0 14px 60px rgba(0,0,0,.58),0 0 48px rgba(178,135,246,.30)}.momentum-celebration-icon{font-size:34px}.momentum-celebration-kicker{margin-top:7px;font-family:var(--mono);font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--momentum-celebration-color,#70e4ff);font-weight:850}.momentum-celebration-title{font-size:27px;line-height:1.08;font-weight:900;letter-spacing:-.03em;margin-top:7px}.momentum-celebration-detail{font-size:13px;color:#c9cfdd;margin-top:8px}.momentum-celebration-card.is-elysium .momentum-celebration-title{background:linear-gradient(90deg,#6de4f5,#9cb1ff 31%,#c9a7ff 55%,#ff9bd2 78%,#f2d38a);-webkit-background-clip:text;background-clip:text;color:transparent}.momentum-confetti{position:absolute;left:50%;top:152px;width:7px;height:12px;border-radius:2px;background:var(--momentum-celebration-color,#65dfff);animation:momentum-confetti 1.35s var(--delay) ease-out both}.momentum-confetti:nth-child(3n){background:#ff9bd2}.momentum-confetti:nth-child(4n){background:#c9a7ff}.momentum-confetti:nth-child(5n){background:#f2d38a}
+@keyframes momentum-pop{0%{opacity:0;transform:translateY(12px) scale(.96)}12%,82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-7px) scale(.99)}}@keyframes momentum-confetti{0%{opacity:0;transform:translate(0,-22px) rotate(0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx),240px) rotate(var(--rot))}}
+@media(prefers-reduced-motion:reduce){body.momentum-theme-5 #scr-today.active::before,.momentum-card.is-elysium::after,.momentum-celebration-card,.momentum-confetti{animation:none!important}.momentum-confetti{display:none}}
 
 /* ============================================================
    WORKOUT OVERLAY
@@ -690,6 +723,28 @@ p { margin:0; }
 
 .cardio-view #timer-pill{display:none!important}.cd-header{display:flex;gap:18px;align-items:center;margin:10px 0 20px}.cd-header h1{font-size:27px}.cd-week{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:15px 0;font-size:14px}.cd-stats{display:grid;grid-template-columns:1.5fr 1fr;gap:12px}.cd-stats>div,.cd-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin:12px 0}.cd-stats b{display:block;font-size:25px}.cd-stats small{font-size:13px;color:var(--muted)}.cd-stats span{font-size:12px;color:var(--muted)}.cd-card h2{font-size:20px;line-height:1.25}.cd-card p{font-size:14px;color:var(--muted);margin:10px 0 14px}.cd-note{font-size:13px;color:var(--muted);margin:14px 0;line-height:1.6}.cd-safety{font-size:12px!important;color:#e2c68a!important}.cd-card button{margin:5px 3px 5px 0;min-height:44px}.cd-field{display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--muted);margin:14px 0}.cd-field input,.cd-field select,.cd-field textarea{width:100%;min-width:0;font-size:16px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px}.cd-check{display:flex;align-items:start;gap:10px;font-size:14px;margin:15px 0}.cd-check input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0}.cd-timer{text-align:center}#cd-countdown{font-family:var(--mono);font-size:clamp(48px,15vw,74px);font-weight:750;margin:20px 0}#cd-phase{min-height:42px;font-weight:650;color:var(--text)}#cd-error{color:var(--danger);font-size:14px}.cd-log{padding:14px 0;border-bottom:1px solid var(--line-soft)}.cd-log strong,.cd-log span{display:block;font-size:14px}.cd-log span{color:var(--muted);font-size:12px;margin:6px 0}.cd-history-heading{font-size:19px;margin-top:24px}#scr-cardio{overflow-wrap:anywhere}#scr-cardio details summary{padding:10px 0;cursor:pointer;color:var(--muted)}
 
+
+/* v3.6: original arcade rewards. No external art, fonts or tracking. */
+.eng-shortcuts{display:flex;gap:8px;margin:0 0 14px}.eng-shortcuts button{flex:1;min-height:43px;font-size:12px;border-color:var(--line);border-radius:12px}.eng-shortcuts .eng-icon{color:var(--accent);margin-right:5px}
+.momentum-card .momentum-next{margin-top:10px}.momentum-next button{border:0;padding:0;background:none;color:inherit;text-align:left;font:inherit;cursor:pointer;width:100%;display:flex;align-items:center;gap:7px}.momentum-day.is-recovery i{background:transparent;border:1px solid #8096ac;box-shadow:none;border-radius:3px;transform:rotate(45deg);width:7px;height:7px}.momentum-sub{min-height:16px}.momentum-title{font-size:22px}.eng-chip{font-size:10px;border-radius:5px;padding:3px 6px;color:#b8ddfa;border:1px solid #31475b;background:#132334;white-space:nowrap}.eng-chip.recovery{color:#a3d6bc;border-color:#284536;background:#142920}
+.eng-sheet-layer{position:fixed;inset:0;z-index:11000;background:rgba(1,5,12,.83);backdrop-filter:blur(12px);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:25px 12px max(26px,env(safe-area-inset-bottom));overscroll-behavior:contain}.eng-sheet{position:relative;width:100%;max-width:650px;background:#0c111c;border:1px solid #293041;border-radius:24px;padding:22px;box-shadow:0 20px 90px #0009;margin:auto 0}.eng-sheet-header{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;margin-bottom:18px}.eng-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;font-weight:800;color:#98aaff;text-transform:uppercase}.eng-sheet h2{font-size:26px;letter-spacing:-.04em;line-height:1.1;margin:6px 0 7px}.eng-sheet-sub{font-size:12px;color:#9cabbf;line-height:1.55}.eng-close{flex:none;display:grid;place-items:center;min-width:40px;min-height:40px;border-radius:50%;border:1px solid #30394c;background:#151c2a;color:#e7eefc;font-size:22px;cursor:pointer}.eng-sheet .btn-primary{min-height:46px}.eng-footnote{font-size:11px;color:#8c9caf;line-height:1.6;margin-top:14px}.eng-subheading{font-size:12px;font-weight:750;color:#dfe5ef;margin:18px 0 10px}.eng-week-table{border-collapse:separate;border-spacing:0;width:100%;table-layout:fixed;border:1px solid #2a3345;border-radius:14px;overflow:hidden}.eng-week-table caption{text-align:left;color:#9aabc3;font-size:11px;margin:0 0 10px}.eng-week-table th{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8fa1ba;text-align:left;background:#141e2f;padding:10px 9px}.eng-week-table th:first-child{width:58px}.eng-week-table th:nth-child(2){width:52%}.eng-week-table td{padding:12px 9px;border-top:1px solid #202b3b;vertical-align:top;font-size:12px;line-height:1.45}.eng-week-table .is-today td{background:linear-gradient(90deg,#182344,#1c1933)}.eng-week-table .is-today td:first-child{border-left:3px solid #a093ff;padding-left:6px}.eng-day{font-weight:850;color:#eaf1ff;display:block}.eng-day-date{font-size:10px;color:#8c9cb2}.eng-today{display:block;font-size:8px;font-weight:800;color:#b2a4ff;margin-top:4px;letter-spacing:.06em}.eng-workout-name{color:#e2e9f7;font-weight:730}.eng-week-table small{display:block;color:#96a5ba;font-size:10px;margin-top:3px}.eng-cardio-text{color:#a4b9cc}.eng-week-inline{margin:0 0 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:15px}.eng-week-inline summary{font-weight:800;cursor:pointer;font-size:15px;list-style:none}.eng-week-inline summary::after{content:'+';float:right;color:var(--accent)}.eng-week-inline[open] summary::after{content:'−'}.eng-week-inline .eng-week-table{margin-top:14px}.eng-week-inline .eng-footnote{margin-bottom:0}.eng-week-progress{display:flex;align-items:center;gap:12px;margin-top:14px;padding:12px;background:#101a2a;border-radius:12px;font-size:12px}.eng-progress-track{height:4px;background:#222e43;border-radius:10px;overflow:hidden;flex:1}.eng-progress-track i{display:block;height:100%;background:linear-gradient(90deg,#74cfff,#b69bff);border-radius:10px}.eng-week-progress b{color:#c8c0ff}
+.vault-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.vault-theme{overflow:hidden;border:1px solid #2a3548;border-radius:16px;background:#101827;position:relative;min-width:0}.vault-theme.selected{border-color:#c5a86f;box-shadow:0 0 0 1px #c5a86f40}.vault-art{height:90px;position:relative;overflow:hidden;background:var(--vault-paint)}.vault-art:before{content:'';position:absolute;inset:-70% 22% -50% 58%;transform:rotate(32deg);background:linear-gradient(90deg,transparent,#ffffff1f,transparent);border-left:1px solid #ffffff24}.vault-art:after{content:'';position:absolute;width:74px;height:74px;top:14px;right:18px;border:1px solid #ffffff31;transform:rotate(45deg);box-shadow:0 0 0 12px #ffffff05,0 0 0 24px #ffffff03}.vault-badge{position:absolute;top:9px;left:9px;background:#060a12b3;color:#f0edf8;font-family:var(--mono);font-size:8px;letter-spacing:.10em;padding:4px 6px;border:1px solid #ffffff22;border-radius:5px}.vault-content{padding:12px}.vault-content h3{font-size:13px;line-height:1.3;color:#edf1fc;letter-spacing:-.01em}.vault-content p{font-size:10px;color:#a0b0c7;line-height:1.5;margin:5px 0 9px;min-height:30px}.vault-btn{width:100%;min-height:36px;border:1px solid #3b4a65;border-radius:8px;background:#18263a;color:#dbe7ff;font-size:11px;font-weight:750;cursor:pointer}.vault-btn.selected{color:#ffe3a3;background:#302b20;border-color:#675639}.vault-progress{height:3px;background:#26354b;border-radius:4px;margin:9px 0}.vault-progress i{display:block;height:100%;background:#bea5fa;border-radius:4px}.vault-preview{border:1px solid #635678;border-radius:16px;padding:19px;margin:15px 0 0;background:var(--vault-paint);color:#fff}.vault-preview h3{font-size:24px;letter-spacing:-.025em}.vault-preview p{font-size:12px;color:#e2deec;margin:6px 0}.vault-preview:empty{display:none}.vault-theme[data-theme='adaptive'] .vault-art{background:linear-gradient(120deg,#0b2549,#5868ac,#85d6e7)}
+body.vault-theme-obsidian{--accent:#e5c47b;--accent-dk:#bd9c56;--accent-bg:#e5c47b18;--accent-ln:#e5c47b60}body.vault-theme-chrome{--accent:#a9e5f5;--accent-dk:#6fb4d0;--accent-bg:#91ddf019;--accent-ln:#91ddf066}body.vault-theme-elysium{--accent:#c2a5f3;--accent-dk:#9c86cd;--accent-bg:#c2a5f31e;--accent-ln:#c2a5f369}body.vault-theme-signature{--accent:#f5b382;--accent-dk:#d58691;--accent-bg:#f5b38218;--accent-ln:#e5b48260}
+body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse at 92% 0,#ad814b35,transparent 42%),linear-gradient(150deg,#151616,#090d15 70%)}body.vault-theme-chrome #scr-today.active{background:radial-gradient(ellipse at 15% 0,#468cb041,transparent 42%),linear-gradient(155deg,#182a37,#0a0f18 65%)}body.vault-theme-elysium #scr-today.active{background:radial-gradient(ellipse at 0 0,#61d8ee32,transparent 38%),radial-gradient(ellipse at 100% 18%,#ee88c933,transparent 40%),linear-gradient(155deg,#192439,#231c33 40%,#090d18 75%)}body.vault-theme-elysium .today-day-card .btn-primary{background:linear-gradient(110deg,#8addec,#a49deb,#eeb0d8,#eac98b);color:#09111d}body.vault-theme-signature #scr-today.active{background:radial-gradient(at 85% 10%,#c7954b38,transparent 40%),radial-gradient(at 10% 20%,#9c6dbc38,transparent 40%),#100f1a}.eng-footer-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.eng-footer-links button{font-size:11px}.eng-challenge{border:1px solid #596193;border-radius:12px;padding:12px 14px;margin:0 0 13px;background:linear-gradient(110deg,#1b2441,#111828);display:flex;gap:12px;align-items:center;min-width:0}.eng-challenge .challenge-mark{font-size:24px;color:#8ee1e1;line-height:1;flex:none}.eng-challenge b{display:block;font-size:12px;color:#cbd3ff}.eng-challenge p{font-size:12px;color:#adbbd0;line-height:1.5;margin-top:2px}.eng-challenge small{display:block;font-size:10px;color:#879aaf;margin-top:4px}.eng-challenge.achieved{border-color:#a9dcd17a;background:linear-gradient(110deg,#133b38,#10252d)}.eng-challenge.achieved b{color:#a4ebdb}.eng-challenge.paused{border-color:#334258;background:#131c2b}.eng-challenge-fill{height:3px;background:#2e3b56;margin-top:8px;border-radius:4px;max-width:240px}.eng-challenge-fill i{display:block;height:100%;background:#a1adff;border-radius:4px}
+/* Original fighting-game title card, typography and motion. No character likenesses. */
+.arcade-summary{max-width:520px;width:100%;border-radius:22px;overflow:hidden;background:#0b101c;border:1px solid #666288;box-shadow:0 25px 100px #000a;color:#f1f4ff;position:relative;margin:auto}.arcade-hero{position:relative;isolation:isolate;overflow:hidden;padding:24px 23px 28px;background:radial-gradient(ellipse at 88% 12%,#b9367555,transparent 54%),linear-gradient(125deg,#17334b 0%,#283161 47%,#64285b 100%);min-height:222px}.arcade-hero::before{content:'';position:absolute;z-index:-1;inset:-35%;background:repeating-conic-gradient(from 79deg at 10% 60%,transparent 0deg 10deg,#eeeaff12 10.2deg 10.9deg,transparent 11deg 20deg);transform:scale(1.5);pointer-events:none}.arcade-hero::after{content:'';position:absolute;z-index:-1;left:-10%;right:-10%;bottom:25px;height:70px;background:linear-gradient(90deg,#7a90ff33,#f687b94a);transform:rotate(-7deg);border-top:1px solid #e8c6ff4d;border-bottom:1px solid #e8c6ff32}.arcade-player{font-family:var(--mono);font-size:9px;letter-spacing:.18em;font-weight:800;color:#ddd7fa;display:flex;align-items:center;gap:8px;text-transform:uppercase}.arcade-player span{border:1px solid #ddd7fa60;padding:3px 6px;color:#f5dfba}.arcade-win-title{font-family:Impact,'Arial Black',var(--sans);font-style:italic;font-weight:950;font-size:clamp(48px,16.4vw,86px);letter-spacing:-.025em;line-height:1;margin:17px 0 7px;transform:skew(-6deg) rotate(-3deg);color:#fff3cb;text-shadow:3px 4px 0 #a25591,6px 7px 0 #1a1639,0 0 30px #e9a2b744;-webkit-text-stroke:1px #fce6b9;overflow-wrap:normal;white-space:nowrap}.arcade-hero.partial .arcade-win-title{font-size:clamp(37px,11.8vw,63px)}.arcade-win-sub{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:#f8c9df;margin:12px 0 16px;text-transform:uppercase}.arcade-session{position:relative;max-width:100%;display:inline-block;padding:7px 14px;background:#0e1229d9;border-left:3px solid #f0c885;font-size:13px;font-weight:800;transform:skew(-7deg);color:#e8eeff}.arcade-session span{display:block;transform:skew(7deg)}.arcade-new-record{position:absolute;right:18px;top:23px;background:#f2cd80;color:#251323;font-size:9px;font-weight:950;letter-spacing:.08em;transform:rotate(8deg);padding:6px 9px;box-shadow:2px 3px #19173580}.arcade-body{padding:20px 23px 24px}.arcade-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #293448;border-bottom:1px solid #293448;margin:0 0 17px;padding:14px 0;gap:9px}.arcade-stat strong{display:block;font-family:var(--mono);font-size:21px;letter-spacing:-.05em;color:#e9edff}.arcade-stat small{display:block;font-size:9px;color:#91a5bc;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}.arcade-moment{border-left:2px solid #91e1dc;padding:0 0 0 12px;margin:0 0 17px}.arcade-moment b{display:block;font-size:13px;color:#b8eae5}.arcade-moment span{font-size:11px;line-height:1.5;color:#93abc0;display:block;margin-top:3px}.arcade-unlock{border:1px solid #786285;border-radius:10px;padding:13px;margin:14px 0;background:linear-gradient(110deg,#273742,#2c2240,#463340)}.arcade-unlock small{font-family:var(--mono);font-size:9px;color:#d0b7ee;letter-spacing:.16em}.arcade-unlock b{display:block;font-size:17px;color:#f3dfb8;margin-top:3px}.arcade-unlock p{font-size:10px;color:#c6bcd1;margin-top:3px}.arcade-follow{font-size:12px;color:#a3b0c9;margin:12px 0 17px;line-height:1.6}.arcade-follow b{color:#d3ccf2}.arcade-actions{display:grid;gap:8px}.arcade-btn{padding:14px 16px;min-height:47px;background:linear-gradient(110deg,#f1d99f,#e5b3d1);color:#211b36;font-weight:900;font-size:13px;letter-spacing:.05em;border:0;border-radius:10px;cursor:pointer}.arcade-save{color:#adaec9;background:transparent;border:0;min-height:36px;font-size:11px;cursor:pointer}.arcade-details{font-size:11px;color:#9babbd;margin-top:14px}.arcade-details summary{cursor:pointer;padding:6px 0}.arcade-details .sum-vol-row{font-size:11px}.arcade-preview-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-align:center;color:#94b9d5;margin-bottom:12px}.arcade-animate .arcade-win-title{animation:victory-enter .5s cubic-bezier(.2,.8,.2,1) both}.arcade-animate .arcade-moment{animation:victory-content .4s .15s ease both}@keyframes victory-enter{from{opacity:0;transform:translateX(-24px) skew(-12deg) rotate(-3deg)}to{opacity:1;transform:translateX(0) skew(-6deg) rotate(-3deg)}}@keyframes victory-content{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eng-settings{margin:14px 0;border:1px solid var(--line);padding:13px;border-radius:12px}.eng-settings legend{padding:0 6px;font-size:12px;color:var(--muted);font-weight:800}.eng-settings label{display:flex;gap:9px;align-items:center;font-size:13px;padding:6px 0}.eng-settings input{width:18px;height:18px;accent-color:#b1a2ee}.eng-previews{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.eng-preview-badge{background:#263656;color:#bacef0;padding:4px 7px;border-radius:6px;font-size:10px}.eng-toast{position:fixed;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#152c28;color:#bfe5d6;border:1px solid #436b5a;padding:10px 16px;border-radius:12px;z-index:12050;max-width:90%;font-size:12px;box-shadow:0 8px 30px #0008;pointer-events:none;text-align:center}
+@media(max-width:360px){.eng-sheet{padding:16px}.eng-week-table th,.eng-week-table td{padding:10px 7px}.eng-week-table th:first-child{width:48px}.eng-week-table td{font-size:11px}.vault-grid{gap:8px}.vault-content{padding:10px}.vault-art{height:78px}.arcade-hero{padding:22px 17px}.arcade-body{padding:17px}.arcade-stats{gap:6px}.arcade-stat strong{font-size:19px}.arcade-new-record{right:12px;font-size:8px;padding:5px 7px}.momentum-title{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.arcade-animate *,body.vault-theme-elysium *, .eng-sheet *{animation:none!important;transition:none!important}.arcade-win-title{transform:skew(-6deg) rotate(-3deg)}}
+/* Preserve the oversized arcade title inside the generic preview sheet. */
+.eng-sheet h2.arcade-win-title{font-size:clamp(48px,16.4vw,86px);line-height:1;margin:20px 0 7px;letter-spacing:-.025em}
+.eng-sheet .partial h2.arcade-win-title{font-size:clamp(35px,11.6vw,63px)}
+.arcade-preview-label{text-align:left;font-size:8px;letter-spacing:.10em;max-width:85%;margin-bottom:14px}
+.arcade-hero:has(.arcade-preview-label) .arcade-new-record{top:66px}
+@media(max-width:360px){.eng-sheet h2.arcade-win-title{font-size:53px}.eng-sheet .partial h2.arcade-win-title{font-size:36px}}
+#modal-overlay:has(.arcade-summary){align-items:center;justify-content:center;padding:18px 12px;overflow-y:auto}
+#modal-overlay>.arcade-summary{max-height:calc(100vh - 36px);max-height:calc(100dvh - 36px);overflow-y:auto;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -729,7 +784,7 @@ p { margin:0; }
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.4.0';
+const APP_VERSION = '3.6.0';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
@@ -1784,7 +1839,8 @@ function dbLoad() {
     var d = JSON.parse(raw);
     if (!d || typeof d !== 'object' || Array.isArray(d)) throw new Error('The saved database is not a JSON object.');
     if (!d.schemaVersion || d.schemaVersion < 2) d = dbMigrateV1(d);
-    var needsMigration=Number(d.schemaVersion||0)<3||!d.settings||d.settings.programVersion!==PROGRAM_VERSION;
+    var needsMigration=Number(d.schemaVersion||0)<3||!d.settings||d.settings.programVersion!==PROGRAM_VERSION||!d.engagement;
+    if(!d.engagement && !localStorage.getItem('adil_v2_backup_before_rewards_360')) localStorage.setItem('adil_v2_backup_before_rewards_360',raw);
     if (needsMigration) {
       var existingBackup=localStorage.getItem(DB_MIGRATION_BACKUP_KEY);
       if (!existingBackup) localStorage.setItem(DB_MIGRATION_BACKUP_KEY,raw);
@@ -1815,7 +1871,7 @@ function dbDefault() {
     homeRoutineLogs: [],
     legacyData: null,
     nextCoreSession: 'A',
-    cardio:cardioDefault(),prCelebrationEvents:[],
+    cardio:cardioDefault(),prCelebrationEvents:[],momentumCelebrationEvents:[],engagement:Engagement.defaults(),
   };
 }
 
@@ -1873,6 +1929,7 @@ function migrateDb(data) {
   if (d.settings.volumeTargets === undefined) d.settings.volumeTargets = null;
   if (!Array.isArray(d.completedSessions)) d.completedSessions = [];
   if (!Array.isArray(d.homeRoutineLogs)) d.homeRoutineLogs = [];
+  if (!Array.isArray(d.momentumCelebrationEvents)) d.momentumCelebrationEvents = [];
   if (d.nextCoreSession !== 'A' && d.nextCoreSession !== 'B') {
     var latestCore = d.completedSessions.filter(function(session) { return session.dayN === 1 || session.dayN === 2; })
       .sort(function(a,b) { return (b.endTime || b.startTime || 0) - (a.endTime || a.startTime || 0); })[0];
@@ -1932,6 +1989,8 @@ function migrateDb(data) {
   d.cardio=normalizeCardioStore(d.cardio);
   if(d.prCelebrationEvents===undefined)d.prCelebrationEvents=[];
   if(!Array.isArray(d.prCelebrationEvents))throw new Error('Malformed PR event data. Original saved data preserved.');
+  d.engagement=Engagement.normalize(d.engagement);
+  Engagement.refreshUnlocks(d,'history-migration');
   return d;
 }
 
@@ -2956,16 +3015,42 @@ var SessionClock = (function(){
   };
 })();
 
+
+// ============================================================
+// MOMENTUM HABIT SYSTEM
+// ============================================================
+function momentumShiftDateKey(key,days){var p=String(key||'').split('-').map(Number);if(p.length!==3||!p[0]||!p[1]||!p[2])return localDateKey();var d=new Date(p[0],p[1]-1,p[2]+Number(days||0),12,0,0,0);return localDateKey(d.getTime());}
+function momentumDateTs(key){var p=String(key||'').split('-').map(Number);return p.length===3?new Date(p[0],p[1]-1,p[2],12,0,0,0).getTime():0;}
+function isMomentumCardioLog(log){if(!log||!validLocalDateString(log.date))return false;var duration=Number(log.durationSeconds)||0,steady=Number(log.steadySeconds)||0,planned=Number(log.plannedRounds)||0,done=Number(log.completedRounds)||0;return steady>=600||duration>=600||(planned>=2&&done>=planned);}
+function getMomentumActivityDates(data){var found={};(data.completedSessions||[]).forEach(function(sess){var ts=toTimestamp(sess.startTime)||toTimestamp(sess.endTime);if(sess&&sess.finished===true&&ts&&(sess.sets||[]).some(validCompletedNormal))found[localDateKey(ts)]=true;});var logs=data.cardio&&Array.isArray(data.cardio.logs)?data.cardio.logs:[];logs.forEach(function(log){if(isMomentumCardioLog(log))found[log.date]=true;});return Object.keys(found).sort();}
+function getMomentumPreferences(){return Object.assign({theme:true,celebrations:true,sound:false,haptics:false},db&&db.settings&&db.settings.momentum||{});}
+function getMomentumState(data,now){return Engagement.momentum(data,now);}
+function momentumStageLabel(stage){return stage>=5?'Elysium Mode':stage===4?'Charged':stage===3?'Locked In':stage===2?'Ignited':stage===1?'Started':'Momentum';}
+function renderMomentumCard(data){return Engagement.renderMomentum(data);}
+function applyMomentumTheme(data,enabled){
+ var body=document.body;for(var i=0;i<=5;i++)body.classList.remove('momentum-theme-'+i);['obsidian','chrome','elysium','signature'].forEach(function(id){body.classList.remove('vault-theme-'+id);});
+ var meta=document.querySelector('meta[name="theme-color"]'),prefs=getMomentumPreferences();
+ if(enabled&&prefs.theme){var theme=Engagement.themedClass(data),stage=getMomentumState(data).stage;if(theme)body.classList.add(theme);else if(stage>0)body.classList.add('momentum-theme-'+stage);if(meta)meta.setAttribute('content',theme?'#131420':stage>=5?'#15152a':stage===4?'#24102b':stage===3?'#171329':stage===2?'#071d2a':'#0b1630');}else if(meta)meta.setAttribute('content','#090d1a');
+}
+function saveMomentumPreference(k,value){if(!canPersistUserChanges()||['theme','celebrations','sound','haptics'].indexOf(k)<0)return;db.settings.momentum=getMomentumPreferences();db.settings.momentum[k]=!!value;dbSave(db);if(window._currentScreen==='today'){applyMomentumTheme(db,true);App.showScreen('today');}}
+function renderMomentumSettings(){var p=getMomentumPreferences();return '<fieldset class="momentum-settings"><legend>Momentum</legend>'+[['theme','Dynamic Today colours'],['celebrations','Milestone celebrations'],['sound','Milestone chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="saveMomentumPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="MomentumCelebration.preview()">Preview Elysium milestone</button></fieldset>';}
+function renderMomentumAchievements(data){var s=getMomentumState(data),w=Engagement.programmeWeeks(data),items=[['Ignited',s.bestStreak>=2,'2 active days of Momentum'],['Locked In',s.bestStreak>=3,'3 active days of Momentum'],['Elysium',s.bestStreak>=5,'5 active days of Momentum'],['Programme week',w.completed.length>0,'All four core roles completed']];return '<details class="momentum-achievements"><summary>Momentum achievements</summary><div class="momentum-achievement-body"><div class="momentum-best">Best Momentum: '+s.bestStreak+' active days · '+s.totalActiveDays+' total active dates</div><div class="momentum-badges">'+items.map(function(i){return '<div class="momentum-badge'+(i[1]?' is-unlocked':'')+'"><b>'+i[0]+'</b><span>'+i[2]+'</span></div>';}).join('')+'</div><div class="eng-footer-links"><button class="btn-ghost btn-sm" onclick="Engagement.openVault()">Open theme vault</button></div></div></details>';}
+
+function recordMomentumEvent(data,sourceId,before,after){if(!sourceId)return null;data.momentumCelebrationEvents=Array.isArray(data.momentumCelebrationEvents)?data.momentumCelebrationEvents:[];if(data.momentumCelebrationEvents.some(function(e){return e.sourceId===sourceId;}))return null;var e=null;if(after.streak>=5&&before.streak<5)e={type:'elysium',icon:'✦',kicker:'5 day milestone',title:'ELYSIUM MODE',detail:'Elysium Noir is yours to keep.',colour:'#d3b2ff'};else if(after.streak>=3&&before.streak<3)e={type:'three',icon:'⚡',kicker:'3 day milestone',title:'LOCKED IN',detail:'Three active days of Momentum.',colour:'#a78bfa'};else if(after.streak>=2&&before.streak<2)e={type:'two',icon:'🔥',kicker:'2 day milestone',title:'IGNITED',detail:'Two active days of Momentum.',colour:'#66e0ff'};else if(before.daysSinceLastActivity!==null&&before.daysSinceLastActivity>=3&&after.streak===1)e={type:'comeback',icon:'↗',kicker:'Comeback complete',title:'MOMENTUM RESTORED',detail:'The next run starts now.',colour:'#69a8ff'};if(!e)return null;e.eventId='momentum:'+sourceId;e.sourceId=sourceId;e.achievedAt=Date.now();e.streak=after.streak;e.activeThisWeek=after.activeThisWeek;data.momentumCelebrationEvents.push(e);return e;}
+var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('momentum-celebration-layer');if(el)el.remove();}function chime(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});[523,659,784,1047].forEach(function(f,i){var o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.065;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.24);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.25);});}catch(e){}}function show(e){if(!e)return;var p=getMomentumPreferences();if(!p.celebrations&&!p.sound&&!p.haptics)return;if(p.sound)chime();if(p.haptics&&typeof navigator.vibrate==='function'){try{navigator.vibrate([30,45,55]);}catch(err){}}if(!p.celebrations)return;clear();var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,layer=document.createElement('div');layer.id='momentum-celebration-layer';layer.className='momentum-celebration-layer';var card=document.createElement('div');card.className='momentum-celebration-card'+(e.type==='elysium'?' is-elysium':'');card.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');card.setAttribute('role','status');card.setAttribute('aria-live','polite');[['momentum-celebration-icon',e.icon],['momentum-celebration-kicker',e.kicker],['momentum-celebration-title',e.title],['momentum-celebration-detail',e.detail]].forEach(function(pair){var n=document.createElement('div');n.className=pair[0];n.textContent=pair[1];card.appendChild(n);});layer.appendChild(card);if(!reduce){for(var i=0;i<22;i++){var bit=document.createElement('i');bit.className='momentum-confetti';bit.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');bit.style.setProperty('--dx',((i%11)-5)*34+'px');bit.style.setProperty('--rot',((i*67)%360)+'deg');bit.style.setProperty('--delay',(i%5)*.025+'s');layer.appendChild(bit);}}document.body.appendChild(layer);timer=setTimeout(clear,2350);}return {show:show,clear:clear,preview:function(){show({type:'elysium',icon:'✦',kicker:'5 day milestone',title:'ELYSIUM MODE',detail:'Elysium Noir is yours to keep.',colour:'#d3b2ff'});}};})();
+
 // ============================================================
 // TODAY SCREEN
 // ============================================================
 function renderToday(data){
  var active=data.activeSession&&!data.activeSession.finished,rec=getBestWorkoutRecommendation(data),day=DAYS[rec.dayN],home=getHomeLog(data,localDateKey(),false)||{items:{}},done=HOME_ROUTINE.filter(function(i){return !!home.items[i.id];}).length;
  var warn=DB_LOAD_ERROR?'<div class="timer-cap-banner" role="alert">'+esc(DB_LOAD_ERROR)+' Saved data was not overwritten.</div>':'';
+ var momentum=renderMomentumCard(data);
  var card='<section class="today-day-card"><div class="tdc-kicker">'+(active?'Workout in progress':'Recommended workout')+'</div><h2 class="today-workout-title">'+esc(active?getSessionLabel(data.activeSession):day.title)+'</h2><p class="today-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="'+(active?'App.resumeWorkout()':'App.startWorkout('+rec.dayN+',false)')+'">'+(active?'Resume workout':'Start workout')+'</button></section>';
+ var recovery=getMomentumState(data);if(!active&&recovery.protectedToday){var nextLift=Engagement.scheduleRows(data).find(function(r){return r.id&&r.date>recovery.today;})||Engagement.scheduleRows(data,Date.now()+7*86400000).find(function(r){return r.id;});card='<section class="today-day-card"><div class="tdc-kicker">Recovery day</div><h2 class="today-workout-title">Rest is part of the plan.</h2><p class="today-reason">Momentum protected. Next lift: '+esc(nextLift?nextLift.day+', '+nextLift.title:'choose when ready')+'.</p><button class="btn-primary btn-xl" onclick="Engagement.openSchedule()">View weekly schedule</button></section>';}
  var choices=ALL_DAY_NUMBERS.map(function(n){return '<article class="today-choice"><div><strong>'+esc(DAYS[n].title)+(n===3?' · optional':'')+'</strong><span>'+esc(DAYS[n].scheduleLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';}).join('');
  var homeCard='<div class="today-home-card"><div class="thc-icon">⌂</div><div class="thc-main"><div class="thc-kicker">Daily Home Routine</div><div class="thc-title">Maximum 7 minutes</div><div class="thc-meta">'+done+' / '+HOME_ROUTINE.length+' complete today</div></div><button class="thc-open" onclick="App.showScreen(\'home\')">Open</button></div>';
- return '<div class="today-wrap">'+warn+card+'<details class="today-picker"><summary class="tp-sum">Choose another workout</summary><div class="tp-body">'+choices+'</div></details><div class="today-shortcuts"><button class="btn-ghost" onclick="Cardio.open()">Cardio</button></div>'+homeCard+(localDateKey()>PROGRAMME_END_DATE?'<p class="addex-muted">Block complete. Workouts and history remain available.</p>':'')+'<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button onclick="App.checkForUpdates()">Check for updates</button><span id="today-update-status" aria-live="polite"></span></div></div>';
+ return '<div class="today-wrap">'+warn+momentum+'<div class="eng-shortcuts"><button class="btn-ghost" aria-label="Weekly schedule" onclick="Engagement.openSchedule()"><span class="eng-icon">▦</span>Weekly schedule</button><button class="btn-ghost" aria-label="Theme vault" onclick="Engagement.openVault()"><span class="eng-icon">✦</span>Theme vault</button></div>'+card+'<details class="today-picker"><summary class="tp-sum">Choose another workout</summary><div class="tp-body">'+choices+'</div></details><div class="today-shortcuts"><button class="btn-ghost" onclick="Cardio.open()">Cardio</button></div>'+homeCard+(localDateKey()>PROGRAMME_END_DATE?'<p class="addex-muted">Block complete. Workouts and history remain available.</p>':'')+'<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button onclick="App.checkForUpdates()">Check for updates</button><span id="today-update-status" aria-live="polite"></span></div></div>';
 }
 
 
@@ -3072,7 +3157,7 @@ function renderWorkout(db) {
       '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
     '</div>' +
     '<div class="wo-body" id="wo-body">' +
-      timerCapBanner + rushedControl +
+      timerCapBanner + rushedControl + '<div id="eng-challenge">'+Engagement.renderChallenge(db,sess)+'</div>' +
       exerciseIds.map(function(exId) {
         var _dn=isExerciseComplete(sess, exId);
         var _st=_dn?'done':(exId===sess.currentExId?'current':'future');
@@ -3091,7 +3176,7 @@ function renderWorkout(db) {
   // Auto-scroll to first incomplete exercise
   setTimeout(function() {
     var first = ov.querySelector('.ex-card:not(.ex-card--done)');
-    scrollExIntoView(first, false);
+    if(sess.engagementChallenge&&first&&first.id==='exc-'+sess.engagementChallenge.exerciseId&&!sess.sets.some(function(r){return r.exId===sess.engagementChallenge.exerciseId&&r.completed;})){var body=document.getElementById('wo-body');if(body)body.scrollTop=0;}else scrollExIntoView(first, false);
   }, 200);
 }
 
@@ -3321,7 +3406,8 @@ function scrollExIntoView(el, center) {
 // ============================================================
 // WORKOUT SUMMARY
 // ============================================================
-function renderSummary(session, db) {
+function renderSummary(session,data){return Engagement.showSummaryAllowed()?Engagement.renderVictory(session,data,true):renderClassicSummary(session,data);}
+function renderClassicSummary(session, db) {
   var day = Object.assign({}, DAYS[session.dayN], {title:getSessionDayTitle(session)});
   var dur = session.durationMs ? fmtTime(session.durationMs) : ', ';
   var workingSets = session.sets.filter(function(s){ return s.completed && s.setType==='working' && isEffectiveWorkingSet(s, session); });
@@ -3330,6 +3416,8 @@ function renderSummary(session, db) {
   var plannedRounds=(session.programmeSnapshot&&session.programmeSnapshot.slots||[]).reduce(function(total,slot){return total+(slot.optional?0:slot.sets||0);},0);
   var completedRounds=getCompletedProgrammeRounds(session);
   var prs = session.prs || [];
+  var momentum=session.momentumSnapshot||getMomentumState(db,session.endTime||Date.now());
+  var momentumRow='<div class="sum-momentum"><span>'+momentum.streak+' day momentum</span> · '+momentum.activeThisWeek+' / 4 active days this week</div>';
 
   // Volume by muscle
   var vol = calcVolume([session], null);
@@ -3353,6 +3441,7 @@ function renderSummary(session, db) {
     (session.rushedModeApplied?'<div class="rushed-banner">'+esc(getRushedModeDescription(session))+'<br>Actual work is shown here; this is not completion of the unreduced prescription.</div>':'<div class="rec-note">Rushed Mode applied: No</div>') +
     (plannedRounds?'<div class="rec-note">Completed programmed rounds: '+completedRounds+' / '+plannedRounds+'. The rows count records individual sides; an L/R pair is one round.</div>':'')+
     (draftRows?'<div class="rec-note">'+draftRows+' in-progress working row(s) retained in the saved session.</div>':'') +
+    momentumRow +
     prRows +
     '<div class="sum-section"><div class="sum-sec-title">Volume</div>' + (volRows||'<div class="sum-none">No sets logged</div>') + '</div>' +
     '<button class="btn-primary btn-xl sum-done-btn" onclick="App.closeSummary()">Done</button>' +
@@ -3625,7 +3714,7 @@ function renderProgram(){
  var cards=CORE_DAY_NUMBERS.map(function(n){var day=DAYS[n],slots=getProgrammeSlots(n,null,null,db),count=slots.reduce(function(t,s){return t+s.sets;},0),special=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise. Later visits return to three sets for hip thrust, leg press and leg curl.</p>':n===4&&fifthDaySelected(db)?'<p class="fifth-note">Shoulders and arms moved to Wednesday this week.</p>':'';return '<article class="prog-session"><div class="schedule-kicker">'+esc(day.scheduleLabel)+'</div><h2>'+esc(day.title)+'</h2><p>'+slots.length+' exercises · '+(n===2?'11 lifting sets + 2 holds':count+' working rounds')+' · '+esc(day.durationLabel)+'</p>'+special+'<button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button><details><summary>Exercises &amp; tips</summary>'+renderPlanList(slots)+'</details></article>';}).join('');
  var selected=fifthDaySelected(db),fifth='<details class="prog-session"><summary>Optional fifth day: shoulders + arms</summary><p>Move Tuesday lateral raises, triceps and preacher curls here, then add only two rear-delt sets. Decide before Tuesday. Unexpected extra visit after those sets are done: cardio or posing instead.</p><button class="btn-ghost btn-sm" onclick="toggleFifthDay()">'+(selected?'Return to four days this week':'Split Tuesday accessories this week')+'</button><p class="fifth-note">This choice applies only to newly started workouts. Your active workout never changes.</p>'+renderPlanList(getProgrammeSlots(3,null,null,db))+'<button class="btn-primary btn-sm" onclick="App.startWorkout(3,true)">Start remaining accessories</button></details>';
  var guide='<details class="prog-session"><summary>Progression and final-week guidance</summary><p>Use repeatable technique and rest. Add reps before load; increase after all normal sets reach the top of the range. Prefill is a previous result, not an instruction. No compulsory RIR entry.</p><p>First week: no drop sets. Before your first wedding event, use less volume, familiar exercises and no failure attempts. Do not use dehydration or a last-minute volume surge.</p><p>Cardio is separate: build toward 150 moderate minutes and one interval option, introduced gradually. The Home routine stays at seven minutes.</p></details>';
- return '<div class="prog-wrap prog-simple">'+intro+cards+fifth+guide+'</div>';
+ return '<div class="prog-wrap prog-simple">'+intro+Engagement.renderScheduleInline()+cards+fifth+guide+'</div>';
 }
 function renderPlanList(slots){return '<ol class="prog-mini-list">'+slots.map(function(slot,i){var ex=getExerciseDef(slot.exerciseId,null,db);return '<li>'+String(i+1)+'. '+esc(ex.name)+'<span>'+slot.sets+' × '+slot.min+'-'+slot.max+(slot.trackingUnit==='seconds'?' seconds':slot.unilateral?' per side':' reps')+' · '+esc(fmtRestRange(slot.restMin,slot.restMax))+' rest</span>'+renderCoachingTips(ex,null,slot)+'</li>';}).join('')+'</ol>';}
 
@@ -3733,9 +3822,9 @@ function renderHistory(db) {
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearActiveSession()">Clear active session</button>' +
         '<button class="btn-ghost btn-sm btn-danger" onclick="App.clearWorkoutData()">Clear all history</button>' +
       '</div>' +
-      renderAchievementSettings()+'<div class="app-version">'+esc(PROGRAM_NAME)+' · App version '+APP_VERSION+'</div>' +
+      renderAchievementSettings()+renderMomentumSettings()+Engagement.settingsHtml()+'<div class="app-version">'+esc(PROGRAM_NAME)+' · App version '+APP_VERSION+'</div>' +
     '</div></details>';
-  return '<div class="screen-title">History</div>' + mainContent + dataHtml;
+  return '<div class="screen-title">History</div>' + renderMomentumAchievements(db) + mainContent + dataHtml;
 }
 
 
@@ -3755,7 +3844,8 @@ var App = (function() {
     // Render on demand
     if(typeof Cardio!=='undefined')Cardio.onNavigate(name);
     if (name === 'cardio') { el.innerHTML = Cardio.render(); }
-    if (name === 'today')   { el.innerHTML = renderToday(db); }
+    if (name === 'today')   { el.innerHTML = renderToday(db); applyMomentumTheme(db,true); }
+    else { applyMomentumTheme(db,false); }
     if (name === 'home')    { el.innerHTML = renderHome(db); }
     if (name === 'volume')  { el.innerHTML = renderVolume(db); }
     if (name === 'history') { el.innerHTML = renderHistory(db); }
@@ -3827,6 +3917,7 @@ var App = (function() {
     if(Number(dayN)===3&&fifthDayAlreadyCovered(db)){alert('Tuesday already covered these shoulder and arm sets. Use Cardio or posing for an unexpected extra visit.');return;}
     var sess = createSession(Number(dayN),!!manualSelection||!!db._nextDayOverride);
     sess.sets = initWorkoutSets(dayN, db, sess);
+    Engagement.prepareChallenge(db,sess);
     sess.exNotes = {};
     delete db._nextDayOverride;
     db.activeSession = sess;
@@ -3999,6 +4090,7 @@ var App = (function() {
     var achievement=recordSetAchievement(db,db.activeSession,s,candidate);
     if(!dbSave(db)){Object.keys(s).forEach(function(k){delete s[k];});Object.assign(s,priorState);if(achievement&&achievement.eventId)db.prCelebrationEvents=db.prCelebrationEvents.filter(function(e){return e.eventId!==achievement.eventId;});alert('Set could not be saved. Check storage; export a backup.');return;}
     refreshExercisePerformance(s.exId,s.slotId);
+    Engagement.checkChallenge(db,db.activeSession);
     if(achievement)PRCelebration.show(achievement);
     rerenderSetRow(setId);
     var ex=getExerciseDef(s.exId,db.activeSession),sess=db.activeSession,exId=s.exId;
@@ -4413,8 +4505,11 @@ var App = (function() {
     if (incompleteSets > 0) {
       if (!confirm(incompleteSets + ' planned set(s) are not yet logged. Finish anyway?')) return;
     }
+    flushVisibleSetDrafts();
+    var beforeFinish=JSON.stringify(db);
     applySessionTimerCap(sess);
     sess.endTime = Date.now();sess.actualFinishedAt=sess.endTime;
+    var momentumBefore=getMomentumState(db,sess.endTime);
     sess.durationMs = getSessionElapsedMs(sess, sess.endTime);
     SessionClock.stop();
     sess.finished = true;
@@ -4422,20 +4517,27 @@ var App = (function() {
     // Detect PRs
     db.completedSessions.push(sess);  // add first so detectPRs can compare
     sess.prs = detectPRs(db, sess);
+    var momentumAfter=getMomentumState(db,sess.endTime);
+    var momentumEvent=recordMomentumEvent(db,'lift:'+sess.id,momentumBefore,momentumAfter);
+    sess.momentumSnapshot={streak:momentumAfter.streak,activeThisWeek:momentumAfter.activeThisWeek,bestStreak:momentumAfter.bestStreak,stage:momentumAfter.stage};
     db.lastCompletedDay = sess.dayN;
     if (sess.dayN === 1) db.nextCoreSession = 'B';
     else if (sess.dayN === 2) db.nextCoreSession = 'A';
     delete db._nextDayOverride;
     db.activeSession = null;
-    dbSave(db);
-    // Show summary
+    Engagement.onSavedSession(db,sess);
+    if(!dbSave(db)){db=JSON.parse(beforeFinish);alert('Could not save this workout. Your active session is retained; export a backup and check storage.');return;}
+    // Saved first, original arcade summary second. No overlapping milestone overlay.
     showSummary(sess);
+    Engagement.sound();
   }
 
   function showSummary(sess) {
     var modal = document.getElementById('modal-overlay');
     modal.innerHTML = renderSummary(sess, db);
     modal.classList.remove('hidden');
+    modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Workout saved');
+    var doneButton=modal.querySelector('.arcade-btn,.sum-done-btn');if(doneButton)doneButton.focus();
   }
 
   function closeSummary() {
@@ -4812,12 +4914,15 @@ var Cardio=(function(){
   if(isHiit&&preset==='bike_hiit'&&planned!==3)return fail('The bike preset has three planned rounds.');
   if(isHiit){var hard=preset==='bike_hiit'?20:240,gap=preset==='bike_hiit'?120:180,minDuration=completed*hard+Math.max(0,completed-1)*gap;if(duration+1<minDuration)return fail('Duration is too short for that many completed hard rounds and recoveries.');}
   var c=store(),old=editId?c.logs.find(function(l){return l.id===editId;}):null;
+  var momentumBefore=!old&&date===localDateKey()?getMomentumState(db):null;
   var log=Object.assign({},old||{},{id:editId||'cardio_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),date:date,presetId:preset,durationSeconds:Math.round(duration),steadySeconds:isHiit?0:document.getElementById('cd-moderate').checked?Math.round(duration):0,plannedRounds:planned,completedRounds:completed,notes:value('cd-notes'),source:old?old.source:reviewTimer?'timer':'manual',createdAt:old?old.createdAt:Date.now(),updatedAt:Date.now()});
   [['speedKmh','cd-speed',0,35],['inclinePct','cd-incline',0,45],['level','cd-level',0,1000],['avgHr','cd-hr',20,250]].forEach(function(f){var v=value(f[1]);log[f[0]]=v===''?null:Number(v);});
   if([['speedKmh',0,35],['inclinePct',0,45],['level',0,1000],['avgHr',20,250]].some(function(f){return log[f[0]]!==null&&(!isFinite(log[f[0]])||log[f[0]]<f[1]||log[f[0]]>f[2]);}))return fail('A machine setting is outside its supported range.');
   var before=JSON.stringify(c);if(old)c.logs[c.logs.indexOf(old)]=log;else c.logs.push(log);if(reviewTimer&&c.active){log.timerElapsedSeconds=Math.round(cardioTimerElapsed(c.active)/1000);log.timerSteps=c.active.steps;c.active=null;}
   if(!dbSave(db)){db.cardio=JSON.parse(before);return fail('Could not save. Your saved data was not cleared.');}
-  editId=null;reviewTimer=false;formSeed=null;view='hub';releaseWake();redraw();
+  Engagement.refreshUnlocks(db,'cardio:'+log.id);dbSave(db);
+  var momentumEvent=null;if(momentumBefore){momentumEvent=recordMomentumEvent(db,'cardio:'+log.id,momentumBefore,getMomentumState(db));if(momentumEvent)dbSave(db);}
+  editId=null;reviewTimer=false;formSeed=null;view='hub';releaseWake();redraw();if(momentumEvent)setTimeout(function(){MomentumCelebration.show(momentumEvent);},120);
  }
  function act(action,el){if(!canPersistUserChanges()&&['back','week','detail','resume'].indexOf(action)<0)return;var c=store();
   if(action==='back'){if(view==='hub'){App.showScreen('today');return;}view='hub';redraw();return;}
@@ -4839,6 +4944,225 @@ var Cardio=(function(){
  return {init:init,render:render,open:function(){view='hub';App.showScreen('cardio');},onNavigate:function(name){document.body.classList.toggle('cardio-view',name==='cardio');if(name!=='cardio')releaseWake();},buildSteps:cardioBuildSteps};
 })();
 
+// v3.6 Engagement: local, cosmetic rewards. Never grants lifting/cardio credit for recovery.
+var Engagement = (function () {
+  'use strict';
+  var VERSION = 1, sheetFocus = null, lastSheet = null, previewVictory = null, toastTimer = null;
+  var THEMES = [
+    {id:'adaptive',name:'Momentum',tag:'ORIGINAL',paint:'linear-gradient(125deg,#103952,#6567aa,#caa7db)',desc:'Your original evolving colours.',need:0},
+    {id:'obsidian',name:'Obsidian Gold',tag:'ONE STRONG WEEK',paint:'linear-gradient(125deg,#14191d,#45392a 62%,#c5a062)',desc:'Complete one programme week.',need:1},
+    {id:'chrome',name:'Arctic Chrome',tag:'THREE WEEKS',paint:'linear-gradient(125deg,#183042,#54748c,#b9e3eb)',desc:'Complete three programme weeks.',need:3},
+    {id:'elysium',name:'Elysium Noir',tag:'IRIDESCENT',paint:'linear-gradient(115deg,#25445a,#608ea8 23%,#8c77b0 49%,#c683af 73%,#d2b374)',desc:'Five active days of Momentum, or six programme weeks.',need:6},
+    {id:'signature',name:'Adil Signature',tag:'THE FINAL CHAPTER',paint:'linear-gradient(125deg,#241b34,#694c6a,#c09473 73%,#eed6ab)',desc:'Six programme weeks, then the block finish on 30 November.',need:6}
+  ];
+  function defaults(){return {version:VERSION,selectedTheme:'adaptive',unlocked:{},recoveryDays:{},preferences:{protectRecovery:true,challenge:true,victory:true,victorySound:false},events:{},introducedAt:Date.now()};}
+  function normalize(raw){
+    if(raw===undefined||raw===null)return defaults();
+    if(typeof raw!=='object'||Array.isArray(raw)||raw.version!==VERSION)throw new Error('Unsupported rewards data. Your original workout data is preserved.');
+    ['unlocked','recoveryDays','preferences','events'].forEach(function(k){if(raw[k]!==undefined&&(!raw[k]||typeof raw[k]!=='object'||Array.isArray(raw[k])))throw new Error('Malformed rewards '+k+'. Original data preserved.');});
+    var r=Object.assign(defaults(),raw);
+    r.preferences=Object.assign(defaults().preferences,raw.preferences||{});
+    r.unlocked=Object.assign({},raw.unlocked||{});r.recoveryDays=Object.assign({},raw.recoveryDays||{});r.events=Object.assign({},raw.events||{});
+    if(!THEMES.some(function(t){return t.id===r.selectedTheme;}))r.selectedTheme='adaptive';
+    return r;
+  }
+  function state(data){return data.engagement||defaults();}
+  function ensure(data){if(!data.engagement)data.engagement=defaults();return data.engagement;}
+  function pref(data,k){var e=state(data);return e.preferences&&e.preferences[k]!==undefined?e.preferences[k]:defaults().preferences[k];}
+  function dateTs(key){var p=String(key).split('-').map(Number);return new Date(p[0],p[1]-1,p[2],12).getTime();}
+  function shift(key,days){return dateAddDays(key,days);}
+  function weekKey(key){return localDateKey(weekStart(dateTs(key)));}
+  function sessionDate(s){return s.localWorkoutDate||s.workoutDate||localDateKey(toTimestamp(s.startTime)||getSessionTime(s));}
+  function normal(s){return !!(s&&s.completed===true&&!s.skipped&&s.setType==='working'&&(Number(s.durationSeconds)>0||Number(s.reps)>0));}
+  function completedRecords(data){var seen={};return (data.completedSessions||[]).filter(function(s){if(!s||!s.finished||!s.id||seen[s.id])return false;seen[s.id]=true;return true;});}
+  function coveredSession(s){
+    var slots=s.programmeSnapshot&&s.programmeSnapshot.slots||[], rows=s.sets||[];
+    var expected=0,done=0,exercises=0;
+    slots.forEach(function(slot){
+      if(slot.optional||!slot.sets)return;
+      var rr=rows.filter(function(r){return r.setType==='working'&&!r.isAdded&&(r.slotId===slot.slotId||!r.slotId&&(r.exId===slot.exerciseId||r.substitutedFor===slot.exerciseId));});
+      var slotDone=0;
+      for(var n=1;n<=Number(slot.sets);n++){
+        var sides=slot.unilateral?['L','R']:[null], counts=slot.sideSetCounts||null;
+        var presentSides=sides.filter(function(side){return !counts||side===null||n<=Number(counts[side]||0);});
+        if(!presentSides.length)continue;
+        var matches=presentSides.map(function(side){return rr.filter(function(r){return Number(r.setNum)===n&&normalizeSide(r.side)===side;});});
+        var isRushed=s.rushedModeApplied===true&&matches.every(function(group){return group.length>0&&group.every(function(r){return r.skipped&&r.skipReason==='rushed_mode';});});
+        if(isRushed)continue;
+        expected++;
+        if(matches.every(function(group){return group.some(normal);})){done++;slotDone++;}
+      }
+      if(slotDone)exercises++;
+    });
+    var logged=rows.filter(normal).length;
+    return {expected:expected,done:done,loggedRows:logged,complete:expected>0&&done===expected,qualifies:expected>=5&&done===expected&&exercises>=3};
+  }
+  function programmeWeeks(data,now){
+    var today=localDateKey(now||Date.now()),weeks={};
+    completedRecords(data).forEach(function(s){
+      if(s.programVersion!==PROGRAM_VERSION||[4,5,1,2,3].indexOf(Number(s.dayN))<0||!coveredSession(s).qualifies)return;
+      var date=sessionDate(s);if(date>today)return;
+      var key=weekKey(date);if(!weeks[key])weeks[key]={key:key,roles:{},dates:{},requiresFifth:false,fifthDone:false};
+      if(Number(s.dayN)===3){weeks[key].fifthDone=true;return;}
+      if(weeks[key].roles[s.dayN]||weeks[key].dates[date])return;
+      weeks[key].roles[s.dayN]=s.id;weeks[key].dates[date]=true;
+      if(Number(s.dayN)===4&&s.fifthDaySnapshot)weeks[key].requiresFifth=true;
+    });
+    var all=Object.keys(weeks).sort().map(function(k){var w=weeks[k];w.count=Object.keys(w.roles).length;w.complete=w.count===4&&(!w.requiresFifth||w.fifthDone);return w;});
+    return {all:all,completed:all.filter(function(w){return w.complete;}),current:weeks[weekKey(today)]||{key:weekKey(today),roles:{},dates:{},requiresFifth:false,fifthDone:false,count:0,complete:false}};
+  }
+  function recoveryAllowed(data,key){
+    if(!pref(data,'protectRecovery'))return false;
+    var e=state(data),d=new Date(dateTs(key)).getDay();
+    if(e.recoveryDays&&e.recoveryDays[key])return true;
+    return d===1||d===5||d===3&&!fifthDaySelected(data,dateTs(key));
+  }
+  function momentum(data,now){
+    var today=localDateKey(now||Date.now()),dates=getMomentumActivityDates(data).filter(function(k){return k<=today;}).sort(),set={};dates.forEach(function(k){set[k]=true;});
+    var last=dates.length?dates[dates.length-1]:null,run=0,streak=0,best=0,previous=null;
+    dates.forEach(function(key){
+      var continuous=false;
+      if(previous){var cursor=shift(previous,1),gap=0;continuous=true;while(cursor<key){gap++;if(gap>3||!recoveryAllowed(data,cursor)){continuous=false;break;}cursor=shift(cursor,1);}}
+      run=continuous?run+1:1;best=Math.max(best,run);previous=key;
+    });
+    if(last){var cursor=shift(last,1),gap=0,intact=true;while(cursor<today){gap++;if(gap>3||!recoveryAllowed(data,cursor)){intact=false;break;}cursor=shift(cursor,1);}if(intact)streak=run;}
+    var todayActive=!!set[today],protectedToday=!todayActive&&recoveryAllowed(data,today),bestWeek=0,activeWeeks={};dates.forEach(function(k){var wk=weekKey(k);activeWeeks[wk]=(activeWeeks[wk]||0)+1;bestWeek=Math.max(bestWeek,activeWeeks[wk]);});
+    var ws=weekKey(today),days=[],activeThisWeek=0;
+    for(var i=0;i<7;i++){var k=shift(ws,i),active=!!set[k],protectedDay=k<=today&&!active&&recoveryAllowed(data,k);if(active)activeThisWeek++;days.push({key:k,label:['M','T','W','T','F','S','S'][i],active:active,today:k===today,recovery:protectedDay});}
+    var delta=last?Math.round((dateTs(today)-dateTs(last))/86400000):null;
+    return {today:today,todayActive:todayActive,protectedToday:protectedToday,streak:streak,bestStreak:best,bestWeek:bestWeek,totalActiveDays:dates.length,activeThisWeek:activeThisWeek,weekGoal:4,weekDays:days,stage:Math.min(streak,5),nextMilestone:[2,3,5].find(function(n){return n>streak;})||null,lastActiveDate:last,daysSinceLastActivity:delta,atRisk:false};
+  }
+  function refreshUnlocks(data,source,now){
+    var e=ensure(data),s=momentum(data,now),weeks=programmeWeeks(data,now),count=weeks.completed.length,today=localDateKey(now||Date.now()),earned=[];
+    THEMES.forEach(function(t){var qualifies=t.id==='adaptive'||t.id==='obsidian'&&count>=1||t.id==='chrome'&&count>=3||t.id==='elysium'&&(s.bestStreak>=5||count>=6)||t.id==='signature'&&count>=6&&today>=PROGRAMME_END_DATE;
+      if(qualifies&&!e.unlocked[t.id]){e.unlocked[t.id]={earnedAt:now||Date.now(),source:source||'history',programmeWeeks:count,bestMomentum:s.bestStreak};if(t.id!=='adaptive')earned.push(t.id);}
+    });return earned;
+  }
+  function themeUnlocked(data,id){return id==='adaptive'||!!(state(data).unlocked&&state(data).unlocked[id]);}
+  function nextUnlock(data){var e=state(data),count=programmeWeeks(data).completed.length,t=THEMES.find(function(t){return t.id!=='adaptive'&&!themeUnlocked(data,t.id);});if(!t)return 'Every theme earned. Yours to keep.';var current=programmeWeeks(data).current;if(current.count===4&&current.requiresFifth&&!current.fifthDone)return 'Finish moved accessories for this programme-week unlock.';if(t.id==='elysium')return 'Next: Elysium Noir, five active days or six programme weeks.';if(t.id==='signature')return 'Next: Adil Signature, six weeks and the block finish.';var left=Math.max(0,t.need-count);return left+' more programme '+(left===1?'week':'weeks')+' until '+t.name+'.';}
+  function themePreference(data){var e=state(data);return themeUnlocked(data,e.selectedTheme)?e.selectedTheme:'adaptive';}
+  function themedClass(data){var id=themePreference(data);return id==='adaptive'?'':'vault-theme-'+id;}
+  function renderMomentum(data){
+    var s=momentum(data),week=programmeWeeks(data),core=Object.keys(week.current.roles).length,progress=Math.round(core/4*360),title=s.streak?s.streak+' active-day momentum':'Your next chapter',sub=s.todayActive?'Activity recorded today.':s.protectedToday?'Recovery protected. No lifting required.':s.daysSinceLastActivity!==null&&s.daysSinceLastActivity>=3?'Ready when you are. Your unlocks stay.':'One good session at a time.';
+    var dots=s.weekDays.map(function(d){return '<div class="momentum-day'+(d.active?' is-active':'')+(d.today?' is-today':'')+(d.recovery?' is-recovery':'')+'"><b>'+d.label+'</b><i aria-label="'+esc(d.key+(d.active?' activity recorded':d.recovery?' recovery day, not a workout':' no activity recorded'))+'"></i></div>';}).join('');
+    return '<section class="momentum-card momentum-stage-'+s.stage+(s.stage>=5?' is-elysium':'')+'" aria-label="Training momentum"><div class="momentum-top"><div class="momentum-copy"><div class="momentum-kicker">'+(s.protectedToday?'RECOVERY COUNTS':s.stage>=5?'ELYSIUM MOMENTUM':s.stage>=3?'LOCKED IN':s.stage>=2?'IGNITED':'BUILD YOUR RUN')+'</div><div class="momentum-title">'+esc(title)+'</div><div class="momentum-sub">'+esc(sub)+'</div></div><div class="momentum-ring" style="--momentum-progress:'+progress+'deg" aria-label="'+core+' of 4 core programme sessions complete"><span>'+core+'<small>/4</small></span></div></div><div class="momentum-week">'+dots+'</div><div class="momentum-next"><button onclick="Engagement.openVault()" aria-label="Open permanent theme vault"><span class="momentum-mini-icon">✦</span><span>'+esc(nextUnlock(data))+'</span></button></div></section>';
+  }
+  function scheduleRows(data,now){
+    var today=localDateKey(now||Date.now()),start=weekKey(today),fifth=fifthDaySelected(data,now),rows=[];
+    var cardio=['Zone 2, 30 min','Zone 2, 30 min after lifting','Optional bike HIIT, 13 min','No cardio required','Zone 2, 30 min','No cardio required','Zone 2, 30 min after lifting'];
+    var map=[null,4,fifth?3:null,5,null,1,2];
+    for(var i=0;i<7;i++){var key=shift(start,i),id=map[i],title=id?DAYS[id].title:'Recovery / no lifting';if(i===1&&fifth)title='Chest + Back';rows.push({date:key,day:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],id:id,title:title,today:key===today,cardio:cardio[i],optional:i===2,note:i===2?(fifth?'Tuesday accessories moved here.':'Optional shoulders + arms only when split from Tuesday.'):i===3?'Protect your focused leg session.':''});}return rows;
+  }
+  function scheduleTable(data,now){var rows=scheduleRows(data,now);return '<table class="eng-week-table"><caption>Recommended rhythm. Reschedule freely.</caption><thead><tr><th>Day</th><th>Weights</th><th>Cardio</th></tr></thead><tbody>'+rows.map(function(r){return '<tr class="'+(r.today?'is-today':'')+'"'+(r.today?' aria-current="date"':'')+'><td><span class="eng-day">'+r.day+'</span><span class="eng-day-date">'+Number(r.date.slice(-2))+'</span>'+(r.today?'<span class="eng-today">TODAY</span>':'')+'</td><td><span class="eng-workout-name">'+esc(r.title)+'</span>'+(r.id?'<small>'+esc(DAYS[r.id].durationLabel||'')+'</small>':'')+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</td><td class="eng-cardio-text">'+esc(r.cardio)+'</td></tr>';}).join('')+'</tbody></table>';
+  }
+  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Cardio plan: 120 dedicated moderate minutes + 30 minutes of brisk walking across the week. Build gradually. HIIT is optional; move it to Sunday or skip it if Wednesday leaves your legs tired for Thursday. Cardio progress stays inside Cardio.</p><p class="eng-footnote">The optional Wednesday redistributes Tuesday accessories, it does not add a second full arm workout. Use the existing option in Program. Recovery days protect Momentum but earn no workout or cardio credit.</p>';}
+  function inlineSchedule(){return '<details class="eng-week-inline" open><summary>Your weekly schedule</summary>'+scheduleContent(db)+'</details>';}
+  function openSheet(title,sub,content,type){
+    closeSheet();sheetFocus=document.activeElement;lastSheet=type||'sheet';
+    var layer=document.createElement('div');layer.id='eng-sheet-layer';layer.className='eng-sheet-layer';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','eng-sheet-title');
+    layer.innerHTML='<section class="eng-sheet"><header class="eng-sheet-header"><div><div class="eng-eyebrow">ADIL / PERSONAL TRAINING</div><h2 id="eng-sheet-title">'+esc(title)+'</h2><p class="eng-sheet-sub">'+esc(sub||'')+'</p></div><button class="eng-close" onclick="Engagement.closeSheet()" aria-label="Close">×</button></header>'+content+'</section>';
+    layer.addEventListener('click',function(ev){if(ev.target===layer)closeSheet();});layer.addEventListener('keydown',function(ev){if(ev.key==='Escape'){ev.preventDefault();closeSheet();}if(ev.key==='Tab'){var all=Array.from(layer.querySelectorAll('button:not([disabled]),a[href],input,summary')).filter(function(n){return n.offsetParent!==null;});var a=all[0],b=all[all.length-1];if(!a)return;if(ev.shiftKey&&document.activeElement===a){ev.preventDefault();b.focus();}else if(!ev.shiftKey&&document.activeElement===b){ev.preventDefault();a.focus();}}});
+    layer.dataset.oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';document.body.appendChild(layer);layer.querySelector('.eng-close').focus();
+  }
+  function closeSheet(){var el=document.getElementById('eng-sheet-layer');if(el){document.body.style.overflow=el.dataset.oldOverflow||'';el.remove();if(sheetFocus&&sheetFocus.isConnected)sheetFocus.focus();}lastSheet=null;}
+  function openSchedule(){openSheet('Your weekly rhythm','Four core sessions. One optional fifth. Recovery is part of the plan.',scheduleContent(db),'schedule');}
+  function vaultContent(){
+    var e=state(db),stats=programmeWeeks(db),count=stats.completed.length,s=momentum(db),selected=themePreference(db);
+    var cards=THEMES.map(function(t){var unlocked=themeUnlocked(db,t.id),p=t.id==='elysium'?Math.max(Math.min(s.bestStreak/5,1),Math.min(count/6,1)):Math.min(count/Math.max(1,t.need),1);return '<article class="vault-theme'+(selected===t.id?' selected':'')+'" data-theme="'+t.id+'"><div class="vault-art" style="--vault-paint:'+t.paint+'"><span class="vault-badge">'+(selected===t.id?'EQUIPPED':unlocked?'YOURS TO KEEP':t.tag)+'</span></div><div class="vault-content"><h3>'+t.name+'</h3><p>'+esc(unlocked?(t.id==='adaptive'?'Colours evolve with your Momentum.':'Permanently unlocked. Rest days cannot remove it.'):t.desc)+'</p>'+(!unlocked?'<div class="vault-progress"><i style="width:'+Math.round(p*100)+'%"></i></div>':'')+'<button class="vault-btn'+(selected===t.id?' selected':'')+'" onclick="Engagement.'+(unlocked?'selectTheme':'previewTheme')+'(\''+t.id+'\')">'+(selected===t.id?'Equipped':unlocked?'Apply theme':'Preview theme')+'</button></div></article>';}).join('');
+    return '<div class="eng-week-progress"><b>'+count+'</b><span>programme '+(count===1?'week':'weeks')+' completed</span><div class="eng-progress-track"><i style="width:'+Math.min(100,count/6*100)+'%"></i></div></div><p class="eng-footnote" style="margin:10px 0 17px">Earned from your four core programme sessions, not extra sets or PR chasing. Rushed sessions count when their retained prescription is completed. Recovery never pretends to be a workout.</p><div class="vault-grid">'+cards+'</div><div class="vault-preview" id="vault-preview" aria-live="polite"></div><p class="eng-footnote">Your original five-day Elysium achievement also unlocks Elysium Noir. Old activity counts where it is recorded. Theme unlocks remain yours even after a break.</p>';
+  }
+  function openVault(){var old=JSON.stringify(state(db));refreshUnlocks(db,'history');if(old!==JSON.stringify(state(db)))dbSave(db);openSheet('Theme vault','A collection you earn. Not a streak you can lose.',vaultContent(),'vault');}
+  function selectTheme(id){if(!canPersistUserChanges()||!themeUnlocked(db,id))return;var e=ensure(db),prev=e.selectedTheme;e.selectedTheme=id;if(!dbSave(db)){e.selectedTheme=prev;return;}if(window._currentScreen==='today'){var active=document.activeElement;document.getElementById('scr-today').innerHTML=renderToday(db);applyMomentumTheme(db,true);}openVault();toast(THEMES.find(function(t){return t.id===id;}).name+' equipped');}
+  function previewTheme(id){var t=THEMES.find(function(t){return t.id===id;}),p=document.getElementById('vault-preview');if(!p||!t)return;p.style.setProperty('--vault-paint',t.paint);p.innerHTML='<div class="eng-eyebrow" style="color:#f3e7d6">PREVIEW ONLY</div><h3>'+t.name+'</h3><p>'+esc(t.desc)+'</p><small>Previewing does not unlock or equip this theme.</small>';p.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}
+  function protectToday(){if(!canPersistUserChanges())return;var e=ensure(db),key=localDateKey();if(getMomentumActivityDates(db).indexOf(key)>=0){toast('Activity already recorded today. Recovery remains available.');return;}e.recoveryDays[key]={date:key,createdAt:Date.now(),source:'user-planned-recovery'};if(!dbSave(db))return;closeSheet();App.showScreen('today');toast('Recovery protected. No workout credited.');}
+  function settingsHtml(){var e=state(db);return '<fieldset class="eng-settings"><legend>Rewards and recovery</legend>'+[['protectRecovery','Protect planned recovery days'],['challenge','One previous-performance challenge'],['victory','Arcade session-complete style'],['victorySound','Session-complete sound']].map(function(p){return '<label><input type="checkbox" '+(pref(db,p[0])?'checked':'')+' onchange="Engagement.savePreference(\''+p[0]+'\',this.checked)"><span>'+p[1]+'</span></label>';}).join('')+'<div class="eng-previews"><button class="btn-ghost btn-sm" onclick="Engagement.openSchedule()">Weekly schedule</button><button class="btn-ghost btn-sm" onclick="Engagement.openVault()">Theme vault</button><button class="btn-ghost btn-sm" onclick="Engagement.previewVictory()">Preview victory</button><button class="btn-ghost btn-sm" onclick="Engagement.protectToday()">Take a recovery day</button></div><p class="eng-footnote">Preview does not save a workout, grant records or unlock rewards. Sound is off by default. Motion follows your device preference.</p></fieldset>';}
+  function savePreference(k,v){if(!canPersistUserChanges()||!Object.prototype.hasOwnProperty.call(defaults().preferences,k))return;ensure(db).preferences[k]=!!v;dbSave(db);}
+  function toast(text){clearTimeout(toastTimer);var old=document.getElementById('eng-toast');if(old)old.remove();var t=document.createElement('div');t.id='eng-toast';t.className='eng-toast';t.setAttribute('role','status');t.textContent=text;document.body.appendChild(t);toastTimer=setTimeout(function(){t.remove();},2100);}
+
+  // One comparable main-lift challenge. No challenge on ambiguous/mismatched sessions.
+  function prepareChallenge(data,sess){
+    if(!pref(data,'challenge')||sess.engagementChallenge!==undefined)return;
+    sess.engagementChallenge=null;
+    if(sess.rushedModeApplied||sess.reentryModeApplied||isReentryActive(data)||sess.legIntroSnapshot)return;
+    var slot=sess.programmeSnapshot&&sess.programmeSnapshot.slots&&sess.programmeSnapshot.slots[0];
+    if(!slot||slot.unilateral||slot.trackingUnit==='seconds')return;
+    var id=slot.exerciseId,allHistory=getNormalizedExerciseHistory(data,id,false),seen={},old=null,prior=null,records=null;
+    // Use the last fully comparable exposure, not a partial set entry or another position in a workout.
+    allHistory.some(function(candidate){
+      if(seen[candidate.sessionId])return false;seen[candidate.sessionId]=true;
+      var candidateSession=candidate.session,ps=candidateSession.programmeSnapshot&&candidateSession.programmeSnapshot.slots||[];
+      var p=ps.find(function(s){return getHistoryExerciseId(s.exerciseId)===getHistoryExerciseId(id);});
+      if(!p||ps.indexOf(p)!==0||Number(p.sets)!==Number(slot.sets)||Number(p.min)!==Number(slot.min)||Number(p.max)!==Number(slot.max)||candidateSession.rushedModeApplied)return false;
+      var rr=allHistory.filter(function(r){return r.sessionId===candidate.sessionId&&r.side===null&&r.type==='working'&&!r.set.isAdded;});
+      if(rr.length!==slot.sets||rr.some(function(r){return r.measurementMode!=='repetition'||r.weight<=0||r.reps<slot.min||r.reps>slot.max;}))return false;
+      var f=rr[0],key=performanceGroupKey(f);if(rr.some(function(r){return r.weight!==f.weight||performanceGroupKey(r)!==key;}))return false;
+      old={session:candidateSession,records:rr};prior=p;records=rr;return true;
+    });
+    if(!old)return;
+    var first=records[0],group=performanceGroupKey(first);if(records.some(function(r){return r.weight!==first.weight||performanceGroupKey(r)!==group;}))return;
+    var total=records.reduce(function(n,r){return n+r.reps;},0);if(total>=slot.max*slot.sets)return;
+    sess.engagementChallenge={version:1,exerciseId:id,slotId:slot.slotId,sourceSessionId:old.session.id,sourceDate:sessionDate(old.session),weight:first.weight,units:first.units,groupKey:group,loadConvention:first.loadConvention,priorTotal:total,targetTotal:total+1,sets:slot.sets,min:slot.min,max:slot.max,equipmentSetup:first.equipmentSetup,celebrated:false};
+  }
+  function challengeState(data,sess){
+    var c=sess&&sess.engagementChallenge;if(!c||!pref(data,'challenge'))return null;
+    var slot=(sess.programmeSnapshot&&sess.programmeSnapshot.slots||[]).find(function(s){return s.slotId===c.slotId;});
+    if(!slot||slot.exerciseId!==c.exerciseId||slot.sets!==c.sets)return {status:'paused',c:c,detail:'Session changed. No record required.'};
+    var rows=(sess.sets||[]).filter(function(r){return r.exId===c.exerciseId&&r.setType==='working'&&!r.isAdded;});
+    if(rows.some(function(r){return r.skipped;})||rows.length!==c.sets)return {status:'paused',c:c,detail:'Reduced session. No record required.'};
+    var complete=rows.filter(normal),norm=complete.map(function(r){return normalizePerformanceRecord(r,sess,sess.sets.indexOf(r),'active');});
+    if(norm.some(function(r){return !r||r.weight!==c.weight||r.side!==null||performanceGroupKey(r)!==c.groupKey;}))return {status:'paused',c:c,detail:'Different load or setup. Log your actual work.'};
+    var total=norm.reduce(function(n,r){return n+r.reps;},0),done=complete.length===c.sets,achieved=done&&total>=c.targetTotal;
+    return {status:achieved?'achieved':done?'complete':'active',c:c,total:total,completedSets:complete.length,delta:total-c.priorTotal};
+  }
+  function renderChallenge(data,sess){var a=challengeState(data,sess);if(!a)return '';var c=a.c,ex=getExerciseDef(c.exerciseId,sess,data),name=ex.name,headline=a.status==='achieved'?'PREVIOUS PERFORMANCE BEATEN':a.status==='paused'?'CHALLENGE PAUSED':a.status==='complete'?'WORK RECORDED':'ONE EXTRA REP, SAME WORK';var detail=a.status==='paused'?a.detail:a.status==='achieved'?'+'+a.delta+' total '+(a.delta===1?'rep':'reps')+' at '+c.weight+' '+c.units:a.status==='complete'?'A completed session matters more than a record.':c.targetTotal+' total reps at '+c.weight+' '+c.units+' across '+c.sets+' sets. Last: '+c.priorTotal+'.';return '<div class="eng-challenge '+(a.status==='achieved'?'achieved':a.status==='paused'?'paused':'')+'"><div class="challenge-mark">'+(a.status==='achieved'?'✓':'↗')+'</div><div style="flex:1;min-width:0"><b>'+headline+'</b><p>'+esc(detail)+'</p><small>'+esc(a.status==='active'?c.sourceDate+' baseline. No forced reps.':name)+'</small></div></div>';}
+  function checkChallenge(data,sess){var a=challengeState(data,sess);var el=document.getElementById('eng-challenge');if(el)el.innerHTML=renderChallenge(data,sess);return a;}
+
+  function victoryData(sess,data){
+    var cov=coveredSession(sess),events=(data.prCelebrationEvents||[]).filter(function(e){return e.sessionId===sess.id&&isCelebrationEventValid(data,e);});
+    var challenge=challengeState(data,sess),weeks=programmeWeeks(data,sess.endTime),done=Object.keys(weeks.current.roles).length;
+    var headline=cov.complete?(sess.rushedModeApplied?'GOOD WORK':'VICTORY'):'SESSION SAVED';
+    var detail='Consistent work. Your next session can wait.';
+    if(challenge&&challenge.status==='achieved')detail='+'+challenge.delta+' total '+(challenge.delta===1?'rep':'reps')+' at '+challenge.c.weight+' '+challenge.c.units+'.';
+    else if(events.length)detail=events[0].display+' '+events[0].detail;
+    else if(!cov.complete)detail='Partial session saved. Every logged set is kept.';
+    else if(sess.rushedModeApplied)detail='Reduced prescription completed. No catch-up sets needed.';
+    return {title:getSessionDayTitle(sess),headline:headline,complete:cov.complete,coverage:cov,events:events,challenge:challenge,detail:detail,weekDone:done,splitPending:weeks.current.requiresFifth&&!weeks.current.fifthDone,durationMs:Number(sess.durationMs)||0,date:sessionDate(sess),unlocks:sess.engagementUnlocks||[],preview:false,sessionId:sess.id};
+  }
+  function renderVictory(sess,data,animate){return victoryHtml(victoryData(sess,data),sess,animate);}
+  function victoryHtml(v,sess,animate){
+    var hasPR=v.events.length>0,challenge=v.challenge&&v.challenge.status==='achieved',fresh=v.unlocks.map(function(id){return THEMES.find(function(t){return t.id===id;});}).filter(Boolean),duration=v.durationMs>=60000?Math.round(v.durationMs/60000)+'m':v.durationMs>0?'<1m':'Not logged';
+    var moment=challenge?'CHALLENGE CLEARED':hasPR?'PERSONAL RECORD':v.complete?'MAIN WORK COMPLETE':'YOUR WORK IS SAVED';
+    var splitPending=v.splitPending===true;
+    var unlocked=fresh.length?'<div class="arcade-unlock"><small>PERMANENT THEME UNLOCKED</small><b>✦ '+fresh.map(function(t){return t.name;}).join(' + ')+'</b><p>Yours to keep. Recovery cannot take it away.</p></div>':'';
+    var detailBody='';if(sess){var vol=calcVolume([sess],null);detailBody=Object.keys(vol).filter(function(k){return vol[k]>0;}).map(function(k){return '<div class="sum-vol-row"><span>'+esc(MUSCLES[k]?MUSCLES[k].label:k)+'</span><span>'+round1(vol[k])+' estimated sets</span></div>';}).join('');}
+    return '<section class="arcade-summary'+(animate?' arcade-animate':'')+'" aria-labelledby="victory-title"><div class="arcade-hero'+(!v.complete?' partial':'')+'">'+(v.preview?'<div class="arcade-preview-label">PREVIEW ONLY / NOTHING SAVED</div>':'')+'<div class="arcade-player"><span>PLAYER 01</span> ADIL / '+esc(v.date)+'</div>'+(hasPR?'<div class="arcade-new-record">NEW RECORD</div>':'')+'<h2 class="arcade-win-title" id="victory-title">'+v.headline+'</h2><div class="arcade-win-sub">'+(v.complete?'SESSION COMPLETE':'PROGRESS, NOT PERFECTION')+'</div><div class="arcade-session"><span>'+esc(v.title)+'</span></div></div><div class="arcade-body"><div class="arcade-stats"><div class="arcade-stat"><strong>'+v.coverage.done+'/'+v.coverage.expected+'</strong><small>Set rounds</small></div><div class="arcade-stat"><strong>'+duration+'</strong><small>Logged time</small></div><div class="arcade-stat"><strong>'+v.events.length+'</strong><small>Recorded PRs</small></div></div><div class="arcade-moment"><b>'+moment+'</b><span>'+esc(v.detail)+'</span></div>'+unlocked+'<div class="eng-week-progress"><b>'+v.weekDone+'/4</b><span>core sessions this week</span><div class="eng-progress-track"><i style="width:'+Math.min(100,v.weekDone/4*100)+'%"></i></div></div><p class="arcade-follow">'+(fresh.length?'Your collection just got better.':v.weekDone===4?(splitPending?'Core days done. Finish the moved Wednesday accessories for the programme-week unlock.':'A programme week completed.'):'<b>'+Math.max(0,4-v.weekDone)+' core '+(4-v.weekDone===1?'session':'sessions')+'</b> to complete this programme week.')+'<br>Train with intent. Recover without guilt.</p><div class="arcade-actions"><button class="arcade-btn" onclick="'+(v.preview?'Engagement.closeSheet()':'App.closeSummary()')+'">'+(v.preview?'BACK TO PREVIEWS':'CONTINUE')+' →</button><button class="arcade-save" onclick="Engagement.saveVictoryCard('+(v.preview?'null':'\''+esc(v.sessionId)+'\'')+')">Save victory card as image</button></div>'+(sess?'<details class="arcade-details"><summary>Session details</summary><p>'+esc(v.title)+' / '+esc(v.date)+'. '+v.coverage.loggedRows+' completed working rows. A left/right pair counts as one programmed round.</p>'+detailBody+'</details>':'')+'</div></section>';
+  }
+  function getPreviewVictory(){return {title:'Chest + Shoulder Width',headline:'VICTORY',complete:true,coverage:{done:13,expected:13,loggedRows:16},events:[{display:'26 kg × 10',detail:'+1 rep at the same weight'}],challenge:{status:'achieved'},detail:'+1 total rep at 26 kg. Your previous performance, beaten.',weekDone:4,durationMs:63*60000,date:localDateKey(),unlocks:['obsidian'],preview:true};}
+  function showPreviewVictory(){previewVictory=getPreviewVictory();openSheet('Victory screen','An original arcade-style finish. Demo data only.',victoryHtml(previewVictory,null,true),'victory');var shell=document.querySelector('#eng-sheet-layer .eng-sheet');if(shell){shell.style.background='transparent';shell.style.border='0';shell.style.boxShadow='none';shell.style.padding='0';shell.style.maxWidth='480px';var h=shell.querySelector('.eng-sheet-header');if(h)h.style.display='none';}var first=document.querySelector('#eng-sheet-layer .arcade-btn');if(first)first.focus();}
+  function sound(){if(!pref(db,'victorySound'))return;try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;var ac=new AC();ac.resume().catch(function(){});[261.63,392,523.25,659.25,783.99].forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+i*.055;o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.035,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.31);});setTimeout(function(){ac.close().catch(function(){});},1200);}catch(e){}}
+  function onSavedSession(data,sess){var earned=refreshUnlocks(data,'session:'+sess.id,sess.endTime);sess.engagementUnlocks=earned;checkChallenge(data,sess);return earned;}
+  function showSummaryAllowed(){return pref(db,'victory');}
+  // Render-to-canvas export is local. No screenshots of private DOM sent to a server.
+  function saveVictoryCard(id){
+    var sess=id?(db.completedSessions||[]).find(function(s){return s.id===id;}):null,v=sess?victoryData(sess,db):(previewVictory||getPreviewVictory());
+    var c=document.createElement('canvas');c.width=1080;c.height=1350;var x=c.getContext('2d');
+    x.fillStyle='#0b101c';x.fillRect(0,0,1080,1350);var g=x.createLinearGradient(0,0,1080,650);g.addColorStop(0,'#17384d');g.addColorStop(.48,'#323566');g.addColorStop(1,'#753054');x.fillStyle=g;x.fillRect(0,0,1080,575);
+    x.save();x.globalAlpha=.17;x.strokeStyle='#ebe7ff';x.lineWidth=3;for(var i=0;i<20;i++){x.beginPath();x.moveTo(90,380);x.lineTo(1080,i*65-280);x.stroke();}x.restore();
+    x.fillStyle='#dce6ff';x.font='bold 24px sans-serif';x.fillText('PLAYER 01   /   ADIL',66,78);x.fillStyle='#f3cce1';x.font='20px monospace';x.fillText(v.date+(v.preview?'   /   PREVIEW':''),66,116);
+    x.save();x.translate(58,365);x.rotate(-.055);x.font='italic 900 '+(v.headline==='SESSION SAVED'?98:176)+'px Impact, sans-serif';x.fillStyle='#1a1534';x.fillText(v.headline,9,10);x.fillStyle='#ad6396';x.fillText(v.headline,4,5);x.fillStyle='#fff0c9';x.fillText(v.headline,0,0);x.restore();
+    x.fillStyle='#10182e';x.fillRect(65,434,950,83);x.fillStyle='#f1f1fe';x.font='bold 31px sans-serif';x.fillText(v.title,90,486,900);
+    var stats=[v.coverage.done+'/'+v.coverage.expected, v.durationMs?Math.round(v.durationMs/60000)+' MIN':'NOT LOGGED',String(v.events.length)],labels=['SET ROUNDS','LOGGED TIME','RECORDED PRS'];stats.forEach(function(t,i){var at=70+i*330;x.fillStyle='#eef0ff';x.font='bold 49px monospace';x.fillText(t,at,671);x.fillStyle='#8ea7c1';x.font='18px monospace';x.fillText(labels[i],at,710);});
+    x.fillStyle='#9cdfdb';x.font='bold 28px sans-serif';x.fillText(v.challenge&&v.challenge.status==='achieved'?'CHALLENGE CLEARED':v.events.length?'PERSONAL RECORD':'WORK RECORDED',70,803);
+    function wrap(text,y,font,colour){x.font=font;x.fillStyle=colour;var line='',words=text.split(' ');words.forEach(function(w){var n=line+w+' ';if(x.measureText(n).width>930){x.fillText(line,70,y);line=w+' ';y+=38;}else line=n;});x.fillText(line,70,y);return y+38;}
+    var y=wrap(v.detail,856,'26px sans-serif','#afc1d4');
+    if(v.unlocks.length){x.fillStyle='#302d43';x.fillRect(65,y+6,950,123);x.fillStyle='#c9b1e8';x.font='18px monospace';x.fillText('PERMANENT THEME UNLOCKED',88,y+39);x.fillStyle='#f2dbb1';x.font='bold 36px sans-serif';x.fillText(v.unlocks.map(function(id){return THEMES.find(function(t){return t.id===id;}).name;}).join(' + '),88,y+89,890);y+=160;}
+    x.fillStyle='#d2ccf5';x.font='bold 28px sans-serif';x.fillText(v.weekDone+'/4 CORE SESSIONS THIS WEEK',70,1155);x.fillStyle='#8c9fb7';x.font='23px sans-serif';x.fillText('Train with intent. Recover without guilt.',70,1200);x.fillStyle='#687b94';x.font='18px monospace';x.fillText('ADIL GYM  /  VICTORY ARCHIVE',70,1290);
+    c.toBlob(function(blob){if(!blob){toast('Image could not be created.');return;}var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Adil_Victory_'+v.date+(v.preview?'_preview':'')+'.png';a.click();setTimeout(function(){URL.revokeObjectURL(url);},30000);},'image/png');
+  }
+  return {normalize:normalize,defaults:defaults,state:state,preferences:pref,momentum:momentum,coverage:coveredSession,programmeWeeks:programmeWeeks,refreshUnlocks:refreshUnlocks,themePreference:themePreference,themedClass:themedClass,renderMomentum:renderMomentum,renderScheduleInline:inlineSchedule,openSchedule:openSchedule,openVault:openVault,selectTheme:selectTheme,previewTheme:previewTheme,closeSheet:closeSheet,protectToday:protectToday,settingsHtml:settingsHtml,savePreference:savePreference,prepareChallenge:prepareChallenge,challengeState:challengeState,renderChallenge:renderChallenge,checkChallenge:checkChallenge,onSavedSession:onSavedSession,renderVictory:renderVictory,showSummaryAllowed:showSummaryAllowed,previewVictory:showPreviewVictory,saveVictoryCard:saveVictoryCard,sound:sound,toast:toast,scheduleRows:scheduleRows,themeList:THEMES};
+})();
+
+
 // ============================================================
 // INIT
 // ============================================================
@@ -4850,9 +5174,11 @@ function initApp() {
   var modal = document.getElementById('modal-overlay');
   if (modal) {
     modal.addEventListener('click', function(e) {
-      if (e.target === modal) modal.classList.add('hidden');
+      if (e.target === modal) {if(modal.querySelector('.arcade-summary,.sum-wrap'))App.closeSummary();else modal.classList.add('hidden');}
     });
   }
+
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('eng-sheet-layer')){var m=document.getElementById('modal-overlay');if(m&&!m.classList.contains('hidden')&&m.querySelector('.arcade-summary,.sum-wrap'))App.closeSummary();}});
 
   // Bottom nav
   document.querySelectorAll('.nav-tab').forEach(function(btn) {
