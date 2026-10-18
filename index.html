@@ -784,7 +784,7 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.6.0';
+const APP_VERSION = '3.6.1';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
@@ -800,6 +800,8 @@ var DB_LOAD_ERROR = null;
 var DB_STORAGE_BLOCKED = false;
 var DB_SAFE_TO_EXPORT = true;
 var DB_WRITE_ALERTED = false;
+var DB_RECOVERY_RAW = null;
+var DB_RECOVERY_NOTICE = '';
 var DB_MIGRATION_BACKUP_KEY = 'adil_v2_backup_before_' + PROGRAM_VERSION;
 const HOME_ROUTINE = [
   {id:'breathing_9090',name:'90/90 Breathing',dose:'45 seconds · about 5 slow breaths',cue:'Feet on a wall, ribs down, long 6–8 second exhale.'},
@@ -1832,28 +1834,130 @@ var DB_KEY = 'adil_v2';
 var TIMER_KEY = 'adil_timer';
 var db = null;
 
-function dbLoad() {
+// Backups use IndexedDB so full database copies do not exhaust localStorage.
+function openBackupArchive() {
+  return new Promise(function(resolve,reject) {
+    var settled=false,request;
+    var timeout=setTimeout(function(){fail(new Error('Backup storage did not respond.'));},5000);
+    function fail(error){if(settled)return;settled=true;clearTimeout(timeout);reject(error);}
+    try { request=indexedDB.open('adil_gym_backups',1); }
+    catch(error){fail(error);return;}
+    request.onupgradeneeded=function(){if(!request.result.objectStoreNames.contains('snapshots'))request.result.createObjectStore('snapshots',{keyPath:'id'});};
+    request.onerror=function(){fail(request.error||new Error('Backup storage is unavailable.'));};
+    request.onblocked=function(){fail(new Error('Close other gym tabs and retry backup storage.'));};
+    request.onsuccess=function(){
+      if(settled){request.result.close();return;}
+      settled=true;clearTimeout(timeout);
+      request.result.onversionchange=function(){request.result.close();};
+      resolve(request.result);
+    };
+  });
+}
+
+async function archiveStorageBackup(key,raw) {
+  var archive=await openBackupArchive(),id=key;
   try {
-    var raw = localStorage.getItem(DB_KEY);
-    if (!raw) return dbDefault();
-    var d = JSON.parse(raw);
+    await new Promise(function(resolve,reject){
+      var tx=archive.transaction('snapshots','readwrite'),store=tx.objectStore('snapshots'),request=store.get(key);
+      request.onsuccess=function(){
+        if(request.result&&request.result.raw!==raw)id=key+':'+Date.now()+':'+Math.random().toString(36).slice(2);
+        if(!request.result||request.result.raw!==raw)store.put({id:id,sourceKey:key,raw:raw,archivedAt:Date.now()});
+      };
+      tx.oncomplete=resolve;
+      tx.onabort=tx.onerror=function(){reject(tx.error||new Error('Could not archive the saved backup.'));};
+    });
+    // Verify the committed copy in a separate transaction before freeing space.
+    await new Promise(function(resolve,reject){
+      var tx=archive.transaction('snapshots','readonly'),request=tx.objectStore('snapshots').get(id),copy;
+      request.onsuccess=function(){copy=request.result;};
+      tx.oncomplete=function(){if(copy&&copy.raw===raw)resolve();else reject(new Error('The archived backup could not be verified.'));};
+      tx.onabort=tx.onerror=function(){reject(tx.error||new Error('Could not verify the saved backup.'));};
+    });
+  } finally { archive.close(); }
+}
+
+function localBackupKeys() {
+  var keys=[];
+  for(var i=0;i<localStorage.length;i++){var key=localStorage.key(i);if(key&&key.indexOf(DB_KEY+'_backup_before_')===0)keys.push(key);}
+  return keys;
+}
+
+async function moveLocalBackups() {
+  var keys=localBackupKeys(),moved=0;
+  for(var i=0;i<keys.length;i++){
+    var raw=localStorage.getItem(keys[i]);
+    if(raw===null)continue;
+    try {
+      await archiveStorageBackup(keys[i],raw);
+      if(localStorage.getItem(keys[i])===raw){localStorage.removeItem(keys[i]);moved++;}
+    } catch(error) { break; } // Unverified originals always remain in localStorage.
+  }
+  return moved;
+}
+
+async function backupBeforeChange(raw,key) {
+  try { await archiveStorageBackup(key,raw); }
+  catch(error) {
+    var existing=localStorage.getItem(key);
+    if(existing===raw)return;
+    if(existing!==null)key+=':'+Date.now()+':'+Math.random().toString(36).slice(2);
+    localStorage.setItem(key,raw);
+    if(localStorage.getItem(key)!==raw)throw new Error('Could not verify the safety backup.');
+  }
+}
+
+async function readArchivedBackups() {
+  var archive=await openBackupArchive();
+  try {
+    return await new Promise(function(resolve,reject){
+      var tx=archive.transaction('snapshots','readonly'),request=tx.objectStore('snapshots').getAll(),rows;
+      request.onsuccess=function(){rows=request.result;};
+      tx.oncomplete=function(){resolve(rows||[]);};
+      tx.onabort=tx.onerror=function(){reject(tx.error||new Error('Could not read recovery copies.'));};
+    });
+  } finally { archive.close(); }
+}
+
+async function dbLoad() {
+  DB_LOAD_ERROR=null;DB_STORAGE_BLOCKED=false;DB_SAFE_TO_EXPORT=false;DB_WRITE_ALERTED=false;DB_RECOVERY_NOTICE='';DB_RECOVERY_RAW=null;
+  var d,raw;
+  try {
+    raw = localStorage.getItem(DB_KEY);
+    DB_RECOVERY_RAW=raw;
+    if (raw===null) {
+      var copies=localBackupKeys().length;
+      if(!copies){try{copies=(await readArchivedBackups()).length;}catch(error){}}
+      if(copies)throw new Error('The main saved database is missing. Recovery copies are available; download them below.');
+      DB_SAFE_TO_EXPORT=true;return dbDefault();
+    }
+    d = JSON.parse(raw);
     if (!d || typeof d !== 'object' || Array.isArray(d)) throw new Error('The saved database is not a JSON object.');
     if (!d.schemaVersion || d.schemaVersion < 2) d = dbMigrateV1(d);
     var needsMigration=Number(d.schemaVersion||0)<3||!d.settings||d.settings.programVersion!==PROGRAM_VERSION||!d.engagement;
-    if(!d.engagement && !localStorage.getItem('adil_v2_backup_before_rewards_360')) localStorage.setItem('adil_v2_backup_before_rewards_360',raw);
-    if (needsMigration) {
-      var existingBackup=localStorage.getItem(DB_MIGRATION_BACKUP_KEY);
-      if (!existingBackup) localStorage.setItem(DB_MIGRATION_BACKUP_KEY,raw);
-    }
     d = migrateDb(d);
-    if (needsMigration) localStorage.setItem(DB_KEY, JSON.stringify(d));
-    return d;
+    DB_SAFE_TO_EXPORT=true;
   } catch(e) {
     DB_LOAD_ERROR=e && e.message ? e.message : 'Could not read saved workout data.';
     DB_STORAGE_BLOCKED=true;
     DB_SAFE_TO_EXPORT=false;
     return dbDefault();
   }
+  // Storage failures must not replace successfully loaded workouts with defaults.
+  try {
+    var moved=await moveLocalBackups();
+    if(needsMigration){
+      await backupBeforeChange(raw,DB_MIGRATION_BACKUP_KEY);
+      if(localStorage.getItem(DB_KEY)!==raw)throw new Error('Saved data changed in another gym tab. Reload to load that copy.');
+      var updated=JSON.stringify(d);
+      localStorage.setItem(DB_KEY,updated);
+      DB_RECOVERY_RAW=updated;
+    }
+    if(moved)DB_RECOVERY_NOTICE='Backup storage repaired. Your saved workouts are available. Download a fresh backup.';
+  } catch(error) {
+    DB_LOAD_ERROR='Your saved workouts are loaded, but saving is paused: '+(error.message||'storage is unavailable.')+' Download a backup before continuing.';
+    DB_STORAGE_BLOCKED=true;
+  }
+  return d;
 }
 
 function dbDefault() {
@@ -1877,7 +1981,7 @@ function dbDefault() {
 
 function dbSave(db) {
   if (DB_STORAGE_BLOCKED) return false;
-  try { localStorage.setItem(DB_KEY, JSON.stringify(db)); return true; }
+  try { var raw=JSON.stringify(db);localStorage.setItem(DB_KEY,raw);DB_RECOVERY_RAW=raw;return true; }
   catch(e) { DB_LOAD_ERROR='Could not save workout data: '+(e.message||'storage is unavailable.'); DB_STORAGE_BLOCKED=true; return false; }
 }
 function canPersistUserChanges() {
@@ -2865,6 +2969,31 @@ function getBestWorkoutRecommendation(data,now){data=data||db;var at=toTimestamp
 function nextDay(dbRef) { return dbRef._nextDayOverride||getBestWorkoutRecommendation(dbRef).dayN; }
 
 // ---- export / import ----
+function downloadRecoveryFile(content,name) {
+  var blob=new Blob([content],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},30000);
+}
+function exportSavedDatabase() {
+  if(DB_RECOVERY_RAW===null){alert('No main saved database was readable. Use Export recovery copies to download any remaining backups.');return;}
+  var text=DB_RECOVERY_RAW;
+  try {text=JSON.stringify({version:3,appVersion:APP_VERSION,exported:localDateKey(),recoverySource:DB_KEY,data:JSON.parse(text)},null,2);}catch(error){}
+  downloadRecoveryFile(text,'adil-saved-data-'+localDateKey()+'.json');
+}
+async function exportRecoveryCopies() {
+  var copies=[],archiveError=null;
+  try {copies=await readArchivedBackups();}catch(error){archiveError=error;}
+  try {localBackupKeys().forEach(function(key){copies.push({sourceKey:key,raw:localStorage.getItem(key)});});}catch(error){}
+  if(!copies.length&&DB_RECOVERY_RAW===null){alert(archiveError?'Recovery storage is unavailable. Keep website data intact and retry.':'No recovery copies were found in this browser.');return;}
+  downloadRecoveryFile(JSON.stringify({format:'adil-recovery-archive',version:1,exported:localDateKey(),savedDatabase:DB_RECOVERY_RAW,backups:copies},null,2),'adil-recovery-copies-'+localDateKey()+'.json');
+}
+function renderStorageNotice() {
+  if(!DB_LOAD_ERROR&&!DB_RECOVERY_NOTICE)return '';
+  return '<div class="timer-cap-banner" role="'+(DB_LOAD_ERROR?'alert':'status')+'">'+esc(DB_LOAD_ERROR||DB_RECOVERY_NOTICE)+
+    (DB_LOAD_ERROR?' Saved data was not overwritten. Keep Safari website data intact.':'')+
+    '<div class="home-actions" style="flex-wrap:wrap"><button class="btn-ghost btn-sm" onclick="App.doExport()">Download workout backup</button>'+
+    '<button class="btn-ghost btn-sm" onclick="exportRecoveryCopies()">Export recovery copies</button></div></div>';
+}
 function exportBackup(db) {
   var out = { version: 3, appVersion:APP_VERSION, schemaVersion:db.schemaVersion, programVersion: PROGRAM_VERSION, programmeName: PROGRAM_NAME, programmeEndDate:PROGRAMME_END_DATE, workoutLength:getWeeklyWorkoutLength(db), weeklyAvailability:getWeeklyAvailability(db), weeklyAvailabilityByWeek:db.settings.weeklyPlanAvailability||{}, workoutLengthByWeek:db.settings.weeklyWorkoutLength||{}, legacyExerciseAliases:CANONICAL_EXERCISE_ALIASES, exported: localDateKey(), data: db };
   var blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
@@ -3044,7 +3173,7 @@ var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){i
 // ============================================================
 function renderToday(data){
  var active=data.activeSession&&!data.activeSession.finished,rec=getBestWorkoutRecommendation(data),day=DAYS[rec.dayN],home=getHomeLog(data,localDateKey(),false)||{items:{}},done=HOME_ROUTINE.filter(function(i){return !!home.items[i.id];}).length;
- var warn=DB_LOAD_ERROR?'<div class="timer-cap-banner" role="alert">'+esc(DB_LOAD_ERROR)+' Saved data was not overwritten.</div>':'';
+ var warn=renderStorageNotice();
  var momentum=renderMomentumCard(data);
  var card='<section class="today-day-card"><div class="tdc-kicker">'+(active?'Workout in progress':'Recommended workout')+'</div><h2 class="today-workout-title">'+esc(active?getSessionLabel(data.activeSession):day.title)+'</h2><p class="today-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="'+(active?'App.resumeWorkout()':'App.startWorkout('+rec.dayN+',false)')+'">'+(active?'Resume workout':'Start workout')+'</button></section>';
  var recovery=getMomentumState(data);if(!active&&recovery.protectedToday){var nextLift=Engagement.scheduleRows(data).find(function(r){return r.id&&r.date>recovery.today;})||Engagement.scheduleRows(data,Date.now()+7*86400000).find(function(r){return r.id;});card='<section class="today-day-card"><div class="tdc-kicker">Recovery day</div><h2 class="today-workout-title">Rest is part of the plan.</h2><p class="today-reason">Momentum protected. Next lift: '+esc(nextLift?nextLift.day+', '+nextLift.title:'choose when ready')+'.</p><button class="btn-primary btn-xl" onclick="Engagement.openSchedule()">View weekly schedule</button></section>';}
@@ -3811,11 +3940,12 @@ function renderHistory(db) {
       '</div>' +
     '</div>';
   }).join('');
-  var mainContent = sessions.length === 0 ? '<div class="hist-empty"><div class="he-icon">, </div><div class="he-text">No completed workouts yet.</div></div>' : '<div class="hist-wrap">' + rows + '</div>';
+  var mainContent = sessions.length === 0 ? '<div class="hist-empty"><div class="he-icon">, </div><div class="he-text">'+(!DB_SAFE_TO_EXPORT?'Saved history could not be loaded. Download your saved data using the recovery controls above.':'No completed workouts yet.')+'</div></div>' : '<div class="hist-wrap">' + rows + '</div>';
   var dataHtml = '<details class="data-mgmt"><summary class="dm-sum">Data &amp; Settings</summary>' +
     '<div class="dm-body">' +
       '<div class="dm-row">' +
         '<button class="btn-ghost btn-sm" onclick="App.doExport()">Export backup</button>' +
+        '<button class="btn-ghost btn-sm" onclick="exportRecoveryCopies()">Export recovery copies</button>' +
         '<label class="btn-ghost btn-sm" for="importFile" style="cursor:pointer">Import backup</label>' +
       '</div>' +
       '<div class="dm-row">' +
@@ -3854,6 +3984,7 @@ var App = (function() {
       el.innerHTML = renderProgram();
       el.dataset.rendered = '1';
     }
+    if(el&&name!=='today')el.insertAdjacentHTML('afterbegin',renderStorageNotice());
     window._currentScreen = name;
   }
 
@@ -4617,7 +4748,7 @@ var App = (function() {
   }
 
   /* ── export / import ── */
-  function doExport() { if(!DB_SAFE_TO_EXPORT){alert('The saved database could not be read, so exporting the empty fallback would risk loss. Import a backup after storage is available.');return;}exportBackup(db); }
+  function doExport() { if(!DB_SAFE_TO_EXPORT){exportSavedDatabase();return;}exportBackup(db); }
   function checkForUpdates() {
     var status=document.getElementById('today-update-status');
     function report(message){if(status)status.textContent=message;}
@@ -4643,11 +4774,13 @@ var App = (function() {
   function handleImport(file) {
     if (!file) return;
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
       try {
         var previousDb=db,previousBlocked=DB_STORAGE_BLOCKED,previousError=DB_LOAD_ERROR,previousSafe=DB_SAFE_TO_EXPORT;
-        var imported=importBackup(e.target.result, db),raw=localStorage.getItem(DB_KEY);
-        if(raw!==null)localStorage.setItem(DB_KEY+'_backup_before_import_'+Date.now(),raw);
+        var imported=importBackup(e.target.result, JSON.parse(JSON.stringify(db))),raw=localStorage.getItem(DB_KEY);
+        await moveLocalBackups();
+        if(raw!==null)await backupBeforeChange(raw,DB_KEY+'_backup_before_import_'+Date.now());
+        if(localStorage.getItem(DB_KEY)!==raw)throw new Error('Saved data changed in another gym tab. Reload before importing.');
         DB_STORAGE_BLOCKED=false;DB_LOAD_ERROR=null;
         db = imported;
         if(!dbSave(db)){db=previousDb;DB_STORAGE_BLOCKED=previousBlocked;DB_LOAD_ERROR=previousError||DB_LOAD_ERROR;DB_SAFE_TO_EXPORT=previousSafe;throw new Error(DB_LOAD_ERROR||'Could not save the imported backup.');}
@@ -5166,8 +5299,10 @@ var Engagement = (function () {
 // ============================================================
 // INIT
 // ============================================================
-function initApp() {
-  db = dbLoad();
+async function initApp() {
+  var today=document.getElementById('scr-today');
+  if(today)today.innerHTML='<div class="today-wrap"><p role="status">Loading saved workouts...</p></div>';
+  db = await dbLoad();
   Cardio.init();
 
   // Close modal overlay on backdrop click
