@@ -40,6 +40,43 @@
 .day-content>.status{margin:0 0 7px;font-size:.85rem}
 .day-actions{margin:0 0 10px}
 @media(max-width:380px){.day-row{gap:10px}.day-number{width:45px;padding-right:8px}.plan-select{font-size:.84rem}}
+
+/* v3.1: clear, low-reading-load weekly goals, never tied to fixed gym days. */
+.weekly-dashboard{margin:22px 0 23px;padding:21px 18px 15px;background:#fff;border:1.5px solid var(--line);border-radius:23px;box-shadow:0 4px 19px #7A1C3D0C}
+.weekly-dashboard .dashboard-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
+.weekly-dashboard .dashboard-heading h2{margin:0;font:700 1.48rem/1.2 var(--serif);color:var(--wine)}
+.weekly-dashboard .dashboard-heading button{color:var(--wine);background:#F8E9EE;border-radius:12px;min-height:46px;padding:9px 13px;font-size:.82rem;font-weight:800;white-space:nowrap}
+.weekly-dashboard .week-when{color:var(--muted);font-size:.81rem;margin:0 0 9px}
+.goal-row{display:flex;align-items:center;gap:13px;padding:16px 0;border-bottom:1px solid #EEDFE2}
+.goal-row:last-of-type{border-bottom:0}
+.goal-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;flex:none;background:#FCE5EE;border-radius:14px;color:var(--wine);font-size:1.32rem}
+.goal-icon.cardio-icon{background:#FFF1D5;color:#7F5412}
+.goal-information{flex:1;min-width:0}
+.goal-title{display:block;color:var(--ink);font-size:1.06rem;font-weight:800;line-height:1.28}
+.goal-subtitle{color:var(--muted);font-size:.79rem;font-weight:700;margin-top:3px;display:block}
+.goal-pips{display:flex;gap:7px;margin:10px 0 0}
+.goal-pips span{width:44px;max-width:29%;height:9px;border-radius:999px;background:#EFE4E6;display:block}
+.goal-pips span.done{background:var(--green)}
+.goal-count{flex:none;text-align:right;align-self:center;min-width:77px}
+.goal-count strong{display:block;color:var(--wine);font:800 1.55rem/1.15 var(--sans)}
+.goal-count small{color:var(--muted);display:block;font-size:.74rem;font-weight:800;margin-top:4px;white-space:nowrap}
+.weekly-dashboard .dashboard-bottom{margin:9px 0 0;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.weekly-dashboard .dashboard-bottom span{color:var(--muted);font-size:.76rem;font-weight:700}
+.weekly-dashboard .dashboard-bottom button{background:none;padding:10px 6px;color:var(--wine);font-size:.81rem;font-weight:800;text-decoration:underline;text-underline-offset:3px;min-height:45px;white-space:nowrap}
+.goal-done .goal-count strong{color:var(--green)}
+@media(max-width:380px){.weekly-dashboard{padding:17px 13px 11px}.goal-row{gap:10px}.goal-icon{width:42px;height:42px}.goal-count{min-width:65px}.goal-count strong{font-size:1.36rem}.weekly-dashboard .dashboard-heading h2{font-size:1.39rem}.weekly-dashboard .dashboard-heading button{font-size:.76rem;padding:9px 10px}}
+
+.top.home-top{padding:calc(18px + env(safe-area-inset-top)) 18px 18px}
+.top.home-top .eyebrow,.top.home-top .star{display:none}
+.top.home-top .brand{font-size:1.87rem;margin:0}
+.top.home-top .greeting{font-size:1.25rem;margin:9px 0 2px}
+.top.home-top .top-sub{font-size:.83rem}
+.home-page .hero-main{padding:19px 20px 13px}
+.home-page .hero-main h2{font-size:1.86rem;margin:6px 0 4px}
+.home-page .hero-bottom{padding:15px 20px}
+.home-page .hero .chipline{margin:9px 0 2px}
+.home-page .hero .chip{padding:6px 10px;font-size:.76rem}
+.home-page .weekly-dashboard{margin:18px 0 21px}
 </style>
 </head>
 <body>
@@ -126,7 +163,7 @@ function nextWorkout(){
  const i=PROGRAM.findIndex(w=>w.id===latest.dayId);
  return {w:PROGRAM[(i+1)%PROGRAM.length],active:false};
 }
-function header(sub){const hour=new Date().getHours(),hello=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';return '<header class="top"><div class="eyebrow">STRONGER EVERY WEEK</div><h1 class="brand">Mum’s Gym</h1><div class="star">✦</div><div class="greeting">'+hello+', '+esc(db.name)+' ♡</div><p class="top-sub">'+esc(sub||'A little stronger, every week.')+'</p></header>';}
+function header(sub,compact){const hour=new Date().getHours(),hello=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';return '<header class="top'+(compact?' home-top':'')+'"><div class="eyebrow">STRONGER EVERY WEEK</div><h1 class="brand">Mum’s Gym</h1><div class="star">✦</div><div class="greeting">'+hello+', '+esc(db.name)+' ♡</div><p class="top-sub">'+esc(sub||'A little stronger, every week.')+'</p></header>';}
 function go(to){page=to;render();window.scrollTo(0,0);}
 function startWorkout(id){if(db.active){go('session');toast('Your unfinished workout is ready.');return;}const w=workout(id);if(!w)return;db.active={id:'s'+Date.now()+'_'+Math.random().toString(36).slice(2,6),dayId:id,start:Date.now(),changed:Date.now(),items:w.ex.map(ex=>({id:ex,rows:prefillRows(ex)}))};expanded=w.ex[0];persist();go('session');}
 function toggleExercise(id){expanded=expanded===id?'':id;render();}
@@ -173,6 +210,32 @@ function setPlan(date,value){
  if(value)db.plans[date]=value;else delete db.plans[date];
  persist();render();toast(value?'✓ Plan saved. Change it any time.':'Plan cleared. Choose any day.');
 }
+function weeklyStats(start){
+ const week=dateKey(monday(start));
+ const sessions=db.sessions.filter(s=>totalDone(s)>0&&dateKey(monday(s.end||s.start))===week);
+ const cardio=db.cardio.filter(c=>dateKey(monday(c.at))===week&&Number(c.mins)>0);
+ return {strength:sessions.length,cardio:cardio.length};
+}
+function progressPips(done,total){
+ return '<div class="goal-pips" aria-hidden="true">'+Array.from({length:total},(_,i)=>'<span'+(i<done?' class="done"':'')+'></span>').join('')+'</div>';
+}
+function goalRow(name,icon,count,target,extraClass){
+ const left=Math.max(0,target-count),reached=left===0;
+ return '<div class="goal-row'+(reached?' goal-done':'')+'">'+
+ '<div class="goal-icon '+extraClass+'" aria-hidden="true">'+icon+'</div>'+
+ '<div class="goal-information"><span class="goal-title">'+name+'</span><span class="goal-subtitle">'+count+' of '+target+' '+(name==='Strength'?'workouts':'sessions')+' done</span>'+progressPips(count,target)+'</div>'+
+ '<div class="goal-count"><strong>'+(reached?'✓':left)+'</strong><small>'+(reached?'All done':'left')+'</small></div>'+
+ '</div>';
+}
+function weeklyDashboard(start,onWeekPage){
+ const current=weeklyStats(start),range=fmtFullRange(start);
+ return '<section class="weekly-dashboard" aria-label="This week’s exercise goals">'+
+ '<div class="dashboard-heading"><h2>This week</h2>'+(onWeekPage?'':'<button onclick="weekOffset=0;go(\'week\')">View days →</button>')+'</div>'+
+ '<p class="week-when">'+esc(range)+' · Any days you like</p>'+
+ goalRow('Strength','✦',current.strength,3,'')+
+ goalRow('Cardio','♡',current.cardio,3,'cardio-icon')+
+ '<div class="dashboard-bottom"><span>Treadmill after strength counts.</span><button onclick="cardioDefaults(null)">+ Log cardio</button></div></section>';
+}
 function completedInWeek(start){const first=dateKey(monday(start));return db.sessions.filter(s=>dateKey(monday(s.end||s.start))===first).length;}
 function changeName(s){db.name=s.slice(0,35);persist();}
 function flexiblePlanHelp(){return '<div class="card compact-card"><h2>Your flexible routine</h2><p class="muted">Strength: Leg Strength, Upper Body and Everyday Strength. Do them in rotation whenever you visit. Aim to leave a recovery day between strength sessions when possible.</p><p class="muted">Treadmill after legs: 10–15 min easy to moderate. After upper: 20–25 min moderate. After everyday strength: 15–20 min moderate. Extra cardio on any convenient day: 30–40 min moderate. Build up gradually.</p></div>';}
@@ -201,20 +264,19 @@ function weekDots(){const mon=monday(new Date());let s='<div class="week-grid" a
 function workoutButton(w){return '<button class="workout-choice" onclick="startWorkout(\''+w.id+'\')"><span class="eyebrow" style="color:var(--wine-soft)">'+esc(w.tag)+'</span><strong>'+esc(w.name)+'</strong><span class="choice-footer"><span>4 exercises · 2 sets each</span><span class="pill-go">Open ›</span></span></button>';}
 function homeScreen(){
  const nx=nextWorkout(),w=nx.w;
- return header('With love, from your son.')+
- '<main class="page">'+
+ return header('With love, from your son.',true)+
+ '<main class="page home-page">'+
  '<section class="hero"><div class="hero-main"><span class="eyebrow" style="color:var(--wine-soft)">'+(nx.active?'WORKOUT IN PROGRESS':(nx.planned?'PLANNED FOR TODAY':'UP NEXT · ANY DAY'))+'</span><h2>'+esc(w.name)+'</h2><div class="chipline"><span class="chip">4 exercises</span><span class="chip">2 sets each</span></div></div><div class="hero-bottom"><button class="btn primary" onclick="'+(nx.active?'go(\'session\')':'startWorkout(\''+w.id+'\')')+'">'+(nx.active?'Continue Your Workout':'Start '+esc(w.name))+' →</button>'+saved()+'</div></section>'+
- '<div class="section-header"><h2 class="section-title">Your week</h2><button class="link" onclick="weekOffset=0;go(\'week\')">View &amp; edit →</button></div>'+weekDots()+
+ weeklyDashboard(monday(new Date()))+
  '<h2 class="section-title">Choose a different exercise day</h2><div class="workout-choices">'+PROGRAM.map(workoutButton).join('')+'</div>'+
- '<div class="card compact-card"><div class="section-header"><h2>Cardio</h2><span class="muted">After strength</span></div><p class="muted">After legs 10–15 · upper 20–25 · everyday 15–20 min. Extra cardio any day: 30–40 min.</p><button class="btn secondary small" onclick="cardioDefaults(null)">Log treadmill or bike</button></div>'+
  '</main>';
 }
 function weekScreen(){
  const start=plus(monday(new Date()),weekOffset*7),end=plus(start,6),count=completedInWeek(start);
  return header('Your days, your choice.')+'<main class="page">'+
  '<div class="week-tools"><button class="arrow" onclick="weekOffset--;render()" aria-label="Previous week">‹</button><strong>'+esc(fmtFullRange(start))+'</strong><button class="arrow" onclick="weekOffset++;render()" aria-label="Next week">›</button></div>'+
- '<div class="week-intro"><strong>'+count+' strength workout'+(count===1?'':'s')+' recorded</strong><p>Pick any days, or leave them open and decide at the gym.</p></div>'+
- weekRows(start)+
+ (weekOffset===0?weeklyDashboard(start,true):'<div class="week-intro"><strong>'+count+' strength workout'+(count===1?'':'s')+' recorded</strong><p>Choose whichever days suit you.</p></div>')+
+ '<h2 class="section-title">Plan your days</h2>'+ weekRows(start)+
  '<button class="btn secondary" onclick="weekOffset=0;render()">Go to this week</button>'+flexiblePlanHelp()+'</main>';
 }
 function doneScreen(){const s=finished,w=s&&workout(s.dayId),n=totalDone(s);return header('Well done. Every session counts.')+'<main class="page"><section class="hero"><div class="hero-main"><span class="eyebrow" style="color:var(--green)">✓ WORKOUT SAVED</span><h2>Wonderful work, '+esc(db.name)+'!</h2><p>'+esc(w?w.name:'Your workout')+' · '+n+' completed sets.</p></div><div class="hero-bottom stack"><button class="btn primary" onclick="cardioDefaults(\''+(w?w.id:'legs')+'\')">Next: treadmill '+(w?w.cardio.low+'–'+w.cardio.high:'10–15')+' min →</button><button class="btn secondary" onclick="go(\'home\')">Back to Home</button>'+(undoFinished?'<button class="btn neutral" onclick="undoFinish()">↶ Undo Finish, edit my workout</button>':'')+'</div></section>'+saved()+'</main>';}
