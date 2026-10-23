@@ -762,6 +762,29 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 .victory-momentum{font-size:11px;line-height:1.5;color:#a5aec1;margin:12px 0 17px}.victory-simple .arcade-btn{background:linear-gradient(105deg,#e5ce91,#dca6b3);min-height:46px;border-radius:10px}.victory-simple .arcade-unlock{margin:14px 0;padding:12px}.victory-simple .arcade-details p{margin:7px 0;line-height:1.5}.victory-simple .arcade-details{border-top:1px solid #253246;padding-top:8px}
 @media(max-width:360px){.victory-simple .arcade-hero,.victory-simple .arcade-body{padding:19px 17px}.eng-sheet .victory-simple h2.arcade-win-title{font-size:49px}.eng-sheet .victory-simple .partial h2.arcade-win-title{font-size:29px}.momentum-title{font-size:20px}}
 
+
+/* v3.8.3: a quiet finish card, one action. Details stay in History. */
+.victory-simple.victory-minimal{max-width:400px;border-color:#484758;border-radius:22px}
+.victory-minimal .arcade-hero{min-height:0;padding:36px 24px 26px;text-align:center}
+.victory-minimal .arcade-hero::after{bottom:45px;opacity:.65}
+.victory-minimal h2.arcade-win-title,
+.victory-minimal .arcade-hero.partial h2.arcade-win-title,
+.eng-sheet .victory-minimal h2.arcade-win-title,
+.eng-sheet .victory-minimal .partial h2.arcade-win-title{
+ font-size:clamp(48px,15vw,72px);line-height:1.12;white-space:nowrap;letter-spacing:-.035em;
+ margin:0 0 17px;transform:skew(-5deg) rotate(-2deg)
+}
+.victory-workout{font-size:14px;font-weight:650;line-height:1.5;color:#e4dfed;overflow-wrap:anywhere}
+.victory-minimal .arcade-body{padding:21px 24px 24px;display:grid;gap:18px}
+.victory-pr{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px 12px;
+ padding:10px 12px;border:1px solid #74623d66;border-radius:12px;background:#e7ca8110;
+ color:#f4dda7;text-align:center;font-size:12px;line-height:1.5;min-width:0}
+.victory-pr-label{font-weight:800;font-size:10px;letter-spacing:.09em;white-space:nowrap}
+.victory-pr strong{font-size:13px;letter-spacing:.01em;overflow-wrap:anywhere}
+.victory-minimal .arcade-btn{width:100%;min-height:48px;font-size:12px;letter-spacing:.12em}
+.victory-minimal .arcade-btn:focus-visible{outline:2px solid #fff0c6;outline-offset:4px}
+.victory-minimal .arcade-preview-label{font-size:9px;letter-spacing:.15em;margin-bottom:16px}
+@media(max-width:360px){.victory-minimal .arcade-hero{padding:31px 18px 23px}.victory-minimal .arcade-body{padding:19px 18px 21px}.victory-workout{font-size:13px}}
 </style>
 </head>
 <body>
@@ -801,7 +824,7 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.8.1';
+const APP_VERSION = '3.8.3';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
@@ -3972,6 +3995,7 @@ function renderHistory(db) {
       '<div class="hi-detail hidden" id="hd-'+sess.id+'">' +
         renderSessionDetail(sess) +
         '<div class="hi-actions">' +
+          '<button class="btn-ghost btn-sm" data-victory-session="'+esc(sess.id)+'" onclick="Engagement.saveVictoryCard(this.getAttribute(\'data-victory-session\'))">Save card</button>' +
           '<button class="btn-ghost btn-sm btn-danger" onclick="App.deleteSession(\'' + sess.id + '\')">Delete session</button>' +
         '</div>' +
       '</div>' +
@@ -5203,13 +5227,22 @@ var Engagement = (function () {
   var GYM_WEEK_TARGET = 5;
   var GYM_CARDIO = {treadmill_z2:true,stairmaster_z2:true,treadmill_hiit:true,bike_hiit:true};
   function qualifyingGymSession(s){
-    if(!s||s.finished!==true)return false;
-    var coverage=coveredSession(s);
-    if(coverage.qualifies)return true;
-    // Legacy sessions without prescription snapshots: require real completed work.
-    if(s.programmeSnapshot&&Array.isArray(s.programmeSnapshot.slots)&&s.programmeSnapshot.slots.length)return false;
-    var rows=(s.sets||[]).filter(normal),unique={};rows.forEach(function(row){unique[row.exId]=true;});
-    return rows.length>=5&&Object.keys(unique).length>=3;
+    // v3.8.2: attendance is not programme completion. A saved gym workout
+    // with actual working-set activity counts even when accessories were skipped,
+    // the session was shortened, exercises were substituted, or only one muscle
+    // group was trained. coveredSession() remains the separate completion measure.
+    // Never infer a visit from a timer, a prefilled row or an unfinished session.
+    if(!s||s.finished!==true||!Array.isArray(s.sets))return false;
+    return s.sets.some(function(row){
+      if(!normal(row)||typeof row.exId!=='string'||!row.exId.trim())return false;
+      var reps=Number(row.reps),seconds=Number(row.durationSeconds);
+      if(!((Number.isFinite(reps)&&reps>0)||(Number.isFinite(seconds)&&seconds>0)))return false;
+      if(row.weight!==undefined&&row.weight!==null&&row.weight!==''&&(!Number.isFinite(Number(row.weight))||Number(row.weight)<0))return false;
+      var ex=getExerciseDef(row.exId,s);
+      // Legacy cardio/posing activity is not lifting attendance. Gym-machine
+      // cardio still uses its existing explicit saved-log and ten-minute rules.
+      return !(ex&&ex.nonHypertrophy);
+    });
   }
   function qualifyingGymCardio(log){
     // Entry eligibility is separate from the ten-minute *daily* total.
@@ -5307,7 +5340,7 @@ var Engagement = (function () {
   function themedClass(){return '';}
   function momentumResetMessage(s){
     if(s.resetReason==='week_infeasible')return 'Five gym visits are no longer achievable this Monday–Sunday week. Your saved workouts still count.';
-    if(s.resetReason==='missed_week')return 'Week of '+s.missedWeek.start+' finished at '+s.missedWeek.count+'/5 gym visits. Momentum colour reset.';
+    if(s.resetReason==='missed_week')return 'Start a new run this week. Your saved gym visits are kept.';
     if(s.resetReason==='inactivity')return 'Three complete days without a gym visit reset your Momentum colour.';
     if(s.resetReason==='unprotected_gap')return 'A missed gym day ended the run because recovery protection is off.';
     return '';
@@ -5323,8 +5356,10 @@ var Engagement = (function () {
   }
 
   function renderMomentum(data){
-    var s=momentum(data),title=s.streak?s.streak+' gym visits in this run':'Start a fresh run';
-    var sub=momentumResetMessage(s)||(s.todayActive?'Gym visit recorded. Today counts once.':s.protectedToday?'Recovery today. Colour protected, no visit added.':s.streak?'Keep the run going; rest is fine while five visits remain possible.':'Aim for five productive gym visits this week, not five lifting days.');
+    var s=momentum(data),title=s.streak?s.streak+' gym '+(s.streak===1?'visit':'visits')+' in this run':s.todayActive?'Gym visit recorded':'Start a fresh run';
+    // Today's saved activity takes precedence over a colour-reset explanation.
+    // A visit remains visible even if the five-visit week is no longer achievable.
+    var sub=s.todayActive?'Gym visit recorded. Today counts once.':momentumResetMessage(s)||(s.protectedToday?'Recovery today. Colour protected, no visit added.':s.streak?'Keep the run going; rest is fine while five visits remain possible.':'Aim for five productive gym visits this week, not five lifting days.');
     var dots=s.weekDays.map(function(day){
       var status=day.active?' gym visit':day.future?' upcoming':day.recovery?' recovery, not a gym visit':' no gym visit';
       return '<div class="momentum-day'+(day.active?' is-active':'')+(day.today?' is-today':'')+(day.recovery?' is-recovery':'')+(day.future?' is-future':'')+'" title="'+esc(day.key+status)+'"><b>'+day.label+'</b><i aria-label="'+esc(day.key+status)+'"></i></div>';
@@ -5341,7 +5376,7 @@ var Engagement = (function () {
   }
   function scheduleTable(data,now){var rows=scheduleRows(data,now);return '<table class="eng-week-table"><caption>Recommended rhythm. Reschedule freely.</caption><thead><tr><th>Day</th><th>Weights</th><th>Cardio</th></tr></thead><tbody>'+rows.map(function(r){return '<tr class="'+(r.today?'is-today':'')+'"'+(r.today?' aria-current="date"':'')+'><td><span class="eng-day">'+r.day+'</span><span class="eng-day-date">'+Number(r.date.slice(-2))+'</span>'+(r.today?'<span class="eng-today">TODAY</span>':'')+'</td><td><span class="eng-workout-name">'+esc(r.title)+'</span>'+(r.id?'<small>'+esc(DAYS[r.id].durationLabel||'')+'</small>':'')+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</td><td class="eng-cardio-text">'+esc(r.cardio)+'</td></tr>';}).join('')+'</tbody></table>';
   }
-  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Cardio plan: 120 dedicated moderate minutes + 30 minutes of brisk walking across the week. Build gradually. HIIT is optional; move it to Sunday or skip it if Wednesday leaves your legs tired for Thursday. Cardio progress stays inside Cardio.</p><p class="eng-footnote">The optional Wednesday redistributes Tuesday accessories, it does not add a second full arm workout. Use the existing option in Program. Recovery days protect the colour only while five gym visits remain possible and there is no three-day gap. They earn no activity credit.</p>';}
+  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Cardio plan: 120 dedicated moderate minutes + 30 minutes of brisk walking across the week. Build gradually. HIIT is optional; move it to Sunday or skip it if Wednesday leaves your legs tired for Thursday. Cardio progress stays inside Cardio.</p><p class="eng-footnote">The optional Wednesday redistributes Tuesday accessories, it does not add a second full arm workout. Use the existing option in Program. A saved lifting workout with logged working sets counts as a gym visit, even when it is shortened or accessories are skipped. Programme completion remains separate. Recovery days protect the colour only while five gym visits remain possible and there is no three-day gap. They earn no activity credit.</p>';}
   function inlineSchedule(){return '<details class="eng-week-inline"><summary>Your weekly schedule</summary>'+scheduleContent(db)+'</details>';}
   function openSheet(title,sub,content,type){
     closeSheet();sheetFocus=document.activeElement;lastSheet=type||'sheet';
@@ -5424,12 +5459,27 @@ var Engagement = (function () {
     return {title:getSessionDayTitle(sess),headline:headline,complete:cov.complete,coverage:cov,events:events,challenge:challenge,detail:detail,weekDone:done,splitPending:weeks.current.requiresFifth&&!weeks.current.fifthDone,durationMs:Number(sess.durationMs)||0,date:sessionDate(sess),unlocks:sess.engagementUnlocks||[],preview:false,sessionId:sess.id};
   }
   function renderVictory(sess,data,animate){return victoryHtml(victoryData(sess,data),sess,animate);}
+  // Presentation only. PR qualification and stored workout records are unchanged.
+  function compactVictoryRecord(v){
+    var groups={};
+    (v.events||[]).forEach(function(e,i){
+      if(!e||e.type==='baseline')return;
+      var key=(e.exerciseId||e.canonicalExerciseId||('preview_'+i))+'|'+(e.side||'')+'|'+(e.groupKey||'');
+      groups[key]=e;
+    });
+    var records=Object.keys(groups).map(function(k){return groups[k];});
+    if(!records.length)return null;
+    if(records.length>1)return {label:records.length+' NEW PRS',value:'',event:null};
+    var record=records[0],side=record.side==='L'?'L · ':record.side==='R'?'R · ':'';
+    return {label:'NEW PR',value:side+String(record.display||''),event:record};
+  }
   function victoryHtml(v,sess,animate){
-    var unlocked=''; // Old reward records remain in saved history, but do not unlock visual themes.
-    var days=v.momentumDays!==undefined?v.momentumDays:momentum(db).streak;
-    var duration=v.durationMs>=60000?Math.round(v.durationMs/60000)+' minutes':v.durationMs>0?'Under one minute':'Not logged';
-    var detail=sess?'<details class="arcade-details"><summary>Session details</summary><p>'+esc(v.date)+' · '+duration+'</p><p>'+v.coverage.done+' / '+v.coverage.expected+' planned set rounds completed. '+v.coverage.loggedRows+' working rows logged.</p>'+(sess.rushedModeApplied?'<p>Reduced with Rushed Mode. No extra work is required.</p>':'')+'<p>'+v.events.length+' recorded PR '+(v.events.length===1?'event':'events')+'.</p></details>':'';
-    return '<section class="arcade-summary victory-simple" aria-labelledby="victory-title"><div class="arcade-hero'+(!v.complete?' partial':'')+'">'+(v.preview?'<div class="arcade-preview-label">PREVIEW ONLY. NOTHING SAVED.</div>':'')+'<div class="victory-personal">ADIL <span>'+esc(v.date)+'</span></div><h2 class="arcade-win-title" id="victory-title">'+(v.complete?'VICTORY!':'SESSION SAVED')+'</h2><div class="arcade-win-sub">'+(v.complete?'SESSION COMPLETE':'EVERY LOGGED SET IS KEPT')+'</div><div class="arcade-session"><span>'+esc(v.title)+'</span></div></div><div class="arcade-body"><div class="arcade-moment"><b>'+(v.challenge&&v.challenge.status==='achieved'?'PREVIOUS PERFORMANCE BEATEN':v.events.length?'NEW PERSONAL RECORD':v.complete?'NICE WORK.':'PROGRESS RECORDED.')+'</b><span>'+esc(v.detail)+'</span></div>'+unlocked+(days?'<p class="victory-momentum">'+days+' gym visits in your current run. Recovery is part of the plan.</p>':'')+'<div class="arcade-actions"><button class="arcade-btn" onclick="'+(v.preview?'Engagement.closeSheet()':'App.closeSummary()')+'">'+(v.preview?'CLOSE PREVIEW':'CONTINUE')+'</button><button class="arcade-save" onclick="Engagement.saveVictoryCard('+(v.preview?'null':'\''+esc(v.sessionId)+'\'')+')">Save card as image</button></div>'+detail+'</div></section>';
+    var pr=compactVictoryRecord(v),prName='';
+    if(pr&&pr.event&&pr.event.exerciseId){
+      var ex=getExerciseDef(pr.event.exerciseId,sess,db);prName=ex&&ex.name||'';
+    }
+    var badge=pr?'<div class="victory-pr"'+(prName?' title="'+esc(prName)+'" aria-label="'+esc(prName+' personal record: '+pr.value)+'"':'')+'><span class="victory-pr-label"><span aria-hidden="true">🏆</span> '+esc(pr.label)+'</span>'+(pr.value?'<strong>'+esc(pr.value)+'</strong>':'')+'</div>':'';
+    return '<section class="arcade-summary victory-simple victory-minimal" aria-labelledby="victory-title"><div class="arcade-hero'+(!v.complete?' partial':'')+'">'+(v.preview?'<div class="arcade-preview-label">PREVIEW</div>':'')+'<h2 class="arcade-win-title" id="victory-title">'+(v.complete?'VICTORY!':'SAVED')+'</h2><p class="victory-workout">'+esc(v.title)+'</p></div><div class="arcade-body">'+badge+'<button class="arcade-btn" onclick="'+(v.preview?'Engagement.closeSheet()':'App.closeSummary()')+'">'+(v.preview?'CLOSE':'CONTINUE')+'</button></div></section>';
   }
 
   function getPreviewVictory(){return {title:'Chest + Shoulder Width',headline:'VICTORY',complete:true,coverage:{done:13,expected:13,loggedRows:16},events:[{display:'26 kg × 10',detail:'+1 rep at the same weight'}],challenge:{status:'achieved'},detail:'+1 total rep at 26 kg. Your previous performance, beaten.',weekDone:4,momentumDays:5,durationMs:63*60000,date:localDateKey(),unlocks:[],preview:true};}
@@ -5439,23 +5489,23 @@ var Engagement = (function () {
   function showSummaryAllowed(){return pref(db,'victory');}
   // Render-to-canvas export is local. No screenshots of private DOM sent to a server.
   function saveVictoryCard(id){
-    var sess=id?(db.completedSessions||[]).find(function(s){return s.id===id;}):null,v=sess?victoryData(sess,db):(previewVictory||getPreviewVictory());
-    var c=document.createElement('canvas');c.width=1080;c.height=1200;var x=c.getContext('2d');
-    x.fillStyle='#0c101b';x.fillRect(0,0,1080,1200);
-    var g=x.createLinearGradient(0,0,1080,560);g.addColorStop(0,'#172d43');g.addColorStop(.6,'#25223d');g.addColorStop(1,'#512b39');x.fillStyle=g;x.fillRect(0,0,1080,540);
-    x.save();x.globalAlpha=.10;x.fillStyle='#ddbdd5';for(var a=25;a<1080;a+=24)for(var b=150;b<490;b+=24){x.beginPath();x.arc(a,b,2.1,0,Math.PI*2);x.fill();}x.restore();
-    x.fillStyle='#c6cadd';x.font='bold 26px sans-serif';x.fillText('ADIL',68,74);x.font='23px monospace';x.fillText(v.date+(v.preview?' / PREVIEW':''),68,118);
-    x.save();x.translate(65,355);x.rotate(-.04);x.font='italic 900 '+(v.complete?178:96)+'px Impact, Arial Black, sans-serif';x.lineWidth=9;x.strokeStyle='#111221';x.strokeText(v.complete?'VICTORY!':'SESSION SAVED',0,0);x.fillStyle='#9d404f';x.fillText(v.complete?'VICTORY!':'SESSION SAVED',6,9);x.fillStyle='#ffe7a1';x.fillText(v.complete?'VICTORY!':'SESSION SAVED',0,0);x.restore();
-    x.fillStyle='#f1d0cf';x.font='24px monospace';x.fillText(v.complete?'SESSION COMPLETE':'EVERY LOGGED SET IS KEPT',70,430);
-    x.fillStyle='#eef0f9';x.font='bold 32px sans-serif';x.fillText(v.title,70,500,940);
-    function wrap(text,y,font,colour){x.font=font;x.fillStyle=colour;var line='';String(text).split(' ').forEach(function(w){var next=line+w+' ';if(x.measureText(next).width>920){x.fillText(line,72,y);line=w+' ';y+=43;}else line=next;});x.fillText(line,72,y);return y+43;}
-    var y=wrap(v.challenge&&v.challenge.status==='achieved'?'PREVIOUS PERFORMANCE BEATEN':v.events.length?'NEW PERSONAL RECORD':v.complete?'NICE WORK.':'PROGRESS RECORDED.',638,'bold 28px sans-serif','#aee4d4');
-    y=wrap(v.detail,y+20,'28px sans-serif','#bbcadb');
-    // Temporary momentum colours have no permanent unlock banner, including in exports of old sessions.
-    var days=v.momentumDays!==undefined?v.momentumDays:momentum(db).streak;
-    x.fillStyle='#acb4c9';x.font='26px sans-serif';x.fillText(days?days+' gym visits in your current run. Recovery is part of the plan.':'Train with intent. Recover without guilt.',72,1070,930);
-    x.fillStyle='#677b92';x.font='19px monospace';x.fillText('ADIL GYM / PERSONAL TRAINING',72,1150);
-    c.toBlob(function(blob){if(!blob){toast('Image could not be created.');return;}var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Adil_Victory_'+v.date+(v.preview?'_preview':'')+'.png';a.click();setTimeout(function(){URL.revokeObjectURL(url);},30000);},'image/png');
+    var sess=id?(db.completedSessions||[]).find(function(s){return s.id===id;}):null;
+    if(id&&!sess){toast('Workout not found.');return;}
+    var v=sess?victoryData(sess,db):(previewVictory||getPreviewVictory()),pr=compactVictoryRecord(v);
+    var c=document.createElement('canvas');c.width=1080;c.height=pr?760:600;var x=c.getContext('2d');
+    x.fillStyle='#0c101b';x.fillRect(0,0,c.width,c.height);
+    var g=x.createLinearGradient(0,0,1080,540);g.addColorStop(0,'#192f43');g.addColorStop(.58,'#27213c');g.addColorStop(1,'#502a3a');x.fillStyle=g;x.fillRect(0,0,1080,540);
+    x.save();x.globalAlpha=.10;x.fillStyle='#ddbdd5';for(var a=25;a<1080;a+=25)for(var b=20;b<530;b+=25){x.beginPath();x.arc(a,b,2.1,0,Math.PI*2);x.fill();}x.restore();
+    if(v.preview){x.fillStyle='#c6cadd';x.font='22px monospace';x.textAlign='center';x.fillText('PREVIEW',540,65);}
+    var title=v.complete?'VICTORY!':'SAVED';
+    x.save();x.translate(540,315);x.rotate(-.035);x.font='italic 900 178px Impact, Arial Black, sans-serif';
+    while(x.measureText(title).width>940){var size=parseFloat(x.font.match(/(\d+(?:\.\d+)?)px/)[1])-2;x.font='italic 900 '+size+'px Impact, Arial Black, sans-serif';}
+    x.textAlign='center';x.lineWidth=9;x.strokeStyle='#111221';x.strokeText(title,0,0);x.fillStyle='#bd5a64';x.fillText(title,7,10);x.fillStyle='#ffe4a0';x.fillText(title,0,0);x.restore();
+    x.textAlign='center';x.fillStyle='#e4dfed';x.font='600 34px sans-serif';
+    var words=String(v.title).split(/\s+/),lines=[],line='';words.forEach(function(w){var next=line?line+' '+w:w;if(x.measureText(next).width>920&&line){lines.push(line);line=w;}else line=next;});if(line)lines.push(line);
+    lines.forEach(function(l,i){x.fillText(l,540,430+i*44,940);});
+    if(pr){x.fillStyle='#f4dda7';x.font='800 28px sans-serif';x.fillText(pr.label,540,625);if(pr.value){x.font='600 36px sans-serif';x.fillText(pr.value,540,684,940);}}
+    c.toBlob(function(blob){if(!blob){toast('Image could not be created.');return;}var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Adil_'+(v.complete?'Victory':'Saved')+'_'+v.date+(v.preview?'_preview':'')+'.png';a.click();setTimeout(function(){URL.revokeObjectURL(url);},30000);},'image/png');
   }
 
   return {normalize:normalize,defaults:defaults,state:state,preferences:pref,momentum:momentum,coverage:coveredSession,rewardDays:rewardDays,programmeWeeks:programmeWeeks,refreshUnlocks:refreshUnlocks,themePreference:themePreference,themedClass:themedClass,renderMomentum:renderMomentum,renderScheduleInline:inlineSchedule,openSchedule:openSchedule,openVault:openVault,selectTheme:selectTheme,previewTheme:previewTheme,closeSheet:closeSheet,protectToday:protectToday,settingsHtml:settingsHtml,savePreference:savePreference,prepareChallenge:prepareChallenge,challengeState:challengeState,renderChallenge:renderChallenge,checkChallenge:checkChallenge,onSavedSession:onSavedSession,renderVictory:renderVictory,showSummaryAllowed:showSummaryAllowed,previewVictory:showPreviewVictory,saveVictoryCard:saveVictoryCard,sound:sound,toast:toast,scheduleRows:scheduleRows,themeList:THEMES};
