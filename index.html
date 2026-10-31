@@ -785,6 +785,36 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 .victory-minimal .arcade-btn:focus-visible{outline:2px solid #fff0c6;outline-offset:4px}
 .victory-minimal .arcade-preview-label{font-size:9px;letter-spacing:.15em;margin-bottom:16px}
 @media(max-width:360px){.victory-minimal .arcade-hero{padding:31px 18px 23px}.victory-minimal .arcade-body{padding:19px 18px 21px}.victory-workout{font-size:13px}}
+
+/* v3.8.6: the rest bar belongs to the workout, not to the last visited screen. */
+#workout-overlay > #timer-pill.workout-rest {position:relative;inset:auto;z-index:20;flex:0 0 auto;min-height:56px;padding:8px 18px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--accent-ln);justify-content:space-between;background:var(--bg-soft);}
+#workout-overlay > #timer-pill.workout-rest:not(.hidden){display:flex!important;}
+#workout-overlay > #timer-pill.workout-rest.hidden{display:none!important;}
+#timer-pill .tp-label{line-height:1.3;color:var(--accent);}
+#timer-pill .tp-label small{display:block;margin-top:3px;font-size:10px;letter-spacing:0;text-transform:none;color:var(--muted);}
+#timer-pill .tp-time{font-variant-numeric:tabular-nums;font-size:26px;}
+#timer-pill .tp-skip{min-width:52px;min-height:44px;color:var(--text);border:1px solid var(--line);border-radius:10px;}
+.workout-tools{display:flex;gap:8px;margin:9px 0;}.workout-tools button{font-size:12px;min-height:40px;}
+.workout-switch-layer{position:fixed;inset:0;z-index:12000;background:rgba(0,4,10,.78);display:flex;align-items:flex-end;justify-content:center;padding:14px 12px max(14px,env(safe-area-inset-bottom));}
+.workout-switch-card{max-width:510px;width:100%;max-height:86dvh;overflow:auto;padding:22px 18px;background:var(--bg-soft);border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 60px #0009;}
+.workout-switch-head{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:15px;}.workout-switch-head h2{font-size:20px;line-height:1.2;overflow-wrap:anywhere;}
+.switch-note{font-size:14px;line-height:1.55;color:var(--muted);margin:10px 0 20px;}.switch-actions{display:flex;flex-direction:column;gap:10px;}.switch-actions button{min-height:48px;}
+.switch-discard-only{width:100%;background:none;border:0;color:#edb3b8;font-size:13px;padding:16px 10px;margin-top:8px;cursor:pointer;}
+@media(min-width:650px){.workout-switch-layer{align-items:center;}}
+
+
+/* v3.8.9: source detail stays behind a second disclosure, with no network dependency. */
+.coach-tips .coach-cue-list { margin:0; padding-left:19px; }
+.coach-tips .coach-cue-list > li { padding:6px 0; }
+.coach-tips .coach-sources { margin:4px 0 10px; font-size:12px; color:var(--muted); }
+.coach-tips .coach-sources > summary { padding:9px 0; font-size:12px; font-weight:500; }
+.coach-tips .coach-sources p { margin:2px 0 8px; line-height:1.45; }
+.coach-tips .coach-sources ul { margin:0; padding-left:16px; }
+.coach-tips .coach-sources li { padding:5px 0; }
+.coach-tips .coach-sources a { color:var(--steel); text-decoration:underline; text-underline-offset:2px; overflow-wrap:anywhere; }
+.coach-tips .coach-sources small { display:block; font-size:11px; line-height:1.45; margin-top:3px; }
+.ex-card--activity .coach-tips { margin-left:0; margin-right:0; }
+
 </style>
 </head>
 <body>
@@ -824,7 +854,7 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.8.3';
+const APP_VERSION = '3.8.9';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
@@ -1761,14 +1791,1273 @@ EX.single_arm_cable_lat_pulldown.name='Single-Arm Cable Lat Pulldown';
 EX.straight_arm_cable_pulldown.hard='If lower-back involvement is substantial, reduce the load and keep the torso still. If discomfort persists, use another lat movement.';
 
 defineShowcaseExercise('forearm_plank','Forearm Plank',{base:'weighted_floor_crunch',sDef:2,sMin:2,sMax:2,rMin:30,rMax:60,rest:60,timed:true,trackingUnit:'seconds',measurementMode:'timed',target:'Trunk endurance',muscles:{},drop:false,nonHypertrophy:false,prEligible:false,cues:[],mistakes:[],hard:'Keep breathing; not a max-duration test.'});
-var UPDATED_COACHING_TIPS={"incline_dumbbell_press_30deg": [["Keep 26 kg only while your normal range is comfortable. Complete all three sets before chasing 28 kg.", "Film a normal working set once; a chest photo cannot diagnose pressing technique."], ["Use the same 30-degree bench setting. Lower beside the pecs with wrists roughly above elbows.", "Press upward and slightly inward. Stop before pain or a major path change."]], "low_incline_dumbbell_press_15deg": [["This is your fresh Tuesday press. Choose the load from today's 8-12-rep performance, not a PR."], ["Keep the 15-degree history separate from the 30-degree press.", "Use a repeatable comfortable bottom position and smooth upward/inward press."]], "cable_lateral_raise": [["Try 15 kg on the SAME cable setup or an intermediate step. Build repeatable reps rather than forcing a 15-to-20 kg jump.", "Prefill is a previous result, not an instruction. A below-range set is still recorded work."], ["Soft elbow, quiet torso, raise slightly forward of your side.", "Allow natural shoulder-blade upward rotation; some trap assistance is normal."]], "overhead_cable_triceps_extension": [["Test a lighter load, around 30-35 kg on the same setup if suitable, rather than repeating 40 kg for 7 and 6."], ["Complete two comfortable sets in the 10-15 range. Do not force elbows against your head.", "Arms comfortably elevated; bend and straighten elbows without repeated back arching."]], "hip_thrust": [["On your lying machine, keep your head supported if provided. Do not lift it to force a chin tuck.", "Adjust secure foot placement for comfortable hip extension. If hamstrings cramp, try feet slightly closer where safely possible."], ["Finish with hips extended, not by arching the lower back.", "Hamstrings can assist. Repeatable glute-focused loading matters more than chasing a burn."]], "leg_press": [["Start with feet in the middle of the platform; adjust width and toe angle for comfort.", "First dedicated leg session is capped at two working sets here. Normal prescription: three."], ["Knees track toes; descend only while the pelvis stays supported.", "No bounce or violent knee lockout; take the full rest."]], "weighted_floor_crunch": [["Abs are planned work: Thursday third and Saturday last, not an automatic skip.", "Exhale and curl shoulder blades off the floor; do not turn it into a full sit-up."], ["Add a small plate at the chest only when bodyweight reps are controlled.", "Do not pull your head. Add load after all sets reach 20."]], "pec_deck": [["Your 50 kg x 11, 8 does not require an automatic reset. Use enough rest and a lighter back-off set if needed."], ["Keep the three Saturday sets repeatable before adding work.", "Comfortable seat and stretch; bring upper arms together without forced shoulder roll."]], "neutral_grip_lat_pulldown": [["Biceps assistance is normal. Judge the repeatable movement, not only the burn."], ["Allow a controlled overhead reach and natural scapular movement.", "Pull upper arms toward your sides without progressively leaning backward."]], "pullups": [["Avoid exhausting the first set for a record. Rest 2.5-3 minutes and protect later sets.", "Build toward three sets of about 12 before adding a small load; bodyweight changes also affect performance."], ["Consistent grip and controlled bottom position.", "No kicking or neck craning; allow natural shoulder-blade motion."]], "chest_supported_mid_back_row": [["Normal biceps and trap assistance does not invalidate a row. Keep the setup repeatable."], ["Chest supported, moderately flared elbows toward lower chest.", "Allow a controlled forward reach and shoulder-blade movement."]], "chest_supported_high_row": [["Rear delts are next, before the cable row, so they are not lost at the end."], ["Chest supported, moderately flared elbows pulling toward lower chest.", "Control the reach without large body movement."]], "seated_neutral_grip_cable_lat_row": [["This still needs trunk stabilisation. Use the supported alternative if lower-back discomfort limits you."], ["Close-to-medium neutral grip, elbows near sides, pull to lower ribs.", "Controlled reach; do not rock backward to finish."]], "reverse_pec_deck": [["Do not infer failure of the exercise from a low-rep set or burn location alone."], ["Handles around shoulder height, soft elbows, chest supported.", "Move upper arms apart without exaggerating the shoulder-blade squeeze."]], "low_to_high_cable_fly": [["Lower-priority chest accessory. Protect the presses, pec deck and lateral raises first."], ["Soft consistent elbows, sweep inward/upward to around upper-chest height.", "Avoid turning it into a front raise or increasing elbow bend to move more load."]], "one_arm_dumbbell_preacher_curl": [["Keep arms together but modest: two sets per arm. More curls are not your chest solution."], ["Support the upper arm, control near-extension, no bounce.", "Start weaker side and match controlled reps on the other."]], "seated_leg_curl": [["Keep hips secured; do not lift them to finish a heavier rep."], ["Align knee with pivot and control both directions.", "Lying and seated curl machines have separate histories."]], "leg_extension": [["Two sets are a thigh top-up, not another max-load test."], ["Align knee with pivot, keep hips supported and extend smoothly.", "No kicking or painful forced end range."]], "standing_calf_raise": [["Use a brief settling pause at the bottom, not a bounce."], ["Knees comfortably straight, full comfortable rise and stretch.", "Keep standing/seated machine records separate."]], "forearm_plank": [["Submaximal 30-60-second holds, not PR attempts. Omit the duplicate home plank today."], ["Elbows under shoulders. Keep breathing and body aligned.", "Stop before sagging, neck strain or breath-holding."]]};
-Object.keys(UPDATED_COACHING_TIPS).forEach(function(id){var ex=EX[id];if(!ex)return;ex.newTips=UPDATED_COACHING_TIPS[id][0].slice();ex.cues=UPDATED_COACHING_TIPS[id][1].slice();ex.coachingRevision=PROGRAM_VERSION;ex.mistakes=[];ex.hard='Stop for pain or a major change in the intended movement.';['loadGuidance','rangeWarning','special','tnf','cbum','why'].forEach(function(k){delete ex[k];});ex.tempo='About two seconds lowering, smooth reversal, controlled lift.';});
+// v3.8.9: reviewed coaching is display data, independent of workout/PR identities.
+// Resolve live tips by the exact exercise ID, including for saved session snapshots.
+// Never migrate historical prescriptions or infer an exercise from an ambiguous label.
+const COACHING_REVIEW_REVISION = '2026-10-28-v1';
+const COACHING_SOURCES = {
+  "tnf_manual": {
+    "label": "TNF, Training Manual",
+    "title": "TNF Muscle Building Manual, supplied PDF",
+    "url": null
+  },
+  "cbum_blueprint": {
+    "label": "Chris Bumstead, The Standard",
+    "title": "Jacked. Strong. Lean. The Blueprint",
+    "url": "https://setthestandard.beehiiv.com/p/jacked-strong-lean-the-blueprint"
+  },
+  "cbum_back": {
+    "label": "The Standard with Chris Bumstead",
+    "title": "Bulletproof Your Back",
+    "url": "https://setthestandard.beehiiv.com/p/bulletproof-your-back"
+  },
+  "cbum_chest": {
+    "label": "The Standard with Chris Bumstead",
+    "title": "Transform Your Body in 6 Weeks, chest section",
+    "url": "https://setthestandard.beehiiv.com/p/transform-your-body-in-6-weeks"
+  },
+  "cbum_arms": {
+    "label": "The Standard with Chris Bumstead",
+    "title": "Build Monster Biceps + Triceps",
+    "url": "https://setthestandard.beehiiv.com/p/build-monster-biceps-triceps"
+  },
+  "cbum_unilateral": {
+    "label": "Chris Bumstead, reader Q&A",
+    "title": "Bulletproof Your Legs, unilateral-training Q&A",
+    "url": "https://setthestandard.beehiiv.com/p/bulletproof-your-legs"
+  },
+  "cbum_leg_extension": {
+    "label": "Chris Bumstead, Tips from Chris",
+    "title": "Off-Season Leg Training, Muscle & Fitness",
+    "url": "https://www.muscleandfitness.com/routine/workouts/leg-exercises/classic-physique-star-chris-bumsteads-season-leg-training/"
+  },
+  "cbum_rear_delt": {
+    "label": "Chris Bumstead, Tips from Chris",
+    "title": "Off-Season Shoulder and Triceps Training, Muscle & Fitness",
+    "url": "https://www.muscleandfitness.com/routine/workouts/shoulder-exercises/classic-physique-star-chris-bumsteads-season-shoulder-and-triceps/"
+  },
+  "su_bracing": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "How to Breathe when Squatting",
+    "url": "https://squatuniversity.com/2016/02/12/the-squat-fix-core-stability-proper-breathing/"
+  },
+  "su_tripod": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "How to Teach a Perfect Squat",
+    "url": "https://squatuniversity.com/2016/02/05/how-to-teach-a-perfect-squat/"
+  },
+  "su_serratus": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "Strengthening The Serratus Anterior",
+    "url": "https://squatuniversity.com/2018/09/27/strengthening-the-serratus-anterior/"
+  },
+  "su_bridge": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "The Single Leg Bridge Test, bridge technique",
+    "url": "https://squatuniversity.com/2017/05/18/the-single-leg-bridge-test/"
+  },
+  "su_calf": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "Rehabbing Achilles Tendinopathy, calf-raise execution",
+    "url": "https://squatuniversity.com/2019/01/06/rehabbing-achilles-tendinopathy/"
+  },
+  "su_hip_flexor": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "Fixing Hip Flexor Pain, half-kneeling stretch",
+    "url": "https://squatuniversity.com/2017/10/07/fixing-hip-flexor-pain/"
+  },
+  "su_thoracic": {
+    "label": "Squat University, Aaron Horschig",
+    "title": "How To Improve Thoracic Spine Mobility",
+    "url": "https://squatuniversity.com/2018/08/25/how-to-improve-thoracic-spine-mobility/"
+  }
+};
+const COACHING_GUIDANCE = {
+  "incline_db_general": {
+    "ids": [
+      "d1e1",
+      "low_incline_dumbbell_press"
+    ],
+    "tips": [
+      "Keep wrists roughly above elbows and lower the dumbbells with control.",
+      "Use the same low-incline bench setting, with feet planted and upper back supported.",
+      "Press up and slightly inward through a comfortable range. Avoid bouncing or crashing the dumbbells."
+    ],
+    "sources": [
+      {
+        "id": "cbum_blueprint",
+        "locator": "",
+        "note": "Direct: controlled lowering on incline dumbbell presses."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 40-41",
+        "note": "Repeatable setup and upper-arm path. Exact bench angles remain your existing programme settings."
+      }
+    ]
+  },
+  "incline_db_30": {
+    "ids": [
+      "incline_dumbbell_press_30deg"
+    ],
+    "tips": [
+      "Keep wrists roughly above elbows and lower the dumbbells with control.",
+      "Set the bench near 30 degrees. Plant your feet and keep your upper back supported.",
+      "Press up and slightly inward. Use a comfortable depth without rolling the shoulders forward."
+    ],
+    "sources": [
+      {
+        "id": "cbum_blueprint",
+        "locator": "",
+        "note": "Direct: controlled lowering on incline dumbbell presses."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 40-41",
+        "note": "Repeatable setup and upper-arm path. Exact bench angles remain your existing programme settings."
+      }
+    ]
+  },
+  "incline_db_15": {
+    "ids": [
+      "low_incline_dumbbell_press_15deg"
+    ],
+    "tips": [
+      "Lower smoothly to a repeatable, comfortable depth, then press up and slightly inward.",
+      "Set the bench near 15 degrees, with feet planted and upper back supported.",
+      "Keep wrists above elbows. Finish smoothly without crashing the dumbbells together."
+    ],
+    "sources": [
+      {
+        "id": "cbum_blueprint",
+        "locator": "",
+        "note": "Direct: controlled lowering on incline dumbbell presses."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 40-41",
+        "note": "Repeatable setup and upper-arm path. Exact bench angles remain your existing programme settings."
+      }
+    ]
+  },
+  "cable_press": {
+    "ids": [
+      "d4e3",
+      "low_incline_cable_press"
+    ],
+    "tips": [
+      "Keep your back supported and press through the same comfortable path each rep.",
+      "Secure the bench and use matching cable heights. Keep the handles lined up with your forearms.",
+      "Control the return without letting the cables pull your shoulders into an uncomfortable stretch."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 40-41",
+        "note": "Adapted: stable setup and repeatable chest-press path; cable settings are practical setup guidance."
+      }
+    ]
+  },
+  "smith_30": {
+    "ids": [
+      "incline_smith_press_30deg"
+    ],
+    "tips": [
+      "Position the bench so the bar lowers comfortably towards your chest with wrists above elbows.",
+      "Use the 30-degree bench setting and set the safety stops before your working sets.",
+      "Keep your upper back supported. Lower under control and press smoothly without bouncing."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "Adapted: repeatable setup and range. Smith alignment and safety-stop cues are equipment-specific coaching."
+      },
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Adapted: controlled machine pressing, not a Smith-machine setup tutorial."
+      }
+    ]
+  },
+  "smith_15": {
+    "ids": [
+      "smith_press_15deg"
+    ],
+    "tips": [
+      "Position the bench so the bar lowers comfortably towards your chest with wrists above elbows.",
+      "Use the 15-degree bench setting and set the safety stops before your working sets.",
+      "Keep your upper back supported. Lower under control and press smoothly without bouncing."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "Adapted: repeatable setup and range. Smith alignment and safety-stop cues are equipment-specific coaching."
+      },
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Adapted: controlled machine pressing, not a Smith-machine setup tutorial."
+      }
+    ]
+  },
+  "smith_0_15": {
+    "ids": [
+      "smith_press_0_15deg"
+    ],
+    "tips": [
+      "Position the bench so the bar lowers comfortably towards your chest with wrists above elbows.",
+      "Use one consistent bench angle between flat and 15 degrees and set the safety stops before your working sets.",
+      "Keep your upper back supported. Lower under control and press smoothly without bouncing."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "Adapted: repeatable setup and range. Smith alignment and safety-stop cues are equipment-specific coaching."
+      },
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Adapted: controlled machine pressing, not a Smith-machine setup tutorial."
+      }
+    ]
+  },
+  "flat_machine_press": {
+    "ids": [
+      "flat_converging_chest_press"
+    ],
+    "tips": [
+      "Set the seat so the handles start near chest height, with wrists in line with forearms.",
+      "Keep hips and upper back on the pads as you press smoothly.",
+      "Return through a comfortable stretch. Keep the same seat and handle settings each session."
+    ],
+    "sources": [
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Adapted: smooth machine pressing and a controlled stretch. Seat-height cue is practical coaching."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "General: consistent setup and range for meaningful progression."
+      }
+    ]
+  },
+  "cable_lateral": {
+    "ids": [
+      "d1e2",
+      "d4e1",
+      "cable_lateral_raise"
+    ],
+    "tips": [
+      "Reach out slightly forward of your side, keeping a soft, fixed elbow bend.",
+      "Let your shoulder blade rotate naturally. Do not force it down.",
+      "Keep your torso quiet and control the lowering.",
+      "Repeat the same cable setup. Start with the weaker side and match its clean reps."
+    ],
+    "sources": [
+      {
+        "id": "cbum_blueprint",
+        "locator": "",
+        "note": "Adapted from lateral-raise Q&A: minimise body swing; no exact cable height is claimed."
+      },
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Adapted shoulder-motion principle: natural upward rotation, not pinned-down shoulder blades."
+      },
+      {
+        "id": "cbum_unilateral",
+        "locator": "",
+        "note": "Direct general advice: start with the weaker side and match clean reps."
+      }
+    ]
+  },
+  "machine_lateral": {
+    "ids": [
+      "d3e1"
+    ],
+    "tips": [
+      "Raise the upper arms outward with a quiet torso and a comfortable elbow position.",
+      "Adjust the seat and pads to fit the machine. Keep the same setup each session.",
+      "Allow natural shoulder-blade motion and lower under control. Avoid throwing the pads upward."
+    ],
+    "sources": [
+      {
+        "id": "cbum_blueprint",
+        "locator": "",
+        "note": "Adapted: stable lateral raises without body swing."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 51",
+        "note": "Machine laterals and repeatable technique; exact machine settings are coaching guidance."
+      }
+    ]
+  },
+  "single_arm_pulldown": {
+    "ids": [
+      "d1e3",
+      "d2e3",
+      "single_arm_cable_lat_pulldown"
+    ],
+    "tips": [
+      "Pull your elbow towards your front pocket without twisting or leaning back.",
+      "Reach overhead comfortably and let the shoulder blade move with your arm.",
+      "Keep the same seat or kneeling setup. Control the return rather than dropping the stack.",
+      "Biceps assistance is normal. Straps can help grip, but they do not switch the biceps off."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 43",
+        "note": "Direct pulling principle: avoid leaning back into a row; adapted to one-arm work."
+      },
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Adapted: natural shoulder-blade motion during an overhead reach."
+      }
+    ]
+  },
+  "legacy_vertical_pull": {
+    "ids": [
+      "d2e1"
+    ],
+    "tips": [
+      "Drive the upper arms down without kicking or leaning back into a row.",
+      "Allow a comfortable overhead reach, then control the return.",
+      "Use the same grip and range. Keep your neck relaxed rather than reaching with your chin."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 43",
+        "note": "Shared vertical-pull guidance; this older combined label does not identify which variant you performed."
+      },
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Direct pull-up control cues; legacy variant is not inferred."
+      }
+    ]
+  },
+  "neutral_pulldown": {
+    "ids": [
+      "neutral_grip_lat_pulldown"
+    ],
+    "tips": [
+      "Drive elbows down beside your ribs without progressively leaning backwards.",
+      "Secure the thigh pad and use the same neutral grip and seat setting.",
+      "Allow a controlled overhead reach, then lower the upper arms. Biceps assistance is normal."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 43",
+        "note": "Direct: consistent pulling setup and avoiding a large backward lean."
+      },
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Adapted: allow natural shoulder-blade motion during overhead reaching."
+      }
+    ]
+  },
+  "pullup": {
+    "ids": [
+      "pullups"
+    ],
+    "tips": [
+      "Pull without kicking and lower your body under control.",
+      "Use a comfortable grip and repeatable bottom position. Let your shoulder blades move naturally.",
+      "Keep your neck relaxed. End the set before you need a swing or a chin reach to finish."
+    ],
+    "sources": [
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Direct: no kipping and controlled descent. Comfortable range is a coaching qualifier."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "General: repeatable technique before adding load."
+      }
+    ]
+  },
+  "assisted_pullup": {
+    "ids": [
+      "assisted_neutral_grip_pullup"
+    ],
+    "tips": [
+      "Choose enough assistance to pull smoothly without kicking or swinging.",
+      "Keep knees or feet securely on the machine support and use the same grip.",
+      "Control the descent through a comfortable reach. Keep your neck relaxed."
+    ],
+    "sources": [
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Adapted from pull-ups: controlled descent without kipping; assistance setup is practical coaching."
+      }
+    ]
+  },
+  "straight_arm_pulldown": {
+    "ids": [
+      "d2e2",
+      "straight_arm_cable_pulldown"
+    ],
+    "tips": [
+      "Keep ribs and torso steady as the upper arms sweep towards your thighs.",
+      "Keep a small, fixed elbow bend. Control the return without gaining range by arching.",
+      "If your lower back takes over, stop and use your supported lat row or neutral pulldown."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 45-46",
+        "note": "Shoulder-extension pattern and stability. The supported alternative respects your previous lower-back difficulty."
+      },
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted general bracing principle, not a pulldown-specific tutorial."
+      }
+    ]
+  },
+  "machine_pullover": {
+    "ids": [
+      "machine_pullover"
+    ],
+    "tips": [
+      "Keep your torso supported as the upper arms drive down towards your sides.",
+      "Adjust the seat and pads to fit your shoulders. Use the same machine settings each time.",
+      "Control the overhead return. Avoid crunching or arching to move the load."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 45-46",
+        "note": "Direct: stable machine pullover and repeatable setup. Machine-fit details are coaching guidance."
+      }
+    ]
+  },
+  "legacy_pullover": {
+    "ids": [
+      "d4e2"
+    ],
+    "tips": [
+      "Keep your torso steady while the upper arms sweep down.",
+      "Maintain a consistent elbow bend and a comfortable overhead return.",
+      "If your lower back takes over, stop and choose a supported pulling exercise."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 45-46",
+        "note": "Shared shoulder-extension guidance. This combined legacy label does not identify the equipment."
+      }
+    ]
+  },
+  "low_to_high_fly": {
+    "ids": [
+      "d1e4",
+      "low_to_high_cable_fly"
+    ],
+    "tips": [
+      "Keep a soft, fixed elbow bend as you sweep inward and slightly upward to upper-chest height.",
+      "Use a steady staggered stance and keep ribs over pelvis. Avoid leaning back to finish.",
+      "Open through a comfortable arc. Reduce the load or range if your lower back takes over."
+    ],
+    "sources": [
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Direct fly-family cue: open through an arc rather than curling the handles inward."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 40-41",
+        "note": "Upper-arm path for upper-chest emphasis; exact finishing height is our adaptation."
+      },
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted bracing guidance plus your existing cable-fly comfort constraint."
+      }
+    ]
+  },
+  "pec_deck": {
+    "ids": [
+      "pec_deck"
+    ],
+    "tips": [
+      "Move the upper arms together with a soft elbow bend, rather than turning the fly into a press.",
+      "Set a comfortable seat and start position. Keep your torso supported.",
+      "Open under control to a comfortable stretch, then close smoothly without bouncing."
+    ],
+    "sources": [
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Direct fly-family guidance: an open arm arc rather than curling inward."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 40-41",
+        "note": "General: repeatable setup and chest movement; machine fit is coaching guidance."
+      }
+    ]
+  },
+  "mid_cable_fly": {
+    "ids": [
+      "mid_height_cable_fly"
+    ],
+    "tips": [
+      "Keep the elbow bend steady as your upper arms come together in front of your chest.",
+      "Set cables around chest height and use a steady staggered stance.",
+      "Keep ribs over pelvis. Open only as far as you can control without back arching or shoulder discomfort."
+    ],
+    "sources": [
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Direct fly-family guidance, adapted to the mid-height cable setup."
+      },
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted: stable torso while arms move; preserves your back-comfort constraint."
+      }
+    ]
+  },
+  "legacy_fly": {
+    "ids": [
+      "d4e4"
+    ],
+    "tips": [
+      "Bring the upper arms together with a soft, consistent elbow bend.",
+      "Use a stable torso and a comfortable stretch without forcing the shoulders back.",
+      "Keep the same setup and control both directions. Avoid turning the fly into a press."
+    ],
+    "sources": [
+      {
+        "id": "cbum_chest",
+        "locator": "",
+        "note": "Shared pec-deck/cable-fly cues. The older combined label does not identify which equipment was used."
+      }
+    ]
+  },
+  "mid_back_row": {
+    "ids": [
+      "d1e5",
+      "d4e5",
+      "chest_supported_row",
+      "chest_supported_mid_back_row"
+    ],
+    "tips": [
+      "Keep your chest on the pad as you pull towards the lower chest with comfortably flared elbows.",
+      "Let your shoulder blades move forward on the return and together during the pull.",
+      "Control both directions. Avoid lifting your chest or jerking your neck to finish."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 48-49",
+        "note": "Direct: support, moderately flared upper-back rowing, and shoulder-blade movement."
+      },
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Direct: chest-supported reach and contraction without body momentum."
+      }
+    ]
+  },
+  "high_row": {
+    "ids": [
+      "d2e4",
+      "chest_supported_high_row"
+    ],
+    "tips": [
+      "Keep chest contact and row with elbows out and back through a comfortable upper-back path.",
+      "Let your shoulder blades move with the row. Avoid turning it into a tucked-elbow lat row.",
+      "Use a controlled reach and return. Keep your torso quiet as the set gets harder."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 48-49",
+        "note": "Direct: support, moderately flared upper-back rowing, and shoulder-blade movement."
+      },
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Direct: chest-supported reach and contraction without body momentum."
+      }
+    ]
+  },
+  "supported_cable_row": {
+    "ids": [
+      "supported_cable_mid_back_row"
+    ],
+    "tips": [
+      "Keep your torso supported and pull towards the lower chest with comfortably flared elbows.",
+      "Allow the shoulder blades to move forward on the return, then together as you pull.",
+      "Repeat the same support, cable height and handle. Do not lift off the support to finish."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 48-49",
+        "note": "Direct: support, moderately flared upper-back rowing, and shoulder-blade movement."
+      },
+      {
+        "id": "cbum_back",
+        "locator": "",
+        "note": "Direct: chest-supported reach and contraction without body momentum."
+      }
+    ]
+  },
+  "supported_lat_row": {
+    "ids": [
+      "chest_supported_lat_biased_row",
+      "chest_supported_neutral_grip_lat_row"
+    ],
+    "tips": [
+      "Keep chest contact and draw elbows close to your sides towards your lower ribs.",
+      "Allow a controlled forward reach, then pull without lifting your torso off the pad.",
+      "Keep the same neutral grip. Biceps assistance is normal; use straps if grip limits you."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 48-49",
+        "note": "Direct: chest support and a closer elbow path for a lat-focused row."
+      }
+    ]
+  },
+  "seated_lat_row": {
+    "ids": [
+      "seated_neutral_grip_cable_lat_row"
+    ],
+    "tips": [
+      "Draw elbows beside your ribs towards your waist without rocking backwards.",
+      "Use a close-to-medium neutral grip and a controlled forward reach.",
+      "Keep your torso steady. Use the supported alternative if lower-back discomfort limits you."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 48-49",
+        "note": "Direct elbow-path principle; adapted to a seated cable row. Supported alternative preserves your comfort constraint."
+      }
+    ]
+  },
+  "reverse_pec_deck": {
+    "ids": [
+      "d1e6",
+      "d2e5",
+      "d4e6",
+      "reverse_pec_deck"
+    ],
+    "tips": [
+      "Move upper arms apart with the same slight elbow bend. Avoid turning the fly into a row.",
+      "Set handles near shoulder height and keep your chest on the pad.",
+      "Allow natural shoulder-blade motion without an exaggerated pinch. Control the return."
+    ],
+    "sources": [
+      {
+        "id": "cbum_rear_delt",
+        "locator": "",
+        "note": "Adapted from cable rear-delt work: maintain the elbow angle through the sweep."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 51",
+        "note": "Reverse pec deck is identified as rear-delt work; machine setup is coaching guidance."
+      }
+    ]
+  },
+  "rear_delt_cable": {
+    "ids": [
+      "cable_rear_delt_fly"
+    ],
+    "tips": [
+      "Keep the slight elbow bend unchanged as the upper arms sweep outwards.",
+      "Use cables near shoulder height and a steady stance, with ribs controlled.",
+      "Return smoothly without torso swing or pulling the elbows far behind you."
+    ],
+    "sources": [
+      {
+        "id": "cbum_rear_delt",
+        "locator": "",
+        "note": "Direct: cable height and steady elbow angle; the original example is single-arm work."
+      }
+    ]
+  },
+  "crunch": {
+    "ids": [
+      "d1e7",
+      "weighted_floor_crunch"
+    ],
+    "tips": [
+      "Exhale as you curl your ribs towards your pelvis, lifting the shoulder blades from the floor.",
+      "Keep the weight close to your chest and your neck relaxed.",
+      "Lower smoothly. Use a small curl rather than sitting all the way up."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 38",
+        "note": "Direct: abdominal flexion brings ribs and pelvis closer. Floor and load-position details are coaching adaptations."
+      }
+    ]
+  },
+  "serratus_punch": {
+    "ids": [
+      "d2e6",
+      "d4e8",
+      "serratus_cable_punch"
+    ],
+    "tips": [
+      "Reach the shoulder blade around your ribs while keeping your torso still.",
+      "Keep the elbow nearly straight and the cable around chest height.",
+      "Return slowly without twisting or shrugging to create extra reach."
+    ],
+    "sources": [
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Adapted from serratus function and reaching principles, not an exact cable-punch tutorial."
+      }
+    ]
+  },
+  "y_raise": {
+    "ids": [
+      "d3e2",
+      "cable_y_raise"
+    ],
+    "tips": [
+      "Let your shoulder blades rotate as your arms rise into a comfortable Y.",
+      "Use light cables, soft elbows and thumbs comfortably upward.",
+      "Keep ribs over pelvis. Stop the reach before your lower back arches and lower with control."
+    ],
+    "sources": [
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Adapted from scapular-raise guidance: upward rotation with controlled ribs. Cable setup is coaching guidance."
+      }
+    ]
+  },
+  "overhead_triceps": {
+    "ids": [
+      "d3e3",
+      "overhead_cable_triceps_extension"
+    ],
+    "tips": [
+      "Keep your upper arms mostly still and move through the elbows.",
+      "Hold the arms comfortably beside or slightly in front of your head. Do not squeeze elbows together forcibly.",
+      "Use a stable stance and controlled stretch. Avoid arching your back for extra range."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 52",
+        "note": "Direct: a stable upper arm during elbow extension."
+      },
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted general bracing principle; overhead arm position is comfortable-range coaching."
+      }
+    ]
+  },
+  "underhand_triceps": {
+    "ids": [
+      "d3e4",
+      "underhand_cable_triceps_extension"
+    ],
+    "tips": [
+      "Keep upper arms beside your ribs and straighten the elbows smoothly.",
+      "Use a comfortable underhand grip with wrists in line with your forearms.",
+      "Control the return. Reduce load if you need body swing or wrist bending to finish."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 52",
+        "note": "Direct elbow-extension principle; underhand wrist setup is our adaptation."
+      }
+    ]
+  },
+  "rope_pushdown": {
+    "ids": [
+      "rope_triceps_pushdown"
+    ],
+    "tips": [
+      "Keep upper arms mostly still and extend through the elbows.",
+      "Separate the rope slightly at the bottom if comfortable, without moving your torso.",
+      "Return under control. Avoid leaning your body onto the rope to move more weight."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 52",
+        "note": "Direct: stable upper arm during elbow extension."
+      },
+      {
+        "id": "cbum_arms",
+        "locator": "",
+        "note": "Direct: controlled rope pushdowns and gentle rope separation at the bottom."
+      }
+    ]
+  },
+  "incline_curl": {
+    "ids": [
+      "d3e5"
+    ],
+    "tips": [
+      "Keep your upper arms steady as you curl, then lower without swinging.",
+      "Keep your back against the bench, palms turning up comfortably and wrists straight.",
+      "Use a comfortable bottom stretch. Avoid forcing the elbows back or bouncing into extension."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 53",
+        "note": "Elbow flexion and supination principles."
+      },
+      {
+        "id": "cbum_arms",
+        "locator": "",
+        "note": "Direct incline-curl and controlled-lowering guidance; stretch comfort is a coaching qualifier."
+      }
+    ]
+  },
+  "preacher_curl": {
+    "ids": [
+      "one_arm_dumbbell_preacher_curl"
+    ],
+    "tips": [
+      "Keep the back of your upper arm on the pad and lower without dropping or bouncing.",
+      "Keep your palm up and wrist straight. Use a comfortable near-straight elbow at the bottom.",
+      "Start with the weaker side and match its controlled reps on the other."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 53",
+        "note": "Direct: supported upper arm and palm-up elbow flexion."
+      },
+      {
+        "id": "cbum_arms",
+        "locator": "",
+        "note": "Direct: controlled preacher-curl lowering."
+      },
+      {
+        "id": "cbum_unilateral",
+        "locator": "",
+        "note": "Direct general advice: start with the weaker side and match clean reps."
+      }
+    ]
+  },
+  "hammer_curl": {
+    "ids": [
+      "d3e6",
+      "dumbbell_hammer_curl"
+    ],
+    "tips": [
+      "Keep thumbs up and wrists straight while the elbows bend.",
+      "Keep your upper arms mostly still and avoid swinging your torso.",
+      "Lower under control to a comfortable extension rather than dropping the dumbbells."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 53",
+        "note": "Brachialis and elbow-flexion principles; neutral-grip setup is practical coaching."
+      },
+      {
+        "id": "cbum_arms",
+        "locator": "",
+        "note": "General controlled-lowering guidance; not a detailed hammer-curl tutorial."
+      }
+    ]
+  },
+  "dead_bug": {
+    "ids": [
+      "d3e7",
+      "dead_bug_full_exhale"
+    ],
+    "tips": [
+      "Keep your starting lower-back position steady as the opposite arm and leg reach away.",
+      "Exhale during the reach and take a relaxed breath between reps.",
+      "Shorten the reach before your ribs flare or your back arches. Move slowly."
+    ],
+    "sources": [
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted general trunk-control principle. No verified dead-bug-specific transcript was used."
+      }
+    ]
+  },
+  "machine_hip_thrust": {
+    "ids": [
+      "hip_thrust"
+    ],
+    "tips": [
+      "Finish by extending your hips with the glutes, without arching your lower back.",
+      "Keep your feet planted and ribs controlled. Adjust foot distance for comfortable hip motion.",
+      "On your lying machine, keep your head supported if provided. Do not lift it to force a chin tuck.",
+      "Lower smoothly. Hamstrings can assist; a stronger burn is not the goal."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 35-36",
+        "note": "Hip extension and hip-thrust exercise selection, not detailed machine setup."
+      },
+      {
+        "id": "su_bridge",
+        "locator": "",
+        "note": "Adapted from glute-bridge execution. Lying-machine head support preserves your existing equipment guidance."
+      }
+    ]
+  },
+  "legacy_hip_thrust": {
+    "ids": [
+      "d4e7"
+    ],
+    "tips": [
+      "Extend your hips with the glutes and stop before your lower back arches.",
+      "Keep feet planted, ribs controlled and your head in a comfortable position.",
+      "Use a smooth lift and return. Keep the same supported setup each session."
+    ],
+    "sources": [
+      {
+        "id": "su_bridge",
+        "locator": "",
+        "note": "Adapted from bridge execution; the older hip-thrust record does not identify the machine."
+      }
+    ]
+  },
+  "leg_press": {
+    "ids": [
+      "leg_press"
+    ],
+    "tips": [
+      "Keep your pelvis on the pad. Stop the descent before it clearly rolls away.",
+      "Keep heel, big-toe base and little-toe base on the plate, with knees following your toes.",
+      "Use a comfortable stance and repeatable depth. Press smoothly without bouncing or slamming the knees straight."
+    ],
+    "sources": [
+      {
+        "id": "su_tripod",
+        "locator": "",
+        "note": "Adapted from squat guidance: whole-foot contact and knees following toes, not a leg-press tutorial."
+      },
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14",
+        "note": "General: repeatable technique; supported-depth limit is practical machine coaching."
+      }
+    ]
+  },
+  "generic_leg_curl": {
+    "ids": [
+      "leg_curl"
+    ],
+    "tips": [
+      "Keep your hips supported as the knees bend and straighten.",
+      "Line your knees up with the machine pivot and place the ankle pad as the machine directs.",
+      "Control the return without kicking or lifting your hips. Keep seated and lying setups distinct."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 33",
+        "note": "Hamstring knee flexion and repeatable technique; exact machine setup is coaching guidance."
+      }
+    ]
+  },
+  "seated_leg_curl": {
+    "ids": [
+      "seated_leg_curl"
+    ],
+    "tips": [
+      "Secure the thigh pad and keep your hips against the seat throughout the curl.",
+      "Align your knee with the pivot and fit the lower pad just above the heel as the machine directs.",
+      "Curl smoothly and control the return. Avoid lifting your hips to finish a heavier rep."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 33",
+        "note": "Hamstring knee-flexion work and consistent technique. Pad and pivot settings are practical coaching, not a TNF machine tutorial."
+      }
+    ]
+  },
+  "lying_leg_curl": {
+    "ids": [
+      "lying_leg_curl"
+    ],
+    "tips": [
+      "Keep your hips on the pad as you curl. Avoid arching or lifting them to finish.",
+      "Align your knees with the pivot and fit the ankle pad as the machine directs.",
+      "Lower under control through a comfortable range instead of letting the stack pull you down."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 3, 14, 33",
+        "note": "Knee-flexion and repeatable-technique principles. Lying-machine setup is a coaching adaptation."
+      }
+    ]
+  },
+  "leg_extension": {
+    "ids": [
+      "leg_extension"
+    ],
+    "tips": [
+      "Keep hips and lower back against the seat while you straighten your knees.",
+      "Line the knee up with the pivot and place the shin pad above the ankle as the machine directs.",
+      "Extend smoothly and lower under control. Avoid kicking or forcing a painful end position."
+    ],
+    "sources": [
+      {
+        "id": "cbum_leg_extension",
+        "locator": "",
+        "note": "Direct: hips and lower back stay on the chair. Machine alignment is practical coaching."
+      }
+    ]
+  },
+  "standing_calf": {
+    "ids": [
+      "standing_calf_raise"
+    ],
+    "tips": [
+      "Let the heel settle briefly at the bottom, then rise smoothly without bouncing.",
+      "Keep knees comfortably straight and use a full, comfortable heel rise and lowering.",
+      "Keep pressure through the forefoot without rolling onto the outer edge."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 31",
+        "note": "Direct: attention to the heel-lowered portion. Comfortable range is a coaching qualifier."
+      },
+      {
+        "id": "su_calf",
+        "locator": "",
+        "note": "Only controlled lifting/lowering is adapted. No rehabilitation dosage or pain thresholds are imported."
+      }
+    ]
+  },
+  "generic_calf": {
+    "ids": [
+      "calf_raise"
+    ],
+    "tips": [
+      "Lower your heels under control, settle briefly, then rise without bouncing.",
+      "Use a comfortable stretch and full rise with a steady knee position for your chosen machine.",
+      "Keep the same machine and setup. Reduce load when the range starts to shorten."
+    ],
+    "sources": [
+      {
+        "id": "tnf_manual",
+        "locator": "pp. 31",
+        "note": "Direct: attention to the heel-lowered portion. Comfortable range is a coaching qualifier."
+      },
+      {
+        "id": "su_calf",
+        "locator": "",
+        "note": "Only controlled lifting/lowering is adapted. No rehabilitation dosage or pain thresholds are imported."
+      }
+    ]
+  },
+  "forearm_plank": {
+    "ids": [
+      "forearm_plank"
+    ],
+    "tips": [
+      "Keep breathing and end the hold before your hips sag or your back arches.",
+      "Place elbows under shoulders and gently push the floor away.",
+      "Keep head, trunk and hips aligned, with glutes lightly engaged."
+    ],
+    "sources": [
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted general trunk-control and breathing guidance, not a forearm-plank tutorial."
+      }
+    ]
+  },
+  "back_posing": {
+    "ids": [
+      "back_posing_practice"
+    ],
+    "tips": [
+      "Set your pose without arching your lower back for extra width.",
+      "Keep shoulders and elbows even, and use a mirror or video for feedback.",
+      "Keep breathing during each comfortable hold."
+    ],
+    "sources": [],
+    "activityNote": "Optional posing practice. Track completion and notes only."
+  },
+  "zone_2": {
+    "ids": [
+      "zone_2_cardio"
+    ],
+    "tips": [
+      "Keep the effort conversational. Ease off if you cannot speak comfortably.",
+      "Use a steady pace and relaxed posture.",
+      "Build and reduce the pace gradually at the start and finish."
+    ],
+    "sources": [],
+    "activityNote": "Easy cardio. Track your duration and intensity."
+  }
+};
+// Preserve the previous overlay's removal of obsolete compulsory drop-set notes.
+const PREVIOUS_COACHING_CLEANUP_IDS = [
+  "incline_dumbbell_press_30deg",
+  "low_incline_dumbbell_press_15deg",
+  "cable_lateral_raise",
+  "overhead_cable_triceps_extension",
+  "hip_thrust",
+  "leg_press",
+  "weighted_floor_crunch",
+  "pec_deck",
+  "neutral_grip_lat_pulldown",
+  "pullups",
+  "chest_supported_mid_back_row",
+  "chest_supported_high_row",
+  "seated_neutral_grip_cable_lat_row",
+  "reverse_pec_deck",
+  "low_to_high_cable_fly",
+  "one_arm_dumbbell_preacher_curl",
+  "seated_leg_curl",
+  "leg_extension",
+  "standing_calf_raise",
+  "forearm_plank"
+];
+var REVIEWED_COACHING_BY_ID = {};
+Object.keys(COACHING_GUIDANCE).forEach(function(key) {
+  var entry = COACHING_GUIDANCE[key];
+  entry.ids.forEach(function(id) { REVIEWED_COACHING_BY_ID[id] = entry; });
+});
+Object.keys(REVIEWED_COACHING_BY_ID).forEach(function(id) {
+  var ex = EX[id], entry = REVIEWED_COACHING_BY_ID[id];
+  if (!ex) return;
+  ex.cues = entry.tips.slice();
+  ex.newTips = [];
+  ex.mistakes = [];
+  ex.hard = entry.activityNote || '';
+  ex.coachingRevision = COACHING_REVIEW_REVISION;
+  if (PREVIOUS_COACHING_CLEANUP_IDS.indexOf(id) !== -1) delete ex.special;
+  // Remove stale coaching only, never sets, reps, rest, exercise IDs or tracking fields.
+  ['loadGuidance','rangeWarning','warningLabel','tnf','cbum','why','tempo'].forEach(function(k) { delete ex[k]; });
+});
+const REVIEWED_HOME_COACHING = {
+  "breathing_9090": {
+    "cue": "Rest feet on the wall. Exhale slowly, let ribs settle, then inhale gently into your lower ribs.",
+    "sources": [
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted breathing principle; the exact 90/90 position is existing general coaching."
+      }
+    ]
+  },
+  "wall_slides": {
+    "cue": "Slide up as shoulder blades move around your ribs. Stop before your lower back arches.",
+    "sources": [
+      {
+        "id": "su_serratus",
+        "locator": "",
+        "note": "Direct wall-slide execution cue."
+      }
+    ]
+  },
+  "high_plank": {
+    "cue": "Hands under shoulders, gently push the floor away and keep breathing. Stop before your hips sag.",
+    "sources": [
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted trunk-control and breathing principle, not a high-plank tutorial."
+      }
+    ]
+  },
+  "dead_bug": {
+    "cue": "Exhale as opposite arm and leg reach. Keep your starting back position steady; shorten the reach before arching.",
+    "sources": [
+      {
+        "id": "su_bracing",
+        "locator": "",
+        "note": "Adapted general trunk-control principle. No dead-bug-specific transcript was verified."
+      }
+    ]
+  },
+  "glute_bridge": {
+    "cue": "Squeeze your glutes to lift your hips. Keep ribs controlled and stop before your lower back arches.",
+    "sources": [
+      {
+        "id": "su_bridge",
+        "locator": "",
+        "note": "Direct bridge execution, with no diagnostic claims or new dosage."
+      }
+    ]
+  },
+  "hip_flexor": {
+    "cue": "Squeeze the kneeling-side glute and tuck your pelvis slightly. Move forward gently without arching.",
+    "sources": [
+      {
+        "id": "su_hip_flexor",
+        "locator": "",
+        "note": "Direct half-kneeling stretch technique; no injury treatment is prescribed."
+      }
+    ]
+  },
+  "adductor_rockback": {
+    "cue": "Rock back with a steady spine, or extend gently through the upper back on your alternate day.",
+    "variants": {
+      "adductor": "Extend one leg to the side and rock hips back gently. Keep your spine steady; stop before groin pinching.",
+      "thoracic": "Use a stable chair or sofa edge. Support your head and extend gently through the upper back without flaring ribs."
+    },
+    "sources": [
+      {
+        "id": "su_thoracic",
+        "locator": "",
+        "note": "Adapted upper-back mobility principle for the chair variant. Adductor rock-back cue is general coaching."
+      }
+    ]
+  }
+};
+HOME_ROUTINE.forEach(function(item) {
+  var reviewed = REVIEWED_HOME_COACHING[item.id];
+  if (reviewed) item.cue = reviewed.cue;
+});
+function getHomeCoachingCue(item, variant) {
+  var reviewed = REVIEWED_HOME_COACHING[item.id];
+  return reviewed && reviewed.variants && reviewed.variants[variant] || item.cue;
+}
+function getReviewedCoaching(ex) {
+  return ex && REVIEWED_COACHING_BY_ID[ex.id] || null;
+}
 EX.hip_thrust.name='Machine Hip Thrust, Glute Focus';EX.hip_thrust.target='Glutes';
+// New manual additions match the unilateral programmed exercise. Existing snapshots remain unchanged.
+EX.cable_lateral_raise.uni=true;EX.cable_lateral_raise.rest=75;EX.cable_lateral_raise.sideTransitionRest=15;
 SUBSTITUTIONS.low_incline_dumbbell_press_15deg=[{id:'smith_press_15deg',reason:'Use a comfortable 15-degree Smith setup if necessary. Separate history.',compareLoadDirectly:false}];
 var PROGRAMME_SLOTS={"4": [{"slotId": "dec_tue_press", "exerciseId": "low_incline_dumbbell_press_15deg", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 15}, {"slotId": "dec_tue_pull", "exerciseId": "neutral_grip_lat_pulldown", "sets": 2, "min": 8, "max": 12, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_row", "exerciseId": "chest_supported_mid_back_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_tue_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_tue_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}], "5": [{"slotId": "dec_thu_hip", "exerciseId": "hip_thrust", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_thu_press", "exerciseId": "leg_press", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_thu_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}, {"slotId": "dec_thu_curl", "exerciseId": "seated_leg_curl", "sets": 3, "min": 8, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_thu_ext", "exerciseId": "leg_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_thu_calf", "exerciseId": "standing_calf_raise", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}], "1": [{"slotId": "dec_sat_press", "exerciseId": "incline_dumbbell_press_30deg", "sets": 3, "min": 6, "max": 10, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 30}, {"slotId": "dec_sat_pec", "exerciseId": "pec_deck", "sets": 3, "min": 10, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_sat_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "optionalDrop": true, "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_sat_fly", "exerciseId": "low_to_high_cable_fly", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_sat_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}], "2": [{"slotId": "dec_sun_pull", "exerciseId": "pullups", "sets": 3, "min": 6, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_sun_row", "exerciseId": "chest_supported_high_row", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_rear", "exerciseId": "reverse_pec_deck", "sets": 3, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_sun_cable", "exerciseId": "seated_neutral_grip_cable_lat_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_plank", "exerciseId": "forearm_plank", "sets": 2, "min": 30, "max": 60, "restMin": 60, "restMax": 60, "rest": 60, "priority": "core", "trackingUnit": "seconds", "effortNote": "Comfortable submaximal holds. Keep breathing and stop before sagging. Omit the duplicate home plank today."}], "3": [{"slotId": "dec_wed_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_wed_rear", "exerciseId": "reverse_pec_deck", "sets": 2, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_wed_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_wed_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}]};
-var PROGRAMME_DAY_META={"4": {"title": "Chest + Back + Arms", "weekday": 2, "scheduleLabel": "Tuesday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_upper", "primaryMuscles": ["Chest", "Back", "Side delts", "Arms"], "subtitle": "Second chest exposure, then back and modest accessories.", "directSummary": "Chest 3 \u00b7 Back 4 \u00b7 Side delts 3/side \u00b7 Direct arms 2 each"}, "5": {"title": "Glutes, Thighs + Abs", "weekday": 4, "scheduleLabel": "Thursday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_legs", "primaryMuscles": ["Glutes", "Quads", "Hamstrings", "Abs"], "subtitle": "One focused leg session. Abs are third, not optional.", "directSummary": "Hip thrust 3 \u00b7 Quads 5 \u00b7 Hamstrings 3 \u00b7 Calves 2 \u00b7 Abs 2"}, "1": {"title": "Chest + Shoulder Width", "weekday": 6, "scheduleLabel": "Saturday", "duration": 65, "durationLabel": "55-70 min", "sessionType": "dec_chest", "primaryMuscles": ["Chest", "Side delts", "Abs"], "subtitle": "Your main chest session. Laterals come before the fly.", "directSummary": "Chest 8 \u00b7 Side delts 3/side \u00b7 Abs 2"}, "2": {"title": "Back + Rear Delts", "weekday": 0, "scheduleLabel": "Sunday", "duration": 60, "durationLabel": "50-65 min", "sessionType": "dec_back", "primaryMuscles": ["Lats", "Mid-back", "Rear delts"], "subtitle": "Back width and detail, then comfortable trunk endurance.", "directSummary": "Back pulling 8 \u00b7 Rear delts 3 \u00b7 Plank 2 holds"}, "3": {"title": "Shoulders + Arms", "weekday": 3, "scheduleLabel": "Optional Wednesday", "duration": 40, "durationLabel": "35-50 min", "sessionType": "dec_fifth", "primaryMuscles": ["Side delts", "Rear delts", "Arms"], "subtitle": "Moves Tuesday accessories, adding only two rear-delt sets.", "directSummary": "Moved: lateral raises 3/side and arms 2 each \u00b7 Extra rear delts 2"}};
+var PROGRAMME_DAY_META={"4": {"title": "Chest + Back + Arms", "weekday": 2, "scheduleLabel": "Tuesday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_upper", "primaryMuscles": ["Chest", "Back", "Side delts", "Arms"], "subtitle": "Second chest exposure, then back and modest accessories.", "directSummary": "Chest 3 \u00b7 Back 4 \u00b7 Side delts 3/side \u00b7 Direct arms 2 each"}, "5": {"title": "Legs + Glutes + Abs", "weekday": 4, "scheduleLabel": "Thursday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_legs", "primaryMuscles": ["Glutes", "Quads", "Hamstrings", "Abs"], "subtitle": "One focused leg session. Abs are third, not optional.", "directSummary": "Hip thrust 3 \u00b7 Quads 5 \u00b7 Hamstrings 3 \u00b7 Calves 2 \u00b7 Abs 2"}, "1": {"title": "Chest + Shoulder Width", "weekday": 6, "scheduleLabel": "Saturday", "duration": 65, "durationLabel": "55-70 min", "sessionType": "dec_chest", "primaryMuscles": ["Chest", "Side delts", "Abs"], "subtitle": "Your main chest session. Laterals come before the fly.", "directSummary": "Chest 8 \u00b7 Side delts 3/side \u00b7 Abs 2"}, "2": {"title": "Back + Rear Delts", "weekday": 0, "scheduleLabel": "Sunday", "duration": 60, "durationLabel": "50-65 min", "sessionType": "dec_back", "primaryMuscles": ["Lats", "Mid-back", "Rear delts"], "subtitle": "Back width and detail, then comfortable trunk endurance.", "directSummary": "Back pulling 8 \u00b7 Rear delts 3 \u00b7 Plank 2 holds"}, "3": {"title": "Shoulders + Arms", "weekday": 3, "scheduleLabel": "Optional Wednesday", "duration": 40, "durationLabel": "35-50 min", "sessionType": "dec_fifth", "primaryMuscles": ["Side delts", "Rear delts", "Arms"], "subtitle": "Moves Tuesday accessories, adding only two rear-delt sets.", "directSummary": "Moved: lateral raises 3/side and arms 2 each \u00b7 Extra rear delts 2"}};
 DAYS={};ALL_DAY_NUMBERS.forEach(function(n){DAYS[n]=Object.assign({n:n,exercises:PROGRAMME_SLOTS[n].map(function(s){return s.exerciseId;}),checklist:[]},PROGRAMME_DAY_META[n]);});
-function fifthDaySelected(data,now){return !!(data&&data.settings&&data.settings.fifthDayWeeks&&data.settings.fifthDayWeeks[currentWeekKey(now)]);}
+function fifthDaySelected(data,now){return false;} // v3.8.6: no calendar-based accessory removal; old settings are preserved only as history.
 function validCompletedNormal(set){return !!(set&&set.completed===true&&!set.skipped&&set.setType==='working'&&(Number(set.reps)>0||Number(set.durationSeconds)>0));}
 function currentTuesdaySessions(data,now){var ws=weekStart(now||Date.now()),we=weekEnd(ws);return (data.completedSessions||[]).filter(function(sess){return sess.programVersion===PROGRAM_VERSION&&sess.dayN===4&&sess.finished===true&&toTimestamp(sess.startTime)>=ws&&toTimestamp(sess.startTime)<=we;});}
 function movedAccessoryCount(data,id,now){var rows=[];currentTuesdaySessions(data,now).forEach(function(sess){(sess.sets||[]).forEach(function(set){if(set.exId===id&&validCompletedNormal(set))rows.push(set);});});if(id==='cable_lateral_raise'||id==='one_arm_dumbbell_preacher_curl'||EX[id]&&EX[id].uni)return Math.min(rows.filter(function(r){return r.side==='L';}).length,rows.filter(function(r){return r.side==='R';}).length);return rows.length;}
@@ -1790,12 +3079,14 @@ function getCombinedIntroDose(){return false;}
 function isSaturdayCrunchCovered(){return false;}
 
 function getProgrammeSlots(dayN,availability,workoutLength,dbRef,now,forceManualDay,ignoreReentry,ignoreLegacy,options){
-var data=dbRef||db,at=toTimestamp(now)||Date.now(),slots=(PROGRAMME_SLOTS[dayN]||[]).map(function(s){return Object.assign({},s);});
-if(dayN===4&&fifthDaySelected(data,at))slots=slots.slice(0,3);
-if(dayN===3)slots=slots.map(function(s){if(s.exerciseId!=='reverse_pec_deck'){if(s.unilateral){var done=accessorySidesCompleted(data,s.exerciseId,at);s.sideSetCounts={L:Math.max(0,s.sets-done.L),R:Math.max(0,s.sets-done.R)};s.sets=Math.max(s.sideSetCounts.L,s.sideSetCounts.R);}else s.sets=Math.max(0,s.sets-movedAccessoryCount(data,s.exerciseId,at));}return s;}).filter(function(s){return s.sets>0;});
-if(dayN===5&&firstLegVisit(data))slots.forEach(function(s){s.sets=Math.min(2,s.sets);s.introDose=true;});
-var enabled=data.settings&&data.settings.programmeEnabledOn,intro=enabled&&localDateKey(at)<=dateAddDays(enabled,6);
-slots.forEach(function(s,i){s.order=i+1;if(intro||isReentryActive(data,at))s.optionalDrop=false;s.effortNote=s.effortNote||(s.unilateral?'Complete both sides, then rest 60-90 seconds.':'Most compounds: leave one or two controlled reps. Final isolation sets may reach comfortable technical failure.');});return slots;
+  var data=dbRef||db,at=toTimestamp(now)||Date.now();
+  var slots=(PROGRAMME_SLOTS[Number(dayN)]||[]).map(function(s){return Object.assign({},s);});
+  // Never silently remove lateral raises or arms because another workout was logged.
+  // Recommendations account for recent work; manual choice always keeps the full template.
+  if(Number(dayN)===5&&firstLegVisit(data))slots.forEach(function(s){s.sets=Math.min(2,s.sets);s.introDose=true;});
+  var enabled=data.settings&&data.settings.programmeEnabledOn,intro=enabled&&localDateKey(at)<=dateAddDays(enabled,6);
+  slots.forEach(function(s,i){s.order=i+1;if(intro||isReentryActive(data,at))s.optionalDrop=false;s.effortNote=s.effortNote||(s.unilateral?'Complete both sides, then rest 60-90 seconds.':'Most compounds: leave one or two controlled reps. Final isolation sets may reach comfortable technical failure.');});
+  return slots;
 }
 
 function getProgrammedRounds(dayN,availability,length,dbRef,now,options) {
@@ -2812,23 +4103,26 @@ function renderExercisePerformance(dbRef,exerciseId,includeLoadAction) {
 function renderCompactExerciseRecords(dbRef,exerciseId,slotId,slot) {
   var previous=getExactLastPerformance(dbRef,exerciseId),pr=getExercisePR(dbRef,exerciseId),ex=getExerciseDef(exerciseId,null,dbRef),lastRows=previous&&previous.records||[];
   var previousLines=[];
-  ['L','R',null].forEach(function(side){var sideRows=lastRows.filter(function(row){return row.side===side;});if(!sideRows.length)return;var label=side==='L'?'L ':side==='R'?'R ':lastRows.some(function(row){return row.side!==null;})?'Side ? ':' ';previousLines.push(label+compactPerformanceSequence(sideRows));});
+  ['L','R',null].forEach(function(side){var rr=lastRows.filter(function(r){return r.side===side;});if(!rr.length)return;var label=side==='L'?'L ':side==='R'?'R ':lastRows.some(function(r){return r.side!==null;})?'Side not recorded: ':'';previousLines.push(label+compactPerformanceSequence(rr));});
   var groups=pr&&pr.groups||[],prLines=[];
   groups.forEach(function(group){
     var sideBased=!!(ex&&ex.uni)||!!group.left||!!group.right||!!group.rawLeft||!!group.rawRight;
-    if(sideBased){if(group.left)prLines.push('L '+formatPerformanceLine(group.left));if(group.right)prLines.push('R '+formatPerformanceLine(group.right));if(group.unspecified)prLines.push('Side ? '+formatPerformanceLine(group.unspecified));}
+    if(sideBased){if(group.left)prLines.push('L '+formatPerformanceLine(group.left));if(group.right)prLines.push('R '+formatPerformanceLine(group.right));if(group.unspecified&&!group.left&&!group.right)prLines.push('Side not recorded: '+formatPerformanceLine(group.unspecified));}
     else if(group.best)prLines.push(formatPerformanceLine(group.best));
   });
-  var hasLive=(dbRef.prCelebrationEvents||[]).some(function(event){return event.sessionId===(dbRef.activeSession&&dbRef.activeSession.id)&&event.exerciseId===exerciseId&&isCelebrationEventValid(dbRef,event);});
+  var live=liveExerciseAchievements(dbRef,exerciseId),hasLive=live.length>0,seen={},liveLines=[];
+  live.forEach(function(e){var key=(e.side||'none')+'|'+e.groupKey;if(seen[key])return;seen[key]=true;liveLines.push((e.side?e.side+' ':'')+e.display);});
   var previousText=previousLines.length?previousLines.join(' · '):'No previous finished set';
-  var prText=prLines.length?prLines.join(' · '):'No PR recorded yet';
-  var stall=getStallInfo(dbRef,exerciseId,slotId),stallLine=stall?'<div class="workout-stall-hint">Progress stalled ,  keep the same load and try to beat your reps.</div>':'';
-  var progression=!stall&&slot?getProgressionAdvice(dbRef,exerciseId,slot):'';
+  var prText=hasLive?liveLines.join(' · '):prLines.length?prLines.join(' · '):'No PR recorded yet';
+  var label=hasLive?(live.length===1&&live[0].type==='reps'?'NEW REP PR':'NEW PR'):'PR';
+  var stall=!hasLive?getStallInfo(dbRef,exerciseId,slotId):null;
+  var stallLine=stall?'<div class="workout-stall-hint">Possible plateau. Compare setup and reps before changing load.</div>':'';
   if(ex.prEligible===false)return '<div class="workout-record-compact"><div><b>Prev:</b> '+esc(previousText)+'</div></div>';
-  return '<div class="workout-record-compact"><div><b>Prev:</b> '+esc(previousText)+'</div><div class="workout-pr-badge'+(hasLive?' is-live':'')+'"><b>'+(hasLive?'NEW PR':'PR')+' ★</b> '+esc(prText)+'</div></div>'+stallLine+
-    ''+
-    '<details class="workout-record-details"><summary>History &amp; Records</summary>'+renderExercisePerformance(dbRef,exerciseId,false)+(stall?renderStallWatch(stall):'')+'</details>';
+  var repRows=hasLive?'<div class="record-current-note"><b>Current session records</b><br>'+live.map(function(e){return esc((e.side?e.side+' ':'')+e.display+' · '+e.detail);}).join('<br>')+'</div>':'';
+  return '<div class="workout-record-compact"><div><b>Prev:</b> '+esc(previousText)+'</div><div class="workout-pr-badge'+(hasLive?' is-live':'')+'"><b>'+label+' ★</b> '+esc(prText)+'</div></div>'+stallLine+
+    '<details class="workout-record-details"><summary>History &amp; Records</summary>'+repRows+renderExercisePerformance(dbRef,exerciseId,false)+(stall?renderStallWatch(stall):'')+'</details>';
 }
+
 function formatSessionSetLine(set) {
   var mode=set.measurementMode||(set.exId==='pullups'?(Number(set.weight)>0?'weighted_bodyweight_addition':'bodyweight'):'repetition');
   if(mode==='timed')return (Number(set.durationSeconds)||0)+' sec';
@@ -3017,7 +4311,59 @@ function getNextCoreDay(dbRef) {
 }
 function sessionLabelForDay(n){return DAYS[n]?DAYS[n].title:'Workout';}
 function getSessionLabel(sess){if(!sess)return 'Workout';if(sess.dayTitle)return sess.dayTitle;if(sess.programVersion===PRIOR_ACTIVE_VERSION)return ({1:'Chest + Side Delts',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back',5:'Legs'})[sess.dayN]||'Workout';if(sess.programVersion===PROGRAM_VERSION)return sessionLabelForDay(sess.dayN);return sess.title||sess.name||('Day '+sess.dayN);}
-function getBestWorkoutRecommendation(data,now){data=data||db;var at=toTimestamp(now)||Date.now();if(data.activeSession&&!data.activeSession.finished)return {dayN:data.activeSession.dayN,reason:'Resume your saved workout.',active:true};var weekday=new Date(at).getDay(),schedule={2:4,4:5,6:1,0:2},done=getCurrentWeekCompletedDays(data,at),n=schedule[weekday];if(weekday===3&&fifthDaySelected(data,at)&&!fifthDayAlreadyCovered(data,at))n=3;if(n&&!done[n])return {dayN:n,reason:n===5?'Your one focused leg day.':n===1?'Main chest session.':n===2?'Back width and detail.':n===3?'Tuesday accessories, moved here.':'Your second chest and back exposure.'};for(var i=1;i<=7;i++){var d=new Date(at);d.setDate(d.getDate()+i);n=schedule[d.getDay()];if(n)return {dayN:n,reason:'Next priority: '+DAYS[n].scheduleLabel+'. Choose another workout any time.'};}return {dayN:4,reason:'Chest-first upper-body session.'};}
+function trainingNeeds(data,now){
+  var at=toTimestamp(now)||Date.now(),cut=at-7*86400000,groups=['chest','back','side','rear','biceps','triceps','legs','abs'];
+  var counts={},last={},visits={},lastRole={},seen={};groups.forEach(function(k){counts[k]=0;last[k]=0;visits[k]=[];});
+  function groupFor(id){
+    if(['incline_dumbbell_press_30deg','low_incline_dumbbell_press_15deg','low_incline_dumbbell_press','flat_converging_chest_press','smith_press_15deg','pec_deck','low_to_high_cable_fly','mid_height_cable_fly'].indexOf(id)>=0)return 'chest';
+    if(['pullups','neutral_grip_lat_pulldown','single_arm_cable_lat_pulldown','chest_supported_row','chest_supported_mid_back_row','chest_supported_high_row','seated_neutral_grip_cable_lat_row','chest_supported_lat_biased_row','straight_arm_cable_pulldown'].indexOf(id)>=0)return 'back';
+    if(id==='cable_lateral_raise'||id==='machine_lateral_raise')return 'side';
+    if(id==='reverse_pec_deck'||id==='cable_rear_delt_fly')return 'rear';
+    if(['one_arm_dumbbell_preacher_curl','dumbbell_hammer_curl','preacher_curl','cable_curl'].indexOf(id)>=0)return 'biceps';
+    if(['overhead_cable_triceps_extension','rope_triceps_pushdown','underhand_cable_triceps_extension'].indexOf(id)>=0)return 'triceps';
+    if(['leg_press','seated_leg_curl','leg_curl','leg_extension','hip_thrust'].indexOf(id)>=0)return 'legs';
+    if(['weighted_floor_crunch','forearm_plank','dead_bug_full_exhale'].indexOf(id)>=0)return 'abs';
+    return null;
+  }
+  (data.completedSessions||[]).forEach(function(sess){
+    if(!sess||sess.finished!==true||!sess.id||seen[sess.id])return;seen[sess.id]=true;
+    var stamp=toTimestamp(sess.actualFinishedAt||sess.endTime||sess.startTime);if(!stamp||stamp>at)return;
+    var rows=(sess.sets||[]).filter(validCompletedNormal),per={},latest={};
+    rows.forEach(function(row){
+      var raw=row.exId||row.exerciseId;if(!raw)return;
+      // Mixed legacy pull-up/pulldown records are not used as precise exercise evidence.
+      var id=raw==='d2e1'?null:getHistoryExerciseId(raw),g=groupFor(id);if(!g)return;
+      var t=toTimestamp(row.timestamp)||stamp;if(t>at)return;
+      var side=normalizeSide(row.side),n=side==='L'||side==='R'?0.5:1;
+      per[g]=(per[g]||0)+n;latest[g]=Math.max(latest[g]||0,t);
+      if(t>=cut)counts[g]+=n;
+    });
+    Object.keys(per).forEach(function(g){if(per[g]>=2){last[g]=Math.max(last[g],latest[g]);visits[g].push({at:latest[g],sets:per[g]});}});
+    if(rows.length&&sess.programVersion===PROGRAM_VERSION)lastRole[sess.dayN]=Math.max(lastRole[sess.dayN]||0,stamp);
+  });
+  return {at:at,counts:counts,last:last,visits:visits,lastRole:lastRole};
+}
+function getBestWorkoutRecommendation(data,now){
+  data=data||db;var at=toTimestamp(now)||Date.now();
+  if(data.activeSession&&!data.activeSession.finished)return {dayN:data.activeSession.dayN,reason:'Resume your saved workout.',active:true};
+  var t=trainingNeeds(data,at),goals={chest:11,back:12,side:6,rear:3,biceps:2,triceps:2,legs:10,abs:4},need={};
+  Object.keys(goals).forEach(function(g){need[g]=Math.max(0,1-t.counts[g]/goals[g]);});
+  function recent(g){return t.last[g]&&at-t.last[g]<48*3600000;}
+  var candidates=[
+    {n:1,score:7*need.chest+need.side+.3*need.abs,blocked:recent('chest'),reason:'Chest is a priority in your recent training.'},
+    {n:4,score:4*need.chest+3*need.back+need.side+.4*need.biceps+.4*need.triceps,blocked:recent('chest')||recent('back'),reason:'A second chest and back exposure fits your recent training.'},
+    {n:2,score:5*need.back+need.rear,blocked:recent('back'),reason:'Back is the next priority in your recent training.'},
+    {n:5,score:6*need.legs+.4*need.abs,blocked:recent('legs'),reason:'Your focused leg session is due.'},
+    {n:3,score:2*need.side+need.rear+need.biceps+need.triceps,blocked:recent('side')||recent('biceps')||recent('triceps')||recent('chest')||recent('back'),reason:'Direct shoulders and arms have had less recent work.'}
+  ];
+  candidates.forEach(function(c){if(t.lastRole[c.n]&&at-t.lastRole[c.n]<48*3600000)c.blocked=true;});
+  var hasHistory=Object.keys(t.last).some(function(k){return t.last[k]>0;});
+  if(!hasHistory)return {dayN:1,reason:'Start with your main chest session. Choose any workout.'};
+  var eligible=candidates.filter(function(c){return !c.blocked&&c.score>.4;}).sort(function(a,b){return b.score-a.score;});
+  if(eligible.length){var best=eligible[0];return {dayN:best.n,reason:best.reason};}
+  var next=candidates.slice().sort(function(a,b){return b.score-a.score;})[0];
+  return {dayN:next.n,rest:true,reason:'Recent sessions cover your priorities. Recovery is a sensible option today.'};
+}
 
 
 function nextDay(dbRef) { return dbRef._nextDayOverride||getBestWorkoutRecommendation(dbRef).dayN; }
@@ -3076,82 +4422,40 @@ function fmtShortDate(ts) {
 // REST TIMER
 // ============================================================
 var Timer = (function() {
-  var _running = false;
-  var _start = 0;
-  var _target = 90;
-  var _elapsed = 0;
-  var _interval = null;
-  var _pill = null;
-
-  function _save() {
-    try {
-      localStorage.setItem(TIMER_KEY, JSON.stringify({
-        mode:'countup', running:_running, start:_start, target:_target
-      }));
-    } catch(e) {}
+  var running=false,startAt=0,target=90,interval=null,sessionId=null,label='REST',sourceSetId=null;
+  function format(seconds){var n=Math.max(0,Math.floor(Number(seconds)||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
+  function save(){try{localStorage.setItem(TIMER_KEY,JSON.stringify({version:2,mode:'countup',running:running,start:startAt,target:target,sessionId:sessionId,label:label,sourceSetId:sourceSetId}));}catch(e){/* Workout saving is independent; timer continues in memory. */}}
+  function element(){var el=document.getElementById('timer-pill');if(!el){el=document.createElement('div');el.id='timer-pill';el.className='hidden';document.body.appendChild(el);}return el;}
+  function render(){
+    var el=element(),ov=document.getElementById('workout-overlay'),active=typeof db!=='undefined'&&db&&db.activeSession;
+    var visibleWorkout=!!(ov&&!ov.classList.contains('hidden')&&active&&!active.finished);
+    if(visibleWorkout){var head=ov.querySelector('.wo-header');if(head&&el.parentNode!==ov)head.insertAdjacentElement('afterend',el);el.classList.add('workout-rest');}
+    else {if(el.parentNode!==document.body)document.body.appendChild(el);el.classList.remove('workout-rest');}
+    var belongs=!!active&&(!sessionId||active.id===sessionId);
+    el.classList.toggle('hidden',!running||!visibleWorkout||!belongs);
+    el.setAttribute('aria-label','Rest timer');el.setAttribute('role','group');
+    var elapsed=running?Math.max(0,(Date.now()-startAt)/1000):0;
+    el.innerHTML='<span class="tp-label">'+esc(label)+'<small>Target '+format(target)+'</small></span><span class="tp-time'+(elapsed>=target?' tp-urgent':'')+'" role="timer" aria-label="Elapsed rest">'+format(elapsed)+'</span><button type="button" class="tp-skip" onclick="Timer.skip()">Done</button>';
   }
-
-  function formatSeconds(seconds) {
-    var m = Math.floor(seconds / 60);
-    var s = Math.floor(seconds % 60);
-    return m + ':' + (s < 10 ? '0' : '') + s;
-  }
-
-  function _render() {
-    if (!_pill) _pill = document.getElementById('timer-pill');
-    if (!_pill) return;
-    _pill.classList.toggle('hidden', !_running);
-    _pill.innerHTML =
-      '<span class="tp-label">REST · target '+formatSeconds(_target)+'</span>' +
-      '<span class="tp-time' + (_elapsed >= _target ? ' tp-urgent' : '') + '">' + formatSeconds(_elapsed) + '</span>' +
-      '<button class="tp-skip" onclick="Timer.skip()">Done</button>';
-  }
-
-  function _tick() {
-    if (!_running) return;
-    _elapsed = Math.max(0, (Date.now() - _start) / 1000);
-    _render();
-  }
-
-  document.addEventListener('visibilitychange', function() {
-    if (!document.hidden && _running) _tick();
-  });
-
+  function tick(){if(running)render();}
+  function stop(){running=false;startAt=0;sourceSetId=null;sessionId=null;if(interval)clearInterval(interval);interval=null;save();render();}
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)tick();});
+  window.addEventListener('pageshow',function(){if(running)tick();});
   return {
-    start: function(seconds) {
-      if (_interval) clearInterval(_interval);
-      _target = seconds || 90;
-      _elapsed = 0;
-      _start = Date.now();
-      _running = true;
-      _interval = setInterval(_tick, 500);
-      _render(); _save();
-    },
-    restore: function() {
-      try {
-        var raw = localStorage.getItem(TIMER_KEY);
-        if (!raw) return;
-        var t = JSON.parse(raw);
-        if (!t.running) return;
-        _target = t.target || t.duration || 90;
-        _start = t.start;
-        _elapsed = Math.max(0, (Date.now() - _start) / 1000);
-        _running = true;
-        if (_interval) clearInterval(_interval);
-        _interval = setInterval(_tick, 500);
-        _render();
-      } catch(e) {}
-    },
-    skip: function() {
-      _running = false;
-      _elapsed = 0;
-      clearInterval(_interval); _interval = null;
-      _save();
-      _render();
-    },
-    isRunning: function() { return _running; },
+    start:function(seconds,context){context=context||{};if(interval)clearInterval(interval);target=Number(seconds)>0?Number(seconds):90;startAt=Date.now();running=true;sessionId=context.sessionId||(typeof db!=='undefined'&&db&&db.activeSession?db.activeSession.id:null);label=context.sideTransition?'SWITCH SIDE':'REST';sourceSetId=context.setId||null;interval=setInterval(tick,500);save();render();},
+    restore:function(){try{var t=JSON.parse(localStorage.getItem(TIMER_KEY)||'null');if(!t||!t.running||!Number.isFinite(Number(t.start))||Number(t.start)<=0||Number(t.start)>Date.now())return;var active=typeof db!=='undefined'&&db&&db.activeSession;if(!active||active.finished||t.sessionId&&t.sessionId!==active.id){stop();return;}target=Number(t.target||t.duration)>0?Number(t.target||t.duration):90;startAt=Number(t.start);running=true;sessionId=active.id;label=t.label==='SWITCH SIDE'?'SWITCH SIDE':'REST';sourceSetId=t.sourceSetId||null;if(interval)clearInterval(interval);interval=setInterval(tick,500);render();}catch(e){}},
+    skip:stop,stop:stop,refresh:render,isRunning:function(){return running;},
+    state:function(){return {running:running,start:startAt,target:target,elapsedSeconds:running?Math.max(0,(Date.now()-startAt)/1000):0,sessionId:sessionId,label:label,sourceSetId:sourceSetId};}
   };
 })();
+function startRestAfterSet(sess,set){
+  if(!sess||!set||set.setType==='warmup'||!set.completed||set.skipped)return;
+  var ex=getExerciseDef(set.exId,sess),slot=(sess.programmeSnapshot&&sess.programmeSnapshot.slots||[]).find(function(x){return x.slotId===set.slotId||x.exerciseId===set.exId;});
+  var transition=!!(ex.uni&&set.side&&sess.sets.some(function(r){return r.exId===set.exId&&r.setNum===set.setNum&&r.setType==='working'&&r.side&&r.side!==set.side&&!r.completed&&!r.skipped;}));
+  var seconds=transition?Number(ex.sideTransitionRest||slot&&slot.sideTransitionRest||15):Number(ex.rest||slot&&slot.rest||90);
+  Timer.start(seconds,{sessionId:sess.id,setId:set.id,sideTransition:transition});
+}
+
 
 // ============================================================
 // MAIN WORKOUT CLOCK ,  3 HOUR CAP
@@ -3214,16 +4518,31 @@ function renderMomentumAchievements(data){
 
 
 
+
 function recordMomentumEvent(data,sourceId,before,after){
- if(!sourceId||!before||!after||after.stage<=before.stage)return null;
+ if(!sourceId||!before||!after)return null;
  data.momentumCelebrationEvents=Array.isArray(data.momentumCelebrationEvents)?data.momentumCelebrationEvents:[];
  if(data.momentumCelebrationEvents.some(function(e){return e.sourceId===sourceId;}))return null;
- var e=after.stage>=5?{type:'elysium',icon:'✦',kicker:'5 gym visits in your run',title:'ELYSIUM MODE',detail:'Temporary multicolour Momentum is live.',colour:'#d3b2ff'}:
-       after.stage>=4?{type:'four',icon:'✦',kicker:'4 gym visits in your run',title:'CHARGED',detail:'Magenta Momentum is live.',colour:'#ef84d5'}:
-       after.stage>=3?{type:'three',icon:'⚡',kicker:'3 gym visits in your run',title:'LOCKED IN',detail:'Violet Momentum is live.',colour:'#a78bfa'}:
-       after.stage>=2?{type:'two',icon:'↗',kicker:'2 gym visits in your run',title:'IGNITED',detail:'Cyan Momentum is live.',colour:'#66e0ff'}:null;
+ var week=localDateKey(weekStart(new Date(after.today+'T12:00:00').getTime()));
+ var weeklyKey=null,e=null;
+ if(before.activeThisWeek<5&&after.activeThisWeek>=5){
+   weeklyKey='momentum-week-bonus:'+week;
+   e={type:'week_bonus',icon:'✦',kicker:'5 gym visits this week',title:'BONUS ACHIEVED',detail:'Five visits logged. Recovery is part of the plan.',colour:'#d3b2ff'};
+ }else if(before.activeThisWeek<4&&after.activeThisWeek>=4){
+   weeklyKey='momentum-week-win:'+week;
+   e={type:'week_four',icon:'✦',kicker:'4 gym visits this week',title:'WEEK WON',detail:'Your weekly goal is met. Fifth is a bonus.',colour:'#ef84d5'};
+ }
+ if(weeklyKey&&data.momentumCelebrationEvents.some(function(event){return event.eventId===weeklyKey;}))return null;
+ if(!e){
+   if(after.stage<=before.stage)return null;
+   e=after.stage>=5?{type:'elysium',icon:'✦',kicker:'5 gym visits in your run',title:'ELYSIUM MODE',detail:'Temporary multicolour Momentum is live.',colour:'#d3b2ff'}:
+     after.stage>=4?{type:'four',icon:'✦',kicker:'4 gym visits in your run',title:'CHARGED',detail:'Magenta Momentum is live.',colour:'#ef84d5'}:
+     after.stage>=3?{type:'three',icon:'⚡',kicker:'3 gym visits in your run',title:'LOCKED IN',detail:'Violet Momentum is live.',colour:'#a78bfa'}:
+     after.stage>=2?{type:'two',icon:'↗',kicker:'2 gym visits in your run',title:'IGNITED',detail:'Cyan Momentum is live.',colour:'#66e0ff'}:null;
+ }
  if(!e)return null;
- e.eventId='momentum:'+sourceId;e.sourceId=sourceId;e.achievedAt=Date.now();e.streak=after.streak;e.activeThisWeek=after.activeThisWeek;data.momentumCelebrationEvents.push(e);return e;
+ e.eventId=weeklyKey||'momentum:'+sourceId;e.sourceId=sourceId;e.achievedAt=Date.now();e.streak=after.streak;e.activeThisWeek=after.activeThisWeek;
+ data.momentumCelebrationEvents.push(e);return e;
 }
 var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('momentum-celebration-layer');if(el)el.remove();}function chime(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});[523,659,784,1047].forEach(function(f,i){var o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.065;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.24);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.25);});}catch(e){}}function show(e){if(!e)return;var p=getMomentumPreferences();if(!p.celebrations&&!p.sound&&!p.haptics)return;if(p.sound)chime();if(p.haptics&&typeof navigator.vibrate==='function'){try{navigator.vibrate([30,45,55]);}catch(err){}}if(!p.celebrations)return;clear();var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,layer=document.createElement('div');layer.id='momentum-celebration-layer';layer.className='momentum-celebration-layer';var card=document.createElement('div');card.className='momentum-celebration-card'+(e.type==='elysium'?' is-elysium':'');card.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');card.setAttribute('role','status');card.setAttribute('aria-live','polite');[['momentum-celebration-icon',e.icon],['momentum-celebration-kicker',e.kicker],['momentum-celebration-title',e.title],['momentum-celebration-detail',e.detail]].forEach(function(pair){var n=document.createElement('div');n.className=pair[0];n.textContent=pair[1];card.appendChild(n);});layer.appendChild(card);if(!reduce){for(var i=0;i<22;i++){var bit=document.createElement('i');bit.className='momentum-confetti';bit.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');bit.style.setProperty('--dx',((i%11)-5)*34+'px');bit.style.setProperty('--rot',((i*67)%360)+'deg');bit.style.setProperty('--delay',(i%5)*.025+'s');layer.appendChild(bit);}}document.body.appendChild(layer);timer=setTimeout(clear,2350);}return {show:show,clear:clear,preview:function(){show({type:'elysium',icon:'✦',kicker:'5 gym visits',title:'ELYSIUM MODE',detail:'A temporary five-visit colour milestone.',colour:'#d3b2ff'});}};})();
 
@@ -3231,18 +4550,15 @@ var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){i
 // TODAY SCREEN
 // ============================================================
 function renderToday(data){
- var active=data.activeSession&&!data.activeSession.finished,rec=getBestWorkoutRecommendation(data),day=DAYS[rec.dayN],home=getHomeLog(data,localDateKey(),false)||{items:{}},done=HOME_ROUTINE.filter(function(i){return !!home.items[i.id];}).length;
- var momentum=renderMomentumCard(data);
- var card='<section class="today-day-card"><div class="tdc-kicker">'+(active?'Workout in progress':'Recommended workout')+'</div><h2 class="today-workout-title">'+esc(active?getSessionLabel(data.activeSession):day.title)+'</h2><p class="today-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="'+(active?'App.resumeWorkout()':'App.startWorkout('+rec.dayN+',false)')+'">'+(active?'Resume workout':'Start workout')+'</button></section>';
- var recovery=getMomentumState(data);
- if(!active&&recovery.protectedToday){
-   var nextLift=Engagement.scheduleRows(data).find(function(r){return r.id&&r.date>recovery.today;})||Engagement.scheduleRows(data,Date.now()+7*86400000).find(function(r){return r.id;});
-   card='<section class="today-day-card"><div class="tdc-kicker">Recovery day</div><h2 class="today-workout-title">Rest is part of the plan.</h2><p class="today-reason">Momentum protected. Next lift: '+esc(nextLift?nextLift.day+', '+nextLift.title:'choose when ready')+'.</p><button class="btn-primary btn-xl" onclick="App.showScreen(\'home\')">Open Home routine</button></section>';
- }
- var choices=ALL_DAY_NUMBERS.map(function(n){return '<article class="today-choice"><div><strong>'+esc(DAYS[n].title)+(n===3?' · optional':'')+'</strong><span>'+esc(DAYS[n].scheduleLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';}).join('');
- var homeCard='<div class="today-home-card"><div class="thc-icon">⌂</div><div class="thc-main"><div class="thc-kicker">Daily Home Routine</div><div class="thc-title">Maximum 7 minutes</div><div class="thc-meta">'+done+' / '+HOME_ROUTINE.length+' complete today</div></div><button class="thc-open" onclick="App.showScreen(\'home\')">Open</button></div>';
- return '<div class="today-wrap">'+renderStorageNotice()+momentum+card+'<details class="today-picker"><summary class="tp-sum">Choose another workout</summary><div class="tp-body">'+choices+'</div></details><div class="today-shortcuts"><button class="btn-ghost" onclick="Cardio.open()">Cardio</button></div>'+homeCard+(localDateKey()>PROGRAMME_END_DATE?'<p class="addex-muted">Block complete. Workouts and history remain available.</p>':'')+'<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button onclick="App.checkForUpdates()">Check for updates</button><span id="today-update-status" aria-live="polite"></span></div></div>';
+  var active=data.activeSession&&!data.activeSession.finished,rec=getBestWorkoutRecommendation(data),day=DAYS[rec.dayN],home=getHomeLog(data,localDateKey(),false)||{items:{}},done=HOME_ROUTINE.filter(function(i){return !!home.items[i.id];}).length;
+  var momentum=renderMomentumCard(data),title=active?getSessionLabel(data.activeSession):rec.rest?'Recovery is part of progress':day.title;
+  var action=active?'App.resumeWorkout()':rec.rest?'Cardio.open()':'App.startWorkout('+rec.dayN+',false)';
+  var card='<section class="today-day-card"><div class="tdc-kicker">'+(active?'Workout in progress':rec.rest?'Recovery option':'Recommended workout')+'</div><h2 class="today-workout-title">'+esc(title)+'</h2><p class="today-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="'+action+'">'+(active?'Resume workout':rec.rest?'Open Cardio':'Start workout')+'</button></section>';
+  var choices=ALL_DAY_NUMBERS.map(function(n){return '<article class="today-choice"><div><strong>'+esc(DAYS[n].title)+(n===3?' · optional':'')+'</strong><span>'+esc(DAYS[n].durationLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></article>';}).join('');
+  var homeCard='<div class="today-home-card"><div class="thc-icon">⌂</div><div class="thc-main"><div class="thc-kicker">Daily Home Routine</div><div class="thc-title">Maximum 7 minutes</div><div class="thc-meta">'+done+' / '+HOME_ROUTINE.length+' complete today</div></div><button class="thc-open" onclick="App.showScreen(\'home\')">Open</button></div>';
+  return '<div class="today-wrap">'+renderStorageNotice()+momentum+card+'<details class="today-picker"><summary class="tp-sum">Choose another workout</summary><div class="tp-body">'+choices+'</div></details><div class="today-shortcuts"><button class="btn-ghost" onclick="Cardio.open()">Cardio</button></div>'+homeCard+(localDateKey()>PROGRAMME_END_DATE?'<p class="addex-muted">Block complete. Workouts and history remain available.</p>':'')+'<div class="today-app-meta"><span>App v'+APP_VERSION+'</span><button onclick="App.checkForUpdates()">Check for updates</button><span id="today-update-status" aria-live="polite"></span></div></div>';
 }
+
 
 // ============================================================
 // WORKOUT INIT
@@ -3285,7 +4601,9 @@ function renderNonHypertrophyCard(exId, sess, ex, exState) {
   var activity = getActivitySet(sess, exId) || {completed:false,skipped:false};
   var done = !!(activity.completed || activity.skipped);
   var noteVal = (sess.exNotes && sess.exNotes[exId]) || '';
-  var cues = ex.cues && ex.cues.length ? '<ul class="activity-cues">'+ex.cues.map(function(c){ return '<li>'+esc(c)+'</li>'; }).join('')+'</ul>' : '';
+  var reviewed = getReviewedCoaching(ex);
+  var activityNote = reviewed ? reviewed.activityNote : ex.hard;
+  var cues = renderCoachingTips(ex, sess, null);
   var action = activity.completed
     ? '<button class="btn-ghost btn-sm" onclick="App.toggleOptionalActivity(\''+exId+'\')">Mark incomplete</button>'
     : '<button class="btn-primary btn-sm" onclick="App.toggleOptionalActivity(\''+exId+'\')">Mark complete</button>';
@@ -3293,7 +4611,7 @@ function renderNonHypertrophyCard(exId, sess, ex, exState) {
   return '<div class="ex-card ex-card--activity'+(done?' ex-card--done':'')+'" id="exc-'+exId+'">' +
     '<div class="activity-head"><div><span class="exc-name">'+esc(ex.name)+'</span><span class="exc-target">'+esc(ex.target)+'</span></div>' +
       '<span class="optional-day-tag">OPTIONAL</span></div>' +
-    '<div class="activity-meta">'+esc(ex.hard || 'Track completion only. This does not count as a working set.')+'</div>' +
+    '<div class="activity-meta">'+esc(activityNote || 'Track completion only. This does not count as a working set.')+'</div>' +
     durationInput+
     cues +
     '<div class="activity-actions">'+action+(activity.skipped?' <span class="addex-muted">Skipped</span>':'')+'</div>' +
@@ -3345,7 +4663,7 @@ function renderWorkout(db) {
       '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
     '</div>' +
     '<div class="wo-body" id="wo-body">' +
-      timerCapBanner + rushedControl + '<div id="eng-challenge">'+Engagement.renderChallenge(db,sess)+'</div>' +
+      timerCapBanner + '<div class="workout-tools"><button type="button" class="btn-ghost btn-sm" onclick="App.chooseWorkout()">Change workout</button><button type="button" class="btn-ghost btn-sm" onclick="App.startRest()">Rest timer</button></div>'+rushedControl + '<div id="eng-challenge">'+Engagement.renderChallenge(db,sess)+'</div>' +
       exerciseIds.map(function(exId) {
         var _dn=isExerciseComplete(sess, exId);
         var _st=_dn?'done':(exId===sess.currentExId?'current':'future');
@@ -3359,7 +4677,9 @@ function renderWorkout(db) {
       '</div>' +
     '</div>';
   ov.classList.remove('hidden');
-  SessionClock.start();
+  if(typeof Cardio!=='undefined')Cardio.onNavigate('workout');
+  document.body.classList.add('workout-view');
+  SessionClock.start();Timer.refresh();
   syncStorageNotice();
 
   // Auto-scroll to first incomplete exercise
@@ -3879,7 +5199,7 @@ function renderHome(dbRef) {
     var checked = !!log.items[item.id];
     var isMobility=item.id==='adductor_rockback',name=isMobility?(mobility==='adductor'?'Adductor Rock-Back':'Thoracic Extension over a Stable Chair or Sofa Edge'):item.name;
     var dose=isMobility?(mobility==='adductor'?'5 slow reps each side':'5 slow, comfortable extensions'):item.dose;
-    var cue=isMobility?(mobility==='adductor'?'Today: controlled adductor rock-backs. Tomorrow alternates to thoracic extension.':'Today: controlled thoracic extension over a stable chair or sofa edge. Tomorrow alternates to adductor rock-backs.'):item.cue;
+    var cue=getHomeCoachingCue(item,isMobility?mobility:null);
     return '<button class="home-item'+(checked?' is-done':'')+'" onclick="App.toggleHomeItem(\''+item.id+'\')">'+
       '<span class="home-check">'+(checked?'✓':'')+'</span><span class="home-item-main">'+
       '<span class="home-item-name">'+esc(name)+'</span><span class="home-item-dose">'+esc(dose)+'</span>'+
@@ -3899,12 +5219,14 @@ function renderHome(dbRef) {
 // PROGRAM SCREEN
 // ============================================================
 function renderProgram(){
- var intro='<div class="prog-hero"><h1 class="prog-title">Chest Priority</h1><p class="prog-sub">Four complete sessions through 30 November. One focused leg day. Choose or reschedule any workout.</p></div>';
- var cards=CORE_DAY_NUMBERS.map(function(n){var day=DAYS[n],slots=getProgrammeSlots(n,null,null,db),count=slots.reduce(function(t,s){return t+s.sets;},0),special=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise. Later visits return to three sets for hip thrust, leg press and leg curl.</p>':n===4&&fifthDaySelected(db)?'<p class="fifth-note">Shoulders and arms moved to Wednesday this week.</p>':'';return '<article class="prog-session"><div class="schedule-kicker">'+esc(day.scheduleLabel)+'</div><h2>'+esc(day.title)+'</h2><p>'+slots.length+' exercises · '+(n===2?'11 lifting sets + 2 holds':count+' working rounds')+' · '+esc(day.durationLabel)+'</p>'+special+'<button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button><details><summary>Exercises &amp; tips</summary>'+renderPlanList(slots)+'</details></article>';}).join('');
- var selected=fifthDaySelected(db),fifth='<details class="prog-session"><summary>Optional fifth day: shoulders + arms</summary><p>Move Tuesday lateral raises, triceps and preacher curls here, then add only two rear-delt sets. Decide before Tuesday. Unexpected extra visit after those sets are done: cardio or posing instead.</p><button class="btn-ghost btn-sm" onclick="toggleFifthDay()">'+(selected?'Return to four days this week':'Split Tuesday accessories this week')+'</button><p class="fifth-note">This choice applies only to newly started workouts. Your active workout never changes.</p>'+renderPlanList(getProgrammeSlots(3,null,null,db))+'<button class="btn-primary btn-sm" onclick="App.startWorkout(3,true)">Start remaining accessories</button></details>';
- var guide='<details class="prog-session"><summary>Progression and final-week guidance</summary><p>Use repeatable technique and rest. Add reps before load; increase after all normal sets reach the top of the range. Prefill is a previous result, not an instruction. No compulsory RIR entry.</p><p>First week: no drop sets. Before your first wedding event, use less volume, familiar exercises and no failure attempts. Do not use dehydration or a last-minute volume surge.</p><p>Cardio is separate: build toward 150 moderate minutes and one interval option, introduced gradually. The Home routine stays at seven minutes.</p></details>';
- return '<div class="prog-wrap prog-simple">'+intro+'<div class="eng-shortcuts program-tools"><button class="btn-ghost" onclick="Engagement.openSchedule()"><span class="eng-icon">▦</span>Weekly schedule</button><button class="btn-ghost" onclick="Engagement.openVault()"><span class="eng-icon">✦</span>Momentum colours</button></div>'+cards+fifth+guide+'</div>';
+  var intro='<div class="prog-hero"><h1 class="prog-title">Chest Priority</h1><p class="prog-sub">Choose any workout. Recommendations use recent logged work, not fixed weekdays.</p></div>';
+  var cards=[1,2,4,5,3].map(function(n){var day=DAYS[n],slots=getProgrammeSlots(n,null,null,db),count=slots.reduce(function(t,s){return t+s.sets;},0),note=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise.</p>':n===3?'<p class="fifth-note">Cable lateral raises stay in this workout. Avoid duplicating a full accessory session straight after similar work.</p>':'';
+    return '<article class="prog-session"><div class="schedule-kicker">'+(n===3?'Optional focused session':'Core session')+'</div><h2>'+esc(day.title)+'</h2><p>'+slots.length+' exercises · '+(n===2?'11 lifting sets + 2 holds':count+' working rounds')+' · '+esc(day.durationLabel)+'</p>'+note+'<button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button><details><summary>Exercises &amp; tips</summary>'+renderPlanList(slots)+'</details></article>';}).join('');
+  var guide='<details class="prog-session"><summary>Progression</summary><p>Keep the setup and range repeatable. Add reps before load. Prefill is a previous result, not an instruction. Use Rushed Mode when needed.</p><p>Keep one focused leg session, two chest exposures and your back work across roughly seven days. A fifth visit can focus on shoulders and arms or cardio. Do not duplicate volume to chase a colour.</p></details>';
+  return '<div class="prog-wrap prog-simple">'+intro+'<div class="eng-shortcuts program-tools"><button class="btn-ghost" onclick="Engagement.openSchedule()"><span class="eng-icon">▦</span>Training guide</button><button class="btn-ghost" onclick="Engagement.openVault()"><span class="eng-icon">✦</span>Momentum colours</button></div>'+cards+guide+'</div>';
 }
+
+
 function renderPlanList(slots){return '<ol class="prog-mini-list">'+slots.map(function(slot,i){var ex=getExerciseDef(slot.exerciseId,null,db);return '<li>'+String(i+1)+'. '+esc(ex.name)+'<span>'+slot.sets+' × '+slot.min+'-'+slot.max+(slot.trackingUnit==='seconds'?' seconds':slot.unilateral?' per side':' reps')+' · '+esc(fmtRestRange(slot.restMin,slot.restMax))+' rest</span>'+renderCoachingTips(ex,null,slot)+'</li>';}).join('')+'</ol>';}
 
 
@@ -3921,7 +5243,7 @@ function renderProgExCard(slot,idx,dayN) {
     '<div class="pe-badge"><span class="pb-l">Rest</span><span class="pb-v">'+restLabel+'</span></div>'+
     '<div class="pe-badge pe-badge--target"><span class="pb-l">Target</span><span class="pb-v">'+esc(ex.target||'')+'</span></div></div>'+
     specialBox+optBox+loadBox+rangeBox+
-    mkProgColl('pcue-'+slot.slotId,'Form cues',ex.cues.length,'<ul class="pe-list">'+ex.cues.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>')+
+    renderCoachingTips(ex,null,slot)+
     mkProgColl('pnote-'+slot.slotId,'Notes',null,'<div class="pe-tnf"><b>Effort guidance</b> '+esc(slot.effortNote||'Compound sets generally finish with one or two controlled repetitions available; final isolation sets may reach comfortable technical failure.')+'</div><div class="pe-tnf">Rep ranges guide progression; completed sets outside the range remain valid recorded work.</div>')+
     mkProgColl('perr-'+slot.slotId,'Likely mistakes',ex.mistakes.length,'<ul class="pe-list pe-mist">'+ex.mistakes.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul>')+
     (ex.hard?'<div class="pe-hard"><span class="pe-hard-l">Important</span> '+esc(ex.hard)+'</div>':'')+'</div>';
@@ -4045,6 +5367,7 @@ var App = (function() {
       el.dataset.rendered = '1';
     }
     window._currentScreen = name;
+    Timer.refresh();
     syncStorageNotice();
   }
 
@@ -4099,22 +5422,44 @@ var App = (function() {
     showScreen('today');
   }
 
-  function startWorkout(dayN,manualSelection) {
-    if(!canPersistUserChanges())return;
-    if (db.activeSession && !db.activeSession.finished) {
-      alert('A saved workout is active. Finish or explicitly discard it before starting another.');resumeWorkout();return;
-    }
-    if(Number(dayN)===3&&!currentTuesdaySessions(db).length&&!fifthDaySelected(db)){if(!confirm('Move Tuesday accessories into this optional workout this week? Tuesday will then contain only press, pulldown and row.'))return;db.settings.fifthDayWeeks=db.settings.fifthDayWeeks||{};db.settings.fifthDayWeeks[currentWeekKey()]=true;}
-    if(Number(dayN)===3&&fifthDayAlreadyCovered(db)){alert('Tuesday already covered these shoulder and arm sets. Use Cardio or posing for an unexpected extra visit.');return;}
-    var sess = createSession(Number(dayN),!!manualSelection||!!db._nextDayOverride);
-    sess.sets = initWorkoutSets(dayN, db, sess);
-    Engagement.prepareChallenge(db,sess);
-    sess.exNotes = {};
-    delete db._nextDayOverride;
-    db.activeSession = sess;
-    dbSave(db);
-    openWorkoutOverlay();
+  var pendingWorkoutSwitch=null;
+  function closeWorkoutSwitch(){var el=document.getElementById('workout-switch-overlay');if(el){document.body.style.overflow=el.dataset.oldOverflow||'';el.remove();}pendingWorkoutSwitch=null;}
+  function switchPanel(title,body){
+    var old=document.getElementById('workout-switch-overlay'),overflow=old?old.dataset.oldOverflow:document.body.style.overflow;if(old)old.remove();
+    var layer=document.createElement('div');layer.id='workout-switch-overlay';layer.className='workout-switch-layer';layer.dataset.oldOverflow=overflow||'';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','workout-switch-title');
+    layer.innerHTML='<section class="workout-switch-card"><div class="workout-switch-head"><h2 id="workout-switch-title">'+esc(title)+'</h2><button type="button" class="eng-close" aria-label="Close" onclick="App.closeWorkoutSwitch()">×</button></div>'+body+'</section>';
+    layer.addEventListener('click',function(e){if(e.target===layer)closeWorkoutSwitch();});
+    layer.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeWorkoutSwitch();}if(e.key==='Tab'){var nodes=Array.from(layer.querySelectorAll('button:not([disabled])')),a=nodes[0],b=nodes[nodes.length-1];if(!a)return;if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus();}else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus();}}});
+    document.body.appendChild(layer);document.body.style.overflow='hidden';var focus=layer.querySelector('[data-switch-cancel]')||layer.querySelector('button');if(focus)focus.focus();
   }
+  function chooseWorkout(){
+    if(db.activeSession)flushVisibleSetDrafts();
+    var rows=ALL_DAY_NUMBERS.map(function(n){return '<article class="today-choice"><div><strong>'+esc(DAYS[n].title)+'</strong><span>'+esc(DAYS[n].durationLabel)+'</span></div><button class="btn-ghost btn-sm" onclick="App.startWorkout('+n+',true)">Choose</button></article>';}).join('');
+    switchPanel('Choose a workout',rows+(db.activeSession?'<button class="switch-discard-only" onclick="App.discardSession()">Discard current workout</button>':''));
+  }
+  function commitWorkoutStart(dayN,manualSelection){
+    if(!canPersistUserChanges()||!DAYS[dayN])return;
+    var oldActive=db.activeSession,oldOverride=db._nextDayOverride;
+    var sess=createSession(Number(dayN),!!manualSelection||!!db._nextDayOverride);sess.sets=initWorkoutSets(dayN,db,sess);sess.exNotes={};
+    try{Engagement.prepareChallenge(db,sess);}catch(e){console.warn('Optional workout challenge unavailable:',e.message);}
+    delete db._nextDayOverride;db.activeSession=sess;invalidatePerformanceCaches(db);
+    if(!dbSave(db)){db.activeSession=oldActive;if(oldOverride!==undefined)db._nextDayOverride=oldOverride;invalidatePerformanceCaches(db);closeWorkoutSwitch();syncStorageNotice();return;}
+    Timer.skip();SessionClock.stop();closeWorkoutSwitch();openWorkoutOverlay();
+  }
+  function startWorkout(dayN,manualSelection){
+    dayN=Number(dayN);if(!DAYS[dayN]||!canPersistUserChanges())return;
+    if(db.activeSession&&!db.activeSession.finished){
+      flushVisibleSetDrafts();var current=db.activeSession;var count=(current.sets||[]).filter(validCompletedNormal).length;
+      pendingWorkoutSwitch={dayN:dayN,manual:!!manualSelection,sessionId:current.id};
+      var note=count?'This discards the current workout, including '+count+' logged set '+(count===1?'entry':'entries')+'. Saved workout history is not changed.':'Discard this unfinished workout and start '+DAYS[dayN].title+'?';
+      switchPanel('Switch to '+DAYS[dayN].title+'?', '<p class="switch-note">'+esc(note)+'</p><div class="switch-actions"><button data-switch-cancel class="btn-ghost" onclick="App.closeWorkoutSwitch()">Keep current workout</button><button class="btn-primary" onclick="App.confirmWorkoutSwitch()">Discard &amp; switch</button></div>');return;
+    }
+    commitWorkoutStart(dayN,manualSelection);
+  }
+  function confirmWorkoutSwitch(){var pending=pendingWorkoutSwitch;if(!pending||!db.activeSession||db.activeSession.id!==pending.sessionId){closeWorkoutSwitch();return;}flushVisibleSetDrafts();commitWorkoutStart(pending.dayN,pending.manual);}
+  function startRest(){var sess=db.activeSession;if(!sess||sess.finished)return;var id=sess.currentExId||getSessionExerciseIds(sess)[0],ex=getExerciseDef(id,sess);Timer.start(ex&&ex.rest||90,{sessionId:sess.id});}
+
+
 
   function addSundayLateralMakeup(rounds) {
     if(!canPersistUserChanges())return;
@@ -4134,34 +5479,25 @@ var App = (function() {
     openWorkoutOverlay();
   }
 
-  function discardSession() {
-    if (!confirm('Discard the current workout session? This cannot be undone.')) return;
-    SessionClock.stop();
-    db.activeSession = null;
-    dbSave(db);
-    showScreen('today');
+  function discardSession(){
+    if(!db.activeSession||!canPersistUserChanges())return;flushVisibleSetDrafts();
+    if(!confirm('Discard this active workout and its logged sets? Previously saved workouts stay unchanged.'))return;
+    var previous=db.activeSession;db.activeSession=null;invalidatePerformanceCaches(db);
+    if(!dbSave(db)){db.activeSession=previous;invalidatePerformanceCaches(db);syncStorageNotice();return;}
+    closeWorkoutSwitch();Timer.skip();SessionClock.stop();document.getElementById('workout-overlay').classList.add('hidden');document.getElementById('bottom-nav').classList.remove('hidden');document.body.style.overflow='';document.body.classList.remove('workout-view');showScreen('today');
+  }
+  function openWorkoutOverlay(){
+    // Cardio's hiding class must never survive a return to lifting.
+    if(typeof Cardio!=='undefined')Cardio.onNavigate('workout');
+    document.body.classList.remove('cardio-view');document.body.classList.add('workout-view');
+    renderWorkout(db);document.getElementById('workout-overlay').classList.remove('hidden');document.getElementById('bottom-nav').classList.add('hidden');document.body.style.overflow='hidden';Timer.refresh();
+  }
+  function closeWorkout(){
+    if(db.activeSession&&!db.activeSession.finished){flushVisibleSetDrafts();dbSave(db);}
+    SessionClock.stop();document.getElementById('workout-overlay').classList.add('hidden');document.getElementById('bottom-nav').classList.remove('hidden');document.body.style.overflow='';document.body.classList.remove('workout-view');showScreen('today');Timer.refresh();
   }
 
-  function openWorkoutOverlay() {
-    renderWorkout(db);
-    document.getElementById('workout-overlay').classList.remove('hidden');
-    document.getElementById('bottom-nav').classList.add('hidden');
-    document.body.style.overflow = 'hidden';
-  }
 
-  function closeWorkout() {
-    SessionClock.stop();
-    if (db.activeSession && !db.activeSession.finished) {
-      var completedAny = db.activeSession.sets.some(function(s){ return s.completed; });
-      if (completedAny) {
-        if (!confirm('Leave workout? Your logged sets are saved. You can resume later.')) return;
-      }
-    }
-    document.getElementById('workout-overlay').classList.add('hidden');
-    document.getElementById('bottom-nav').classList.remove('hidden');
-    document.body.style.overflow = '';
-    showScreen('today');
-  }
 
   function applyRushedMode() {
     if (!db.activeSession || db.activeSession.rushedModeApplied) return;
@@ -4276,20 +5612,16 @@ var App = (function() {
     flushVisibleSetDrafts();
     var definition=getExerciseDef(s.exId,db.activeSession);
     if(definition.timed||s.measurementMode==='timed'){if(!(Number(s.durationSeconds)>0)){alert('Enter seconds held first.');return;}}else if(!(Number(s.reps)>0)){alert('Enter reps before logging.');return;}
-    var candidate=evaluateSetAchievement(db,db.activeSession,s);var priorState=Object.assign({},s);
+    var candidate=null;try{candidate=evaluateSetAchievement(db,db.activeSession,s);}catch(e){console.warn('Optional PR check unavailable:',e.message);}var priorState=Object.assign({},s);
     s.completed=true;s.draftTouched=true;s.startedAt=s.startedAt||Date.now();s.rir=null;s.timestamp=Date.now();invalidatePerformanceCaches(db);
-    var achievement=recordSetAchievement(db,db.activeSession,s,candidate);
+    var achievement=null;try{achievement=recordSetAchievement(db,db.activeSession,s,candidate);}catch(e){console.warn('Optional PR record unavailable:',e.message);}
     if(!dbSave(db)){Object.keys(s).forEach(function(k){delete s[k];});Object.assign(s,priorState);if(achievement&&achievement.eventId)db.prCelebrationEvents=db.prCelebrationEvents.filter(function(e){return e.eventId!==achievement.eventId;});alert('Set could not be saved. Check storage; export a backup.');return;}
-    refreshExercisePerformance(s.exId,s.slotId);
-    Engagement.checkChallenge(db,db.activeSession);
-    if(achievement)PRCelebration.show(achievement);
-    rerenderSetRow(setId);
     var ex=getExerciseDef(s.exId,db.activeSession),sess=db.activeSession,exId=s.exId;
-    if (ex && s.setType !== 'warmup') {
-      var restSeconds=ex.rest;
-      if (ex.sideTransitionRest && s.side==='L' && sess.sets.some(function(pair){return pair.exId===s.exId&&pair.setNum===s.setNum&&pair.side==='R'&&!pair.completed&&!pair.skipped;})) restSeconds=ex.sideTransitionRest;
-      Timer.start(restSeconds);
-    }
+    startRestAfterSet(sess,s);
+    try{refreshExercisePerformance(s.exId,s.slotId);}catch(e){console.warn('Performance display unavailable:',e.message);}
+    try{Engagement.checkChallenge(db,sess);}catch(e){console.warn('Optional challenge unavailable:',e.message);}
+    if(achievement){try{PRCelebration.show(achievement);}catch(e){console.warn('Optional PR animation unavailable:',e.message);}}
+    try{rerenderSetRow(setId);}catch(e){console.warn('Set display refresh unavailable:',e.message);}
     var exerciseIds=getSessionExerciseIds(sess);
     setTimeout(function() {
       if(db.activeSession!==sess||sess.finished)return;
@@ -4382,26 +5714,30 @@ var App = (function() {
   }
 
   function addWorkingSet(exId) {
-    if (!db.activeSession) return;
-    var ex = getExerciseDef(exId, db.activeSession);
-    if (!ex) return;
-    var exWS = db.activeSession.sets.filter(function(s){ return s.exId===exId&&s.setType==='working'; });
-    var nextNum = exWS.length ? Math.max.apply(null,exWS.map(function(s){return s.setNum||1;}))+1 : (ex.sDef+1);
-    var slot=(db.activeSession.programmeSnapshot&&db.activeSession.programmeSnapshot.slots||[]).find(function(item){return item.exerciseId===exId||(db.activeSession.substitutions&&db.activeSession.substitutions[exId]===item.exerciseId);});
-    function mkAdded(side) {
-      var ref = exWS.filter(function(s){return s.side===(side||null);});
-      ref = ref[ref.length-1] || exWS[exWS.length-1];
-      var ns = createSet(exId, nextNum, 'working', side||null);
-      ns.weight = ref ? ref.weight : 0; ns.reps = ref ? ref.reps : ex.rMin;
-      if(ex.timed){ns.measurementMode='timed';ns.durationSeconds=ref&&ref.durationSeconds||ex.rMin;ns.reps=0;}
-      ns.rir = null; ns.suggestedWeight = ns.weight; ns.suggestedReps = ns.reps; ns.isAdded = true;
+    if(!db.activeSession||!canPersistUserChanges())return;
+    flushVisibleSetDrafts();
+    var sess=db.activeSession,ex=getExerciseDef(exId,sess);if(!ex)return;
+    var existing=sess.sets.filter(function(r){return r.exId===exId&&r.setType==='working';});
+    var nextNum=existing.length?Math.max.apply(null,existing.map(function(r){return Number(r.setNum)||1;}))+1:1;
+    var slot=(sess.programmeSnapshot&&sess.programmeSnapshot.slots||[]).find(function(r){return r.exerciseId===exId||sess.substitutions&&sess.substitutions[exId]===r.exerciseId;});
+    var prior=getExactLastPerformance(db,exId),history=prior&&prior.records||[];
+    function make(side){
+      var candidates=existing.filter(function(r){return normalizeSide(r.side)===side&&validCompletedNormal(r);});
+      candidates.sort(function(a,b){return (toTimestamp(b.timestamp)||0)-(toTimestamp(a.timestamp)||0)||Number(b.setNum)-Number(a.setNum);});
+      var ref=candidates[0]||null,fromHistory=false;
+      if(!ref){var matching=history.filter(function(r){return r.side===side;}).sort(function(a,b){return (Number(b.setNumber)||0)-(Number(a.setNumber)||0)||b.sequence-a.sequence;});ref=matching[0]||null;fromHistory=!!ref;}
+      var ns=createSet(exId,nextNum,'working',side);
+      ns.weight=ref&&Number.isFinite(Number(ref.weight))?Number(ref.weight):0;ns.reps=ex.rMin;ns.rir=null;ns.isAdded=true;
+      ns.suggestedWeight=ref?ns.weight:null;ns.suggestedReps=null;ns.prefillOrigin=ref?(fromHistory?'history':'current_completed'):'default';
+      if(ref){ns.units=ref.units||'kg';ns.measurementMode=ref.measurementMode||null;ns.loadConvention=ref.loadConvention||null;ns.equipmentSetup=ref.equipmentSetup||null;ns.prefilledFromSetId=fromHistory?ref.setId:ref.id;ns.prefilledExact=false;}
+      if(exId==='pullups'&&!ns.measurementMode)ns.measurementMode=ns.weight>0?'weighted_bodyweight_addition':'bodyweight';
+      if(ex.timed){ns.measurementMode='timed';ns.durationSeconds=ex.rMin;ns.reps=0;}
       if(slot){ns.slotId=slot.slotId;ns.prescriptionSnapshot=Object.assign({},slot);}
       return ns;
     }
-    var toAdd = ex.uni ? [mkAdded('L'), mkAdded('R')] : [mkAdded(null)];
-    var dropIdx = db.activeSession.sets.findIndex(function(s){return s.exId===exId&&s.setType==='drop';});
-    toAdd.forEach(function(ns){ if(dropIdx>=0) db.activeSession.sets.splice(dropIdx++,0,ns); else db.activeSession.sets.push(ns); });
-    dbSave(db); rerenderExSets(exId);
+    var added=ex.uni?[make('L'),make('R')]:[make(null)],dropIndex=sess.sets.findIndex(function(r){return r.exId===exId&&r.setType==='drop';});
+    added.forEach(function(row){if(dropIndex>=0)sess.sets.splice(dropIndex++,0,row);else sess.sets.push(row);});
+    dbSave(db);rerenderExSets(exId);Timer.refresh();
   }
 
   function addWarmupSet(exId) {
@@ -4719,6 +6055,7 @@ var App = (function() {
     Engagement.onSavedSession(db,sess);
     if(!dbSave(db)){db=JSON.parse(beforeFinish);alert('Could not save this workout. Your active session is retained; export a backup and check storage.');return;}
     // Saved first, original arcade summary second. No overlapping milestone overlay.
+    Timer.skip();document.body.classList.remove('workout-view');
     showSummary(sess);
     Engagement.sound();
   }
@@ -4915,6 +6252,10 @@ var App = (function() {
     useLastLoad: useLastLoad,
     useRecommendation: useRecommendation,
     startWorkout: startWorkout,
+    chooseWorkout: chooseWorkout,
+    closeWorkoutSwitch: closeWorkoutSwitch,
+    confirmWorkoutSwitch: confirmWorkoutSwitch,
+    startRest: startRest,
     addSundayLateralMakeup: addSundayLateralMakeup,
     resumeWorkout: resumeWorkout,
     discardSession: discardSession,
@@ -4976,27 +6317,102 @@ var App = (function() {
 
 // Compact coaching and accessory redistribution. These are not weekly-planner panels.
 function compactPerformanceSequence(rows){if(!rows.length)return '';var f=rows[0];if(f.measurementMode!=='timed'&&rows.every(function(r){return r.weight===f.weight&&r.units===f.units&&r.measurementMode===f.measurementMode;})){var p=f.measurementMode==='bodyweight'?'BW':f.measurementMode==='weighted_bodyweight_addition'?'BW + '+f.weight+' '+f.units:f.measurementMode==='assisted'?f.weight+' '+f.units+' assistance':f.weight+' '+f.units;return p+' × '+rows.map(function(r){return r.reps;}).join(', ')+(f.loadConvention==='per-hand'?' / hand':'');}return rows.map(formatPerformanceLine).join(', ');}
-function renderCoachingTips(ex,session,slot){var news=(ex.newTips||[]).slice(0,2),cues=(ex.cues||[]).slice(0,4-news.length),html=news.map(function(t){return '<li class="coach-tip-new"><span class="new-tip-marker">NEW</span>'+esc(t)+'</li>';}).join('')+cues.map(function(t){return '<li>'+esc(t)+'</li>';}).join('');return '<details class="coach-tips"><summary>Tips &amp; setup '+(news.length?'<span class="new-tip-count">'+news.length+' new</span>':'')+'</summary><ul>'+html+'</ul>'+(slot&&slot.effortNote?'<p class="coach-effort">'+esc(slot.effortNote)+'</p>':'')+'</details>';}
+// Tips remain collapsed during lifting. One key cue, then at most three more.
+// Live review lookup changes display only, so older drafts keep their original data.
+function renderCoachingSources(entry) {
+  if (!entry) return '';
+  var refs = entry.sources || [];
+  var body = refs.length ? '<p>Practical paraphrases. The source scope is shown below.</p><ul>' + refs.map(function(ref) {
+    var source = COACHING_SOURCES[ref.id];
+    if (!source) return '';
+    var label = esc(source.label) + (ref.locator ? ', ' + esc(ref.locator) : '');
+    var link = source.url ? '<a href="' + esc(source.url) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>' : '<span>' + label + '</span>';
+    return '<li>' + link + '<small>' + esc(ref.note || source.title) + '</small></li>';
+  }).join('') + '</ul>' : '<p>General coaching cues. No exercise-specific tip from these three coaches was verified for this entry.</p>';
+  return '<details class="coach-sources"><summary>Sources</summary>' + body + '</details>';
+}
+function renderCoachingTips(ex,session,slot) {
+  var entry = getReviewedCoaching(ex);
+  var tips = entry ? entry.tips : (ex.newTips || []).concat(ex.cues || []).filter(function(t,i,all) { return typeof t === 'string' && all.indexOf(t) === i; });
+  tips = tips.slice(0,4);
+  if (!tips.length && !(slot && slot.effortNote)) return '';
+  var html = tips.map(function(t,i) {
+    return '<li' + (i === 0 && entry ? ' class="coach-tip-new"' : '') + '>' +
+      (i === 0 && entry ? '<span class="new-tip-marker">KEY</span>' : '') + esc(t) + '</li>';
+  }).join('');
+  return '<details class="coach-tips"><summary>Tips &amp; setup</summary><ul class="coach-cue-list">' + html + '</ul>' +
+    (slot && slot.effortNote ? '<p class="coach-effort">' + esc(slot.effortNote) + '</p>' : '') +
+    renderCoachingSources(entry) + '</details>';
+}
 function renderTimedSetRow(s,prev,ex){var label='Hold '+s.setNum;if(s.completed)return '<div class="set-row set-row--done" id="sr-'+esc(s.id)+'" onclick="App.editSet(\''+esc(s.id)+'\')"><span>'+label+'</span><strong>'+Number(s.durationSeconds||0)+' sec</strong><span class="sr-check">✓</span></div>';if(s.skipped)return '<div class="set-row set-row--skipped" id="sr-'+esc(s.id)+'"><span>'+label+'</span><span>Skipped</span><button class="btn-ghost btn-xs" onclick="App.undoSkip(\''+esc(s.id)+'\')">Undo</button></div>';return '<div class="set-row set-row--active" id="sr-'+esc(s.id)+'"><div class="sr-top"><span class="sr-label">'+label+'</span><span class="sr-prev-line">'+esc(prev?'Prev: '+prev.durationSeconds+' sec':'30-60 sec, comfortably short of failure')+'</span><button class="sr-skip-lnk" onclick="App.skipSet(\''+esc(s.id)+'\')">Skip</button></div><div class="timed-set-input"><label>Seconds held<input data-hold-seconds type="number" inputmode="numeric" min="0" max="3600" value="'+Number(s.durationSeconds||30)+'" oninput="App.setHoldSeconds(\''+esc(s.id)+'\',this.value)"></label><button class="sr-tick" onclick="App.completeSet(\''+esc(s.id)+'\')" aria-label="Log hold">✓</button></div></div>';}
-function toggleFifthDay(){if(!canPersistUserChanges())return;if(db.activeSession&&db.activeSession.dayN===4&&db.activeSession.programVersion===PROGRAM_VERSION){alert('Your active Tuesday workout stays unchanged. Finish it first.');return;}if(currentTuesdaySessions(db).length){alert('Tuesday is already logged this week. Choose the optional session to see only remaining accessories, or do Cardio.');return;}var on=fifthDaySelected(db);if(!on&&!confirm('Move Tuesday lateral raises, triceps and curls to Wednesday this week? The normal four-day plan returns next week.'))return;db.settings.fifthDayWeeks=db.settings.fifthDayWeeks||{};db.settings.fifthDayWeeks[currentWeekKey()]=!on;dbSave(db);App.showScreen('program');}
+function toggleFifthDay(){Engagement.toast('Choose Shoulders + Arms from Program. No weekly setup is needed.');}
+
 
 // PR events are created only by an explicit, successfully saved set-completion action.
 function evaluateSetAchievement(data,session,set){
- var ex=getExerciseDef(set.exId,session,data);if(set.prEvaluationDone||set.completed||set.skipped||set.setType!=='working'||ex.prEligible===false||ex.nonHypertrophy)return null;
- var c=normalizePerformanceRecord(Object.assign({},set,{completed:true,skipped:false,timestamp:Date.now()}),session,session.sets.indexOf(set),'active');if(!c||!isQualifiedPerformance(c,set.exId))return null;
- var hist=getNormalizedExerciseHistory(data,set.exId,true).filter(function(r){return r.setId!==set.id&&r.type==='working'&&r.side===c.side&&performanceGroupKey(r)===performanceGroupKey(c);});
- var q=hist.filter(function(r){return isQualifiedPerformance(r,set.exId);});if(!q.length)return {type:'baseline',exerciseId:set.exId};
- var old=q.slice().sort(comparePerformanceRows)[0],type=null,delta=null,detail='';
- if(c.measurementMode==='timed'){if(c.durationSeconds>old.durationSeconds){type='time';delta=c.durationSeconds-old.durationSeconds;detail='+'+delta+' seconds at the same exercise';}}
- else if(c.measurementMode==='bodyweight'){if(c.reps>old.reps){type='reps';delta=c.reps-old.reps;detail='+'+delta+(delta===1?' rep':' reps')+' at bodyweight';}}
- else if(c.measurementMode==='assisted'){if(c.weight<old.weight){type='assistance';detail='Less assistance: '+c.weight+' '+c.units;}}
- else if(c.weight>old.weight){type='weight';detail='Previous qualifying best: '+formatPerformanceLine(old);}
- var same=hist.filter(function(r){return r.weight===c.weight;});if(!type&&same.length&&c.measurementMode!=='timed'){var best=Math.max.apply(null,same.map(function(r){return r.reps;}));if(c.reps>best){type='reps';delta=c.reps-best;detail='+'+delta+(delta===1?' rep':' reps')+' at the same weight';}}
- if(!type)return null;var side=c.side==='L'?'LEFT-SIDE ':c.side==='R'?'RIGHT-SIDE ':'';
- return {type:type,exerciseId:set.exId,canonicalExerciseId:c.canonicalExerciseId,side:c.side,groupKey:performanceGroupKey(c),headline:side+(type==='weight'?'NEW WEIGHT PR':type==='time'?'NEW TIME PR':type==='assistance'?'LESS ASSISTANCE PR':'NEW REP PR'),display:formatPerformanceLine(c),detail:detail,delta:delta,weight:c.weight,reps:c.reps,durationSeconds:c.durationSeconds,units:c.units,measurementMode:c.measurementMode};
+  // A same-load rep record and a qualifying load record are different achievements.
+  // Only load/assistance records require the stable minimum-rep threshold.
+  var ex=getExerciseDef(set.exId,session,data);
+  if(set.prEvaluationDone||set.completed||set.skipped||set.setType!=='working'||ex.prEligible===false||ex.nonHypertrophy)return null;
+  var c=normalizePerformanceRecord(Object.assign({},set,{completed:true,skipped:false,timestamp:Date.now()}),session,session.sets.indexOf(set),'active');
+  if(!c||c.type!=='working')return null;
+  var key=performanceGroupKey(c);
+  var hist=getNormalizedExerciseHistory(data,set.exId,true).filter(function(r){
+    return !(r.sessionId===c.sessionId&&r.setId===c.setId)&&r.type==='working'&&r.side===c.side&&performanceGroupKey(r)===key;
+  });
+  if(!hist.length)return {type:'baseline',exerciseId:set.exId};
+  var qualified=hist.filter(function(r){return isQualifiedPerformance(r,set.exId);});
+  var old=qualified.slice().sort(comparePerformanceRows)[0]||null;
+  var same=hist.filter(function(r){return r.weight===c.weight;});
+  var type=null,delta=null,detail='',previous=null;
+  if(c.measurementMode==='timed'){
+    previous=hist.slice().sort(comparePerformanceRows)[0];
+    if(c.durationSeconds>previous.durationSeconds){type='time';delta=c.durationSeconds-previous.durationSeconds;detail='+'+delta+' seconds';}
+  } else if(c.measurementMode==='bodyweight'){
+    previous=hist.slice().sort(function(a,b){return b.reps-a.reps;})[0];
+    if(c.reps>previous.reps){type='reps';delta=c.reps-previous.reps;detail='+'+delta+(delta===1?' rep':' reps')+' at bodyweight';}
+  } else {
+    if(isQualifiedPerformance(c,set.exId)&&old){
+      if(c.measurementMode==='assisted'&&c.weight<old.weight){type='assistance';previous=old;detail='Less assistance: '+c.weight+' '+c.units;}
+      else if(c.measurementMode!=='assisted'&&c.weight>old.weight){type='weight';previous=old;detail='Previous qualifying best: '+formatPerformanceLine(old);}
+    }
+    if(!type&&same.length){
+      previous=same.slice().sort(function(a,b){return b.reps-a.reps;})[0];
+      if(c.reps>previous.reps){type='reps';delta=c.reps-previous.reps;detail='+'+delta+(delta===1?' rep':' reps')+' at the same '+(c.measurementMode==='assisted'?'assistance':'weight');}
+    }
+  }
+  if(!type)return null;
+  var side=c.side==='L'?'LEFT-SIDE ':c.side==='R'?'RIGHT-SIDE ':'';
+  return {eventSchema:2,type:type,exerciseId:set.exId,canonicalExerciseId:c.canonicalExerciseId,side:c.side,groupKey:key,
+    headline:side+(type==='weight'?'NEW WEIGHT PR':type==='time'?'NEW TIME PR':type==='assistance'?'LESS ASSISTANCE PR':'NEW REP PR'),
+    display:formatPerformanceLine(c),detail:detail,delta:delta,weight:c.weight,reps:c.reps,durationSeconds:c.durationSeconds,
+    units:c.units,measurementMode:c.measurementMode,qualified:isQualifiedPerformance(c,set.exId),
+    comparisonSetId:previous&&previous.setId||null,comparisonSessionId:previous&&previous.sessionId||null,
+    previousWeight:previous&&previous.weight,previousReps:previous&&previous.reps,previousSeconds:previous&&previous.durationSeconds};
 }
-function recordSetAchievement(data,session,set,c){set.prEvaluationDone=true;if(!c)return null;if(c.type==='baseline')return Object.assign(c,{setId:set.id,sessionId:session.id});data.prCelebrationEvents=data.prCelebrationEvents||[];var id=session.id+':'+set.id;if(data.prCelebrationEvents.some(function(e){return e.eventId===id;}))return null;var e=Object.assign({},c,{eventId:id,setId:set.id,sessionId:session.id,achievedAt:set.timestamp});data.prCelebrationEvents.push(e);set.achievementEventId=id;return e;}
-function isCelebrationEventValid(data,e){return getNormalizedExerciseHistory(data,e.exerciseId,true).some(function(r){return r.sessionId===e.sessionId&&r.setId===e.setId&&r.type==='working'&&isQualifiedPerformance(r,e.exerciseId)&&r.weight===e.weight&&r.reps===e.reps&&r.durationSeconds===e.durationSeconds&&r.side===e.side;});}
+function recordSetAchievement(data,session,set,c){
+  set.prEvaluationDone=true;if(!c)return null;
+  if(c.type==='baseline')return Object.assign(c,{setId:set.id,sessionId:session.id});
+  data.prCelebrationEvents=Array.isArray(data.prCelebrationEvents)?data.prCelebrationEvents:[];
+  var id=session.id+':'+set.id;
+  if(data.prCelebrationEvents.some(function(e){return e.eventId===id;}))return null;
+  var e=Object.assign({},c,{eventId:id,setId:set.id,sessionId:session.id,achievedAt:set.timestamp});
+  data.prCelebrationEvents.push(e);set.achievementEventId=id;return e;
+}
+function isCelebrationEventValid(data,e){
+  if(!e||!e.exerciseId||e.type==='baseline')return false;
+  return getNormalizedExerciseHistory(data,e.exerciseId,true).some(function(r){
+    if(r.sessionId!==e.sessionId||r.setId!==e.setId||r.type!=='working'||r.weight!==e.weight||r.reps!==e.reps||r.durationSeconds!==e.durationSeconds||r.side!==e.side)return false;
+    if(e.groupKey&&performanceGroupKey(r)!==e.groupKey)return false;
+    return e.eventSchema===2&&(e.type==='reps'||e.type==='time')?true:isQualifiedPerformance(r,e.exerciseId);
+  });
+}
+function liveExerciseAchievements(data,exerciseId){
+  var sessionId=data.activeSession&&data.activeSession.id;
+  if(!sessionId)return [];
+  return (data.prCelebrationEvents||[]).filter(function(e){return e.sessionId===sessionId&&getHistoryExerciseId(e.exerciseId)===getHistoryExerciseId(exerciseId)&&isCelebrationEventValid(data,e);}).sort(function(a,b){return (Number(b.achievedAt)||0)-(Number(a.achievedAt)||0);});
+}
+
 function getPRCelebrationPreferences(){return Object.assign({visual:true,sound:false,haptics:false},db&&db.settings&&db.settings.prCelebration||{});}
 var PRCelebration=(function(){var timer=null,audio=null;
  function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('pr-achievement-layer');if(el)el.remove();document.querySelectorAll('.pr-achievement-glow').forEach(function(e){e.classList.remove('pr-achievement-glow');});}
@@ -5155,7 +6571,7 @@ var Engagement = (function () {
     {id:'base',name:'Original Blue',tag:'START / DAY 1',paint:'linear-gradient(125deg,#101a32,#315b8d,#5c9ddb)',need:0,desc:'Your normal app appearance. Complete gym visits to change it.'},
     {id:'cyan',name:'Ignited',tag:'2 GYM VISITS',paint:'linear-gradient(125deg,#062136,#1f82bd,#64e8fa)',need:2,desc:'Two qualifying gym visits in one active run.'},
     {id:'violet',name:'Locked In',tag:'3 GYM VISITS',paint:'linear-gradient(125deg,#151a38,#6554b8,#b49aff)',need:3,desc:'Three gym visits in the current run. Recovery days can protect it.'},
-    {id:'magenta',name:'Charged',tag:'4 GYM VISITS',paint:'linear-gradient(125deg,#271432,#9a39ad,#f379c5)',need:4,desc:'Four gym visits in the current run. Keep the five-visit week achievable.'},
+    {id:'magenta',name:'Charged',tag:'4 GYM VISITS',paint:'linear-gradient(125deg,#271432,#9a39ad,#f379c5)',need:4,desc:'Four gym visits in the current run. Four visits make a successful week; five is a bonus.'},
     {id:'elysium',name:'Elysium Mode',tag:'5+ GYM VISITS',paint:'linear-gradient(115deg,#25445a,#608ea8 23%,#8c77b0 49%,#c683af 73%,#d2b374)',need:5,desc:'The multicolour theme is temporary and fades when your run ends.'}
   ];
 
@@ -5222,9 +6638,11 @@ var Engagement = (function () {
     if(e.recoveryDays&&e.recoveryDays[key])return true;
     return d===1||d===5||d===3&&!fifthDaySelected(data,dateTs(key));
   }
-  // Five gym visits per Monday–Sunday week are the user's optional attendance target.
-  // Four focused lifting sessions plus a fifth gym cardio/short visit is a healthy path.
-  var GYM_WEEK_TARGET = 5;
+  // v3.8.4: four visits make a successful week; five is an optional bonus.
+  // Forecasts never erase an earned colour during the current week.
+  // Colours remain temporary: completed-week and inactivity rules still apply.
+  var GYM_WEEK_TARGET = 4;
+  var GYM_WEEK_BONUS = 5;
   var GYM_CARDIO = {treadmill_z2:true,stairmaster_z2:true,treadmill_hiit:true,bike_hiit:true};
   function qualifyingGymSession(s){
     // v3.8.2: attendance is not programme completion. A saved gym workout
@@ -5291,21 +6709,25 @@ var Engagement = (function () {
     while(wk<stop){if((weeks[wk]||0)<GYM_WEEK_TARGET)return false;wk=shift(wk,7);}
     return true;
   }
+
   function gymWeekStatus(data,today,dates){
     var wk=weekKey(today),end=shift(wk,6),count=dates.filter(function(k){return k>=wk&&k<=end;}).length;
     var rest=state(data).recoveryDays||{},available=0;
     for(var day=today;day<=end;day=shift(day,1)){
       if(dates.indexOf(day)<0&&!rest[day])available++;
     }
-    return {count:count,goal:GYM_WEEK_TARGET,remaining:available,possible:count+available>=GYM_WEEK_TARGET};
+    // Possibility is descriptive only. Never turn it into a midweek reset gate.
+    return {count:count,goal:GYM_WEEK_TARGET,bonus:GYM_WEEK_BONUS,remaining:available,
+      possible:count+available>=GYM_WEEK_TARGET,bonusPossible:count+available>=GYM_WEEK_BONUS,
+      goalMet:count>=GYM_WEEK_TARGET,bonusMet:count>=GYM_WEEK_BONUS};
   }
   function momentum(data,now){
     var today=localDateKey(now||Date.now()),dates=gymVisitDates(data,now),set={},weeks=visitWeekCounts(dates);
     dates.forEach(function(k){set[k]=true;});
     var last=dates.length?dates[dates.length-1]:null,run=0,best=0,previous=null;
     dates.forEach(function(key){
-      // A break of THREE days without a gym visit ends the colour run.
-      // One or two non-gym days may separate visits, provided the intervening week still qualified.
+      // One or two recovery days can connect visits. Three complete missed
+      // calendar days break the run; a completed four-visit week bridges Monday.
       var gap=previous?calendarDayDifference(previous,key):null;
       var connected=!!(previous&&(gap===1||pref(data,'protectRecovery')&&gap<=3)&&uninterruptedWeekBridge(previous,key,weeks));
       run=connected?run+1:1;best=Math.max(best,run);previous=key;
@@ -5313,15 +6735,16 @@ var Engagement = (function () {
     var week=gymWeekStatus(data,today,dates),todayActive=!!set[today],daysSince=last?calendarDayDifference(last,today):null;
     var fresh=!!(last&&(daysSince<=1||pref(data,'protectRecovery')&&daysSince<=3)),
         priorWeeksMet=!!(!last||weekKey(last)===weekKey(today)||uninterruptedWeekBridge(last,today,weeks)),
-        onTrack=week.possible&&priorWeeksMet,streak=fresh&&onTrack?run:0;
+        streak=fresh&&priorWeeksMet?run:0;
     var missedWeek=null;
     if(last&&!priorWeeksMet){
       for(var cursor=weekKey(last),stop=weekKey(today);cursor<stop;cursor=shift(cursor,7)){
         if((weeks[cursor]||0)<GYM_WEEK_TARGET){missedWeek={start:cursor,count:weeks[cursor]||0};break;}
       }
     }
-    var resetReason=!streak&&last?(!week.possible?'week_infeasible':missedWeek?'missed_week':!fresh?(daysSince>3?'inactivity':'unprotected_gap'):null):null;
-    // Recovery holds a colour but does not add to the run or count as a gym visit.
+    // Count what happened, not a prediction. Even a late-week new run can earn
+    // its colour now; only an actual closed week or a real gap can end it.
+    var resetReason=!streak&&last?(!fresh?(daysSince>3?'inactivity':'unprotected_gap'):missedWeek?'missed_week':null):null;
     var allowedRest=!!pref(data,'protectRecovery'),d=new Date(dateTs(today)).getDay(),explicitRest=!!((state(data).recoveryDays||{})[today]);
     var plannedRest=d===1||d===5||(d===3&&!fifthDaySelected(data,dateTs(today)));
     var protectedToday=!todayActive&&streak>0&&allowedRest&&(plannedRest||explicitRest);
@@ -5330,7 +6753,14 @@ var Engagement = (function () {
       var k=shift(monday,i),active=!!set[k],weekday=i+1;
       calendarWeek.push({key:k,label:['M','T','W','T','F','S','S'][i],active:active,today:k===today,future:k>today,recovery:k<=today&&!active&&!!pref(data,'protectRecovery')&&!!(rest[k]||weekday===1||weekday===5||weekday===3&&!fifthDaySelected(data,dateTs(k)))});
     }
-    return {today:today,todayActive:todayActive,protectedToday:protectedToday,streak:streak,bestStreak:best,bestWeek:Math.max(0,...Object.keys(weeks).map(function(k){return weeks[k];})),totalActiveDays:dates.length,activeThisWeek:week.count,weekGoal:GYM_WEEK_TARGET,weekDays:calendarWeek,stage:Math.min(5,streak),nextMilestone:[2,3,4,5].find(function(n){return n>streak;})||null,lastActiveDate:last,daysSinceLastActivity:daysSince,atRisk:!onTrack||daysSince!==null&&daysSince>=3,weekPossible:onTrack,currentWeekFeasible:week.possible,missedWeek:missedWeek,resetReason:resetReason,weekRemaining:week.remaining,qualifyingGymDates:dates};
+    return {today:today,todayActive:todayActive,protectedToday:protectedToday,streak:streak,bestStreak:best,
+      bestWeek:Math.max(0,...Object.keys(weeks).map(function(k){return weeks[k];})),totalActiveDays:dates.length,
+      activeThisWeek:week.count,weekGoal:GYM_WEEK_TARGET,weekBonusGoal:GYM_WEEK_BONUS,
+      weekGoalMet:week.goalMet,weekBonusMet:week.bonusMet,weekDays:calendarWeek,stage:Math.min(5,streak),
+      nextMilestone:[2,3,4,5].find(function(n){return n>streak;})||null,lastActiveDate:last,daysSinceLastActivity:daysSince,
+      atRisk:!priorWeeksMet||daysSince!==null&&daysSince>=3,weekPossible:week.possible&&priorWeeksMet,
+      currentWeekFeasible:week.possible,currentWeekBonusFeasible:week.bonusPossible,missedWeek:missedWeek,
+      resetReason:resetReason,weekRemaining:week.remaining,qualifyingGymDates:dates};
   }
   // Legacy archive data is read but does not control the temporary colour system.
   function rewardDays(data,now){var days=gymVisitDates(data,now);return {dates:days,count:days.length,startedOn:localDateKey((state(data).introducedAt||Date.now()))};}
@@ -5338,46 +6768,57 @@ var Engagement = (function () {
   function themeUnlocked(){return false;}
   function themePreference(){return 'adaptive';}
   function themedClass(){return '';}
+
   function momentumResetMessage(s){
-    if(s.resetReason==='week_infeasible')return 'Five gym visits are no longer achievable this Monday–Sunday week. Your saved workouts still count.';
-    if(s.resetReason==='missed_week')return 'Start a new run this week. Your saved gym visits are kept.';
-    if(s.resetReason==='inactivity')return 'Three complete days without a gym visit reset your Momentum colour.';
-    if(s.resetReason==='unprotected_gap')return 'A missed gym day ended the run because recovery protection is off.';
+    if(s.resetReason==='missed_week')return 'New week, fresh run. Your logged visits are kept.';
+    if(s.resetReason==='inactivity')return 'Fresh start after a break. Your visits are kept.';
+    if(s.resetReason==='unprotected_gap')return 'Fresh run. Recovery protection is off.';
     return '';
   }
   function nextUnlock(data){
     var s=momentum(data);
-    if(s.resetReason==='week_infeasible')return 'Train as needed; the colour can restart in a new week.';
-    if(s.resetReason)return 'Your next qualifying gym visit can start a fresh run.';
-    if(!s.streak)return 'First gym visit starts your run. Two visits activate cyan.';
-    if(s.streak>=5)return 'Elysium Mode is live while you keep training consistently.';
+    if(s.resetReason)return 'Four visits is a win. Five is a bonus.';
+    if(s.weekBonusMet)return 'Bonus achieved. Recovery is part of the plan.';
+    if(s.weekGoalMet)return s.stage>=5?'Elysium Momentum is live.':s.stage===4?'Magenta Momentum is live.':'Weekly goal met. Keep your own pace.';
+    if(s.activeThisWeek===3)return 'Next visit: week won.';
+    if(!s.streak)return 'Four visits is a win. Five is a bonus.';
+    if(s.streak>=5)return 'Elysium Momentum is live.';
     var n=s.nextMilestone,name=n===2?'Ignited':n===3?'Locked In':n===4?'Charged':'Elysium Mode';
-    return 'One more qualifying gym visit to '+name+'.';
+    return 'Next visit: '+name+'.';
   }
 
   function renderMomentum(data){
-    var s=momentum(data),title=s.streak?s.streak+' gym '+(s.streak===1?'visit':'visits')+' in this run':s.todayActive?'Gym visit recorded':'Start a fresh run';
-    // Today's saved activity takes precedence over a colour-reset explanation.
-    // A visit remains visible even if the five-visit week is no longer achievable.
-    var sub=s.todayActive?'Gym visit recorded. Today counts once.':momentumResetMessage(s)||(s.protectedToday?'Recovery today. Colour protected, no visit added.':s.streak?'Keep the run going; rest is fine while five visits remain possible.':'Aim for five productive gym visits this week, not five lifting days.');
+    var s=momentum(data),title=s.weekBonusMet?'Bonus achieved.':s.weekGoalMet?'Week won.':
+      s.streak?s.streak+' gym '+(s.streak===1?'visit':'visits')+' in this run':s.todayActive?'Gym visit recorded':'Start a fresh run';
+    var sub=momentumResetMessage(s);
+    if(!sub){
+      if(s.weekBonusMet)sub='Five visits done. Enjoy your recovery.';
+      else if(s.weekGoalMet)sub='Four visits done. Fifth is a bonus.';
+      else if(s.activeThisWeek===3)sub='One more visit for a successful week.';
+      else if(s.todayActive)sub='Gym visit recorded. Today counts once.';
+      else if(s.protectedToday)sub='Recovery today. Your colour is protected.';
+      else sub='Four visits is a win. Five is a bonus.';
+    }
     var dots=s.weekDays.map(function(day){
       var status=day.active?' gym visit':day.future?' upcoming':day.recovery?' recovery, not a gym visit':' no gym visit';
       return '<div class="momentum-day'+(day.active?' is-active':'')+(day.today?' is-today':'')+(day.recovery?' is-recovery':'')+(day.future?' is-future':'')+'" title="'+esc(day.key+status)+'"><b>'+day.label+'</b><i aria-label="'+esc(day.key+status)+'"></i></div>';
     });
     var badge=s.todayActive?'✓':s.protectedToday?'Ⅱ':'○',badgeText=s.todayActive?'GYM':s.protectedToday?'REST':'TODAY';
-    return '<section class="momentum-card momentum-stage-'+s.stage+(s.stage>=5?' is-elysium':'')+'" aria-label="Training Momentum"><div class="momentum-top"><div class="momentum-copy"><div class="momentum-kicker">GYM MOMENTUM'+(s.stage>=5?' / ELYSIUM':'')+'</div><div class="momentum-title">'+esc(title)+'</div><div class="momentum-sub">'+esc(sub)+'</div></div><div class="daily-momentum-badge" aria-label="'+esc(badgeText.toLowerCase())+'"><strong>'+badge+'</strong><small>'+badgeText+'</small></div></div><div class="momentum-week" role="group" aria-label="Current Monday to Sunday week">'+dots.join('')+'</div><div class="momentum-next"><span class="momentum-mini-icon">✦</span><span><b>'+s.activeThisWeek+' / 5 gym visits this week.</b> '+esc(nextUnlock(data))+'</span></div></section>';
+    return '<section class="momentum-card momentum-stage-'+s.stage+(s.stage>=5?' is-elysium':'')+'" aria-label="Training Momentum"><div class="momentum-top"><div class="momentum-copy"><div class="momentum-kicker">GYM MOMENTUM'+(s.stage>=5?' / ELYSIUM':'')+'</div><div class="momentum-title">'+esc(title)+'</div><div class="momentum-sub">'+esc(sub)+'</div></div><div class="daily-momentum-badge" aria-label="'+esc(badgeText.toLowerCase())+'"><strong>'+badge+'</strong><small>'+badgeText+'</small></div></div><div class="momentum-week" role="group" aria-label="Current Monday to Sunday week">'+dots.join('')+'</div><div class="momentum-next"><span class="momentum-mini-icon">✦</span><span><b>'+s.activeThisWeek+' / '+s.weekBonusGoal+' gym visits this week.</b> '+esc(nextUnlock(data))+'</span></div></section>';
   }
-
   function scheduleRows(data,now){
     var today=localDateKey(now||Date.now()),start=weekKey(today),fifth=fifthDaySelected(data,now),rows=[];
     var cardio=['Zone 2, 30 min','Zone 2, 30 min after lifting','Optional bike HIIT, 13 min','No cardio required','Zone 2, 30 min','No cardio required','Zone 2, 30 min after lifting'];
     var map=[null,4,fifth?3:null,5,null,1,2];
     for(var i=0;i<7;i++){var key=shift(start,i),id=map[i],title=id?DAYS[id].title:'Recovery / no lifting';if(i===1&&fifth)title='Chest + Back';rows.push({date:key,day:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],id:id,title:title,today:key===today,cardio:cardio[i],optional:i===2,note:i===2?(fifth?'Tuesday accessories moved here.':'Optional shoulders + arms only when split from Tuesday.'):i===3?'Protect your focused leg session.':''});}return rows;
   }
-  function scheduleTable(data,now){var rows=scheduleRows(data,now);return '<table class="eng-week-table"><caption>Recommended rhythm. Reschedule freely.</caption><thead><tr><th>Day</th><th>Weights</th><th>Cardio</th></tr></thead><tbody>'+rows.map(function(r){return '<tr class="'+(r.today?'is-today':'')+'"'+(r.today?' aria-current="date"':'')+'><td><span class="eng-day">'+r.day+'</span><span class="eng-day-date">'+Number(r.date.slice(-2))+'</span>'+(r.today?'<span class="eng-today">TODAY</span>':'')+'</td><td><span class="eng-workout-name">'+esc(r.title)+'</span>'+(r.id?'<small>'+esc(DAYS[r.id].durationLabel||'')+'</small>':'')+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</td><td class="eng-cardio-text">'+esc(r.cardio)+'</td></tr>';}).join('')+'</tbody></table>';
+  function scheduleTable(data,now){
+    var ids=[1,2,4,5,3];return '<table class="eng-week-table"><caption>Flexible sessions. No assigned weekdays.</caption><thead><tr><th>Type</th><th>Workout</th><th>Focus</th></tr></thead><tbody>'+ids.map(function(id){return '<tr><td><span class="eng-day">'+(id===3?'Extra':'Core')+'</span></td><td><span class="eng-workout-name">'+esc(DAYS[id].title)+'</span><small>'+esc(DAYS[id].durationLabel)+'</small></td><td class="eng-cardio-text">'+esc((DAYS[id].primaryMuscles||[]).join(', '))+'</td></tr>';}).join('')+'</tbody></table>';
   }
-  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Cardio plan: 120 dedicated moderate minutes + 30 minutes of brisk walking across the week. Build gradually. HIIT is optional; move it to Sunday or skip it if Wednesday leaves your legs tired for Thursday. Cardio progress stays inside Cardio.</p><p class="eng-footnote">The optional Wednesday redistributes Tuesday accessories, it does not add a second full arm workout. Use the existing option in Program. A saved lifting workout with logged working sets counts as a gym visit, even when it is shortened or accessories are skipped. Programme completion remains separate. Recovery days protect the colour only while five gym visits remain possible and there is no three-day gap. They earn no activity credit.</p>';}
-  function inlineSchedule(){return '<details class="eng-week-inline"><summary>Your weekly schedule</summary>'+scheduleContent(db)+'</details>';}
+  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Choose any workout. Today considers your completed working sets over the last seven days and recent overlaps. These are scheduling suggestions, not a recovery diagnosis.</p><p class="eng-footnote">Aim to cover all four core sessions. Shoulders + Arms is optional, and always includes cable lateral raises. Avoid repeating accessory volume unnecessarily.</p><p class="eng-footnote">Cardio: build toward 150 conversational minutes across the week. Do it after lifting or separately. One optional interval session, away from your hard leg session if it affects performance. Cardio details stay in Cardio.</p><p class="eng-footnote">Momentum still counts visits in a Monday-to-Sunday week: four is a successful week; five is a bonus. Your workout choice is never locked to that calendar.</p>';}
+
+
+  function inlineSchedule(){return '<details class="eng-week-inline"><summary>Your training guide</summary>'+scheduleContent(db)+'</details>';}
   function openSheet(title,sub,content,type){
     closeSheet();sheetFocus=document.activeElement;lastSheet=type||'sheet';
     var layer=document.createElement('div');layer.id='eng-sheet-layer';layer.className='eng-sheet-layer';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-labelledby','eng-sheet-title');
@@ -5386,11 +6827,11 @@ var Engagement = (function () {
     layer.dataset.oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';document.body.appendChild(layer);layer.querySelector('.eng-close').focus();
   }
   function closeSheet(){var el=document.getElementById('eng-sheet-layer');if(el){document.body.style.overflow=el.dataset.oldOverflow||'';el.remove();if(sheetFocus&&sheetFocus.isConnected)sheetFocus.focus();}lastSheet=null;}
-  function openSchedule(){openSheet('Your weekly rhythm','Four core sessions. One optional fifth. Recovery is part of the plan.',scheduleContent(db),'schedule');}
+  function openSchedule(){openSheet('Your training guide','Flexible workouts. One focused leg session. Choose any day.',scheduleContent(db),'schedule');}
   function vaultContent(){
     var s=momentum(db),stage=s.stage;
     var cards=THEMES.map(function(t){var current=(t.need===0?stage<2:stage===t.need||t.need===5&&stage>=5);return '<article class="vault-theme'+(current?' selected':'')+'" data-theme="'+t.id+'"><div class="vault-art" style="--vault-paint:'+t.paint+'"><span class="vault-badge">'+(current?'ACTIVE NOW':t.tag)+'</span></div><div class="vault-content"><h3>'+t.name+'</h3><p>'+esc(t.desc)+'</p><button class="vault-btn" onclick="Engagement.previewTheme(\''+t.id+'\')">Preview colour</button></div></article>';}).join('');
-    return '<div class="vault-day-progress"><b>'+stage+'</b><span>live Momentum stage · '+s.activeThisWeek+'/5 gym visits this week</span></div><p class="eng-footnote" style="margin:10px 0 17px">These colours are NOT permanently unlocked. Each stage appears automatically as your current qualifying gym run grows. Rest is protected only while five gym visits remain achievable. Three complete days without a gym visit reset the colour.</p><div class="vault-grid">'+cards+'</div><div class="vault-preview" id="vault-preview" aria-live="polite"></div><details class="arcade-details"><summary>What counts?</summary><p>A saved full or valid Rushed lifting session, or ten minutes of gym-machine cardio in total across saved logs on the same date. Two five-minute machine logs count together. Brisk walks and Home do not count.</p><p>Five gym visits is an attendance goal, not five hard lifting sessions. You can protect your colour through one or two rest days when that weekly target remains possible. Each date counts once.</p></details>';
+    return '<div class="vault-day-progress"><b>'+stage+'</b><span>live Momentum stage · '+s.activeThisWeek+'/5 gym visits this week</span></div><p class="eng-footnote" style="margin:10px 0 17px">These colours are NOT permanently unlocked. Each stage appears automatically as your current qualifying gym run grows. Four visits make a successful week; five is a bonus. Recovery protects the run without adding visits. Three complete days without a gym visit reset the colour. A completed four-visit week carries the run into Monday.</p><div class="vault-grid">'+cards+'</div><div class="vault-preview" id="vault-preview" aria-live="polite"></div><details class="arcade-details"><summary>What counts?</summary><p>A finished, saved lifting session with completed working sets, even when shortened or accessories are skipped, or ten minutes of saved gym-machine cardio on the same date. Two five-minute machine logs count together. Brisk walks and Home do not count.</p><p>Four gym visits meets the weekly attendance goal. A fifth is an optional bonus, not another required hard lifting day. Each date counts once. Colours stay temporary and are never permanently unlocked.</p></details>';
   }
   function openVault(){openSheet('Momentum colours','Temporary live stages. Preview only, never equipped permanently.',vaultContent(),'vault');}
   function selectTheme(id){previewTheme(id);}
@@ -5403,9 +6844,9 @@ var Engagement = (function () {
     if(!dbSave(db))return;
     closeSheet();App.showScreen('today');
     var after=momentum(db);
-    toast(after.streak?'Recovery recorded. Your Momentum colour is still live.':after.resetReason==='week_infeasible'?'Recovery recorded. Five visits no longer fit this week.':'Recovery recorded. Momentum is not currently active.');
+    toast(after.streak?'Recovery recorded. Your Momentum colour is still live.':'Recovery recorded. No gym visit added.');
   }
-  function settingsHtml(){return '<fieldset class="eng-settings"><legend>Training rewards</legend>'+[['protectRecovery','Allow recovery-day colour protection'],['challenge','One previous-performance challenge'],['victory','Simple anime-style finish'],['victorySound','Session-complete sound']].map(function(p){return '<label><input type="checkbox" '+(pref(db,p[0])?'checked':'')+' onchange="Engagement.savePreference(\''+p[0]+'\',this.checked)"><span>'+p[1]+'</span></label>';}).join('')+'<div class="eng-previews"><button class="btn-ghost btn-sm" onclick="Engagement.previewVictory()">Preview victory</button></div><p class="eng-footnote">Recovery is automatic, does not add a gym visit and cannot preserve a colour after three complete missed days or when five visits are no longer achievable this week. Sound is off by default.</p></fieldset>';}
+  function settingsHtml(){return '<fieldset class="eng-settings"><legend>Training rewards</legend>'+[['protectRecovery','Allow recovery-day colour protection'],['challenge','One previous-performance challenge'],['victory','Simple anime-style finish'],['victorySound','Session-complete sound']].map(function(p){return '<label><input type="checkbox" '+(pref(db,p[0])?'checked':'')+' onchange="Engagement.savePreference(\''+p[0]+'\',this.checked)"><span>'+p[1]+'</span></label>';}).join('')+'<div class="eng-previews"><button class="btn-ghost btn-sm" onclick="Engagement.previewVictory()">Preview victory</button></div><p class="eng-footnote">Four visits is a successful week; five is a bonus. Recovery adds no visit. Colours reset after three complete missed days or a completed week below four visits, never because five becomes impossible. Sound is off by default.</p></fieldset>';}
   function savePreference(k,v){if(!canPersistUserChanges()||!Object.prototype.hasOwnProperty.call(defaults().preferences,k))return;ensure(db).preferences[k]=!!v;dbSave(db);}
   function toast(text){clearTimeout(toastTimer);var old=document.getElementById('eng-toast');if(old)old.remove();var t=document.createElement('div');t.id='eng-toast';t.className='eng-toast';t.setAttribute('role','status');t.textContent=text;document.body.appendChild(t);toastTimer=setTimeout(function(){t.remove();},2100);}
 
