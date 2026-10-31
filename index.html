@@ -815,6 +815,208 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 .coach-tips .coach-sources small { display:block; font-size:11px; line-height:1.45; margin-top:3px; }
 .ex-card--activity .coach-tips { margin-left:0; margin-right:0; }
 
+/* v3.8.10: the workout header scrolls; only its rest bar stays in view. */
+#workout-overlay > .wo-body {
+  flex:1 1 auto;
+  min-height:0;
+  padding:0;
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+}
+#workout-overlay .wo-header {
+  position:static;
+  top:auto;
+  z-index:auto;
+}
+#workout-overlay .wo-content {
+  padding:0 14px calc(80px + env(safe-area-inset-bottom,0px));
+}
+#workout-overlay > #timer-pill.workout-rest {
+  position:relative;
+  inset:auto;
+  flex:0 0 auto;
+  padding-top:calc(8px + env(safe-area-inset-top,0px));
+}
+#workout-overlay:has(> #timer-pill.workout-rest:not(.hidden)) .wo-header {
+  padding-top:10px;
+}
+.wo-session-meta {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:4px 7px;
+}
+.wo-theme-label {
+  display:inline-flex;
+  align-items:center;
+  max-width:100%;
+  margin-left:0;
+  padding:2px 6px;
+  border:1px solid var(--accent-ln);
+  border-radius:5px;
+  background:var(--accent-bg);
+  color:var(--accent);
+  font:750 9px/1.4 var(--mono);
+  letter-spacing:.04em;
+  vertical-align:middle;
+}
+.wo-theme-label:empty,.wo-theme-label[hidden] { display:none; }
+
+/* Keep the existing one-line set controls readable on narrow phones. */
+@media(max-width:360px) {
+  #workout-overlay .set-rows { padding-left:6px; padding-right:6px; }
+  #workout-overlay .set-row--active { padding-left:8px; padding-right:8px; }
+  #workout-overlay .sr-compact-row { gap:4px; }
+  #workout-overlay .sri-adj { width:28px; }
+  #workout-overlay .sr-tick { width:44px; }
+  #workout-overlay .sri-inp { font-size:16px; }
+  #workout-overlay .sri-w .sri-inp { padding:0 2px 12px; }
+  #workout-overlay .sri-kg {
+    left:28px;
+    right:28px;
+    top:auto;
+    bottom:3px;
+    transform:none;
+    text-align:center;
+    font-size:9px;
+    line-height:10px;
+  }
+}
+
+/* Live Momentum colours follow the user through the full workout flow. */
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) {
+  --momentum-ambient-a:rgba(64,141,237,.20);
+  --momentum-ambient-b:rgba(72,104,194,.11);
+  --momentum-action:linear-gradient(115deg,var(--accent),color-mix(in srgb,var(--accent) 72%,#ffffff));
+  --momentum-ink:#07111e;
+  --momentum-surface:radial-gradient(ellipse at 8% 0,var(--momentum-ambient-a),transparent 53%),radial-gradient(ellipse at 100% 18%,var(--momentum-ambient-b),transparent 48%),var(--bg);
+}
+body.momentum-theme-2 {
+  --momentum-ambient-a:rgba(50,202,225,.21);
+  --momentum-ambient-b:rgba(60,125,201,.13);
+}
+body.momentum-theme-3 {
+  --momentum-ambient-a:rgba(150,107,233,.24);
+  --momentum-ambient-b:rgba(93,118,229,.14);
+}
+body.momentum-theme-4 {
+  --momentum-ambient-a:rgba(218,100,211,.23);
+  --momentum-ambient-b:rgba(144,96,211,.15);
+}
+body.momentum-theme-5 {
+  --momentum-ambient-a:rgba(90,214,227,.22);
+  --momentum-ambient-b:rgba(224,121,194,.21);
+  --momentum-action:linear-gradient(110deg,#81e0ee,#a7b6fb 30%,#c9aff3 55%,#f1a8d6 78%,#e9d294);
+  --momentum-surface:radial-gradient(ellipse at 0 0,rgba(91,215,229,.20),transparent 45%),radial-gradient(ellipse at 100% 16%,rgba(225,126,201,.19),transparent 45%),radial-gradient(ellipse at 55% 5%,rgba(162,134,227,.18),transparent 52%),var(--bg);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.screen.active,#workout-overlay),
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #scr-today.active {
+  background:var(--momentum-surface);
+}
+
+/* Dark labels keep the bright cyan, violet and multicolour actions legible. */
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.btn-primary,.btn-complete,.sr-tick,.arcade-btn):not(.btn-danger),
+body.momentum-theme-5 .today-day-card .btn-primary {
+  background:var(--momentum-action);
+  color:var(--momentum-ink);
+  box-shadow:0 5px 20px var(--accent-bg),inset 0 1px 0 rgba(255,255,255,.18);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) .btn-finish {
+  border-color:var(--accent-ln);
+  background:var(--accent-bg);
+  color:var(--accent);
+}
+body.momentum-theme-5 .btn-finish {
+  border-color:transparent;
+  background:var(--momentum-action);
+  color:var(--momentum-ink);
+}
+
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) .wo-header {
+  background:linear-gradient(105deg,var(--accent-bg),transparent 75%),#0b101a;
+  border-bottom-color:var(--accent-ln);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #workout-overlay .ex-card--current {
+  border-color:var(--accent-ln);
+  background:linear-gradient(145deg,var(--accent-bg),transparent 38%),var(--card);
+  box-shadow:inset 0 2px 0 var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #workout-overlay .sri-adj {
+  background:var(--accent-bg);
+  color:var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #workout-overlay .sri-ctrl:focus-within {
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent-bg);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) .sri-inp:focus {
+  background:var(--accent-bg);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.timed-set-input input,.addex-input,.addex-select,.cd-field input,.cd-field select,.cd-field textarea):focus {
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-color:var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) .ex-note-input:focus {
+  background:var(--accent-bg);
+  border-top-color:var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.workout-tools,.set-add-row,.workout-add-ex,.sub-action,.switch-actions) .btn-ghost:not(.btn-danger):not(.btn-rushed):not(.warmup-toggle) {
+  border-color:var(--accent-ln);
+  color:var(--accent);
+  background:var(--accent-bg);
+}
+
+/* Keep success green, PRs gold, and warning/destructive controls unchanged. */
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #workout-overlay > #timer-pill.workout-rest {
+  background:linear-gradient(110deg,var(--accent-bg),transparent 90%),#0b101a;
+  border-top-color:var(--accent-ln);
+  border-bottom-color:var(--accent-ln);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #timer-pill .tp-skip {
+  border-color:var(--accent-ln);
+  background:var(--accent-bg);
+  color:var(--accent);
+}
+body.momentum-theme-5 #timer-pill .tp-skip {
+  background:var(--momentum-action);
+  border-color:transparent;
+  color:var(--momentum-ink);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #bottom-nav {
+  border-top-color:var(--accent-ln);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) .nav-tab--on {
+  background:var(--accent-bg);
+  box-shadow:inset 0 2px 0 var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.eng-progress-track i,.vr-fill) {
+  background:var(--momentum-action);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.eng-sheet,.workout-switch-card),
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) #modal-overlay > div:not(.arcade-summary) {
+  background:linear-gradient(145deg,var(--accent-bg),transparent 45%),var(--bg-soft);
+  border-color:var(--accent-ln);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.eng-eyebrow,.eng-today,.eng-week-progress b) {
+  color:var(--accent);
+}
+body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(button,summary):focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+body.momentum-theme-5 .wo-theme-label {
+  border-color:rgba(207,174,245,.55);
+  color:#e0c5ff;
+}
+
+/* The theme remains visible without adding movement during a set. */
+@media(prefers-reduced-motion:reduce) {
+  body:is(.momentum-theme-1,.momentum-theme-2,.momentum-theme-3,.momentum-theme-4,.momentum-theme-5) :is(.screen,#workout-overlay,.wo-header,.ex-card,.btn-primary,.btn-complete,.sr-tick,.sri-adj,.nav-tab) {
+    transition:none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -854,7 +1056,7 @@ body.vault-theme-obsidian #scr-today.active{background:radial-gradient(ellipse a
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.8.9';
+const APP_VERSION = '3.8.11';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
@@ -4429,7 +4631,7 @@ var Timer = (function() {
   function render(){
     var el=element(),ov=document.getElementById('workout-overlay'),active=typeof db!=='undefined'&&db&&db.activeSession;
     var visibleWorkout=!!(ov&&!ov.classList.contains('hidden')&&active&&!active.finished);
-    if(visibleWorkout){var head=ov.querySelector('.wo-header');if(head&&el.parentNode!==ov)head.insertAdjacentElement('afterend',el);el.classList.add('workout-rest');}
+    if(visibleWorkout){if(el.parentNode!==ov||ov.firstElementChild!==el)ov.insertBefore(el,ov.firstChild);el.classList.add('workout-rest');}
     else {if(el.parentNode!==document.body)document.body.appendChild(el);el.classList.remove('workout-rest');}
     var belongs=!!active&&(!sessionId||active.id===sessionId);
     el.classList.toggle('hidden',!running||!visibleWorkout||!belongs);
@@ -4506,13 +4708,17 @@ function momentumStageLabel(stage){return stage>=5?'Elysium Mode':stage===4?'Cha
 function renderMomentumCard(data){return Engagement.renderMomentum(data);}
 function applyMomentumTheme(data,enabled){
  var body=document.body;for(var i=0;i<=5;i++)body.classList.remove('momentum-theme-'+i);['obsidian','chrome','elysium','signature'].forEach(function(id){body.classList.remove('vault-theme-'+id);});
- var meta=document.querySelector('meta[name="theme-color"]'),prefs=getMomentumPreferences();
- if(enabled&&prefs.theme){var theme=Engagement.themedClass(data),stage=getMomentumState(data).stage;if(theme)body.classList.add(theme);else if(stage>0)body.classList.add('momentum-theme-'+stage);if(meta)meta.setAttribute('content',theme?'#131420':stage>=5?'#15152a':stage===4?'#24102b':stage===3?'#171329':stage===2?'#071d2a':'#0b1630');}else if(meta)meta.setAttribute('content','#090d1a');
+ var meta=document.querySelector('meta[name="theme-color"]'),prefs=getMomentumPreferences(),stage=enabled&&prefs.theme?getMomentumState(data).stage:0;
+ body.dataset.momentumStage=String(stage);
+ if(stage>0)body.classList.add('momentum-theme-'+stage);
+ if(meta)meta.setAttribute('content',stage>=5?'#15152a':stage===4?'#24102b':stage===3?'#171329':stage===2?'#071d2a':stage===1?'#0b1630':'#090d1a');
+ var label=document.getElementById('wo-theme-label');
+ if(label){label.hidden=stage<2;label.textContent=stage>=2?momentumStageLabel(stage):'';}
 }
-function saveMomentumPreference(k,value){if(!canPersistUserChanges()||['theme','celebrations','sound','haptics'].indexOf(k)<0)return;db.settings.momentum=getMomentumPreferences();db.settings.momentum[k]=!!value;dbSave(db);if(window._currentScreen==='today'){applyMomentumTheme(db,true);App.showScreen('today');}}
-function renderMomentumSettings(){var p=getMomentumPreferences();return '<fieldset class="momentum-settings"><legend>Momentum</legend>'+[['theme','Dynamic Today colours'],['celebrations','Milestone celebrations'],['sound','Milestone chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="saveMomentumPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="MomentumCelebration.preview()">Preview Elysium milestone</button></fieldset>';}
+function saveMomentumPreference(k,value){if(!canPersistUserChanges()||['theme','celebrations','sound','haptics'].indexOf(k)<0)return;db.settings.momentum=getMomentumPreferences();db.settings.momentum[k]=!!value;dbSave(db);applyMomentumTheme(db,true);if(window._currentScreen==='today')App.showScreen('today');}
+function renderMomentumSettings(){var p=getMomentumPreferences();return '<fieldset class="momentum-settings"><legend>Momentum</legend>'+[['theme','Dynamic app colours'],['celebrations','Milestone celebrations'],['sound','Milestone chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="saveMomentumPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="MomentumCelebration.preview()">Preview Elysium milestone</button></fieldset>';}
 function renderMomentumAchievements(data){
- var s=getMomentumState(data),items=[['Ignited',s.bestStreak>=2,'Best run reached 2 gym visits'],['Locked In',s.bestStreak>=3,'Best run reached 3 gym visits'],['Elysium seen',s.bestStreak>=5,'Best run reached 5 gym visits']];
+ var s=getMomentumState(data),items=[['Ignited',s.bestStreak>=2,'Best run reached 2 gym visits'],['Locked In',s.bestStreak>=3,'Best run reached 3 gym visits'],['Five-visit week',s.bestWeek>=5,'Best week reached 5 distinct gym days']];
  return '<details class="momentum-achievements"><summary>Momentum best runs</summary><div class="momentum-achievement-body"><div class="momentum-best">Best gym run: '+s.bestStreak+' visits. Current stage: '+momentumStageLabel(s.stage)+'. Themes are temporary.</div><div class="momentum-badges">'+items.map(function(i){return '<div class="momentum-badge'+(i[1]?' is-unlocked':'')+'"><b>'+i[0]+'</b><span>'+i[2]+'</span></div>';}).join('')+'</div><p class="eng-footnote">Colour previews and the weekly schedule are in Program. Past bests do not keep colours unlocked.</p></div></details>';
 }
 
@@ -4532,19 +4738,20 @@ function recordMomentumEvent(data,sourceId,before,after){
    weeklyKey='momentum-week-win:'+week;
    e={type:'week_four',icon:'✦',kicker:'4 gym visits this week',title:'WEEK WON',detail:'Your weekly goal is met. Fifth is a bonus.',colour:'#ef84d5'};
  }
- if(weeklyKey&&data.momentumCelebrationEvents.some(function(event){return event.eventId===weeklyKey;}))return null;
  if(!e){
    if(after.stage<=before.stage)return null;
-   e=after.stage>=5?{type:'elysium',icon:'✦',kicker:'5 gym visits in your run',title:'ELYSIUM MODE',detail:'Temporary multicolour Momentum is live.',colour:'#d3b2ff'}:
+   if(after.stage>=5)weeklyKey='momentum-elysium:'+week;
+   e=after.stage>=5?{type:'elysium',icon:'✦',kicker:'4+ gym visits last week',title:'ELYSIUM MODE',detail:'Your four-visit weekly goal is on track. Elysium is live.',colour:'#d3b2ff'}:
      after.stage>=4?{type:'four',icon:'✦',kicker:'4 gym visits in your run',title:'CHARGED',detail:'Magenta Momentum is live.',colour:'#ef84d5'}:
      after.stage>=3?{type:'three',icon:'⚡',kicker:'3 gym visits in your run',title:'LOCKED IN',detail:'Violet Momentum is live.',colour:'#a78bfa'}:
      after.stage>=2?{type:'two',icon:'↗',kicker:'2 gym visits in your run',title:'IGNITED',detail:'Cyan Momentum is live.',colour:'#66e0ff'}:null;
  }
  if(!e)return null;
+ if(weeklyKey&&data.momentumCelebrationEvents.some(function(event){return event.eventId===weeklyKey;}))return null;
  e.eventId=weeklyKey||'momentum:'+sourceId;e.sourceId=sourceId;e.achievedAt=Date.now();e.streak=after.streak;e.activeThisWeek=after.activeThisWeek;
  data.momentumCelebrationEvents.push(e);return e;
 }
-var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('momentum-celebration-layer');if(el)el.remove();}function chime(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});[523,659,784,1047].forEach(function(f,i){var o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.065;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.24);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.25);});}catch(e){}}function show(e){if(!e)return;var p=getMomentumPreferences();if(!p.celebrations&&!p.sound&&!p.haptics)return;if(p.sound)chime();if(p.haptics&&typeof navigator.vibrate==='function'){try{navigator.vibrate([30,45,55]);}catch(err){}}if(!p.celebrations)return;clear();var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,layer=document.createElement('div');layer.id='momentum-celebration-layer';layer.className='momentum-celebration-layer';var card=document.createElement('div');card.className='momentum-celebration-card'+(e.type==='elysium'?' is-elysium':'');card.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');card.setAttribute('role','status');card.setAttribute('aria-live','polite');[['momentum-celebration-icon',e.icon],['momentum-celebration-kicker',e.kicker],['momentum-celebration-title',e.title],['momentum-celebration-detail',e.detail]].forEach(function(pair){var n=document.createElement('div');n.className=pair[0];n.textContent=pair[1];card.appendChild(n);});layer.appendChild(card);if(!reduce){for(var i=0;i<22;i++){var bit=document.createElement('i');bit.className='momentum-confetti';bit.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');bit.style.setProperty('--dx',((i%11)-5)*34+'px');bit.style.setProperty('--rot',((i*67)%360)+'deg');bit.style.setProperty('--delay',(i%5)*.025+'s');layer.appendChild(bit);}}document.body.appendChild(layer);timer=setTimeout(clear,2350);}return {show:show,clear:clear,preview:function(){show({type:'elysium',icon:'✦',kicker:'5 gym visits',title:'ELYSIUM MODE',detail:'A temporary five-visit colour milestone.',colour:'#d3b2ff'});}};})();
+var MomentumCelebration=(function(){var timer=null,audio=null;function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('momentum-celebration-layer');if(el)el.remove();}function chime(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});[523,659,784,1047].forEach(function(f,i){var o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.065;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.055,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.24);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.25);});}catch(e){}}function show(e){if(!e)return;var p=getMomentumPreferences();if(!p.celebrations&&!p.sound&&!p.haptics)return;if(p.sound)chime();if(p.haptics&&typeof navigator.vibrate==='function'){try{navigator.vibrate([30,45,55]);}catch(err){}}if(!p.celebrations)return;clear();var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,layer=document.createElement('div');layer.id='momentum-celebration-layer';layer.className='momentum-celebration-layer';var card=document.createElement('div');card.className='momentum-celebration-card'+(e.type==='elysium'?' is-elysium':'');card.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');card.setAttribute('role','status');card.setAttribute('aria-live','polite');[['momentum-celebration-icon',e.icon],['momentum-celebration-kicker',e.kicker],['momentum-celebration-title',e.title],['momentum-celebration-detail',e.detail]].forEach(function(pair){var n=document.createElement('div');n.className=pair[0];n.textContent=pair[1];card.appendChild(n);});layer.appendChild(card);if(!reduce){for(var i=0;i<22;i++){var bit=document.createElement('i');bit.className='momentum-confetti';bit.style.setProperty('--momentum-celebration-color',e.colour||'#66e0ff');bit.style.setProperty('--dx',((i%11)-5)*34+'px');bit.style.setProperty('--rot',((i*67)%360)+'deg');bit.style.setProperty('--delay',(i%5)*.025+'s');layer.appendChild(bit);}}document.body.appendChild(layer);timer=setTimeout(clear,2350);}return {show:show,clear:clear,preview:function(){show({type:'elysium',icon:'✦',kicker:'Preview / weekly consistency',title:'ELYSIUM MODE',detail:'Preview only. Your active theme is unchanged.',colour:'#d3b2ff'});}};})();
 
 // ============================================================
 // TODAY SCREEN
@@ -4653,16 +4860,17 @@ function renderWorkout(db) {
   var lateralMakeup=renderSundayLateralMakeupAction(sess);
   var ov = document.getElementById('workout-overlay');
   ov.innerHTML =
+    '<div class="wo-body" id="wo-body">' +
     '<div class="wo-header">' +
       '<button class="wo-back" onclick="App.closeWorkout()">✕</button>' +
       '<div class="wo-hinfo">' +
         '<div class="wo-htitle">' + esc(getSessionLabel(sess)) + '</div>' +
         '<div class="wo-hprog">' + exDone + ' / ' + exerciseIds.length + ' exercises</div>' +
-        '<div class="wo-session-clock" id="wo-session-clock">' + fmtTime(getSessionElapsedMs(sess)) + '</div>' +
+        '<div class="wo-session-meta"><div class="wo-session-clock" id="wo-session-clock">' + fmtTime(getSessionElapsedMs(sess)) + '</div><span class="wo-theme-label" id="wo-theme-label" hidden></span></div>' +
       '</div>' +
       '<button class="btn-finish" onclick="App.finishWorkout()">Finish</button>' +
     '</div>' +
-    '<div class="wo-body" id="wo-body">' +
+    '<div class="wo-content">' +
       timerCapBanner + '<div class="workout-tools"><button type="button" class="btn-ghost btn-sm" onclick="App.chooseWorkout()">Change workout</button><button type="button" class="btn-ghost btn-sm" onclick="App.startRest()">Rest timer</button></div>'+rushedControl + '<div id="eng-challenge">'+Engagement.renderChallenge(db,sess)+'</div>' +
       exerciseIds.map(function(exId) {
         var _dn=isExerciseComplete(sess, exId);
@@ -4675,17 +4883,18 @@ function renderWorkout(db) {
         '<div class="wo-stats">' + doneWorking + ' completed working rows · ' + getCompletedProgrammeRounds(sess) + ' programmed rounds · ' + sess.sets.filter(function(s){return s.completed;}).reduce(function(a,s){return a+(s.measurementMode==='timed'?0:Number(s.reps)||0);},0) + ' total reps</div>' +
         '<button class="btn-primary btn-xl" onclick="App.finishWorkout()">Finish Workout</button>' +
       '</div>' +
-    '</div>';
+    '</div></div>';
   ov.classList.remove('hidden');
   if(typeof Cardio!=='undefined')Cardio.onNavigate('workout');
   document.body.classList.add('workout-view');
+  applyMomentumTheme(db,true);
   SessionClock.start();Timer.refresh();
   syncStorageNotice();
 
   // Auto-scroll to first incomplete exercise
   setTimeout(function() {
     var first = ov.querySelector('.ex-card:not(.ex-card--done)');
-    if(sess.engagementChallenge&&first&&first.id==='exc-'+sess.engagementChallenge.exerciseId&&!sess.sets.some(function(r){return r.exId===sess.engagementChallenge.exerciseId&&r.completed;})){var body=document.getElementById('wo-body');if(body)body.scrollTop=0;}else scrollExIntoView(first, false);
+    if(first&&first.id==='exc-'+exerciseIds[0]&&!sess.sets.some(function(r){return r.completed;})){var body=document.getElementById('wo-body');if(body)body.scrollTop=0;}else if(sess.engagementChallenge&&first&&first.id==='exc-'+sess.engagementChallenge.exerciseId&&!sess.sets.some(function(r){return r.exId===sess.engagementChallenge.exerciseId&&r.completed;})){var body=document.getElementById('wo-body');if(body)body.scrollTop=0;}else scrollExIntoView(first, false);
   }, 200);
 }
 
@@ -4905,11 +5114,11 @@ function fmtRestRange(min,max) { return fmtRestLabel(min)+(min===max?'':'–'+fm
 function scrollExIntoView(el, center) {
   var body = document.getElementById('wo-body');
   if (!body || !el) return;
-  var elTop = el.offsetTop;
+  var elTop = el.getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop;
   var target = center
-    ? Math.max(0, elTop - (body.offsetHeight - el.offsetHeight) / 2)
-    : Math.max(0, elTop - 70);
-  body.scrollTo({ top: target, behavior: 'smooth' });
+    ? Math.max(0, elTop - (body.clientHeight - el.offsetHeight) / 2)
+    : Math.max(0, elTop - 12);
+  body.scrollTo({ top: target, behavior: window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth' });
 }
 
 // ============================================================
@@ -5356,8 +5565,8 @@ var App = (function() {
     // Render on demand
     if(typeof Cardio!=='undefined')Cardio.onNavigate(name);
     if (name === 'cardio') { el.innerHTML = Cardio.render(); }
-    if (name === 'today')   { el.innerHTML = renderToday(db); applyMomentumTheme(db,true); }
-    else { applyMomentumTheme(db,false); }
+    if (name === 'today')   { el.innerHTML = renderToday(db); }
+    applyMomentumTheme(db,true);
     if (name === 'home')    { el.innerHTML = renderHome(db); }
     if (name === 'volume')  { el.innerHTML = renderVolume(db); }
     if (name === 'history') { el.innerHTML = renderHistory(db); }
@@ -6055,6 +6264,7 @@ var App = (function() {
     Engagement.onSavedSession(db,sess);
     if(!dbSave(db)){db=JSON.parse(beforeFinish);alert('Could not save this workout. Your active session is retained; export a backup and check storage.');return;}
     // Saved first, original arcade summary second. No overlapping milestone overlay.
+    applyMomentumTheme(db,true);
     Timer.skip();document.body.classList.remove('workout-view');
     showSummary(sess);
     Engagement.sound();
@@ -6513,7 +6723,7 @@ var Cardio=(function(){
   }
   return html;
  }
- function redraw(){var el=document.getElementById('scr-cardio');if(el)el.innerHTML=render();tick();}
+ function redraw(){var el=document.getElementById('scr-cardio');if(el)el.innerHTML=render();applyMomentumTheme(db,true);tick();}
  function pauseActive(){var a=store().active;if(!cardioTimerSupported(a))return;a.elapsedMs=cardioTimerElapsed(a);a.running=false;a.runningAt=null;dbSave(db);}
  function tick(){var a=store().active;if(!cardioTimerSupported(a))return;var elapsed=cardioTimerElapsed(a);if(elapsed>=a.totalSeconds*1000&&a.running){a.elapsedMs=elapsed;a.running=false;a.runningAt=null;dbSave(db);if(view==='timer')redraw();return;}if(window._currentScreen!=='cardio'||view!=='timer')return;var cursor=0,phase=a.steps.length-1,remaining=0;a.steps.some(function(step,i){var end=cursor+step.seconds*1000;if(elapsed<end){phase=i;remaining=Math.ceil((end-elapsed)/1000);return true;}cursor=end;return false;});var p=document.getElementById('cd-phase'),count=document.getElementById('cd-countdown'),total=document.getElementById('cd-total');if(p)p.textContent=elapsed>=a.totalSeconds*1000?'Complete. Review what you actually did.':a.steps[phase].label;if(count)count.textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');if(total)total.textContent='Elapsed '+Math.floor(elapsed/60000)+' / '+round1(a.totalSeconds/60)+' min';if(lastPhase>=0&&phase!==lastPhase&&store().preferences.sound&&document.visibilityState==='visible')beep();lastPhase=phase;}
  function beep(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audio=audio||new AC();audio.resume().catch(function(){});var o=audio.createOscillator(),g=audio.createGain();o.frequency.value=660;g.gain.value=.08;o.connect(g);g.connect(audio.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.15);o.stop(audio.currentTime+.16);}catch(e){}}
@@ -6572,7 +6782,7 @@ var Engagement = (function () {
     {id:'cyan',name:'Ignited',tag:'2 GYM VISITS',paint:'linear-gradient(125deg,#062136,#1f82bd,#64e8fa)',need:2,desc:'Two qualifying gym visits in one active run.'},
     {id:'violet',name:'Locked In',tag:'3 GYM VISITS',paint:'linear-gradient(125deg,#151a38,#6554b8,#b49aff)',need:3,desc:'Three gym visits in the current run. Recovery days can protect it.'},
     {id:'magenta',name:'Charged',tag:'4 GYM VISITS',paint:'linear-gradient(125deg,#271432,#9a39ad,#f379c5)',need:4,desc:'Four gym visits in the current run. Four visits make a successful week; five is a bonus.'},
-    {id:'elysium',name:'Elysium Mode',tag:'5+ GYM VISITS',paint:'linear-gradient(115deg,#25445a,#608ea8 23%,#8c77b0 49%,#c683af 73%,#d2b374)',need:5,desc:'The multicolour theme is temporary and fades when your run ends.'}
+    {id:'elysium',name:'Elysium Mode',tag:'4 LAST WEEK + ON TRACK',paint:'linear-gradient(115deg,#25445a,#608ea8 23%,#8c77b0 49%,#c683af 73%,#d2b374)',need:5,desc:'At least four gym visits in the previous Monday-to-Sunday week, with four still achievable this week. Keep your gym run active; the normal break reset still applies.'}
   ];
 
   function defaults(){return {version:VERSION,selectedTheme:'adaptive',unlocked:{},recoveryDays:{},preferences:{protectRecovery:true,challenge:true,victory:true,victorySound:false},events:{},introducedAt:Date.now()};}
@@ -6639,7 +6849,7 @@ var Engagement = (function () {
     return d===1||d===5||d===3&&!fifthDaySelected(data,dateTs(key));
   }
   // v3.8.4: four visits make a successful week; five is an optional bonus.
-  // Forecasts never erase an earned colour during the current week.
+  // Weekly feasibility controls Elysium only; it does not erase the underlying run.
   // Colours remain temporary: completed-week and inactivity rules still apply.
   var GYM_WEEK_TARGET = 4;
   var GYM_WEEK_BONUS = 5;
@@ -6716,7 +6926,8 @@ var Engagement = (function () {
     for(var day=today;day<=end;day=shift(day,1)){
       if(dates.indexOf(day)<0&&!rest[day])available++;
     }
-    // Possibility is descriptive only. Never turn it into a midweek reset gate.
+    // Remaining dates include today once and exclude explicitly marked recovery dates.
+    // This gates Elysium, without resetting the underlying gym run.
     return {count:count,goal:GYM_WEEK_TARGET,bonus:GYM_WEEK_BONUS,remaining:available,
       possible:count+available>=GYM_WEEK_TARGET,bonusPossible:count+available>=GYM_WEEK_BONUS,
       goalMet:count>=GYM_WEEK_TARGET,bonusMet:count>=GYM_WEEK_BONUS};
@@ -6742,8 +6953,8 @@ var Engagement = (function () {
         if((weeks[cursor]||0)<GYM_WEEK_TARGET){missedWeek={start:cursor,count:weeks[cursor]||0};break;}
       }
     }
-    // Count what happened, not a prediction. Even a late-week new run can earn
-    // its colour now; only an actual closed week or a real gap can end it.
+    // The underlying run counts actual visits. Only a closed missed week or a
+    // real gap ends that run; Elysium has its separate weekly consistency gate.
     var resetReason=!streak&&last?(!fresh?(daysSince>3?'inactivity':'unprotected_gap'):missedWeek?'missed_week':null):null;
     var allowedRest=!!pref(data,'protectRecovery'),d=new Date(dateTs(today)).getDay(),explicitRest=!!((state(data).recoveryDays||{})[today]);
     var plannedRest=d===1||d===5||(d===3&&!fifthDaySelected(data,dateTs(today)));
@@ -6753,11 +6964,16 @@ var Engagement = (function () {
       var k=shift(monday,i),active=!!set[k],weekday=i+1;
       calendarWeek.push({key:k,label:['M','T','W','T','F','S','S'][i],active:active,today:k===today,future:k>today,recovery:k<=today&&!active&&!!pref(data,'protectRecovery')&&!!(rest[k]||weekday===1||weekday===5||weekday===3&&!fifthDaySelected(data,dateTs(k)))});
     }
+    // v3.8.11: reward last week's four visits while four remain achievable now.
+    var previousWeekVisits=weeks[shift(monday,-7)]||0,previousWeekGoalMet=previousWeekVisits>=GYM_WEEK_TARGET;
+    var elysiumEligible=previousWeekGoalMet&&week.possible&&streak>0;
+    var stage=elysiumEligible?5:Math.min(4,streak);
     return {today:today,todayActive:todayActive,protectedToday:protectedToday,streak:streak,bestStreak:best,
       bestWeek:Math.max(0,...Object.keys(weeks).map(function(k){return weeks[k];})),totalActiveDays:dates.length,
       activeThisWeek:week.count,weekGoal:GYM_WEEK_TARGET,weekBonusGoal:GYM_WEEK_BONUS,
-      weekGoalMet:week.goalMet,weekBonusMet:week.bonusMet,weekDays:calendarWeek,stage:Math.min(5,streak),
-      nextMilestone:[2,3,4,5].find(function(n){return n>streak;})||null,lastActiveDate:last,daysSinceLastActivity:daysSince,
+      weekGoalMet:week.goalMet,weekBonusMet:week.bonusMet,weekDays:calendarWeek,stage:stage,
+      previousWeekVisits:previousWeekVisits,previousWeekGoalMet:previousWeekGoalMet,elysiumEligible:elysiumEligible,
+      nextMilestone:stage>=5?null:([2,3,4].find(function(n){return n>streak;})||null),lastActiveDate:last,daysSinceLastActivity:daysSince,
       atRisk:!priorWeeksMet||daysSince!==null&&daysSince>=3,weekPossible:week.possible&&priorWeeksMet,
       currentWeekFeasible:week.possible,currentWeekBonusFeasible:week.bonusPossible,missedWeek:missedWeek,
       resetReason:resetReason,weekRemaining:week.remaining,qualifyingGymDates:dates};
@@ -6778,25 +6994,28 @@ var Engagement = (function () {
   function nextUnlock(data){
     var s=momentum(data);
     if(s.resetReason)return 'Four visits is a win. Five is a bonus.';
-    if(s.weekBonusMet)return 'Bonus achieved. Recovery is part of the plan.';
-    if(s.weekGoalMet)return s.stage>=5?'Elysium Momentum is live.':s.stage===4?'Magenta Momentum is live.':'Weekly goal met. Keep your own pace.';
+    if(s.stage>=5)return s.weekGoalMet?'Elysium is live. Both weeks reached the four-visit goal.':'Elysium is live. Last week met the goal; four is still possible this week.';
+    if(s.previousWeekGoalMet&&!s.currentWeekFeasible)return 'Four visits no longer fit this week. Your run colour stays active.';
+    if(s.weekGoalMet)return 'Week won. Keep your run active for Elysium next week.';
     if(s.activeThisWeek===3)return 'Next visit: week won.';
+    if(s.stage===4)return 'Charged is live. Elysium needs a four-visit previous week.';
     if(!s.streak)return 'Four visits is a win. Five is a bonus.';
-    if(s.streak>=5)return 'Elysium Momentum is live.';
-    var n=s.nextMilestone,name=n===2?'Ignited':n===3?'Locked In':n===4?'Charged':'Elysium Mode';
+    var n=s.nextMilestone,name=n===2?'Ignited':n===3?'Locked In':'Charged';
     return 'Next visit: '+name+'.';
   }
 
   function renderMomentum(data){
-    var s=momentum(data),title=s.weekBonusMet?'Bonus achieved.':s.weekGoalMet?'Week won.':
+    var s=momentum(data),title=s.weekBonusMet?'Bonus achieved.':s.weekGoalMet?'Week won.':s.stage>=5?'Elysium Mode':
       s.streak?s.streak+' gym '+(s.streak===1?'visit':'visits')+' in this run':s.todayActive?'Gym visit recorded':'Start a fresh run';
     var sub=momentumResetMessage(s);
     if(!sub){
-      if(s.weekBonusMet)sub='Five visits done. Enjoy your recovery.';
+      if(s.stage>=5&&!s.weekGoalMet)sub='Last week: '+s.previousWeekVisits+' gym visits. Keep four achievable this week.';
+      else if(s.previousWeekGoalMet&&!s.currentWeekFeasible)sub='Elysium paused. Your gym run is still recorded.';
+      else if(s.weekBonusMet)sub='Five visits done. Enjoy your recovery.';
       else if(s.weekGoalMet)sub='Four visits done. Fifth is a bonus.';
       else if(s.activeThisWeek===3)sub='One more visit for a successful week.';
       else if(s.todayActive)sub='Gym visit recorded. Today counts once.';
-      else if(s.protectedToday)sub='Recovery today. Your colour is protected.';
+      else if(s.protectedToday)sub='Recovery today. Your run is protected.';
       else sub='Four visits is a win. Five is a bonus.';
     }
     var dots=s.weekDays.map(function(day){
@@ -6804,7 +7023,7 @@ var Engagement = (function () {
       return '<div class="momentum-day'+(day.active?' is-active':'')+(day.today?' is-today':'')+(day.recovery?' is-recovery':'')+(day.future?' is-future':'')+'" title="'+esc(day.key+status)+'"><b>'+day.label+'</b><i aria-label="'+esc(day.key+status)+'"></i></div>';
     });
     var badge=s.todayActive?'✓':s.protectedToday?'Ⅱ':'○',badgeText=s.todayActive?'GYM':s.protectedToday?'REST':'TODAY';
-    return '<section class="momentum-card momentum-stage-'+s.stage+(s.stage>=5?' is-elysium':'')+'" aria-label="Training Momentum"><div class="momentum-top"><div class="momentum-copy"><div class="momentum-kicker">GYM MOMENTUM'+(s.stage>=5?' / ELYSIUM':'')+'</div><div class="momentum-title">'+esc(title)+'</div><div class="momentum-sub">'+esc(sub)+'</div></div><div class="daily-momentum-badge" aria-label="'+esc(badgeText.toLowerCase())+'"><strong>'+badge+'</strong><small>'+badgeText+'</small></div></div><div class="momentum-week" role="group" aria-label="Current Monday to Sunday week">'+dots.join('')+'</div><div class="momentum-next"><span class="momentum-mini-icon">✦</span><span><b>'+s.activeThisWeek+' / '+s.weekBonusGoal+' gym visits this week.</b> '+esc(nextUnlock(data))+'</span></div></section>';
+    return '<section class="momentum-card momentum-stage-'+s.stage+(s.stage>=5?' is-elysium':'')+'" aria-label="Training Momentum"><div class="momentum-top"><div class="momentum-copy"><div class="momentum-kicker">GYM MOMENTUM'+(s.stage>=5?' / ELYSIUM':'')+'</div><div class="momentum-title">'+esc(title)+'</div><div class="momentum-sub">'+esc(sub)+'</div></div><div class="daily-momentum-badge" aria-label="'+esc(badgeText.toLowerCase())+'"><strong>'+badge+'</strong><small>'+badgeText+'</small></div></div><div class="momentum-week" role="group" aria-label="Current Monday to Sunday week">'+dots.join('')+'</div><div class="momentum-next"><span class="momentum-mini-icon">✦</span><span><b>'+s.activeThisWeek+' / '+s.weekGoal+' gym visits this week.</b> '+esc(nextUnlock(data))+'</span></div></section>';
   }
   function scheduleRows(data,now){
     var today=localDateKey(now||Date.now()),start=weekKey(today),fifth=fifthDaySelected(data,now),rows=[];
@@ -6831,7 +7050,7 @@ var Engagement = (function () {
   function vaultContent(){
     var s=momentum(db),stage=s.stage;
     var cards=THEMES.map(function(t){var current=(t.need===0?stage<2:stage===t.need||t.need===5&&stage>=5);return '<article class="vault-theme'+(current?' selected':'')+'" data-theme="'+t.id+'"><div class="vault-art" style="--vault-paint:'+t.paint+'"><span class="vault-badge">'+(current?'ACTIVE NOW':t.tag)+'</span></div><div class="vault-content"><h3>'+t.name+'</h3><p>'+esc(t.desc)+'</p><button class="vault-btn" onclick="Engagement.previewTheme(\''+t.id+'\')">Preview colour</button></div></article>';}).join('');
-    return '<div class="vault-day-progress"><b>'+stage+'</b><span>live Momentum stage · '+s.activeThisWeek+'/5 gym visits this week</span></div><p class="eng-footnote" style="margin:10px 0 17px">These colours are NOT permanently unlocked. Each stage appears automatically as your current qualifying gym run grows. Four visits make a successful week; five is a bonus. Recovery protects the run without adding visits. Three complete days without a gym visit reset the colour. A completed four-visit week carries the run into Monday.</p><div class="vault-grid">'+cards+'</div><div class="vault-preview" id="vault-preview" aria-live="polite"></div><details class="arcade-details"><summary>What counts?</summary><p>A finished, saved lifting session with completed working sets, even when shortened or accessories are skipped, or ten minutes of saved gym-machine cardio on the same date. Two five-minute machine logs count together. Brisk walks and Home do not count.</p><p>Four gym visits meets the weekly attendance goal. A fifth is an optional bonus, not another required hard lifting day. Each date counts once. Colours stay temporary and are never permanently unlocked.</p></details>';
+    return '<div class="vault-day-progress"><b>'+stage+'</b><span>live Momentum stage · '+s.activeThisWeek+'/'+s.weekGoal+' gym visits this week</span></div><p class="eng-footnote" style="margin:10px 0 17px">These colours are NOT permanently unlocked. Cyan, violet and magenta follow your active gym run. Elysium is live when the previous Monday-to-Sunday week has at least four gym visits and four visits are still achievable this week. Your gym run must stay active. Four visits make a successful week; five is an optional bonus. Recovery protects the run without adding visits. Three complete gym-free days reset the colour. At each Monday, the app checks the week just completed.</p><div class="vault-grid">'+cards+'</div><div class="vault-preview" id="vault-preview" aria-live="polite"></div><details class="arcade-details"><summary>What counts?</summary><p>A finished, saved lifting session with completed working sets, even when shortened or accessories are skipped, or ten minutes of saved gym-machine cardio on the same date. Two five-minute machine logs count together. Brisk walks and Home do not count.</p><p>Four gym visits meet the weekly attendance goal. A fifth is an optional bonus, not another required hard lifting day. Each date counts once. Starting a workout adds no visit until real activity is saved. For Elysium, this week\'s saved gym dates plus remaining available dates must reach four. Today counts as available until you log a visit; explicitly marked recovery dates are excluded. Only the immediately previous week supplies the four-visit requirement. Colours stay temporary and are never permanently unlocked.</p></details>';
   }
   function openVault(){openSheet('Momentum colours','Temporary live stages. Preview only, never equipped permanently.',vaultContent(),'vault');}
   function selectTheme(id){previewTheme(id);}
@@ -6844,10 +7063,10 @@ var Engagement = (function () {
     if(!dbSave(db))return;
     closeSheet();App.showScreen('today');
     var after=momentum(db);
-    toast(after.streak?'Recovery recorded. Your Momentum colour is still live.':'Recovery recorded. No gym visit added.');
+    toast('Recovery recorded. No gym visit added.');
   }
-  function settingsHtml(){return '<fieldset class="eng-settings"><legend>Training rewards</legend>'+[['protectRecovery','Allow recovery-day colour protection'],['challenge','One previous-performance challenge'],['victory','Simple anime-style finish'],['victorySound','Session-complete sound']].map(function(p){return '<label><input type="checkbox" '+(pref(db,p[0])?'checked':'')+' onchange="Engagement.savePreference(\''+p[0]+'\',this.checked)"><span>'+p[1]+'</span></label>';}).join('')+'<div class="eng-previews"><button class="btn-ghost btn-sm" onclick="Engagement.previewVictory()">Preview victory</button></div><p class="eng-footnote">Four visits is a successful week; five is a bonus. Recovery adds no visit. Colours reset after three complete missed days or a completed week below four visits, never because five becomes impossible. Sound is off by default.</p></fieldset>';}
-  function savePreference(k,v){if(!canPersistUserChanges()||!Object.prototype.hasOwnProperty.call(defaults().preferences,k))return;ensure(db).preferences[k]=!!v;dbSave(db);}
+  function settingsHtml(){return '<fieldset class="eng-settings"><legend>Training rewards</legend>'+[['protectRecovery','Allow recovery-day colour protection'],['challenge','One previous-performance challenge'],['victory','Simple anime-style finish'],['victorySound','Session-complete sound']].map(function(p){return '<label><input type="checkbox" '+(pref(db,p[0])?'checked':'')+' onchange="Engagement.savePreference(\''+p[0]+'\',this.checked)"><span>'+p[1]+'</span></label>';}).join('')+'<div class="eng-previews"><button class="btn-ghost btn-sm" onclick="Engagement.previewVictory()">Preview victory</button></div><p class="eng-footnote">Four visits is a successful week; five is a bonus. Recovery adds no visit. Your run resets after three complete missed days or a completed week below four visits. Elysium also requires four visits last week and four still achievable this week. A fifth visit is optional. Sound is off by default.</p></fieldset>';}
+  function savePreference(k,v){if(!canPersistUserChanges()||!Object.prototype.hasOwnProperty.call(defaults().preferences,k))return;ensure(db).preferences[k]=!!v;dbSave(db);applyMomentumTheme(db,true);}
   function toast(text){clearTimeout(toastTimer);var old=document.getElementById('eng-toast');if(old)old.remove();var t=document.createElement('div');t.id='eng-toast';t.className='eng-toast';t.setAttribute('role','status');t.textContent=text;document.body.appendChild(t);toastTimer=setTimeout(function(){t.remove();},2100);}
 
   // One comparable main-lift challenge. No challenge on ambiguous/mismatched sessions.
@@ -6993,7 +7212,9 @@ function initApp() {
     var key=localDateKey();
     if(key===lastMomentumCalendarDay)return;
     lastMomentumCalendarDay=key;
-    if(window._currentScreen==='today')App.showScreen('today');
+    applyMomentumTheme(db,true);
+    var workout=document.getElementById('workout-overlay');
+    if(window._currentScreen==='today'&&(!workout||workout.classList.contains('hidden')))App.showScreen('today');
   }
   window.addEventListener('focus',refreshLiveMomentumIfDayChanged);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshLiveMomentumIfDayChanged();});
