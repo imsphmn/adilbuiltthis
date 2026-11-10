@@ -46,8 +46,8 @@
   --red:#FF7474; --red-rgb:255 116 116;
   --st1:#5E8BFF; --st2:#3ED0EE; --st3:#9B7EFF; --st4:#EE68C9;
   --elysium:linear-gradient(105deg,#7FE2F0,#A9B5FF 30%,#CCA9FF 55%,#F4A6D3 78%,#ECD48E);
-  --display:'Big Shoulders','DIN Condensed','Avenir Next Condensed','Arial Narrow',sans-serif;
-  --text:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;
+  --text:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --display:var(--text);
   --nav-h:62px;
   /* Legacy names kept for any older inline markup. */
   --accent:var(--light); --accent-bg:rgb(var(--light-rgb)/.14); --accent-ln:rgb(var(--light-rgb)/.38);
@@ -61,8 +61,9 @@ body.momentum-theme-5{--light:#C9B2FF;--light-rgb:201 178 255;--light-ink:#16122
   --glow:radial-gradient(80% 50% at 0% -6%,rgba(110,220,236,.22),transparent 60%),radial-gradient(70% 45% at 100% 4%,rgba(240,150,206,.20),transparent 62%),radial-gradient(60% 40% at 50% -10%,rgba(176,150,255,.20),transparent 60%)}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
 html{-webkit-text-size-adjust:100%;background:var(--arena)}
-body{color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));font-optical-sizing:auto}
+body{color:var(--ink);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));font-optical-sizing:auto}
 body::before{content:'';position:fixed;inset:0 0 auto 0;height:70vh;background:var(--glow);pointer-events:none;z-index:0;transition:opacity .4s}
 input,button,textarea,select{font:inherit;color:inherit}
 summary{list-style:none;cursor:pointer}
@@ -979,7 +980,7 @@ body::after{content:'';position:fixed;inset:0;background-image:var(--fine-grain)
 .mo-top{gap:10px;align-items:flex-end}
 .mo-label{font-size:10px;line-height:1.4;font-weight:650;letter-spacing:.13em;text-transform:uppercase;color:#bac6d4}
 .mo-name,.mo-panel.stage-0 .mo-name,.mo-panel.is-elysium .mo-name{
-  margin-top:10px;font-family:var(--heading);font-size:36px;font-weight:650;letter-spacing:-.052em;line-height:.99;text-transform:none;
+  margin-top:10px;font-family:var(--heading);font-size:32px;font-weight:700;letter-spacing:0;line-height:1.1;text-transform:none;
   color:#f5f8fc;background:none;-webkit-text-fill-color:currentColor;text-shadow:0 1px 20px rgba(0,0,0,.2);
 }
 .mo-panel.is-elysium .mo-name{color:#f1edf8;background:var(--foil);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -993,7 +994,7 @@ body::after{content:'';position:fixed;inset:0;background-image:var(--fine-grain)
 .mo-next{border-color:rgba(220,232,255,.15);font-size:13px;line-height:1.45;padding-top:13px;margin-top:13px;color:#bec7d2}
 .mo-next b,.mo-next strong{color:#edf3fa}
 .plan{margin-bottom:18px}
-.plan-title{font-family:var(--heading);font-size:34px;font-weight:650;letter-spacing:-.045em;line-height:1.07;margin-bottom:10px;text-wrap:balance}
+.plan-title{font-family:var(--heading);font-size:30px;font-weight:700;letter-spacing:0;line-height:1.12;margin-bottom:10px;text-wrap:balance}
 .plan-reason{font-size:14px;line-height:1.5;margin-bottom:18px;color:var(--ink-2)}
 .plan-other{margin-top:8px}
 .plan-other>summary{font-size:13px;font-weight:550;min-height:40px}
@@ -1115,9 +1116,9 @@ body.momentum-theme-5 .sr-tick{background:var(--elysium)}
 @media(max-width:360px){
   .screen-title{font-size:35px}
   .mo-panel{padding:19px 16px 14px}
-  .mo-name,.mo-panel.stage-0 .mo-name,.mo-panel.is-elysium .mo-name{font-size:31px}
+  .mo-name,.mo-panel.stage-0 .mo-name,.mo-panel.is-elysium .mo-name{font-size:28px}
   .mo-count{font-size:38px}.mo-count small{font-size:20px}
-  .plan-title{font-size:30px}
+  .plan-title{font-size:26px}
   .link-rows{gap:8px}.link-row{padding:12px 9px;gap:7px}.link-row-title{font-size:12px}.link-row-icon{width:28px;height:30px}.link-row-meta{font-size:10px}
   .wo-htitle{font-size:18px}.wo-header{gap:7px}
   .exc-name{font-size:17px}
@@ -1128,8 +1129,8 @@ body.momentum-theme-5 .sr-tick{background:var(--elysium)}
   .screen{padding-top:32px}
   .today-head{margin-bottom:21px}
   .mo-panel{padding:26px 24px 20px}
-  .mo-name,.mo-panel.is-elysium .mo-name{font-size:42px}
-  .plan-title{font-size:38px}
+  .mo-name,.mo-panel.is-elysium .mo-name{font-size:36px}
+  .plan-title{font-size:34px}
 }
 @media(prefers-reduced-motion:reduce){
   .victory.is-animated .victory-title{animation:none!important;transform:none!important}
@@ -1177,7 +1178,7 @@ body.momentum-theme-5 .sr-tick{background:var(--elysium)}
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.10.1';
+const APP_VERSION = '3.10.2';
 const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
 const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
