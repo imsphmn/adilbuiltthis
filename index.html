@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#070A12">
+<meta name="theme-color" content="#0B0E13">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Adil Gym</title>
@@ -37,7 +37,7 @@
   --arena:#070A12; --stand:#0E1320; --rail:#151B2A; --rail-2:#1C2334;
   --seam:rgba(158,173,210,.13); --seam-strong:rgba(158,173,210,.24);
   --ink:#EEF1F8; --ink-2:#A1AABD; --ink-3:#6D7689;
-  --light:#5E8BFF; --light-rgb:94 139 255; --light-ink:#071027;
+  --light:#C7D0E0; --light-rgb:199 208 224; --light-ink:#0B0E13;
   --light-fill:var(--light);
   --glow:radial-gradient(110% 60% at 8% -8%,rgb(var(--light-rgb)/.20),transparent 62%);
   --gold:#F4C452; --gold-rgb:244 196 82;
@@ -946,9 +946,9 @@ body.momentum-theme-5 .victory-stage{background:radial-gradient(70% 80% at 10% 0
 <style id="shader-skin">
 /* v3.10.0. Original light, grain and glass treatment inspired by Scroll Shaders. */
 :root{
-  --arena:#080a0d;--stand:#11151a;--rail:#191e25;--rail-2:#232a32;
+  --arena:#0B0E13;--stand:#151A22;--rail:#1D2430;--rail-2:#252E3C;
   --seam:rgba(216,226,240,.12);--seam-strong:rgba(216,226,240,.22);
-  --ink:#f4f6f8;--ink-2:#b2b9c3;--ink-3:#929ca9;
+  --ink:#F2F4F8;--ink-2:#AAB4C3;--ink-3:#9CA7B7;
   --heading:var(--text);--nav-h:78px;
   --surface:linear-gradient(135deg,rgba(239,246,255,.045),rgba(239,246,255,0) 54%),var(--stand);
   --foil:linear-gradient(125deg,#c2ebff 0%,#e3d6ff 36%,#f4cde7 66%,#e5deb5 100%);
@@ -1154,6 +1154,10 @@ body.momentum-theme-5 .sr-tick{background:var(--elysium)}
 #workout-overlay .set-row--skipped .sr-done-label,
 #workout-overlay .set-row--skipped>span:first-child{font-family:var(--set-labels);font-size:12px;font-weight:700;line-height:1.4}
 @media(max-width:360px){#workout-overlay .sri-inp{font-size:16px}}
+body{--accent:var(--light);--accent-bg:rgb(var(--light-rgb)/.14);--accent-ln:rgb(var(--light-rgb)/.38);--light-fill:var(--light)}
+body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.momentum-theme-5) .gym-atmosphere{opacity:.12}
+body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.momentum-theme-5) .btn-primary::before{opacity:.08}
+body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.momentum-theme-5) .btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);background:linear-gradient(135deg,#C7D0E0,#AEBACD);color:#0B0E13}
 </style>
 </head>
 <body>
@@ -1178,18 +1182,19 @@ body.momentum-theme-5 .sr-tick{background:var(--elysium)}
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.10.2';
-const PROGRAM_NAME = 'Chest Priority, Four Days + Optional Fifth';
-const PROGRAM_VERSION = 'chest-priority-december-2026-v1';
+const APP_VERSION = '3.11.0';
+const PROGRAM_NAME = 'Wedding Block, Four Core Days';
+const PROGRAM_VERSION = 'wedding-four-core-2026-12-13-v1';
+const PRE_WEDDING_PROGRAM_VERSION = 'chest-priority-december-2026-v1';
 const PRIOR_ACTIVE_VERSION = 'focused-chest-back-split-2026-11-30-v2';
-const PROGRAMME_END_DATE = '2026-11-30';
+const PROGRAMME_END_DATE = '2026-12-13';
 const PREVIOUS_FOCUSED_BLOCK_VERSION = 'chest-back-priority-2026-11-30-v1';
 const PREVIOUS_LOCAL_PROGRAM_VERSION = 'focused-chest-back-split-2026-11-30-v1';
 const PREVIOUS_PROGRAM_VERSION = 'september-november-2026-weekend-first-3';
 const LEGACY_ADAPTIVE_PROGRAM_VERSION = 'september-november-2026-adaptive-2';
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
-const CORE_DAY_NUMBERS = [4,5,1,2];
-const ALL_DAY_NUMBERS = [4,5,1,2,3];
+const CORE_DAY_NUMBERS = [1,2,5,4];
+const ALL_DAY_NUMBERS = [1,2,5,4,3];
 var DB_LOAD_ERROR = null;
 var DB_STORAGE_BLOCKED = false;
 var DB_SAFE_TO_EXPORT = true;
@@ -3435,16 +3440,457 @@ EX.hip_thrust.name='Machine Hip Thrust, Glute Focus';EX.hip_thrust.target='Glute
 // New manual additions match the unilateral programmed exercise. Existing snapshots remain unchanged.
 EX.cable_lateral_raise.uni=true;EX.cable_lateral_raise.rest=75;EX.cable_lateral_raise.sideTransitionRest=15;
 SUBSTITUTIONS.low_incline_dumbbell_press_15deg=[{id:'smith_press_15deg',reason:'Use a comfortable 15-degree Smith setup if necessary. Separate history.',compareLoadDirectly:false}];
-var PROGRAMME_SLOTS={"4": [{"slotId": "dec_tue_press", "exerciseId": "low_incline_dumbbell_press_15deg", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 15}, {"slotId": "dec_tue_pull", "exerciseId": "neutral_grip_lat_pulldown", "sets": 2, "min": 8, "max": 12, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_row", "exerciseId": "chest_supported_mid_back_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_tue_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_tue_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_tue_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}], "5": [{"slotId": "dec_thu_hip", "exerciseId": "hip_thrust", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_thu_press", "exerciseId": "leg_press", "sets": 3, "min": 8, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_thu_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}, {"slotId": "dec_thu_curl", "exerciseId": "seated_leg_curl", "sets": 3, "min": 8, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_thu_ext", "exerciseId": "leg_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_thu_calf", "exerciseId": "standing_calf_raise", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}], "1": [{"slotId": "dec_sat_press", "exerciseId": "incline_dumbbell_press_30deg", "sets": 3, "min": 6, "max": 10, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core", "prescribedAngleDeg": 30}, {"slotId": "dec_sat_pec", "exerciseId": "pec_deck", "sets": 3, "min": 10, "max": 15, "restMin": 90, "restMax": 120, "rest": 105, "priority": "core"}, {"slotId": "dec_sat_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "optionalDrop": true, "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_sat_fly", "exerciseId": "low_to_high_cable_fly", "sets": 2, "min": 10, "max": 20, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_sat_abs", "exerciseId": "weighted_floor_crunch", "sets": 2, "min": 10, "max": 20, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core"}], "2": [{"slotId": "dec_sun_pull", "exerciseId": "pullups", "sets": 3, "min": 6, "max": 12, "restMin": 150, "restMax": 180, "rest": 165, "priority": "core"}, {"slotId": "dec_sun_row", "exerciseId": "chest_supported_high_row", "sets": 3, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_rear", "exerciseId": "reverse_pec_deck", "sets": 3, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_sun_cable", "exerciseId": "seated_neutral_grip_cable_lat_row", "sets": 2, "min": 8, "max": 15, "restMin": 120, "restMax": 120, "rest": 120, "priority": "core"}, {"slotId": "dec_sun_plank", "exerciseId": "forearm_plank", "sets": 2, "min": 30, "max": 60, "restMin": 60, "restMax": 60, "rest": 60, "priority": "core", "trackingUnit": "seconds", "effortNote": "Comfortable submaximal holds. Keep breathing and stop before sagging. Omit the duplicate home plank today."}], "3": [{"slotId": "dec_wed_lat", "exerciseId": "cable_lateral_raise", "sets": 3, "min": 12, "max": 25, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}, {"slotId": "dec_wed_rear", "exerciseId": "reverse_pec_deck", "sets": 2, "min": 12, "max": 25, "restMin": 75, "restMax": 90, "rest": 82, "priority": "core"}, {"slotId": "dec_wed_tri", "exerciseId": "overhead_cable_triceps_extension", "sets": 2, "min": 10, "max": 15, "restMin": 90, "restMax": 90, "rest": 90, "priority": "core"}, {"slotId": "dec_wed_bi", "exerciseId": "one_arm_dumbbell_preacher_curl", "sets": 2, "min": 8, "max": 15, "restMin": 60, "restMax": 90, "rest": 75, "priority": "core", "unilateral": true, "sideTransitionRest": 15}]};
-var PROGRAMME_DAY_META={"4": {"title": "Chest + Back + Arms", "weekday": 2, "scheduleLabel": "Tuesday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_upper", "primaryMuscles": ["Chest", "Back", "Side delts", "Arms"], "subtitle": "Second chest exposure, then back and modest accessories.", "directSummary": "Chest 3 \u00b7 Back 4 \u00b7 Side delts 3/side \u00b7 Direct arms 2 each"}, "5": {"title": "Legs + Glutes + Abs", "weekday": 4, "scheduleLabel": "Thursday", "duration": 70, "durationLabel": "60-75 min", "sessionType": "dec_legs", "primaryMuscles": ["Glutes", "Quads", "Hamstrings", "Abs"], "subtitle": "One focused leg session. Abs are third, not optional.", "directSummary": "Hip thrust 3 \u00b7 Quads 5 \u00b7 Hamstrings 3 \u00b7 Calves 2 \u00b7 Abs 2"}, "1": {"title": "Chest + Shoulder Width", "weekday": 6, "scheduleLabel": "Saturday", "duration": 65, "durationLabel": "55-70 min", "sessionType": "dec_chest", "primaryMuscles": ["Chest", "Side delts", "Abs"], "subtitle": "Your main chest session. Laterals come before the fly.", "directSummary": "Chest 8 \u00b7 Side delts 3/side \u00b7 Abs 2"}, "2": {"title": "Back + Rear Delts", "weekday": 0, "scheduleLabel": "Sunday", "duration": 60, "durationLabel": "50-65 min", "sessionType": "dec_back", "primaryMuscles": ["Lats", "Mid-back", "Rear delts"], "subtitle": "Back width and detail, then comfortable trunk endurance.", "directSummary": "Back pulling 8 \u00b7 Rear delts 3 \u00b7 Plank 2 holds"}, "3": {"title": "Shoulders + Arms", "weekday": 3, "scheduleLabel": "Optional Wednesday", "duration": 40, "durationLabel": "35-50 min", "sessionType": "dec_fifth", "primaryMuscles": ["Side delts", "Rear delts", "Arms"], "subtitle": "Moves Tuesday accessories, adding only two rear-delt sets.", "directSummary": "Moved: lateral raises 3/side and arms 2 each \u00b7 Extra rear delts 2"}};
+var PROGRAMME_SLOTS = {
+  "1": [
+    {
+      "slotId": "wedding_1_incline_dumbbell_press_30deg",
+      "exerciseId": "incline_dumbbell_press_30deg",
+      "sets": 3,
+      "min": 6,
+      "max": 10,
+      "restMin": 150,
+      "restMax": 180,
+      "rest": 165,
+      "priority": "core",
+      "prescribedAngleDeg": 30,
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_1_pec_deck",
+      "exerciseId": "pec_deck",
+      "sets": 3,
+      "min": 10,
+      "max": 15,
+      "restMin": 90,
+      "restMax": 120,
+      "rest": 105,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_1_low_to_high_cable_fly",
+      "exerciseId": "low_to_high_cable_fly",
+      "sets": 2,
+      "min": 10,
+      "max": 20,
+      "restMin": 90,
+      "restMax": 90,
+      "rest": 90,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_1_cable_lateral_raise",
+      "exerciseId": "cable_lateral_raise",
+      "sets": 3,
+      "min": 12,
+      "max": 25,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "optionalDrop": false,
+      "unilateral": true,
+      "sideTransitionRest": 15
+    },
+    {
+      "slotId": "wedding_1_weighted_floor_crunch",
+      "exerciseId": "weighted_floor_crunch",
+      "sets": 2,
+      "min": 10,
+      "max": 20,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "optionalDrop": false
+    }
+  ],
+  "2": [
+    {
+      "slotId": "wedding_2_pullups",
+      "exerciseId": "pullups",
+      "sets": 3,
+      "min": 6,
+      "max": 12,
+      "restMin": 150,
+      "restMax": 180,
+      "rest": 165,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_2_chest_supported_high_row",
+      "exerciseId": "chest_supported_high_row",
+      "sets": 3,
+      "min": 8,
+      "max": 15,
+      "restMin": 120,
+      "restMax": 120,
+      "rest": 120,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_2_neutral_grip_lat_pulldown",
+      "exerciseId": "neutral_grip_lat_pulldown",
+      "sets": 2,
+      "min": 8,
+      "max": 12,
+      "restMin": 120,
+      "restMax": 120,
+      "rest": 120,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_2_reverse_pec_deck",
+      "exerciseId": "reverse_pec_deck",
+      "sets": 3,
+      "min": 12,
+      "max": 25,
+      "restMin": 75,
+      "restMax": 90,
+      "rest": 82,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_2_overhead_cable_triceps_extension",
+      "exerciseId": "overhead_cable_triceps_extension",
+      "sets": 3,
+      "min": 10,
+      "max": 15,
+      "restMin": 90,
+      "restMax": 90,
+      "rest": 90,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_2_one_arm_dumbbell_preacher_curl",
+      "exerciseId": "one_arm_dumbbell_preacher_curl",
+      "sets": 3,
+      "min": 8,
+      "max": 15,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "unilateral": true,
+      "sideTransitionRest": 15,
+      "optionalDrop": false
+    }
+  ],
+  "3": [
+    {
+      "slotId": "wedding_3_cable_lateral_raise",
+      "exerciseId": "cable_lateral_raise",
+      "sets": 6,
+      "min": 12,
+      "max": 25,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "optionalDrop": false,
+      "unilateral": true,
+      "sideTransitionRest": 15
+    },
+    {
+      "slotId": "wedding_3_reverse_pec_deck",
+      "exerciseId": "reverse_pec_deck",
+      "sets": 3,
+      "min": 12,
+      "max": 25,
+      "restMin": 75,
+      "restMax": 90,
+      "rest": 82,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_3_overhead_cable_triceps_extension",
+      "exerciseId": "overhead_cable_triceps_extension",
+      "sets": 3,
+      "min": 10,
+      "max": 15,
+      "restMin": 90,
+      "restMax": 90,
+      "rest": 90,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_3_one_arm_dumbbell_preacher_curl",
+      "exerciseId": "one_arm_dumbbell_preacher_curl",
+      "sets": 3,
+      "min": 8,
+      "max": 15,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "unilateral": true,
+      "sideTransitionRest": 15,
+      "optionalDrop": false
+    }
+  ],
+  "4": [
+    {
+      "slotId": "wedding_4_low_incline_dumbbell_press_15deg",
+      "exerciseId": "low_incline_dumbbell_press_15deg",
+      "sets": 3,
+      "min": 8,
+      "max": 12,
+      "restMin": 150,
+      "restMax": 180,
+      "rest": 165,
+      "priority": "core",
+      "prescribedAngleDeg": 15,
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_4_neutral_grip_lat_pulldown",
+      "exerciseId": "neutral_grip_lat_pulldown",
+      "sets": 2,
+      "min": 8,
+      "max": 12,
+      "restMin": 120,
+      "restMax": 120,
+      "rest": 120,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_4_chest_supported_mid_back_row",
+      "exerciseId": "chest_supported_mid_back_row",
+      "sets": 2,
+      "min": 8,
+      "max": 15,
+      "restMin": 120,
+      "restMax": 120,
+      "rest": 120,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_4_cable_lateral_raise",
+      "exerciseId": "cable_lateral_raise",
+      "sets": 3,
+      "min": 12,
+      "max": 25,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "optionalDrop": false,
+      "unilateral": true,
+      "sideTransitionRest": 15
+    }
+  ],
+  "5": [
+    {
+      "slotId": "wedding_5_hip_thrust",
+      "exerciseId": "hip_thrust",
+      "sets": 3,
+      "min": 8,
+      "max": 15,
+      "restMin": 120,
+      "restMax": 120,
+      "rest": 120,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_5_leg_press",
+      "exerciseId": "leg_press",
+      "sets": 3,
+      "min": 8,
+      "max": 12,
+      "restMin": 150,
+      "restMax": 180,
+      "rest": 165,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_5_seated_leg_curl",
+      "exerciseId": "seated_leg_curl",
+      "sets": 3,
+      "min": 8,
+      "max": 15,
+      "restMin": 90,
+      "restMax": 120,
+      "rest": 105,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_5_leg_extension",
+      "exerciseId": "leg_extension",
+      "sets": 2,
+      "min": 10,
+      "max": 15,
+      "restMin": 90,
+      "restMax": 90,
+      "rest": 90,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_5_standing_calf_raise",
+      "exerciseId": "standing_calf_raise",
+      "sets": 2,
+      "min": 10,
+      "max": 20,
+      "restMin": 90,
+      "restMax": 90,
+      "rest": 90,
+      "priority": "core",
+      "optionalDrop": false
+    },
+    {
+      "slotId": "wedding_5_weighted_floor_crunch",
+      "exerciseId": "weighted_floor_crunch",
+      "sets": 2,
+      "min": 10,
+      "max": 20,
+      "restMin": 60,
+      "restMax": 90,
+      "rest": 75,
+      "priority": "core",
+      "optionalDrop": false
+    }
+  ]
+};
+var PROGRAMME_DAY_META = {
+  "1": {
+    "title": "Chest + Shoulder Width",
+    "scheduleLabel": "Workout 1",
+    "duration": 70,
+    "durationLabel": "55-75 min",
+    "sessionType": "wedding_1",
+    "primaryMuscles": [
+      "Chest",
+      "Side delts",
+      "Abs"
+    ],
+    "subtitle": "",
+    "directSummary": "Chest 8 · Side delts 3/side · Abs 2"
+  },
+  "2": {
+    "title": "Back + Rear Delts + Arms",
+    "scheduleLabel": "Workout 2",
+    "duration": 70,
+    "durationLabel": "70-85 min",
+    "sessionType": "wedding_2",
+    "primaryMuscles": [
+      "Back",
+      "Rear delts",
+      "Arms"
+    ],
+    "subtitle": "",
+    "directSummary": "Back 8 · Rear delts 3 · Triceps 3 · Biceps 3/side"
+  },
+  "3": {
+    "title": "Accessory Catch-Up",
+    "scheduleLabel": "Optional catch-up",
+    "duration": 25,
+    "durationLabel": "10-35 min",
+    "sessionType": "wedding_3",
+    "primaryMuscles": [
+      "Missed side delts",
+      "Rear delts",
+      "Arms"
+    ],
+    "subtitle": "Finish genuinely missed accessories when useful. Skip freely.",
+    "directSummary": "Only missing accessory sets from attended core sessions"
+  },
+  "4": {
+    "title": "Chest + Back + Side Delts",
+    "scheduleLabel": "Workout 4",
+    "duration": 45,
+    "durationLabel": "40-55 min",
+    "sessionType": "wedding_4",
+    "primaryMuscles": [
+      "Chest",
+      "Back",
+      "Side delts"
+    ],
+    "subtitle": "Short second chest and back exposure.",
+    "directSummary": "Chest 3 · Back 4 · Side delts 3/side"
+  },
+  "5": {
+    "title": "Legs + Glutes + Abs",
+    "scheduleLabel": "Workout 3",
+    "duration": 70,
+    "durationLabel": "55-75 min",
+    "sessionType": "wedding_5",
+    "primaryMuscles": [
+      "Glutes",
+      "Quads",
+      "Hamstrings",
+      "Abs"
+    ],
+    "subtitle": "Hamstrings third, before leg extensions.",
+    "directSummary": "Quads 5 · Hamstrings 3 · Hip thrust 3 · Calves 2 · Abs 2"
+  }
+};
 DAYS={};ALL_DAY_NUMBERS.forEach(function(n){DAYS[n]=Object.assign({n:n,exercises:PROGRAMME_SLOTS[n].map(function(s){return s.exerciseId;}),checklist:[]},PROGRAMME_DAY_META[n]);});
 function fifthDaySelected(data,now){return false;} // v3.8.6: no calendar-based accessory removal; old settings are preserved only as history.
 function validCompletedNormal(set){return !!(set&&set.completed===true&&!set.skipped&&set.setType==='working'&&(Number(set.reps)>0||Number(set.durationSeconds)>0));}
 function currentTuesdaySessions(data,now){var ws=weekStart(now||Date.now()),we=weekEnd(ws);return (data.completedSessions||[]).filter(function(sess){return sess.programVersion===PROGRAM_VERSION&&sess.dayN===4&&sess.finished===true&&toTimestamp(sess.startTime)>=ws&&toTimestamp(sess.startTime)<=we;});}
 function movedAccessoryCount(data,id,now){var rows=[];currentTuesdaySessions(data,now).forEach(function(sess){(sess.sets||[]).forEach(function(set){if(set.exId===id&&validCompletedNormal(set))rows.push(set);});});if(id==='cable_lateral_raise'||id==='one_arm_dumbbell_preacher_curl'||EX[id]&&EX[id].uni)return Math.min(rows.filter(function(r){return r.side==='L';}).length,rows.filter(function(r){return r.side==='R';}).length);return rows.length;}
 function fifthDayAlreadyCovered(data,now){return movedAccessoryCount(data,'cable_lateral_raise',now)>=3&&movedAccessoryCount(data,'overhead_cable_triceps_extension',now)>=2&&movedAccessoryCount(data,'one_arm_dumbbell_preacher_curl',now)>=2;}
-function firstLegVisit(data){return !(data.completedSessions||[]).some(function(sess){return sess.programVersion===PROGRAM_VERSION&&sess.dayN===5&&sess.finished===true&&(sess.sets||[]).filter(validCompletedNormal).length>=2;});}
+function firstLegVisit(data) {
+  return !(data.completedSessions || []).some(function(session) {
+    var rows = (session.sets || []).filter(validCompletedNormal);
+    return session.finished === true && rows.length >= 2 &&
+      (session.dayN === 5 && [PROGRAM_VERSION, PRE_WEDDING_PROGRAM_VERSION].indexOf(session.programVersion) >= 0 ||
+       rows.some(function(row) { return row.exId === 'seated_leg_curl'; }) && rows.some(function(row) { return row.exId === 'leg_press'; }));
+  });
+}
 
+// Catch-up is limited to accessory prescriptions in core sessions with real logged work.
+// Count each attended role once, and credit all matching work, including catch-up visits.
+function getCatchUpSlots(data, now) {
+  var at = toTimestamp(now) || Date.now();
+  var cutoff = addLocalCalendarDays(at, -7);
+  var sessions = (data.completedSessions || []).filter(function(session) { return session && session.finished === true; });
+  var seen = {}, roles = {}, totals = {};
+  var accessories = PROGRAMME_SLOTS[3];
+  accessories.forEach(function(slot) { totals[slot.exerciseId] = {L:0, R:0, both:0}; });
+  sessions.forEach(function(session) {
+    if (!session || seen[session.id]) return;
+    seen[session.id] = true;
+    var stamp = toTimestamp(session.actualFinishedAt || session.endTime || session.startTime);
+    if (stamp < cutoff || stamp > at) return;
+    var rows = (session.sets || []).filter(validCompletedNormal);
+    if (rows.length && session.programVersion === PROGRAM_VERSION && CORE_DAY_NUMBERS.indexOf(Number(session.dayN)) >= 0) roles[session.dayN] = true;
+    rows.forEach(function(row) {
+      var total = totals[getHistoryExerciseId(row.substitutedFor || row.exId)];
+      if (!total) return;
+      var side = normalizeSide(row.side);
+      total[side || 'both']++;
+    });
+  });
+  return accessories.map(function(template) {
+    var required = 0;
+    Object.keys(roles).forEach(function(day) {
+      (PROGRAMME_SLOTS[day] || []).forEach(function(slot) {
+        if (slot.exerciseId === template.exerciseId) required += slot.sets;
+      });
+    });
+    var total = totals[template.exerciseId];
+    var slot = Object.assign({}, template, {optional:true, priority:'optional'});
+    if (slot.unilateral) {
+      slot.sideSetCounts = {L:Math.max(0, required-total.L), R:Math.max(0, required-total.R)};
+      slot.sets = Math.max(slot.sideSetCounts.L, slot.sideSetCounts.R);
+    } else slot.sets = Math.max(0, required-total.both);
+    return slot;
+  }).filter(function(slot) { return slot.sets > 0; });
+}
 
 function dateAddDays(dateKey, days) {
   var parts=String(dateKey).split('-').map(Number), d=new Date(parts[0],parts[1]-1,parts[2],12,0,0,0);
@@ -3461,7 +3907,7 @@ function isSaturdayCrunchCovered(){return false;}
 
 function getProgrammeSlots(dayN,availability,workoutLength,dbRef,now,forceManualDay,ignoreReentry,ignoreLegacy,options){
   var data=dbRef||db,at=toTimestamp(now)||Date.now();
-  var slots=(PROGRAMME_SLOTS[Number(dayN)]||[]).map(function(s){return Object.assign({},s);});
+  var slots=Number(dayN)===3 ? getCatchUpSlots(data,at) : (PROGRAMME_SLOTS[Number(dayN)]||[]).map(function(s){return Object.assign({},s);});
   // Never silently remove lateral raises or arms because another workout was logged.
   // Recommendations account for recent work; manual choice always keeps the full template.
   if(Number(dayN)===5&&firstLegVisit(data))slots.forEach(function(s){s.sets=Math.min(2,s.sets);s.introDose=true;});
@@ -3474,7 +3920,43 @@ function getProgrammedRounds(dayN,availability,length,dbRef,now,options) {
   return getProgrammeSlots(dayN,availability,length,dbRef,now,true,true,true,Object.assign({ignoreIntro:true},options||{})).reduce(function(sum,slot){return sum+(slot.optional?0:slot.sets);},0);
 }
 
-var RUSHED_MODE_LIMITS={"4": {"dec_tue_press": 2, "dec_tue_pull": 2, "dec_tue_row": 2, "dec_tue_lat": 2, "dec_tue_tri": 1, "dec_tue_bi": 1}, "5": {"dec_thu_hip": 2, "dec_thu_press": 2, "dec_thu_abs": 2, "dec_thu_curl": 2, "dec_thu_ext": 0, "dec_thu_calf": 0}, "1": {"dec_sat_press": 2, "dec_sat_pec": 2, "dec_sat_lat": 2, "dec_sat_fly": 0, "dec_sat_abs": 1}, "2": {"dec_sun_pull": 2, "dec_sun_row": 2, "dec_sun_rear": 2, "dec_sun_cable": 1, "dec_sun_plank": 1}, "3": {"dec_wed_lat": 2, "dec_wed_rear": 1, "dec_wed_tri": 2, "dec_wed_bi": 2}};
+var RUSHED_MODE_LIMITS = {
+  "1": {
+    "wedding_1_incline_dumbbell_press_30deg": 3,
+    "wedding_1_pec_deck": 2,
+    "wedding_1_low_to_high_cable_fly": 0,
+    "wedding_1_cable_lateral_raise": 3,
+    "wedding_1_weighted_floor_crunch": 1
+  },
+  "2": {
+    "wedding_2_pullups": 3,
+    "wedding_2_chest_supported_high_row": 2,
+    "wedding_2_neutral_grip_lat_pulldown": 2,
+    "wedding_2_reverse_pec_deck": 2,
+    "wedding_2_overhead_cable_triceps_extension": 2,
+    "wedding_2_one_arm_dumbbell_preacher_curl": 2
+  },
+  "3": {
+    "wedding_3_cable_lateral_raise": 2,
+    "wedding_3_reverse_pec_deck": 2,
+    "wedding_3_overhead_cable_triceps_extension": 2,
+    "wedding_3_one_arm_dumbbell_preacher_curl": 2
+  },
+  "4": {
+    "wedding_4_low_incline_dumbbell_press_15deg": 2,
+    "wedding_4_neutral_grip_lat_pulldown": 2,
+    "wedding_4_chest_supported_mid_back_row": 2,
+    "wedding_4_cable_lateral_raise": 3
+  },
+  "5": {
+    "wedding_5_hip_thrust": 2,
+    "wedding_5_leg_press": 2,
+    "wedding_5_seated_leg_curl": 2,
+    "wedding_5_leg_extension": 0,
+    "wedding_5_standing_calf_raise": 1,
+    "wedding_5_weighted_floor_crunch": 1
+  }
+};
 
 function setHasStarted(set) { return !!(set && (set.completed || set.startedAt || set.draftTouched || set.weightEdited || set.repsEdited || set.lastLoadApplied || set.note)); }
 function applyRushedModeToSession(session) {
@@ -3775,7 +4257,7 @@ function migrateDb(data) {
       var previousLocalTitles={1:'Tuesday ,  Combined Chest and Back',2:'Thursday ,  Shoulders and Arms',3:'Saturday ,  Chest and Side Delts',4:'Sunday ,  Back and Rear Delts',5:'Separate Short Legs'};
       var oldFocusedTitles={1:'Chest + Side Delts',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back',5:'Legs'};
       var adaptiveTitles={1:'Session A ,  Upper Chest, Back Width and Whole-Body Coverage',2:'Session B ,  Whole Chest, Cable Back, Legs and Arms',3:'Session C ,  Optional Chest, Width and Lower-Body Top-Up',4:'Short Chest + Upper/Lower Top-Up',5:'Optional Day 5 ,  Lower + Core Insurance'};
-      session.dayTitle = session.programVersion===PRIOR_ACTIVE_VERSION ? oldFocusedTitles[session.dayN]||('Day '+session.dayN) : session.programVersion === PREVIOUS_FOCUSED_BLOCK_VERSION && focusedTitles[session.dayN]
+      session.dayTitle = session.programVersion===PRE_WEDDING_PROGRAM_VERSION ? ({1:'Chest + Shoulder Width',2:'Back + Rear Delts',3:'Shoulders + Arms',4:'Chest + Back + Arms',5:'Legs + Glutes + Abs'})[session.dayN] : session.programVersion===PRIOR_ACTIVE_VERSION ? oldFocusedTitles[session.dayN]||('Day '+session.dayN) : session.programVersion === PREVIOUS_FOCUSED_BLOCK_VERSION && focusedTitles[session.dayN]
         ? focusedTitles[session.dayN]
         : session.programVersion === PREVIOUS_LOCAL_PROGRAM_VERSION && previousLocalTitles[session.dayN]
         ? previousLocalTitles[session.dayN]
@@ -3897,6 +4379,7 @@ function createSession(dayN, manualSelection) {
     rushedReductions: {},
     notes: '',
     programmeName: PROGRAM_NAME,
+    programName: PROGRAM_NAME,
     finished: false,
   };
 }
@@ -4727,22 +5210,22 @@ function trainingNeeds(data,now){
 function getBestWorkoutRecommendation(data,now){
   data=data||db;var at=toTimestamp(now)||Date.now();
   if(data.activeSession&&!data.activeSession.finished)return {dayN:data.activeSession.dayN,reason:'Resume your saved workout.',active:true};
-  var t=trainingNeeds(data,at),goals={chest:11,back:12,side:6,rear:3,biceps:2,triceps:2,legs:10,abs:4},need={};
+  var t=trainingNeeds(data,at),goals={chest:11,back:12,side:6,rear:3,biceps:3,triceps:3,legs:11,abs:4},need={};
   Object.keys(goals).forEach(function(g){need[g]=Math.max(0,1-t.counts[g]/goals[g]);});
   function recent(g){return t.last[g]&&at-t.last[g]<48*3600000;}
   var candidates=[
     {n:1,score:7*need.chest+need.side+.3*need.abs,blocked:recent('chest'),reason:'Chest is a priority in your recent training.'},
-    {n:4,score:4*need.chest+3*need.back+need.side+.4*need.biceps+.4*need.triceps,blocked:recent('chest')||recent('back'),reason:'A second chest and back exposure fits your recent training.'},
-    {n:2,score:5*need.back+need.rear,blocked:recent('back'),reason:'Back is the next priority in your recent training.'},
+    {n:4,score:4*need.chest+3*need.back+need.side,blocked:recent('chest')||recent('back'),reason:'A second chest and back exposure fits your recent training.'},
+    {n:2,score:5*need.back+need.rear+need.biceps+need.triceps,blocked:recent('back')||recent('biceps')||recent('triceps'),reason:'Back is the next priority in your recent training.'},
     {n:5,score:6*need.legs+.4*need.abs,blocked:recent('legs'),reason:'Your focused leg session is due.'},
-    {n:3,score:2*need.side+need.rear+need.biceps+need.triceps,blocked:recent('side')||recent('biceps')||recent('triceps')||recent('chest')||recent('back'),reason:'Direct shoulders and arms have had less recent work.'}
+    {n:3,score:2*need.side+need.rear+need.biceps+need.triceps,blocked:recent('side')||recent('biceps')||recent('triceps')||recent('chest')||recent('back'),reason:'Missed accessory sets are available for an optional catch-up.'}
   ];
   candidates.forEach(function(c){if(t.lastRole[c.n]&&at-t.lastRole[c.n]<48*3600000)c.blocked=true;});
   var hasHistory=Object.keys(t.last).some(function(k){return t.last[k]>0;});
   if(!hasHistory)return {dayN:1,reason:'Start with your main chest session. Choose any workout.'};
-  var eligible=candidates.filter(function(c){return !c.blocked&&c.score>.4;}).sort(function(a,b){return b.score-a.score;});
+  var eligible=candidates.filter(function(c){return !c.blocked&&c.score>.4&&(c.n!==3||getCatchUpSlots(data,at).length>0);}).sort(function(a,b){return b.score-a.score;});
   if(eligible.length){var best=eligible[0];return {dayN:best.n,reason:best.reason};}
-  var next=candidates.slice().sort(function(a,b){return b.score-a.score;})[0];
+  var next=candidates.filter(function(c){return c.n!==3;}).sort(function(a,b){return b.score-a.score;})[0];
   return {dayN:next.n,rest:true,reason:'Recent sessions cover your priorities. Recovery is a sensible option today.'};
 }
 
@@ -4891,7 +5374,7 @@ function applyMomentumTheme(data,enabled){
  var meta=document.querySelector('meta[name="theme-color"]'),prefs=getMomentumPreferences(),stage=enabled&&prefs.theme?getMomentumState(data).stage:0;
  body.dataset.momentumStage=String(stage);
  if(stage>0)body.classList.add('momentum-theme-'+stage);
- if(meta)meta.setAttribute('content',stage>=5?'#141530':stage===4?'#1F0E25':stage===3?'#15122B':stage===2?'#06182A':'#070A12');
+ if(meta)meta.setAttribute('content',stage>=5?'#141530':stage===4?'#1F0E25':stage===3?'#15122B':stage===2?'#06182A':'#0B0E13');
  var label=document.getElementById('wo-theme-label');
  if(label){label.hidden=stage<2;label.textContent=stage>=2?momentumStageLabel(stage):'';}
 }
@@ -4931,7 +5414,7 @@ function recordMomentumEvent(data,sourceId,before,after){
  e.eventId=weeklyKey||'momentum:'+sourceId;e.sourceId=sourceId;e.achievedAt=Date.now();e.streak=after.streak;e.activeThisWeek=after.activeThisWeek;e.stage=after.stage;
  data.momentumCelebrationEvents.push(e);return e;
 }
-var MOMENTUM_STAGE_RGB={0:'94 139 255',1:'94 139 255',2:'62 208 238',3:'163 136 255',4:'240 111 204',5:'201 178 255'};
+var MOMENTUM_STAGE_RGB={0:'199 208 224',1:'199 208 224',2:'62 208 238',3:'163 136 255',4:'240 111 204',5:'201 178 255'};
 function momentumEventStage(e){return e.type==='two'?2:e.type==='three'?3:e.type==='four'?4:e.type==='elysium'?5:Math.max(0,Math.min(5,Number(e.stage)||0));}
 var MomentumCelebration=(function(){var timer=null,audio=null;
  function clear(){if(timer)clearTimeout(timer);var el=document.getElementById('momentum-celebration-layer');if(el)el.remove();}
@@ -5638,18 +6121,19 @@ function renderHome(dbRef) {
 // PROGRAM SCREEN
 // ============================================================
 function renderProgram(){
-  var intro='<h1 class="screen-title">Program</h1><p class="screen-sub">Chest priority: four core sessions and an optional fifth. Start any of them. Today suggests one from your recent training.</p>';
+  var intro='<h1 class="screen-title">Wedding Block</h1><p class="screen-sub">Four core days through 13 December 2026. Choose any workout. Today uses your recent logged work.</p>';
   var tools='<div class="prog-guide"><button class="btn-ghost" onclick="Engagement.openSchedule()">Training guide</button><button class="btn-ghost" onclick="Engagement.openVault()">Momentum colours</button></div>';
-  var cards=[1,2,4,5,3].map(function(n){
+  var cards=[1,2,5,4,3].map(function(n){
     var day=DAYS[n],slots=getProgrammeSlots(n,null,null,db),count=slots.reduce(function(t,s){return t+s.sets;},0);
-    var note=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise.</p>':n===3?'<p class="fifth-note">Cable lateral raises stay in this workout. Avoid repeating a full accessory session straight after similar work.</p>':'';
+    var note=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise.</p>':n===3?'<p class="fifth-note">'+(slots.length?'Only the missing sets shown below are suggested.':'No missed accessory work from attended core sessions in the last seven days.')+' Skip this session freely.</p>':'';
     return '<article class="prog-card"><p class="prog-kind'+(n===3?' is-optional':'')+'">'+(n===3?'Optional session':'Core session')+'</p><h2 class="prog-name">'+esc(day.title)+'</h2>'+(day.subtitle?'<p class="prog-desc">'+esc(day.subtitle)+'</p>':'')+
       '<div class="plan-stats"><div><b>'+slots.length+'</b><span>exercises</span></div><div><b>'+count+'</b><span>sets</span></div><div><b>'+esc(durationRange(day.durationLabel))+'</b><span>minutes</span></div></div>'+note+
       '<div class="prog-row"><button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></div>'+
+      '<p class="prog-desc">'+esc(day.directSummary)+'</p>'+
       '<details class="prog-list"><summary>Exercises and tips'+icon('chevronDown')+'</summary>'+renderPlanList(slots)+'</details></article>';
   }).join('');
-  var guide='<details class="prog-extra"><summary>How to progress'+icon('chevronDown')+'</summary><p>Keep the setup and range repeatable. Add reps before load. The prefilled numbers are your previous result, not an instruction. Use Rushed mode when time is short.</p><p>Across roughly seven days, aim for one focused leg session, two chest exposures and your back work. A fifth visit can be shoulders and arms or cardio. Do not add volume just to chase a colour.</p></details>';
-  return '<div class="prog-wrap">'+intro+tools+cards+guide+'</div>';
+  var guide='<details class="prog-extra"><summary>How to progress'+icon('chevronDown')+'</summary><p>Keep the setup and range repeatable. Add reps before load. The prefilled numbers are your previous result, not an instruction. Use Rushed mode when time is short.</p><p>Aim for four core lifting sessions across your training week. Optional catch-up covers missed accessories only. Left and right together count as one programmed round.</p><p>Weekly direct targets: chest 11, back 12, side delts 6 per side, rear delts 3, triceps 3, biceps 3 per side, quads 5, hamstrings 3, hip thrust 3, calves 2, abs 4. Leg press also involves glutes.</p></details>';
+  return '<div class="prog-wrap">'+intro+tools+cards+guide+'<details class="prog-extra"><summary>Wedding week</summary><p>13 December 2026. Plan the final normal leg session around 5-7 days before the event. Reduce total lifting volume during the final several days. Keep familiar exercises and avoid soreness-inducing maximal attempts. Keep hydration and normal recovery routines consistent.</p></details></div>';
 }
 
 
@@ -5871,6 +6355,7 @@ var App = (function() {
   }
   function startWorkout(dayN,manualSelection){
     dayN=Number(dayN);if(!DAYS[dayN]||!canPersistUserChanges())return;
+    if(dayN===3&&!getCatchUpSlots(db).length){Engagement.toast('No missed accessory work to catch up. Choose a core workout or skip today.');return;}
     if(db.activeSession&&!db.activeSession.finished){
       flushVisibleSetDrafts();var current=db.activeSession;var count=(current.sets||[]).filter(validCompletedNormal).length;
       pendingWorkoutSwitch={dayN:dayN,manual:!!manualSelection,sessionId:current.id};
@@ -6117,7 +6602,9 @@ var App = (function() {
       var remaining = sess.sets.filter(function(s){ return s.exId===exId && s.setType==='working' && !s.isAdded && s.side===(side||null); })
         .sort(function(a,b){ return (a.setNum||0)-(b.setNum||0); });
       var ref = remaining[remaining.length-1] || firstGroup.find(function(s){ return s.side===(side||null); }) || firstGroup[0];
-      if (remaining.length < ex.sDef) {
+      var slot = sess.programmeSnapshot && sess.programmeSnapshot.slots.find(function(item) { return item.exerciseId === exId; });
+      var required = slot && slot.sideSetCounts ? slot.sideSetCounts[side] : ex.sDef;
+      if (remaining.length < required) {
         var ns = createSet(exId, firstNum, 'working', side||null);
         ns.weight = ref ? ref.weight : 0;
         ns.reps = ref ? ref.reps : ex.rMin;
@@ -6773,7 +7260,7 @@ function renderCoachingTips(ex,session,slot) {
     renderCoachingSources(entry) + '</details>';
 }
 function renderTimedSetRow(s,prev,ex){var label='Hold '+s.setNum;if(s.completed)return '<div class="set-row set-row--done" id="sr-'+esc(s.id)+'" onclick="App.editSet(\''+esc(s.id)+'\')"><span>'+label+'</span><strong>'+Number(s.durationSeconds||0)+' sec</strong><span class="sr-check">✓</span></div>';if(s.skipped)return '<div class="set-row set-row--skipped" id="sr-'+esc(s.id)+'"><span>'+label+'</span><span>Skipped</span><button class="btn-ghost btn-xs" onclick="App.undoSkip(\''+esc(s.id)+'\')">Undo</button></div>';return '<div class="set-row set-row--active" id="sr-'+esc(s.id)+'"><div class="sr-top"><span class="sr-label">'+label+'</span><span class="sr-prev-line">'+esc(prev?'Prev: '+prev.durationSeconds+' sec':'30-60 sec, comfortably short of failure')+'</span><button class="sr-skip-lnk" onclick="App.skipSet(\''+esc(s.id)+'\')">Skip</button></div><div class="timed-set-input"><label>Seconds held<input data-hold-seconds type="number" inputmode="numeric" min="0" max="3600" value="'+Number(s.durationSeconds||30)+'" oninput="App.setHoldSeconds(\''+esc(s.id)+'\',this.value)"></label><button class="sr-tick" onclick="App.completeSet(\''+esc(s.id)+'\')" aria-label="Log hold">'+icon('check')+'</button></div></div>';}
-function toggleFifthDay(){Engagement.toast('Choose Shoulders + Arms from Program. No weekly setup is needed.');}
+function toggleFifthDay(){Engagement.toast('Accessory Catch-Up in Program shows missed accessory work.');}
 
 
 // PR events are created only by an explicit, successfully saved set-completion action.
@@ -6874,15 +7361,15 @@ function getWeeklyWorkoutLength(){return 'full';}
 function saveWeeklyAvailability(data,value,now){data.settings.weeklyPlanAvailability=data.settings.weeklyPlanAvailability||{};data.settings.weeklyPlanAvailability[currentWeekKey(now)]=String(value);dbSave(data);}
 function saveWeeklyWorkoutLength(data,value,now){data.settings.weeklyWorkoutLength=data.settings.weeklyWorkoutLength||{};data.settings.weeklyWorkoutLength[currentWeekKey(now)]=value;dbSave(data);}
 function saveFourthSessionChoice(data,value,now){data.settings.fourthSessionByWeek=data.settings.fourthSessionByWeek||{};data.settings.fourthSessionByWeek[currentWeekKey(now)]=value;dbSave(data);}
-function getAvailabilityDays(v,data,now){return fifthDaySelected(data,now)?[4,3,5,1,2]:[4,5,1,2];}
+function getAvailabilityDays(v,data,now){return CORE_DAY_NUMBERS.slice();}
 function getSessionDayTitle(session){return session.dayTitle||getSessionLabel(session);}
 function getCurrentWeekCompletedDays(data,now){var ws=weekStart(now||Date.now()),we=weekEnd(ws),out={};(data.completedSessions||[]).forEach(function(sess){var at=toTimestamp(sess.startTime);if(sess.programVersion===PROGRAM_VERSION&&sess.finished===true&&at>=ws&&at<=we&&(sess.sets||[]).some(validCompletedNormal))out[sess.dayN]=true;});return out;}
-function getRecommendationTarget(data,id){var saved=data.settings&&data.settings.volumeTargets&&data.settings.volumeTargets[id];if(saved&&isFinite(Number(saved.min))&&isFinite(Number(saved.max)))return {min:Number(saved.min),max:Number(saved.max)};var planned=0;getAvailabilityDays(null,data).forEach(function(n){var slots=PROGRAMME_SLOTS[n]||[];if(n===4&&fifthDaySelected(data))slots=slots.slice(0,3);slots.forEach(function(slot){var ex=getExerciseDef(slot.exerciseId,null,data);if(!ex.timed)planned+=slot.sets*Number((ex.muscles||{})[id]||0);});});return {min:round1(planned),max:round1(planned*1.25)};}
+function getRecommendationTarget(data,id){var saved=data.settings&&data.settings.volumeTargets&&data.settings.volumeTargets[id];if(saved&&isFinite(Number(saved.min))&&isFinite(Number(saved.max)))return {min:Number(saved.min),max:Number(saved.max)};var weddingTargets={'upper-chest':5,'mid-chest':6,'side-delts':6,'rear-delts':3,lats:7,'mid-back':5,triceps:3,biceps:3,quads:5,hamstrings:3,glutes:3,calves:2,abs:4};if(weddingTargets[id]!==undefined)return {min:weddingTargets[id],max:weddingTargets[id]+2};var planned=0;getAvailabilityDays(null,data).forEach(function(n){var slots=PROGRAMME_SLOTS[n]||[];if(n===4&&fifthDaySelected(data))slots=slots.slice(0,3);slots.forEach(function(slot){var ex=getExerciseDef(slot.exerciseId,null,data);if(!ex.timed)planned+=slot.sets*Number((ex.muscles||{})[id]||0);});});return {min:round1(planned),max:round1(planned*1.25)};}
 // Side-specific remaining accessories prevent duplicating a partially logged Tuesday pair.
 function accessorySidesCompleted(data,id,now){var count={L:0,R:0};currentTuesdaySessions(data,now).forEach(function(sess){(sess.sets||[]).forEach(function(s){if(s.exId===id&&validCompletedNormal(s)){var side=normalizeSide(s.side);if(side)count[side]++;}});});return count;}
 
 // Separate Cardio screen. Never auto-log work from a running timer.
-function cardioDefault(){return {version:1,goals:{steadyMinutes:150,hiitSessions:1},preferences:{steadyMinutes:30,treadmillRounds:2,sound:true},logs:[],active:null};}
+function cardioDefault(){return {version:1,goals:{steadyMinutes:150,hiitSessions:0},preferences:{steadyMinutes:30,treadmillRounds:2,sound:true},logs:[],active:null};}
 function validLocalDateString(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;var d=new Date(v+'T12:00:00');return isFinite(d.getTime())&&localDateKey(d.getTime())===v;}
 function normalizeCardioStore(value){
  if(value===undefined||value===null)return cardioDefault();
@@ -6922,9 +7409,9 @@ var Cardio=(function(){
   if(view==='hub'){
    var w=weekBounds(),logs=c.logs.filter(function(l){return l.date>=w.start&&l.date<=w.end;}),steady=logs.reduce(function(n,l){return n+Number(l.steadySeconds||0)/60;},0),hiit=logs.filter(function(l){return Number(l.plannedRounds)>=2&&Number(l.completedRounds)>=Number(l.plannedRounds);}).length;
    html+='<div class="cd-week">'+ownButton('‹','week','data-value="-1"')+'<span>'+esc(offset===0?'This week':w.start+' to '+w.end)+'</span>'+ownButton('›','week','data-value="1" '+(offset===0?'disabled':''))+'</div>';
-   html+='<div class="cd-stats"><div><b>'+Math.round(steady)+'<small> / '+Number(c.goals.steadyMinutes||0)+' min</small></b><span>'+Math.max(0,Math.round(Number(c.goals.steadyMinutes||0)-steady))+' steady minutes left</span></div><div><b>'+hiit+'<small> / '+Number(c.goals.hiitSessions||0)+'</small></b><span>HIIT sessions</span></div></div>';
+   html+='<div class="cd-stats"><div><b>'+Math.round(steady)+'<small> / '+Number(c.goals.steadyMinutes||0)+' min</small></b><span>'+Math.max(0,Math.round(Number(c.goals.steadyMinutes||0)-steady))+' steady minutes left</span></div><div><b>'+hiit+'<small> / '+Number(c.goals.hiitSessions||0)+'</small></b><span>Optional HIIT sessions</span></div></div>';
    if(c.active)html+='<div class="cd-card"><strong>Saved cardio timer</strong><p>'+esc(title(c.active.presetId))+'</p>'+ownButton('Resume / review','resume',null,'btn-primary btn-sm')+'</div>';
-   html+='<p class="cd-note">Build toward 150 moderate minutes, including brisk walks. One HIIT option, not both. Partial workouts still count as work even when they do not complete a dashboard target.</p>';
+   html+='<p class="cd-note">Build toward 150 moderate minutes, including brisk walks. HIIT is optional. Perform cardio after lifting or separately.</p>';
    Object.keys(CARDIO_PRESETS).forEach(function(id){html+='<div class="cd-card"><h2>'+esc(title(id))+'</h2><p>'+esc(CARDIO_PRESETS[id].type==='steady'?'Conversational pace':id==='bike_hiit'?'13-minute alternative':'Start with 2 rounds, 26 minutes')+'</p>'+ownButton('Open workout','detail','data-id="'+id+'"','btn-primary btn-sm')+'</div>';});
    html+='<details class="cd-card"><summary>Targets and sound</summary>'+field('Steady minutes per week','cd-goal-steady','number',c.goals.steadyMinutes,'min="0" max="1000"')+field('HIIT sessions per week','cd-goal-hiit','number',c.goals.hiitSessions,'min="0" max="3"')+'<label class="cd-check"><input id="cd-sound" type="checkbox" '+(c.preferences.sound?'checked':'')+'> Interval sound while this screen is open</label>'+ownButton('Save targets','goals')+'</details>';
    html+='<h2 class="cd-history-heading">Logged this week</h2>';
@@ -7009,7 +7496,7 @@ var Engagement = (function () {
   var VERSION = 3, sheetFocus = null, lastSheet = null, previewVictory = null, toastTimer = null;
   // Live, temporary Momentum colours. They are NEVER permanently earned or equipped.
   var THEMES = [
-    {id:'base',name:'Original Blue',tag:'START / DAY 1',paint:'linear-gradient(125deg,#101a32,#315b8d,#5c9ddb)',need:0,desc:'Your normal app appearance. Complete gym visits to change it.'},
+    {id:'base',name:'Obsidian Platinum',tag:'START / DAY 1',paint:'linear-gradient(125deg,#0B0E13,#1D2430,#C7D0E0)',need:0,desc:'Your normal app appearance. Complete gym visits to change it.'},
     {id:'cyan',name:'Ignited',tag:'2 GYM VISITS',paint:'linear-gradient(125deg,#062136,#1f82bd,#64e8fa)',need:2,desc:'Two qualifying gym visits in one active run.'},
     {id:'violet',name:'Locked In',tag:'3 GYM VISITS',paint:'linear-gradient(125deg,#151a38,#6554b8,#b49aff)',need:3,desc:'Three gym visits in the current run. Recovery days can protect it.'},
     {id:'magenta',name:'Charged',tag:'4 GYM VISITS',paint:'linear-gradient(125deg,#271432,#9a39ad,#f379c5)',need:4,desc:'Four gym visits in the current run. Four visits make a successful week; five is a bonus.'},
@@ -7277,17 +7764,19 @@ var Engagement = (function () {
       '<div class="mo-top"><div><span class="mo-label">Momentum</span><span class="mo-name">'+esc(name)+'</span></div><div class="mo-week"><span class="mo-count">'+s.activeThisWeek+'<small>/'+s.weekGoal+'</small></span><span class="mo-label">this week</span></div></div>'+
       '<div class="mo-ladder" aria-hidden="true">'+ladder+'</div><ol class="mo-days" aria-label="This week, Monday to Sunday">'+days+'</ol><p class="mo-next">'+momentumLine(s)+'</p></section>';
   }
-  function scheduleRows(data,now){
-    var today=localDateKey(now||Date.now()),start=weekKey(today),fifth=fifthDaySelected(data,now),rows=[];
-    var cardio=['Zone 2, 30 min','Zone 2, 30 min after lifting','Optional bike HIIT, 13 min','No cardio required','Zone 2, 30 min','No cardio required','Zone 2, 30 min after lifting'];
-    var map=[null,4,fifth?3:null,5,null,1,2];
-    for(var i=0;i<7;i++){var key=shift(start,i),id=map[i],title=id?DAYS[id].title:'Recovery / no lifting';if(i===1&&fifth)title='Chest + Back';rows.push({date:key,day:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],id:id,title:title,today:key===today,cardio:cardio[i],optional:i===2,note:i===2?(fifth?'Tuesday accessories moved here.':'Optional shoulders + arms only when split from Tuesday.'):i===3?'Protect your focused leg session.':''});}return rows;
+  function scheduleRows(data,now) {
+    return [1,2,5,4,3].map(function(id) {
+      return {id:id,title:DAYS[id].title,optional:id===3,cardio:id===5?'Optional 10-20 minutes easy/moderate':id===3?'Separate Zone 2 or a brisk walk':'20 minutes Zone 2 after lifting'};
+    });
   }
-  function scheduleTable(data,now){
-    var ids=[1,2,4,5,3];return '<table class="eng-week-table"><caption>Flexible sessions. No assigned weekdays.</caption><thead><tr><th>Type</th><th>Workout</th><th>Focus</th></tr></thead><tbody>'+ids.map(function(id){return '<tr><td><span class="eng-day">'+(id===3?'Extra':'Core')+'</span></td><td><span class="eng-workout-name">'+esc(DAYS[id].title)+'</span><small>'+esc(DAYS[id].durationLabel)+'</small></td><td class="eng-cardio-text">'+esc((DAYS[id].primaryMuscles||[]).join(', '))+'</td></tr>';}).join('')+'</tbody></table>';
+  function scheduleTable(data,now) {
+    return '<table class="eng-week-table"><caption>Flexible training order</caption><thead><tr><th>Session</th><th>Workout</th><th>Cardio guidance</th></tr></thead><tbody>'+scheduleRows(data,now).map(function(row,i) {
+      return '<tr><td>'+(row.optional?'Optional':String(i+1))+'</td><td>'+esc(row.title)+'</td><td>'+esc(row.cardio)+'</td></tr>';
+    }).join('')+'</tbody></table>';
   }
-  function scheduleContent(data){return scheduleTable(data)+'<p class="eng-footnote">Choose any workout. Today considers your completed working sets over the last seven days and recent overlaps. These are scheduling suggestions, not a recovery diagnosis.</p><p class="eng-footnote">Aim to cover all four core sessions. Shoulders + Arms is optional, and always includes cable lateral raises. Avoid repeating accessory volume unnecessarily.</p><p class="eng-footnote">Cardio: build toward 150 conversational minutes across the week. Do it after lifting or separately. One optional interval session, away from your hard leg session if it affects performance. Cardio details stay in Cardio.</p><p class="eng-footnote">Momentum still counts visits in a Monday-to-Sunday week: four is a successful week; five is a bonus. Your workout choice is never locked to that calendar.</p>';}
-
+  function scheduleContent(data) {
+    return scheduleTable(data)+'<p class="eng-footnote">Aim for 150 moderate minutes per week. After Workouts 1, 2 and 4, consider 20 minutes Zone 2. After legs, 10-20 easy/moderate minutes are optional. Add brisk walks or separate Zone 2 for the remaining minutes. Do cardio after strength training or separately, with only a brief warm-up before demanding lifting.</p><p class="eng-footnote">HIIT is optional. Record actual completed cardio in Cardio. Four core lifting visits are the goal. Catch-up is based on missed accessory sets in attended sessions over the last seven days. Choose any workout and allow recovery spacing.</p>';
+  }
 
   function inlineSchedule(){return '<details class="eng-week-inline"><summary>Your training guide</summary>'+scheduleContent(db)+'</details>';}
   function openSheet(title,sub,content,type){
@@ -7301,7 +7790,7 @@ var Engagement = (function () {
   function openSchedule(){openSheet('Your training guide','Flexible workouts. One focused leg session. Choose any day.',scheduleContent(db),'schedule');}
   function vaultContent(){
     var s=momentum(db),stage=s.stage;
-    var stages=[['Started','One gym visit starts a run, in base blue.'],['Ignited','Two visits in a run turn the app cyan.'],['Locked In','Three visits in a run turn it violet.'],['Charged','Four visits in a run turn it magenta.'],['Elysium Mode','Last week won with four or more visits, and four still in reach this week.']];
+    var stages=[['Obsidian Platinum','One gym visit starts a run with platinum accents.'],['Ignited','Two visits in a run turn the app cyan.'],['Locked In','Three visits in a run turn it violet.'],['Charged','Four visits in a run turn it magenta.'],['Elysium Mode','Last week won with four or more visits, and four still in reach this week.']];
     var list='<ol class="stage-list">'+stages.map(function(st,i){var live=stage===i+1;return '<li'+(live?' class="is-live"':'')+'><span class="stage-swatch" aria-hidden="true"></span><div><strong>'+st[0]+'</strong><p>'+st[1]+'</p></div>'+(live?'<span class="live-tag">Live</span>':'<span></span>')+'</li>';}).join('')+'</ol>';
     var stats='<div class="ms-stats"><div class="ms-stat"><b>'+s.streak+'</b><span>visit run</span></div><div class="ms-stat"><b>'+s.activeThisWeek+'/'+s.weekGoal+'</b><span>this week</span></div><div class="ms-stat"><b>'+s.previousWeekVisits+'</b><span>last week</span></div></div>';
     var rules=['A <b>gym visit</b> is a day with a saved workout or at least ten minutes of gym-machine cardio. Each day counts once. Home and walks do not count.',
@@ -7438,7 +7927,7 @@ var Engagement = (function () {
   function onSavedSession(data,sess){sess.engagementUnlocks=[];checkChallenge(data,sess);return [];}
   function showSummaryAllowed(){return pref(db,'victory');}
   // Render-to-canvas export is local. Nothing is sent anywhere.
-  var CARD_STAGE=[[94,139,255],[94,139,255],[62,208,238],[163,136,255],[240,111,204],[201,178,255]];
+  var CARD_STAGE=[[199,208,224],[199,208,224],[62,208,238],[163,136,255],[240,111,204],[201,178,255]];
   function saveVictoryCard(id){
     var sess=id?(db.completedSessions||[]).find(function(s){return s.id===id;}):null;
     if(id&&!sess){toast('Workout not found.');return;}
@@ -7992,8 +8481,8 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   /* No body class means the normal blue appearance, including when dynamic
      app colours are disabled. applyMomentumTheme already owns that choice. */
   var palettes = [
-    [[0.20, 0.40, 1.00], [0.15, 0.47, 0.85], [0.34, 0.32, 0.86]],
-    [[0.20, 0.40, 1.00], [0.15, 0.47, 0.85], [0.34, 0.32, 0.86]],
+    [[0.55, 0.58, 0.64], [0.35, 0.39, 0.45], [0.68, 0.72, 0.79]],
+    [[0.55, 0.58, 0.64], [0.35, 0.39, 0.45], [0.68, 0.72, 0.79]],
     [[0.10, 0.73, 0.92], [0.16, 0.50, 0.82], [0.24, 0.81, 0.79]],
     [[0.52, 0.29, 1.00], [0.32, 0.34, 0.86], [0.70, 0.42, 0.93]],
     [[0.90, 0.24, 0.64], [0.55, 0.25, 0.77], [1.00, 0.40, 0.60]],
