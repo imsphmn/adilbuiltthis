@@ -1159,6 +1159,221 @@ body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.m
 body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.momentum-theme-5) .btn-primary::before{opacity:.08}
 body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.momentum-theme-5) .btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.12);background:linear-gradient(135deg,#C7D0E0,#AEBACD);color:#0B0E13}
 </style>
+<style id="elysium-stardust">
+/* Elysium Stardust, scoped to stage 5 */
+body.momentum-theme-5 {
+  --es-pastel: linear-gradient(115deg, #9be7ef 0%, #b7c4ff 26%, #d4b5f4 52%, #f1b9df 77%, #edcde5 100%);
+  --es-liquid: radial-gradient(ellipse at 18% 20%, #99e5ee, transparent 49%),
+               radial-gradient(ellipse at 86% 32%, #efb4df, transparent 48%),
+               radial-gradient(ellipse at 62% 94%, #c0b9fa, transparent 52%),
+               linear-gradient(118deg, #a6dfef, #c8b6f3 48%, #efc4df);
+  --arena: #090d17;
+  --stand: #111725;
+  --rail: #1a2132;
+  background: #090d17;
+}
+.es-scene {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 14% 18%, #244f7048, transparent 48%),
+    radial-gradient(ellipse at 90% 67%, #73447842, transparent 48%), #090f1b;
+}
+body.momentum-theme-5 .es-scene { display: block; }
+.es-scene > * { position: absolute; display: block; pointer-events: none; }
+.es-nebula {
+  inset: -18%;
+  background:
+    radial-gradient(ellipse at 21% 31%, #67c5d032, transparent 38%),
+    radial-gradient(ellipse at 76% 63%, #bd83d546, transparent 36%),
+    radial-gradient(ellipse at 45% 88%, #5d7bd42a, transparent 38%);
+  animation: es-nebula-drift 26s ease-in-out infinite alternate;
+}
+.es-stars { inset: -70px; }
+.es-stars--far {
+  opacity: .5;
+  background:
+    radial-gradient(circle at 8% 13%, #cee1ff 0 1px, transparent 1.8px),
+    radial-gradient(circle at 28% 6%, #cdb8ff 0 .8px, transparent 1.6px),
+    radial-gradient(circle at 66% 17%, #cddfff 0 .8px, transparent 1.6px),
+    radial-gradient(circle at 87% 9%, #e9c9ea 0 1px, transparent 1.9px),
+    radial-gradient(circle at 18% 32%, #b6e0ee 0 .8px, transparent 1.8px),
+    radial-gradient(circle at 53% 37%, #dcc9ff 0 1px, transparent 1.8px),
+    radial-gradient(circle at 92% 46%, #c9d5ff 0 .8px, transparent 1.7px),
+    radial-gradient(circle at 34% 55%, #d9bafa 0 1px, transparent 1.8px),
+    radial-gradient(circle at 11% 72%, #d1dbff 0 .8px, transparent 1.8px),
+    radial-gradient(circle at 72% 67%, #d5b6e6 0 1px, transparent 1.8px),
+    radial-gradient(circle at 42% 86%, #abdaed 0 .8px, transparent 1.7px),
+    radial-gradient(circle at 87% 91%, #e0c7ed 0 1px, transparent 1.8px);
+  animation: es-stars-far 62s linear infinite alternate;
+}
+.es-stars--near {
+  opacity: .7;
+  background:
+    radial-gradient(circle at 19% 20%, #bdebf4 0 1.2px, transparent 4.5px),
+    radial-gradient(circle at 72% 11%, #d4c1ff 0 1.3px, transparent 4.8px),
+    radial-gradient(circle at 92% 30%, #f1d1e9 0 1px, transparent 4.4px),
+    radial-gradient(circle at 41% 43%, #c6d5ff 0 1.1px, transparent 4px),
+    radial-gradient(circle at 7% 54%, #bce2f0 0 1.3px, transparent 4.8px),
+    radial-gradient(circle at 65% 61%, #dec6f4 0 1px, transparent 4.4px),
+    radial-gradient(circle at 27% 80%, #d5c7ff 0 1.1px, transparent 4.5px),
+    radial-gradient(circle at 88% 84%, #c4e6f4 0 1.3px, transparent 4.8px);
+  animation: es-stars-near 39s ease-in-out infinite alternate;
+}
+@keyframes es-nebula-drift {
+  from { transform: translate(-3%, -4%) rotate(-7deg) scale(1.02); }
+  to   { transform: translate(4%, 5%) rotate(8deg) scale(1.08); }
+}
+@keyframes es-stars-far {
+  from { transform: translate(-5px, 26px); }
+  to   { transform: translate(12px, -36px); }
+}
+@keyframes es-stars-near {
+  from { transform: translate(10px, 32px); opacity: .52; }
+  to   { transform: translate(-13px, -48px); opacity: .8; }
+}
+
+/* Keep the scene behind workout contents. Adjust selectors to the current app. */
+body.momentum-theme-5 #workout-overlay { background: #090f1b; isolation: isolate; }
+body.momentum-theme-5 #workout-overlay > .es-scene { position: absolute; }
+body.momentum-theme-5 #workout-overlay > .wo-body { position: relative; z-index: 1; }
+
+/* Liquid pastel buttons, stationary label/tick */
+body.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick):not(.btn-danger) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #cbbff2;
+  color: #15172b;
+  border: 1px solid #e9e3ff91;
+  box-shadow: inset 0 1px 0 #ffffff75, 0 6px 24px -12px #b7c6ef91;
+}
+body.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick):not(.btn-danger)::before {
+  content: "";
+  position: absolute;
+  inset: -75%;
+  z-index: -2;
+  background: var(--es-liquid);
+  pointer-events: none;
+  animation: es-liquid-flow 12s ease-in-out infinite alternate;
+}
+body.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick):not(.btn-danger)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(114deg, transparent 25%, #ffffff12 41%, #ffffff66 49%, #ffffff0d 57%, transparent 74%);
+  pointer-events: none;
+  animation: es-button-sheen 9s ease-in-out infinite;
+}
+@keyframes es-liquid-flow {
+  0%   { transform: translate(-7%, -4%) rotate(-15deg) scale(1.02); }
+  50%  { transform: translate(2%, 6%) rotate(10deg) scale(1.08); }
+  100% { transform: translate(7%, -3%) rotate(34deg) scale(1.03); }
+}
+@keyframes es-button-sheen {
+  0%, 18% { transform: translateX(-135%); opacity: 0; }
+  28% { opacity: .4; }
+  63% { opacity: .35; }
+  77%, 100% { transform: translateX(135%); opacity: 0; }
+}
+body.momentum-theme-5 .sr-tick { border-radius: 15px; }
+body.momentum-theme-5 .sr-tick svg { position: relative; color: #15172b; filter: none; }
+
+/* CRITICAL: Start/Resume WHITE on DARK, still gently animated */
+body.momentum-theme-5 .btn-primary.btn-workout-launch {
+  --es-liquid:
+    radial-gradient(ellipse at 18% 20%, #244653, transparent 49%),
+    radial-gradient(ellipse at 86% 32%, #58364f, transparent 48%),
+    radial-gradient(ellipse at 62% 94%, #4a355f, transparent 52%),
+    linear-gradient(118deg, #243149, #302b4b 48%, #45304e);
+  color: #fff;
+  background: #171b2c;
+  border-color: #cbb8ef73;
+  text-shadow: 0 1px 2px #0006;
+}
+body.momentum-theme-5 .btn-primary.btn-workout-launch :is(span, b, strong, svg) { color: #fff; }
+
+/* Current exercise emphasis */
+body.momentum-theme-5 .ex-card--current {
+  position: relative;
+  background: #111724f5;
+  border-color: #b9a2f56e;
+  box-shadow: 0 0 28px -14px #ada8ed66, 0 12px 32px #0003;
+}
+body.momentum-theme-5 .ex-card--current::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid #c8b6f56e;
+  box-shadow: 0 0 23px -9px #a7b9e96b;
+  opacity: .5;
+  animation: es-focus-halo 11s ease-in-out infinite alternate;
+}
+@keyframes es-focus-halo { from { opacity: .3; } to { opacity: .8; } }
+
+/* Controls remain static and high contrast */
+body.momentum-theme-5 .sri-ctrl { background: #0b111e; border-color: #b9a7df45; }
+body.momentum-theme-5 .sri-inp { color: #f6f4ff; text-shadow: none; }
+
+/* IMPORTANT: no Stardust timer rules. Preserve original font, dark bar,
+   progress bar and Done control exactly as defined in current app. */
+
+body.momentum-theme-5 .set-row--done { background: rgba(41,109,80,.15); border-color: rgba(94,198,150,.25); }
+body.momentum-theme-5 .set-row--done.es-set-confirm { animation: es-set-confirm .65s ease-out 1; }
+@keyframes es-set-confirm { from { box-shadow: 0 0 20px -8px #88d0c391; } to { box-shadow: 0 0 0 transparent; } }
+body.momentum-theme-5 .record-flash { position: relative; overflow: hidden; }
+body.momentum-theme-5 .record-flash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 20%, #ffe7a6 0 1.3px, transparent 3px),
+    radial-gradient(circle at 30% 84%, #f4d488 0 1px, transparent 3px),
+    radial-gradient(circle at 72% 12%, #ffe7a6 0 1.2px, transparent 3px),
+    radial-gradient(circle at 91% 64%, #f4d488 0 1.4px, transparent 3px);
+  animation: es-record-spark 1.45s ease-out 1;
+}
+@keyframes es-record-spark { 0% { transform: scale(.88); opacity: 0; } 25% { opacity: .95; } 100% { transform: scale(1.12); opacity: 0; } }
+
+/* Reduced motion / background tab */
+body.es-page-hidden .es-scene *,
+body.es-motion-off .es-scene * { animation-play-state: paused !important; }
+body.es-motion-off.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick)::before,
+body.es-motion-off.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick)::after,
+body.es-motion-off.momentum-theme-5 .ex-card--current::after,
+body.es-motion-off.momentum-theme-5 .set-row--done.es-set-confirm,
+body.es-motion-off.momentum-theme-5 .record-flash::after { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  body.momentum-theme-5 .es-scene *,
+  body.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick)::before,
+  body.momentum-theme-5 :is(.btn-primary, .btn-complete, .btn-finish, .victory-btn, .sr-tick)::after,
+  body.momentum-theme-5 .ex-card--current::after,
+  body.momentum-theme-5 .set-row--done.es-set-confirm,
+  body.momentum-theme-5 .record-flash::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+body.momentum-theme-5 .mo-panel.is-elysium { background:rgba(17,23,37,.78); }
+body.momentum-theme-5 .btn-workout-launch::before { opacity:1; }
+body.momentum-theme-5 .btn-workout-launch::after { background:linear-gradient(114deg,transparent 25%,#ffffff08 41%,#ffffff22 49%,#ffffff08 57%,transparent 74%); }
+body:is(.es-page-hidden,.es-obscured) :is(.es-scene *, .es-set-confirm),
+body:is(.es-page-hidden,.es-obscured) :is(.btn-primary,.btn-complete,.btn-finish,.victory-btn,.sr-tick,.ex-card--current,.record-flash)::before,
+body:is(.es-page-hidden,.es-obscured) :is(.btn-primary,.btn-complete,.btn-finish,.victory-btn,.sr-tick,.ex-card--current,.record-flash)::after,
+body.momentum-theme-5 .es-offscreen::before,
+body.momentum-theme-5 .es-offscreen::after { animation-play-state:paused!important; }
+</style>
 </head>
 <body>
 <div id="app">
@@ -1182,7 +1397,7 @@ body:not(.momentum-theme-2):not(.momentum-theme-3):not(.momentum-theme-4):not(.m
 <input type="file" id="importFile" accept=".json" style="position:absolute;opacity:0;width:0;height:0">
 <script>
 'use strict';
-const APP_VERSION = '3.11.0';
+const APP_VERSION = '3.11.1';
 const PROGRAM_NAME = 'Wedding Block, Four Core Days';
 const PROGRAM_VERSION = 'wedding-four-core-2026-12-13-v1';
 const PRE_WEDDING_PROGRAM_VERSION = 'chest-priority-december-2026-v1';
@@ -5365,7 +5580,7 @@ function getMomentumActivityDates(data){
  logs.forEach(function(log){if(isMomentumCardioLog(log))found[log.date]=true;});return Object.keys(found).sort();
 }
 
-function getMomentumPreferences(){return Object.assign({theme:true,celebrations:true,sound:false,haptics:false},db&&db.settings&&db.settings.momentum||{});}
+function getMomentumPreferences(){return Object.assign({theme:true,celebrations:true,sound:false,haptics:false,motion:true},db&&db.settings&&db.settings.momentum||{});}
 function getMomentumState(data,now){return Engagement.momentum(data,now);}
 function momentumStageLabel(stage){return stage>=5?'Elysium Mode':stage===4?'Charged':stage===3?'Locked In':stage===2?'Ignited':stage===1?'Started':'Momentum';}
 function renderMomentumCard(data){return Engagement.renderMomentum(data);}
@@ -5377,9 +5592,10 @@ function applyMomentumTheme(data,enabled){
  if(meta)meta.setAttribute('content',stage>=5?'#141530':stage===4?'#1F0E25':stage===3?'#15122B':stage===2?'#06182A':'#0B0E13');
  var label=document.getElementById('wo-theme-label');
  if(label){label.hidden=stage<2;label.textContent=stage>=2?momentumStageLabel(stage):'';}
+ if(window.ElysiumStardust)window.ElysiumStardust.sync();
 }
-function saveMomentumPreference(k,value){if(!canPersistUserChanges()||['theme','celebrations','sound','haptics'].indexOf(k)<0)return;db.settings.momentum=getMomentumPreferences();db.settings.momentum[k]=!!value;dbSave(db);applyMomentumTheme(db,true);if(window._currentScreen==='today')App.showScreen('today');}
-function renderMomentumSettings(){var p=getMomentumPreferences();return '<fieldset class="momentum-settings"><legend>Momentum</legend>'+[['theme','Dynamic app colours'],['celebrations','Milestone celebrations'],['sound','Milestone chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="saveMomentumPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="MomentumCelebration.preview()">Preview Elysium milestone</button></fieldset>';}
+function saveMomentumPreference(k,value){if(!canPersistUserChanges()||['theme','celebrations','sound','haptics','motion'].indexOf(k)<0)return;db.settings.momentum=getMomentumPreferences();db.settings.momentum[k]=!!value;dbSave(db);applyMomentumTheme(db,true);if(window._currentScreen==='today')App.showScreen('today');}
+function renderMomentumSettings(){var p=getMomentumPreferences();return '<fieldset class="momentum-settings"><legend>Momentum</legend>'+[['theme','Dynamic app colours'],['motion','Elysium animation'],['celebrations','Milestone celebrations'],['sound','Milestone chime'],['haptics','Vibration, where supported']].map(function(pair){return '<label><input type="checkbox" '+(p[pair[0]]?'checked':'')+' onchange="saveMomentumPreference(\''+pair[0]+'\',this.checked)"><span>'+pair[1]+'</span></label>';}).join('')+'<button class="btn-ghost btn-sm" onclick="MomentumCelebration.preview()">Preview Elysium milestone</button></fieldset>';}
 function renderMomentumAchievements(data){
  var s=getMomentumState(data),items=[['Ignited',s.bestStreak>=2,'Best run reached 2 gym visits'],['Locked In',s.bestStreak>=3,'Best run reached 3 gym visits'],['Five-visit week',s.bestWeek>=5,'Best week reached 5 distinct gym days']];
  return '<details class="momentum-achievements"><summary>Momentum best runs</summary><div class="momentum-achievement-body"><div class="momentum-best">Best gym run: '+s.bestStreak+' visits. Current stage: '+momentumStageLabel(s.stage)+'. Themes are temporary.</div><div class="momentum-badges">'+items.map(function(i){return '<div class="momentum-badge'+(i[1]?' is-unlocked':'')+'"><b>'+i[0]+'</b><span>'+i[2]+'</span></div>';}).join('')+'</div><p class="eng-footnote">Colour previews and the weekly schedule are in Program. Past bests do not keep colours unlocked.</p></div></details>';
@@ -5445,12 +5661,12 @@ function renderToday(data){
     var sess=data.activeSession,progress=getWorkoutProgress(sess);
     var progressText=progress.expected?progress.done+' of '+progress.expected+' '+progress.label+' completed':Math.round(setCountForSession(sess))+' working sets logged';
     plan='<section class="plan" aria-labelledby="plan-title"><h2 class="section-label">Workout in progress</h2><h1 class="plan-title" id="plan-title">'+esc(getSessionLabel(sess))+'</h1>'+
-      '<p class="plan-reason">'+esc(progressText)+'</p><button class="btn-primary btn-xl" onclick="App.resumeWorkout()">Resume workout</button>'+others()+'</section>';
+      '<p class="plan-reason">'+esc(progressText)+'</p><button class="btn-primary btn-xl btn-workout-launch" onclick="App.resumeWorkout()">Resume workout</button>'+others()+'</section>';
   }else if(rec.rest){
     plan='<section class="plan" aria-labelledby="plan-title"><h2 class="section-label">Recovery day</h2><h1 class="plan-title" id="plan-title">Recovery counts too</h1><p class="plan-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="Cardio.open()">Open cardio</button>'+others()+'</section>';
   }else{
     plan='<section class="plan" aria-labelledby="plan-title"><h2 class="section-label">Today’s workout</h2><h1 class="plan-title" id="plan-title">'+esc(day.title)+'</h1>'+
-      '<p class="plan-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl" onclick="App.startWorkout('+rec.dayN+',false)">Start workout</button>'+others()+'</section>';
+      '<p class="plan-reason">'+esc(rec.reason)+'</p><button class="btn-primary btn-xl btn-workout-launch" onclick="App.startWorkout('+rec.dayN+',false)">Start workout</button>'+others()+'</section>';
   }
   var links='<nav class="link-rows" aria-label="More training">'+
     '<button class="link-row" onclick="Cardio.open()"><span class="link-row-icon">'+icon('heart')+'</span><span class="link-row-body"><span class="link-row-title">Cardio</span></span>'+icon('chevron','chev')+'</button>'+
@@ -6128,7 +6344,7 @@ function renderProgram(){
     var note=n===5&&firstLegVisit(db)?'<p class="fifth-note">First leg visit: two sets per exercise.</p>':n===3?'<p class="fifth-note">'+(slots.length?'Only the missing sets shown below are suggested.':'No missed accessory work from attended core sessions in the last seven days.')+' Skip this session freely.</p>':'';
     return '<article class="prog-card"><p class="prog-kind'+(n===3?' is-optional':'')+'">'+(n===3?'Optional session':'Core session')+'</p><h2 class="prog-name">'+esc(day.title)+'</h2>'+(day.subtitle?'<p class="prog-desc">'+esc(day.subtitle)+'</p>':'')+
       '<div class="plan-stats"><div><b>'+slots.length+'</b><span>exercises</span></div><div><b>'+count+'</b><span>sets</span></div><div><b>'+esc(durationRange(day.durationLabel))+'</b><span>minutes</span></div></div>'+note+
-      '<div class="prog-row"><button class="btn-primary btn-sm" onclick="App.startWorkout('+n+',true)">Start</button></div>'+
+      '<div class="prog-row"><button class="btn-primary btn-sm btn-workout-launch" onclick="App.startWorkout('+n+',true)">Start</button></div>'+
       '<p class="prog-desc">'+esc(day.directSummary)+'</p>'+
       '<details class="prog-list"><summary>Exercises and tips'+icon('chevronDown')+'</summary>'+renderPlanList(slots)+'</details></article>';
   }).join('');
@@ -6274,6 +6490,7 @@ var App = (function() {
     Timer.refresh();
     syncStorageNotice();
     syncNavBadges();
+    if(window.ElysiumStardust)window.ElysiumStardust.sync();
   }
   function setProgressTab(tab){progressTab=['milestones','volume','records'].indexOf(tab)>=0?tab:'milestones';showScreen('volume');}
   function openMilestones(){progressTab='milestones';showScreen('volume');window.scrollTo(0,0);}
@@ -6530,6 +6747,7 @@ var App = (function() {
     try{Engagement.checkChallenge(db,sess);}catch(e){console.warn('Optional challenge unavailable:',e.message);}
     if(achievement){try{PRCelebration.show(achievement);}catch(e){console.warn('Optional PR animation unavailable:',e.message);}}
     try{rerenderSetRow(setId);}catch(e){console.warn('Set display refresh unavailable:',e.message);}
+    if(window.ElysiumStardust)window.ElysiumStardust.confirmSet(setId);
     try{updateWorkoutProgress();}catch(e){}
     var exerciseIds=getSessionExerciseIds(sess);
     setTimeout(function() {
@@ -8261,6 +8479,7 @@ function renderSettings(){
     '</div></div>'+
     '<div class="set-group"><h3>Momentum</h3><div class="set-list">'+
       sw('Live colours',mo.theme,"saveMomentumPreference('theme',this.checked)",'The app takes on your current stage colour')+
+      sw('Elysium animation',mo.motion,"saveMomentumPreference('motion',this.checked)")+
       sw('Stage-up celebrations',mo.celebrations,"saveMomentumPreference('celebrations',this.checked)")+
       sw('Stage-up chime',mo.sound,"saveMomentumPreference('sound',this.checked)")+
       sw('Stage-up vibration',mo.haptics,"saveMomentumPreference('haptics',this.checked)")+
@@ -8403,6 +8622,98 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   });
 }
 </script>
+
+<script id="elysium-stardust-runtime">
+// Presentation follows the existing stage and lifecycle. No independent eligibility rules.
+(function () {
+  'use strict';
+  if (window.ElysiumStardust) return;
+  var scene = null, pending = 0, started = false;
+  var observed = new Set();
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var animated = '.btn-primary,.btn-complete,.btn-finish,.victory-btn,.sr-tick,.ex-card--current';
+  var intersection = window.IntersectionObserver ? new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) { entry.target.classList.toggle('es-offscreen',!entry.isIntersecting); });
+  }) : null;
+
+  function visible(element) {
+    return !!(element && !element.classList.contains('hidden') && element.getClientRects().length);
+  }
+  function motionAllowed() {
+    return getMomentumPreferences().motion !== false && !reduceMotion.matches && !document.hidden;
+  }
+  function watchVisibleControls(active) {
+    var next = new Set(active ? document.querySelectorAll(animated) : []);
+    observed.forEach(function(element) {
+      if (next.has(element)) return;
+      if(intersection)intersection.unobserve(element);
+      element.classList.remove('es-offscreen');
+    });
+    next.forEach(function(element) {
+      if (intersection && !observed.has(element)) intersection.observe(element);
+    });
+    observed = next;
+  }
+  function syncNow() {
+    pending = 0;
+    var body = document.body;
+    var active = body.classList.contains('momentum-theme-5');
+    body.classList.toggle('es-motion-off',getMomentumPreferences().motion === false || reduceMotion.matches);
+    body.classList.toggle('es-page-hidden',document.hidden);
+    body.classList.toggle('es-obscured',visible(document.getElementById('modal-overlay')) ||
+      visible(document.getElementById('eng-sheet-layer')) || visible(document.getElementById('workout-switch-overlay')));
+    var workout = document.getElementById('workout-overlay');
+    var inWorkout = body.classList.contains('workout-view') && visible(workout);
+    var inHome = ['scr-today','scr-home'].some(function(id) {
+      var screen = document.getElementById(id);
+      return screen && screen.classList.contains('active');
+    });
+    if (!active || !inWorkout && !inHome) {
+      if(scene)scene.remove();
+    } else {
+      if (!scene) {
+        scene = document.createElement('div');
+        scene.id = 'elysium-stardust-scene';
+        scene.className = 'es-scene';
+        scene.setAttribute('aria-hidden','true');
+        scene.innerHTML = '<i class="es-nebula"></i><i class="es-stars es-stars--far"></i><i class="es-stars es-stars--near"></i>';
+      }
+      var parent = inWorkout ? workout : body;
+      if(scene.parentNode !== parent)parent.insertBefore(scene,parent.firstChild);
+    }
+    watchVisibleControls(active);
+  }
+  function sync() {
+    if (!pending)pending = requestAnimationFrame(syncNow);
+  }
+  function confirmSet(id) {
+    sync();
+    if(!document.body.classList.contains('momentum-theme-5') || !motionAllowed())return;
+    var row = document.getElementById('sr-'+id);
+    if(!row || !row.classList.contains('set-row--done'))return;
+    row.classList.add('es-set-confirm');
+    setTimeout(function(){row.classList.remove('es-set-confirm');},700);
+  }
+  function onVisibility() {
+    document.body.classList.toggle('es-page-hidden',document.hidden);
+    if(!document.hidden)sync();
+  }
+  function start() {
+    if(started)return;
+    started = true;
+    syncNow();
+    document.addEventListener('click',sync);
+    document.addEventListener('visibilitychange',onVisibility);
+    window.addEventListener('pageshow',sync);
+    if(reduceMotion.addEventListener)reduceMotion.addEventListener('change',sync);
+    else reduceMotion.addListener(sync);
+  }
+  window.ElysiumStardust = {sync:sync,confirmSet:confirmSet};
+  if(document.readyState === 'loading')document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
+})();
+</script>
+
 <script id="gym-atmosphere-engine">
 /* Original procedural light field. Presentation only, no application data access. */
 (function () {
@@ -8513,6 +8824,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     return rect.bottom > 0 && rect.right > 0 && rect.top < window.innerHeight && rect.left < window.innerWidth;
   }
   function chooseTarget() {
+    if(document.body.classList.contains('momentum-theme-5'))return null;
     var sheet = document.getElementById('eng-sheet-layer');
     var modal = document.getElementById('modal-overlay');
     var finish;
